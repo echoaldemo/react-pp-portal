@@ -1,7 +1,6 @@
 import React from "react";
 import { Typography, makeStyles } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { Tooltip, withStyles } from "@material-ui/core";
 
 const theme = createMuiTheme({
   palette: {

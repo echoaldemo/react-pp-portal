@@ -74,17 +74,23 @@ interface UploadProps {
   getAudio: Function;
   helperText?: string;
   labelText?: string;
-  limit?: number;
+  limit?: number | any;
   style?: object;
 }
 
-const Upload: React.SFC<UploadProps> = props => {
+const Upload: React.SFC<UploadProps> = ({
+  accept,
+  getAudio,
+  helperText,
+  labelText,
+  limit,
+  style
+}) => {
   const [filename, setFilename] = React.useState("No file chosen");
 
   const upload: Function = (e: any) => {
     try {
       let extracted = e.target.files[0].name;
-      let limit: any = props.limit;
       let name =
         extracted.length > limit ? extracted.substring(0, limit) : extracted;
       name =
@@ -93,7 +99,7 @@ const Upload: React.SFC<UploadProps> = props => {
           : extracted;
 
       setFilename(name);
-      props.getAudio && props.getAudio(e.target.files[0]);
+      getAudio && getAudio(e.target.files[0]);
     } catch (e) {
       console.log(e);
     }
@@ -101,12 +107,12 @@ const Upload: React.SFC<UploadProps> = props => {
 
   const renderUploadComponent: Function = () => {
     return (
-      <div style={props.style}>
-        <LabelText>{props.labelText}</LabelText>
+      <div style={style}>
+        <LabelText>{labelText}</LabelText>
         <Input
           id="files"
           inputProps={{
-            accept: props.accept
+            accept: accept
           }}
           onChange={e => upload(e)}
           type="file"
@@ -151,7 +157,7 @@ const Upload: React.SFC<UploadProps> = props => {
           </div>
         </label>
         <Divider />
-        <HelperText>{props.helperText}</HelperText>
+        <HelperText>{helperText}</HelperText>
       </div>
     );
   };
