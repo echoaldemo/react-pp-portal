@@ -1,6 +1,6 @@
 import React, { createElement, useState } from 'react'
 import { storiesOf } from '@storybook/react'
-import Modal from 'common-components/modal'
+import { Modal } from 'common-components'
 import notes from './notes.md'
 
 const stories = storiesOf('Modal', module)

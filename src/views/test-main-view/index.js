@@ -1,3 +1,1 @@
-import TestMainView from './TestMainView'
-
-export default TestMainView
+export { TestMainView } from "./TestMainView";

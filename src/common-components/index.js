@@ -1,3 +1,2 @@
-import Modal from 'common-components/modal'
-
-export { Modal } ;
+export { Modal } from './modal';
+export { LoadingModal } from './loading-modal'
