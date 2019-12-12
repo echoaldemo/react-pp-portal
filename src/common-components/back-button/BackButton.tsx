@@ -26,7 +26,7 @@ const BackButton: React.SFC<Props> = ({ classes, backFn, text, to }) => {
     <div className={classes.goBack}>
       <span style={{ minWidth: 300, margin: 0 }}>
         {backFn ? (
-          <a
+          <span
             style={{
               display: "flex",
               alignItems: "center",
@@ -40,7 +40,7 @@ const BackButton: React.SFC<Props> = ({ classes, backFn, text, to }) => {
             }}
           >
             <BackIcon /> {text}
-          </a>
+          </span>
         ) : (
           <Link
             to={to}

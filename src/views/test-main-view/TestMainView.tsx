@@ -1,17 +1,17 @@
-import React, { Fragment } from "react";
-import Upload from "common-components/upload/";
+import React from "react";
+import { Modal, BackButton } from "common-components";
 
 const MainView = () => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Fragment>
-      <Upload
-        limit="8"
-        accept="audio/*"
-        labelText="Data File"
-        helperText="A file needed"
-        getAudio={() => console.log("I am the file")}
-      />
-    </Fragment>
+    <>
+      <button onClick={() => setOpen(true)}>open</button>
+      <BackButton text="Back" backFn={() => alert("back")} to="/" />
+      <Modal open={open} title="Modal Test" onClose={() => setOpen(false)}>
+        Modal Test
+      </Modal>
+    </>
   );
 };
 

@@ -19,18 +19,24 @@ interface CustomTextProps {
   color: string;
   size: string;
   weight?: number;
+  children: React.ReactNode;
 }
 
-const CustomText: React.FC<CustomTextProps> = props => {
+const CustomText: React.FC<CustomTextProps> = ({
+  color,
+  size,
+  weight,
+  children
+}) => {
   const classes: any = styles();
   const styled = {
-    color: `var(--${props.color})`,
-    fontSize: `${props.size}`,
-    fontWeight: `${props.weight}`
+    color: `${color}`,
+    fontSize: `${size}`,
+    fontWeight: `${weight}`
   } as React.CSSProperties;
   return (
     <Typography className={classes.text} style={styled}>
-      {props.children}
+      {children}
     </Typography>
   );
 };
