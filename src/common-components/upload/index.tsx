@@ -6,7 +6,7 @@ import { mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
 import styled from "styled-components";
 
-import { CustomText } from "../custom-components";
+import { CustomText } from "../custom-text";
 
 const LabelText = styled(Typography)`
   font-size: 14px !important;

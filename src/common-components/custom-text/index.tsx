@@ -1,29 +1,6 @@
 import React from "react";
 import { Typography, makeStyles } from "@material-ui/core";
-import { createMuiTheme } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: { main: "#1194f6" }
-  },
-  overrides: {
-    MuiInput: {
-      underline: {
-        "&:before": {
-          borderBottom: `2px solid rgba(238, 238, 238, 0.99)`
-        },
-        "&:hover:not($disabled):before": {
-          borderBottom: "2px solid #1194f6"
-        },
-        "&:after": {
-          borderBottom: "2px solid #1194f6"
-        }
-      }
-    }
-  }
-});
-
-const styles = (theme: any) =>
+const styles = () =>
   makeStyles({
     text: {
       width: "36px",
@@ -38,15 +15,14 @@ const styles = (theme: any) =>
       color: "#444851"
     }
   });
-
 interface CustomTextProps {
   color: string;
   size: string;
   weight?: number;
 }
 
-const CustomText: React.SFC<CustomTextProps> = props => {
-  const classes: any = styles({});
+const CustomText: React.FC<CustomTextProps> = props => {
+  const classes: any = styles();
   const styled = {
     color: `var(--${props.color})`,
     fontSize: `${props.size}`,
