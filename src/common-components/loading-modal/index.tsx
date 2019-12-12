@@ -1,9 +1,16 @@
-import React, { SyntheticEvent } from 'react'
-import { Center, Card, Text, LoadingIcon, Button, Cancel } from './styles'
+import React, { SyntheticEvent } from "react";
+import {
+  Center,
+  Card,
+  Text,
+  LoadingIcon,
+  Button,
+  Cancel
+} from "./styles/styles";
 
 interface Props {
-  text: string
-  cancelFn: (e: SyntheticEvent<HTMLButtonElement>) => void
+  text: string;
+  cancelFn: (e: SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 const LoadingModal: React.FC<Props> = ({ text, cancelFn }) => {
@@ -17,11 +24,11 @@ const LoadingModal: React.FC<Props> = ({ text, cancelFn }) => {
         </Button>
       </Card>
     </Center>
-  )
-}
+  );
+};
 
 LoadingModal.defaultProps = {
-  text: ''
-} as Partial<Props>
+  text: ""
+} as Partial<Props>;
 
-export default LoadingModal
+export { LoadingModal };

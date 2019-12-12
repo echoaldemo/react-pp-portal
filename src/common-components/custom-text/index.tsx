@@ -19,7 +19,7 @@ interface CustomTextProps {
   color: string;
   size: string;
   weight?: number;
-  children: React.ReactNode;
+  children: string;
 }
 
 const CustomText: React.FC<CustomTextProps> = ({
