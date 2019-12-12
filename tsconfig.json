@@ -3,7 +3,7 @@
     "baseUrl": "src",
     "outDir": "./dist/",
     "sourceMap": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "module": "esnext",
     "jsx": "react",
     "target": "es5",
@@ -18,9 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "noImplicitAny": false
+    "noImplicitAny": true
   },
-  "include": [
-    "src"
-  ]
+  "awesomeTypescriptLoaderOptions": {
+    "useTranspileModule": true
+  },
+  "include": ["./src/"]
 }
