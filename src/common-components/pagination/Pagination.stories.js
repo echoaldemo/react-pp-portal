@@ -1,6 +1,6 @@
 import React, { createElement } from "react";
 import { storiesOf } from "@storybook/react";
-import Pagination from 'common-components/pagination';
+import {Pagination} from 'common-components';
 import notes from "./notes.md";
 
 const data = [
