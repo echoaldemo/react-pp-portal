@@ -1,5 +1,4 @@
-import React, { ReactPortal, SyntheticEvent } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -23,7 +22,6 @@ const Modal: React.FC<Props> = ({
   contentStyle,
   children
 }) => {
-  let test = "1";
   return (
     <div>
       <Dialog
