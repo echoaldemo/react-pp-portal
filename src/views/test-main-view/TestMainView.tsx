@@ -1,16 +1,12 @@
 import React, { Fragment } from "react";
-import Upload from "common-components/upload/";
+import { CustomText } from "common-components";
 
 const MainView = () => {
   return (
     <Fragment>
-      <Upload
-        limit="8"
-        accept="audio/*"
-        labelText="Data File"
-        helperText="A file needed"
-        getAudio={() => console.log("I am the file")}
-      />
+      <CustomText color="red" size="50px">
+        Hello, World!
+      </CustomText>
     </Fragment>
   );
 };

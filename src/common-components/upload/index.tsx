@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import { makeStyles } from '@material-ui/styles'
-import { Input, Divider, Typography } from '@material-ui/core'
-import { mdiUpload } from '@mdi/js'
-import Icon from '@mdi/react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
+import { Input, Divider, Typography } from "@material-ui/core";
+import { mdiUpload } from "@mdi/js";
+import Icon from "@mdi/react";
+import styled from "styled-components";
 
-import { CustomText } from '../custom-text'
+import { CustomText } from "../custom-text";
 
 const LabelText = styled(Typography)`
   font-size: 14px !important;
@@ -16,7 +16,7 @@ const LabelText = styled(Typography)`
   line-height: normal;
   letter-spacing: normal;
   color: #999999;
-`
+`;
 
 const HelperText = styled(Typography)`
   font-size: 12px !important;
@@ -27,58 +27,58 @@ const HelperText = styled(Typography)`
   letter-spacing: normal;
   color: #999999;
   margin-top: 8px !important;
-`
+`;
 
 const theme = createMuiTheme({
   shape: {
     borderRadius: 0
   },
   palette: {
-    primary: { main: '#1194f6' }
+    primary: { main: "#1194f6" }
   },
   overrides: {
     MuiListItem: {
       button: {
-        '&:hover': {
-          backgroundColor: '#ffffff'
+        "&:hover": {
+          backgroundColor: "#ffffff"
         }
       },
       root: {
-        '&$selected': {
-          backgroundColor: '#ffffff',
-          '&&:hover': {
-            backgroundColor: '#ffffff'
+        "&$selected": {
+          backgroundColor: "#ffffff",
+          "&&:hover": {
+            backgroundColor: "#ffffff"
           },
-          '&&:active:after': {
-            backgroundColor: '#ffffff'
+          "&&:active:after": {
+            backgroundColor: "#ffffff"
           }
         }
       }
     },
     MuiSwitch: {
       track: {
-        backgroundColor: '#f1f1f1 !important'
+        backgroundColor: "#f1f1f1 !important"
       }
     }
   }
-})
+});
 
 const useStyles = makeStyles({
   hidden: {
-    display: 'none !important'
+    display: "none !important"
   }
-})
+});
 
 interface UploadProps {
-  accept: string
-  getAudio: Function
-  helperText?: string
-  labelText?: string
-  limit?: number | any
-  style?: object
+  accept: string;
+  getAudio: Function;
+  helperText?: string;
+  labelText?: string;
+  limit: number;
+  style?: object;
 }
 
-const Upload: React.SFC<UploadProps> = ({
+const Upload: React.FC<UploadProps> = ({
   accept,
   getAudio,
   helperText,
@@ -86,24 +86,24 @@ const Upload: React.SFC<UploadProps> = ({
   limit,
   style
 }) => {
-  const [filename, setFilename] = useState('No file chosen')
+  const [filename, setFilename] = useState("No file chosen");
 
   const upload: Function = (e: any) => {
     try {
-      let extracted = e.target.files[0].name
+      let extracted = e.target.files[0].name;
       let name =
-        extracted.length > limit ? extracted.substring(0, limit) : extracted
+        extracted.length > limit ? extracted.substring(0, limit) : extracted;
       name =
         extracted.length > limit
-          ? `${name}...${extracted.split('.')[extracted.split('.').length - 1]}`
-          : extracted
+          ? `${name}...${extracted.split(".")[extracted.split(".").length - 1]}`
+          : extracted;
 
-      setFilename(name)
-      getAudio && getAudio(e.target.files[0])
+      setFilename(name);
+      getAudio && getAudio(e.target.files[0]);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const renderUploadComponent: Function = () => {
     return (
@@ -120,13 +120,13 @@ const Upload: React.SFC<UploadProps> = ({
         />
         <label
           style={{
-            margin: '5px 0 7px 0',
-            display: 'flex',
-            flexDirection: 'row',
-            cursor: 'pointer',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            textOverflow: 'ellipsis'
+            margin: "5px 0 7px 0",
+            display: "flex",
+            flexDirection: "row",
+            cursor: "pointer",
+            alignItems: "center",
+            justifyContent: "space-between",
+            textOverflow: "ellipsis"
           }}
         >
           <CustomText size="16px" color="tableDataColor">
@@ -135,9 +135,9 @@ const Upload: React.SFC<UploadProps> = ({
 
           <div
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'flex-end'
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-end"
             }}
           >
             <Icon
@@ -146,11 +146,11 @@ const Upload: React.SFC<UploadProps> = ({
               size={0.8}
               rotate={360}
               style={{
-                marginBottom: '3px'
+                marginBottom: "3px"
               }}
               color="#1194f6"
             />
-            <div style={{ width: '3px' }} />
+            <div style={{ width: "3px" }} />
             <CustomText size="16px" color="activeInput">
               Choose file
             </CustomText>
@@ -159,12 +159,20 @@ const Upload: React.SFC<UploadProps> = ({
         <Divider />
         <HelperText>{helperText}</HelperText>
       </div>
-    )
-  }
-  const classes: any = useStyles({})
+    );
+  };
+  const classes: any = useStyles({});
   return (
     <MuiThemeProvider theme={theme}>{renderUploadComponent()}</MuiThemeProvider>
-  )
-}
+  );
+};
 
-export default Upload
+Upload.defaultProps = {
+  limit: 8,
+  accept: "audio/*",
+  labelText: "Data File",
+  helperText: "A file needed",
+  getAudio: () => console.log("I am the file")
+} as Partial<UploadProps>;
+
+export { Upload };

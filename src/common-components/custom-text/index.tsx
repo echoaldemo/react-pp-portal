@@ -24,7 +24,7 @@ interface CustomTextProps {
 const CustomText: React.FC<CustomTextProps> = props => {
   const classes: any = styles();
   const styled = {
-    color: `var(--${props.color})`,
+    color: `${props.color}`,
     fontSize: `${props.size}`,
     fontWeight: `${props.weight}`
   } as React.CSSProperties;
