@@ -172,7 +172,7 @@ Upload.defaultProps = {
   accept: "audio/*",
   labelText: "Data File",
   helperText: "A file needed",
-  getAudio: () => console.log("I am the file")
+  getAudio: () => null
 } as Partial<UploadProps>;
 
 export { Upload };
