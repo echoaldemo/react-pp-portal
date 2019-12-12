@@ -1,3 +1,4 @@
+export { MetricsCard } from "./metrics-card";
 export { LoadingModal } from "./loading-modal";
 export { Upload } from "./upload";
 export { CustomText } from "./custom-text";
