@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import { PaginationContainer, PageItem, Button } from "./Pagination.style";
 
-type Props = {
+interface Props {
   paginateFn: Function;
   totalItems: number;
   itemsPerPage: number;
