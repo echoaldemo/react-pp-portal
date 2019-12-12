@@ -8,9 +8,14 @@ interface Props {
   itemsPerPage: number;
 }
 
-const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) => {
+const Pagination: React.FC<Props> = ({
+  paginateFn,
+  totalItems,
+  itemsPerPage
+}) => {
+  const pageVar: number[][] = [];
   const [totalPage, setTotalPage] = useState(0);
-  const [pages, setPages] = useState([]);
+  const [pages, setPages] = useState(pageVar);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
@@ -87,7 +92,7 @@ const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) =
           </PageItem>
 
           <PageItem id="pagination-component" className="item">
-            {pages[currentPageIndex].map((page, i) => {
+            {pages[currentPageIndex].map((page: any, i: number) => {
               return (
                 <Button
                   key={page}
@@ -106,7 +111,7 @@ const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) =
                 <Button
                   className="item"
                   key={"last"}
-                  onClick={()=>goToLast(totalPage)}
+                  onClick={() => goToLast(totalPage)}
                 >
                   {totalPage}
                 </Button>
@@ -134,7 +139,7 @@ const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) =
 Pagination.defaultProps = {
   itemsPerPage: 0,
   totalItems: 0,
-  paginateFn: ()=>{}
+  paginateFn: () => {}
 } as Partial<Props>;
 
 export default Pagination;
