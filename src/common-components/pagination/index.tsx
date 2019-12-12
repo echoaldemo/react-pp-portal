@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
-import { PaginationContainer, PageItem, Button } from "./Pagination.style";
+import { PaginationContainer, PageItem, Button } from "./styles/Pagination.style";
 
 interface Props {
   paginateFn: Function;
@@ -137,4 +137,4 @@ Pagination.defaultProps = {
   paginateFn: () => {}
 } as Partial<Props>;
 
-export default Pagination;
+export { Pagination };
