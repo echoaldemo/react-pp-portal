@@ -3,7 +3,11 @@ import { storiesOf } from "@storybook/react";
 import { AsyncTable } from "..";
 import { TableRow, TableCell } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { UnderlineCell, ActiveCell, LiveCell } from "../table-cells/TableCells";
+import {
+  UnderlineCell,
+  ActiveCell,
+  LiveCell
+} from "../../table-cells/TableCells";
 import { FileCopyOutlined as Icon } from "@material-ui/icons";
 import { mdiContentCopy } from "@mdi/js";
 import { CopyToClipboard } from "react-copy-to-clipboard";

@@ -1,14 +1,10 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import MetricsCard from "./";
+import { MetricsCard } from "..";
 import notes from "./notes.md";
-storiesOf("Metrics Card", module).add(
-  "Metrics card",
-  () => (
-    <MetricsCard />
-  ),
-  { notes: { markdown: notes } }
-);
+storiesOf("Metrics Card", module).add("Metrics card", () => <MetricsCard />, {
+  notes: { markdown: notes }
+});
 storiesOf("Metrics Card", module).add(
   "Metrics card on sales",
   () => <MetricsCard title="Sales" percentage={3.77} mode="sales" />,

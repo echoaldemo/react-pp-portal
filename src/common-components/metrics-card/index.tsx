@@ -312,4 +312,4 @@ const List = styled.div`
   justify-content: space-between;
 `;
 
-export default MetricsCard;
+export { MetricsCard };
