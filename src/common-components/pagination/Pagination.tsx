@@ -8,26 +8,21 @@ interface Props {
   itemsPerPage: number;
 }
 
-const Pagination: React.FC<Props> = ({
-  paginateFn,
-  totalItems,
-  itemsPerPage
-}) => {
-  const pageVar: number[][] = [];
-  const [totalPage, setTotalPage] = useState(0);
-  const [pages, setPages] = useState(pageVar);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) => {
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [pages, setPages] = useState<number[][]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(0);
 
   useEffect(() => {
     setTotalPage(Math.ceil(totalItems / itemsPerPage));
-    var pages = [],
+    let pages = [],
       x = [];
     for (let i = 0; i < Math.ceil(totalPage); i++) {
       pages.push(i + 1);
     }
-    for (var index = 0; index < pages.length; index += 4) {
-      var myChunk = pages.slice(index, index + 4);
+    for (let index = 0; index < pages.length; index += 4) {
+      let myChunk = pages.slice(index, index + 4);
       x.push(myChunk);
     }
     setPages(x);
@@ -92,7 +87,7 @@ const Pagination: React.FC<Props> = ({
           </PageItem>
 
           <PageItem id="pagination-component" className="item">
-            {pages[currentPageIndex].map((page: any, i: number) => {
+            {pages[currentPageIndex].map((page: number, i: any) => {
               return (
                 <Button
                   key={page}
