@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "outDir": "./dist/",
+    "outDir": "src",
     "sourceMap": true,
     "strictNullChecks": true,
     "module": "esnext",
