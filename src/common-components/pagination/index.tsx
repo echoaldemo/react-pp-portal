@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
-import { PaginationContainer, PageItem, Button } from "./Pagination.style";
+import {
+  PaginationContainer,
+  PageItem,
+  Button
+} from "./styles/Pagination.style";
 
 interface Props {
   paginateFn: Function;
@@ -8,7 +12,11 @@ interface Props {
   itemsPerPage: number;
 }
 
-const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) => {
+const Pagination: React.FC<Props> = ({
+  paginateFn,
+  totalItems,
+  itemsPerPage
+}) => {
   const [totalPage, setTotalPage] = useState<number>(0);
   const [pages, setPages] = useState<number[][]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -137,4 +145,4 @@ Pagination.defaultProps = {
   paginateFn: () => {}
 } as Partial<Props>;
 
-export default Pagination;
+export { Pagination };
