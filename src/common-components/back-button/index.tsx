@@ -2,7 +2,6 @@ import React from "react";
 import { withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import BackIcon from "@material-ui/icons/ChevronLeft";
-// import PropTypes from "prop-types";
 
 const styles = {
   goBack: {
@@ -21,7 +20,7 @@ interface Props {
   };
 }
 
-const BackButton: React.SFC<Props> = ({ classes, backFn, text, to }) => {
+const BackButtonComp: React.SFC<Props> = ({ classes, backFn, text, to }) => {
   return (
     <div className={classes.goBack}>
       <span style={{ minWidth: 300, margin: 0 }}>
@@ -61,10 +60,12 @@ const BackButton: React.SFC<Props> = ({ classes, backFn, text, to }) => {
   );
 };
 
-BackButton.defaultProps = {
+BackButtonComp.defaultProps = {
   text: "Back",
   to: "/",
   backFn: () => null
 } as Partial<Props>;
 
-export default withStyles(styles)(BackButton);
+const BackButton = withStyles(styles)(BackButtonComp);
+
+export { BackButton };

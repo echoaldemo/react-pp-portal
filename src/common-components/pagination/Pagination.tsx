@@ -106,7 +106,7 @@ const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) =
                 <Button
                   className="item"
                   key={"last"}
-                  onClick={()=>goToLast(totalPage)}
+                  onClick={() => goToLast(totalPage)}
                 >
                   {totalPage}
                 </Button>
@@ -134,7 +134,7 @@ const Pagination: React.FC<Props> = ({ paginateFn, totalItems, itemsPerPage }) =
 Pagination.defaultProps = {
   itemsPerPage: 0,
   totalItems: 0,
-  paginateFn: ()=>{}
+  paginateFn: () => {}
 } as Partial<Props>;
 
 export default Pagination;

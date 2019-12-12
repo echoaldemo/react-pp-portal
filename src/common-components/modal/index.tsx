@@ -87,4 +87,4 @@ Modal.defaultProps = {
   open: false
 } as Partial<Props>;
 
-export default Modal;
+export { Modal };
