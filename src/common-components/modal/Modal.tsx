@@ -1,5 +1,4 @@
-import React, { ReactPortal, SyntheticEvent } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import {
     Dialog,
     DialogTitle,
@@ -13,14 +12,13 @@ interface Props{
     open: boolean
     width?: number
     height?: number
-    onClose: () => void
+    onClose: Function
     title: string
     contentStyle?: object
     children: React.ReactNode
 }
 
 const Modal: React.FC<Props> = ({ open, width, height, onClose, title, contentStyle, children }) => {
-    let test = "1"
     return (
         <div>
             <Dialog
@@ -78,7 +76,7 @@ const Modal: React.FC<Props> = ({ open, width, height, onClose, title, contentSt
 }
 
 Modal.defaultProps = {
-    title: 'Test Title!',
+    title: 'Test Default!',
     open: false
 } as Partial<Props>;
 

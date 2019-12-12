@@ -15,7 +15,7 @@ stories.add(
         <>
           <button onClick={() => setOpen(true)}>open</button>
           <Modal open={open} title="Modal Test" onClose={() => setOpen(false)}>
-            Modal Test
+            Awesome!
           </Modal>
         </>
       )
