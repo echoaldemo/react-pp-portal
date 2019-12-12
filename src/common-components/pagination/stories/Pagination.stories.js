@@ -1,4 +1,4 @@
-import React, { createElement } from "react";
+import React, { createElement, useEffect } from "react";
 import { storiesOf } from "@storybook/react";
 import {Pagination} from 'common-components';
 import notes from "./notes.md";
@@ -45,6 +45,9 @@ storiesOf("Pagination", module).add(
       const paginate = (from, to, page) => {
         settbData(paginateList.slice(from, to));
       };
+      useEffect(()=>{
+        setPaginateList(data)
+      },[])
       return (
         <>
           <table id="demo" style={{ margin: "0 auto" }}>
