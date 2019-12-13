@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-interface Props {
+interface ModalProps {
   open: boolean;
   width?: number;
   height?: number;
@@ -13,7 +13,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Modal: React.FC<Props> = ({
+const Modal: React.FC<ModalProps> = ({
   open,
   width,
   height,
@@ -85,6 +85,6 @@ const Modal: React.FC<Props> = ({
 Modal.defaultProps = {
   title: "Test Title!",
   open: false
-} as Partial<Props>;
+} as Partial<ModalProps>;
 
 export { Modal };
