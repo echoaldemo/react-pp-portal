@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import SearchIcon from "@material-ui/icons/Search";
-import GearIcon from "@material-ui/icons/Settings";
+import React, { useState, useEffect } from 'react'
+import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import SearchIcon from '@material-ui/icons/Search'
+import GearIcon from '@material-ui/icons/Settings'
 
 import {
   Paper,
@@ -21,53 +21,53 @@ import {
   makeStyles,
   MuiThemeProvider,
   createMuiTheme
-} from "@material-ui/core/styles";
+} from '@material-ui/core/styles'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 const theme = createMuiTheme({
   overrides: {
     MuiTableCell: {
       root: {
-        borderBottom: "none"
+        borderBottom: 'none'
       }
     }
   }
-});
+})
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: 'flex'
   },
   inputField: {
-    fontSize: "1rem",
-    "&&&&:hover:before": {
-      borderBottom: "1px solid #1194f6"
+    fontSize: '1rem',
+    '&&&&:hover:before': {
+      borderBottom: '1px solid #1194f6'
     },
-    "&:before": {
-      borderBottom: "1px solid rgba(0,0,0,0.1)"
+    '&:before': {
+      borderBottom: '1px solid rgba(0,0,0,0.1)'
     },
-    "&:after": {
-      borderBottom: "2px solid #1394f6"
+    '&:after': {
+      borderBottom: '2px solid #1394f6'
     }
   }
-}));
+}))
 
 interface Props {
-  title: string;
-  userData: any[];
-  headers: string[];
-  pathnameData?: any;
-  link?: string;
-  settings?: any;
-  setActiveDataMethod?: any;
-  loading?: boolean;
-  active?: any;
-  live?: any;
-  modalFunc?: any;
-  classicSearch?: any;
-  customTitle?: any;
-  typed?: any;
+  title: string
+  userData: any[]
+  headers: string[]
+  pathnameData?: any
+  link?: string
+  settings?: any
+  setActiveDataMethod?: any
+  loading?: boolean
+  active?: any
+  live?: any
+  modalFunc?: any
+  classicSearch?: any
+  customTitle?: any
+  typed?: any
 }
 
 const SearchBar: React.FC<Props> = ({
@@ -86,57 +86,57 @@ const SearchBar: React.FC<Props> = ({
   customTitle,
   typed
 }) => {
-  const classes = useStyles(0);
-  const [results, setResults] = useState<object[][] | null | any>(null);
-  const [DummyResults, setDummyResults] = useState<any[]>(userData);
-  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
-  const [textSearch, setTextSearch] = React.useState<string>("");
+  const classes = useStyles(0)
+  const [results, setResults] = useState<object[][] | null | any>(null)
+  const [DummyResults, setDummyResults] = useState<any[]>(userData)
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null)
+  const [textSearch, setTextSearch] = React.useState<string>('')
 
   const handleClick = (event: any, data: any) => {
-    setAnchorEl(event.currentTarget);
-    setActiveDataMethod(data);
-  };
+    setAnchorEl(event.currentTarget)
+    setActiveDataMethod(data)
+  }
 
   const handClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   useEffect(() => {
     if (loading) {
-      setTextSearch("");
-      setResults(null);
-      setAnchorEl(null);
+      setTextSearch('')
+      setResults(null)
+      setAnchorEl(null)
     }
-  }, [setTextSearch, loading, setResults, setAnchorEl]);
+  }, [setTextSearch, loading, setResults, setAnchorEl])
 
-  let filtered: any[] = [];
+  let filtered: any[] = []
   // let timeout = null;
 
   const handleSearch = (e: any) => {
-    setTextSearch(e.target.value);
-    const regex = /[*()?+[\\]/gi;
+    setTextSearch(e.target.value)
+    const regex = /[*()?+[\\]/gi
     if (typed) {
-      typed(e.target.value);
+      typed(e.target.value)
     }
-    let event = e.target.value.replace(regex, "");
+    let event = e.target.value.replace(regex, '')
     if (event.length !== 0) {
       const arr = JSON.stringify(userData, function(key, value) {
-        return value || false;
-      });
-      const campaigns = JSON.parse(arr);
-      let filteredData: any[] = [];
+        return value || false
+      })
+      const campaigns = JSON.parse(arr)
+      let filteredData: any[] = []
 
       campaigns.map((data: any) => {
         headers.filter(head => {
-          if (typeof data[head] !== "boolean") {
+          if (typeof data[head] !== 'boolean') {
             if (data[head].toLowerCase().includes(event.toLowerCase())) {
-              filteredData.push(data);
+              filteredData.push(data)
             }
           }
-        });
-      });
+        })
+      })
 
-      filtered.push([...filteredData]);
+      filtered.push([...filteredData])
 
       // clearTimeout(timeout);
       // timeout = setTimeout(() => {
@@ -150,45 +150,45 @@ const SearchBar: React.FC<Props> = ({
       //   }
       // }, 300);
       if (classicSearch) {
-        classicSearch(filtered[0]);
+        classicSearch(filtered[0])
       } else {
-        setDummyResults(filtered[0]);
-        setResults(filtered[0]);
+        setDummyResults(filtered[0])
+        setResults(filtered[0])
       }
     } else {
       if (classicSearch) {
-        classicSearch(filtered[0]);
+        classicSearch(filtered[0])
       } else {
-        filtered = [];
-        setResults(null);
+        filtered = []
+        setResults(null)
       }
     }
-  };
+  }
 
   const handlePathname = (result: any) => {
     return `${pathnameData.firstLink}${
       pathnameData.fetchData.length > 1
-        ? pathnameData.fetchData[0] === "uuid"
-          ? pathnameData.fetchData[1] === "slug"
-            ? result.uuid + "/" + result.slug
+        ? pathnameData.fetchData[0] === 'uuid'
+          ? pathnameData.fetchData[1] === 'slug'
+            ? result.uuid + '/' + result.slug
             : null
-          : pathnameData.fetchData[0] === "slug"
-          ? pathnameData.fetchData[1] === "uuid"
-            ? result.slug + "/" + result.uuid
+          : pathnameData.fetchData[0] === 'slug'
+          ? pathnameData.fetchData[1] === 'uuid'
+            ? result.slug + '/' + result.uuid
             : null
           : null
-        : pathnameData.fetchData[0] === "uuid"
+        : pathnameData.fetchData[0] === 'uuid'
         ? result.uuid
-        : pathnameData.fetchData[0] === "slug"
+        : pathnameData.fetchData[0] === 'slug'
         ? result.slug
         : null
-    }${pathnameData.lastLink}`;
-  };
+    }${pathnameData.lastLink}`
+  }
 
   return (
     <MuiThemeProvider theme={theme}>
       <div className={classes.root}>
-        <Grid container style={{ width: "100%" }}>
+        <Grid container style={{ width: '100%' }}>
           <Grid item xs={12} lg={12}>
             <TextField
               disabled={loading !== undefined ? loading : false}
@@ -202,13 +202,13 @@ const SearchBar: React.FC<Props> = ({
               autoComplete="off"
               style={{
                 fontSize: 50,
-                padding: "5px 15px 15px 15px",
-                width: "100%"
+                padding: '5px 15px 15px 15px',
+                width: '100%'
               }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchIcon style={{ color: "#bbb" }} fontSize="small" />
+                    <SearchIcon style={{ color: '#bbb' }} fontSize="small" />
                   </InputAdornment>
                 ),
                 classes: {
@@ -234,21 +234,21 @@ const SearchBar: React.FC<Props> = ({
             }
             timeout={1000}
             unmountOnExit
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
-            {" "}
+            {' '}
             <Paper
               style={{
-                width: "100%",
-                fontSize: "18px",
-                color: "#7c8a97",
+                width: '100%',
+                fontSize: '18px',
+                color: '#7c8a97',
                 padding: 20,
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 zIndex: 1
               }}
             >
-              No results - Try searching for{" "}
-              {headers === undefined ? "other fields" : `${headers}`}
+              No results - Try searching for{' '}
+              {headers === undefined ? 'other fields' : `${headers}`}
             </Paper>
           </Collapse>
 
@@ -258,7 +258,7 @@ const SearchBar: React.FC<Props> = ({
             }
             timeout={1000}
             unmountOnExit
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
             <List
               component="nav"
@@ -266,8 +266,8 @@ const SearchBar: React.FC<Props> = ({
               style={{
                 maxHeight: 300,
                 height: 300,
-                overflow: "auto",
-                width: "100%"
+                overflow: 'auto',
+                width: '100%'
               }}
             >
               {results === null || results.length === 0
@@ -278,7 +278,7 @@ const SearchBar: React.FC<Props> = ({
                           <Grid item>
                             <ListItemText
                               primary={
-                                title === "User" || title === "Prospect"
+                                title === 'User' || title === 'Prospect'
                                   ? `${result.first_name} ${result.last_name}`
                                   : `${
                                       result.name === undefined
@@ -290,7 +290,7 @@ const SearchBar: React.FC<Props> = ({
                           </Grid>
                           <Grid
                             item
-                            style={{ marginLeft: "auto", paddingRight: 20 }}
+                            style={{ marginLeft: 'auto', paddingRight: 20 }}
                           >
                             <Grid container spacing={5}>
                               <Grid item>
@@ -299,7 +299,7 @@ const SearchBar: React.FC<Props> = ({
                                     <TableBody>
                                       <TableRow>
                                         <ActiveCell>
-                                          {title === "User"
+                                          {title === 'User'
                                             ? result.is_active
                                             : result.active}
                                         </ActiveCell>
@@ -310,14 +310,14 @@ const SearchBar: React.FC<Props> = ({
                               </Grid>
                               {settings !== undefined && (
                                 <Grid item style={{ marginTop: 10 }}>
-                                  <GearIcon style={{ color: "#777777" }} />
+                                  <GearIcon style={{ color: '#777777' }} />
                                 </Grid>
                               )}
                             </Grid>
                           </Grid>
                         </Grid>
                       </ListItem>
-                    );
+                    )
                   })
                 : results.map((result: any, i: number) => {
                     return (
@@ -326,8 +326,8 @@ const SearchBar: React.FC<Props> = ({
                           <Link
                             key={result.uuid}
                             style={{
-                              textDecoration: "none",
-                              color: "#000"
+                              textDecoration: 'none',
+                              color: '#000'
                             }}
                             to={{
                               pathname: handlePathname(result),
@@ -339,21 +339,18 @@ const SearchBar: React.FC<Props> = ({
                             <ListItem
                               button
                               onClick={() => {
-                                localStorage.setItem(
-                                  `companyslug`,
-                                  result.slug
-                                );
+                                localStorage.setItem(`companyslug`, result.slug)
                                 localStorage.setItem(
                                   `campaignuuid`,
                                   result.uuid
-                                );
+                                )
                               }}
                             >
                               <Grid container>
                                 <Grid item>
                                   <ListItemText
                                     primary={
-                                      title === "User" || title === "Prospect"
+                                      title === 'User' || title === 'Prospect'
                                         ? `${result.first_name} ${result.last_name}`
                                         : `${
                                             result.name === undefined
@@ -366,7 +363,7 @@ const SearchBar: React.FC<Props> = ({
                                 <Grid
                                   item
                                   style={{
-                                    marginLeft: "auto",
+                                    marginLeft: 'auto',
                                     paddingRight: 20
                                   }}
                                 >
@@ -388,7 +385,7 @@ const SearchBar: React.FC<Props> = ({
                                           <TableBody>
                                             <TableRow>
                                               <ActiveCell>
-                                                {title === "User"
+                                                {title === 'User'
                                                   ? result.is_active
                                                   : result.active}
                                               </ActiveCell>
@@ -400,7 +397,7 @@ const SearchBar: React.FC<Props> = ({
                                     {settings !== undefined && (
                                       <Grid item style={{ marginTop: 10 }}>
                                         <GearIcon
-                                          style={{ color: "#777777" }}
+                                          style={{ color: '#777777' }}
                                           onClick={e => handleClick(e, result)}
                                         />
                                         <Menu
@@ -434,7 +431,7 @@ const SearchBar: React.FC<Props> = ({
                                 <Grid item>
                                   <ListItemText
                                     primary={
-                                      title === "User" || title === "Prospect"
+                                      title === 'User' || title === 'Prospect'
                                         ? `${result.first_name} ${result.last_name}`
                                         : `${
                                             result.name === undefined
@@ -447,7 +444,7 @@ const SearchBar: React.FC<Props> = ({
                                 <Grid
                                   item
                                   style={{
-                                    marginLeft: "auto",
+                                    marginLeft: 'auto',
                                     paddingRight: 20
                                   }}
                                 >
@@ -458,7 +455,7 @@ const SearchBar: React.FC<Props> = ({
                                           <TableBody>
                                             <TableRow>
                                               <ActiveCell>
-                                                {title === "User"
+                                                {title === 'User'
                                                   ? result.is_active
                                                   : result.active}
                                               </ActiveCell>
@@ -470,7 +467,7 @@ const SearchBar: React.FC<Props> = ({
                                     {settings !== undefined && (
                                       <Grid item style={{ marginTop: 10 }}>
                                         <GearIcon
-                                          style={{ color: "#777777" }}
+                                          style={{ color: '#777777' }}
                                           onClick={e => handleClick(e, result)}
                                         />
                                       </Grid>
@@ -482,7 +479,7 @@ const SearchBar: React.FC<Props> = ({
                           </>
                         )}
                       </div>
-                    );
+                    )
                   })}
               <Menu
                 onClose={handClose}
@@ -498,15 +495,15 @@ const SearchBar: React.FC<Props> = ({
         </Grid>
       </div>
     </MuiThemeProvider>
-  );
-};
+  )
+}
 
 SearchBar.defaultProps = {
-  title: "Search Data",
-  userData: [{ name: "sample" }, { name: "samples1" }],
-  headers: ["name"],
-  pathnameData: "",
+  title: 'Search Data',
+  userData: [{ name: 'sample' }, { name: 'samples1' }],
+  headers: ['name'],
+  pathnameData: '',
   loading: false
-};
+}
 
-export default SearchBar;
+export default SearchBar
