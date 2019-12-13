@@ -29,7 +29,7 @@ interface Props {
   percentage: number;
   mode: string;
   content: Content[];
-  openChartFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void;
+  handleClick: (e: React.SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 const defaultProps = {
@@ -55,7 +55,7 @@ const defaultProps = {
       value: 0.84
     }
   ],
-  openChartFn: () => console.log("Opening Chart...")
+  handleClick: () => console.log("Opening Chart...")
 };
 
 const theme = createMuiTheme({
@@ -70,7 +70,7 @@ const MetricsCard: React.FC<Props> = ({
   percentage,
   content,
   mode,
-  openChartFn
+  handleClick
 }) => {
   const renderPercentage: Function = () => {
     return (
@@ -227,7 +227,7 @@ const MetricsCard: React.FC<Props> = ({
           marginTop: `${mode === "bills" ? "9px" : "17px"}`
         }}
       >
-        <SeeChartButton mode={mode} onClick={openChartFn} />
+        <SeeChartButton mode={mode} handleClick={handleClick} />
       </div>
     );
   };

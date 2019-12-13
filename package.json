@@ -59,6 +59,8 @@
     "cypress": "^3.7.0",
     "typescript": "^3.7.3",
     "source-map-loader": "^0.2.4",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "awesome-typescript-loader": "^5.2.1",
+    "storybook-react-router": "^1.0.8"
   }
 }
