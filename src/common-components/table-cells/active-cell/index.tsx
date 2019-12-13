@@ -32,7 +32,7 @@ const styles: any = {
 
 interface ActiveCellProps {
   children: any;
-  className: string;
+  className?: string;
   classes: any;
   native?: any;
   style?: object;
