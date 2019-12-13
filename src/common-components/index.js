@@ -10,3 +10,5 @@ export { ChangeServer } from './change-server'
 export { HeaderButton } from './header-button'
 export { Searchbar } from './search-bar'
 export { TableNoResult } from "./table-no-result";
+export { EditButton } from "./edit-button";
+
