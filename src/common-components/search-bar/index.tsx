@@ -16,7 +16,7 @@ import {
   TableBody,
   Menu
 } from "@material-ui/core";
-// import { ActiveCell, LiveCellOff, PausedCell } from "../table-cells/TableCells";
+import { ActiveCell, LiveCellOff } from "../table-cells/TableCells";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -298,11 +298,11 @@ const SearchBar: React.FC<Props> = ({
                                   <Table>
                                     <TableBody>
                                       <TableRow>
-                                        {/* <ActiveCell>
+                                        <ActiveCell>
                                           {title === "User"
                                             ? result.is_active
                                             : result.active}
-                                        </ActiveCell> */}
+                                        </ActiveCell>
                                       </TableRow>
                                     </TableBody>
                                   </Table>
@@ -376,9 +376,9 @@ const SearchBar: React.FC<Props> = ({
                                         <Table>
                                           <TableBody>
                                             <TableRow>
-                                              {/* <LiveCellOff>
+                                              <LiveCellOff>
                                                 {result.live}
-                                              </LiveCellOff> */}
+                                              </LiveCellOff>
                                             </TableRow>
                                           </TableBody>
                                         </Table>
@@ -389,11 +389,11 @@ const SearchBar: React.FC<Props> = ({
                                         <Table>
                                           <TableBody>
                                             <TableRow>
-                                              {/* <ActiveCell>
+                                              <ActiveCell>
                                                 {title === "User"
                                                   ? result.is_active
                                                   : result.active}
-                                              </ActiveCell> */}
+                                              </ActiveCell>
                                             </TableRow>
                                           </TableBody>
                                         </Table>
@@ -459,11 +459,11 @@ const SearchBar: React.FC<Props> = ({
                                         <Table>
                                           <TableBody>
                                             <TableRow>
-                                              {/* <ActiveCell>
+                                              <ActiveCell>
                                                 {title === "User"
                                                   ? result.is_active
                                                   : result.active}
-                                              </ActiveCell> */}
+                                              </ActiveCell>
                                             </TableRow>
                                           </TableBody>
                                         </Table>
