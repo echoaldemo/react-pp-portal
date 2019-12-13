@@ -16,7 +16,7 @@ import {
   TableBody,
   Menu
 } from "@material-ui/core";
-import { ActiveCell, LiveCellOff } from "../table-cells/TableCells";
+import { ActiveCell, LiveCell } from "../table-cells";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -376,9 +376,7 @@ const SearchBar: React.FC<Props> = ({
                                         <Table>
                                           <TableBody>
                                             <TableRow>
-                                              <LiveCellOff>
-                                                {result.live}
-                                              </LiveCellOff>
+                                              <LiveCell>{result.live}</LiveCell>
                                             </TableRow>
                                           </TableBody>
                                         </Table>

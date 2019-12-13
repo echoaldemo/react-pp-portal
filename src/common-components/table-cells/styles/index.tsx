@@ -24,3 +24,30 @@ export const liveCell = (theme: Theme) =>
       }
     }
   });
+export const styleDetails: any = {
+  span: {
+    fontSize: 12,
+    width: "60px",
+    height: "20px",
+    textTransform: "capitalize",
+    borderRadius: "3px",
+    color: "white",
+    "&.active": {
+      backgroundColor: "#6698c7"
+    },
+    "&.inactive": {
+      backgroundColor: "#ff504d"
+    }
+  }
+};
+export const activeCell: any = {
+  root: {
+    "& span": {
+      display: "inline-flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      ...styleDetails.span
+    }
+  }
+};

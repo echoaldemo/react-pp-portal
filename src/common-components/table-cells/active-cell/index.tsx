@@ -1,35 +1,7 @@
 import * as React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
-
-const styleDetails: any = {
-  span: {
-    fontSize: 12,
-    width: "60px",
-    height: "20px",
-    textTransform: "capitalize",
-    borderRadius: "3px",
-    color: "white",
-    "&.active": {
-      backgroundColor: "#6698c7"
-    },
-    "&.inactive": {
-      backgroundColor: "#ff504d"
-    }
-  }
-};
-const styles: any = {
-  root: {
-    "& span": {
-      display: "inline-flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      ...styleDetails.span
-    }
-  }
-};
-
+import { styleDetails, activeCell as styles } from "../styles";
 interface ActiveCellProps {
   children: any;
   className?: string;
@@ -38,32 +10,44 @@ interface ActiveCellProps {
   style?: object;
 }
 
-const ActiveCell: React.SFC<ActiveCellProps> = props => {
-  const classes = `${props.className} ${props.classes.root}`;
-  const style =
-    props.children === true
+const Component: React.SFC<ActiveCellProps> = ({
+  classes,
+  className,
+  children,
+  native,
+  style
+}) => {
+  const styled =
+    children === true
       ? "active"
-      : props.children === false
+      : children === false
       ? "inactive"
-      : props.children.toLowerCase().includes("no")
+      : children.toLowerCase().includes("no")
       ? "No"
       : "Yes";
   return (
     <>
-      {props.native ? (
+      {native ? (
         <span>
           <span className="active" style={styleDetails.span}>
-            {style}
+            {styled}
           </span>
         </span>
       ) : (
-        <TableCell className={classes} style={{ ...props.style }}>
+        <TableCell
+          className={`${className} ${classes.root}`}
+          style={{ ...style }}
+        >
           <span
             className={
-              style === "No" ? "inactive" : style === "Yes" ? "active" : style
+              styled === "No"
+                ? "inactive"
+                : styled === "Yes"
+                ? "active"
+                : styled
             }
           >
-            {style}
+            {styled}
           </span>
         </TableCell>
       )}
@@ -71,4 +55,6 @@ const ActiveCell: React.SFC<ActiveCellProps> = props => {
   );
 };
 
-export default withStyles(styles)(ActiveCell);
+const ActiveCell = withStyles(styles)(Component);
+
+export { ActiveCell };

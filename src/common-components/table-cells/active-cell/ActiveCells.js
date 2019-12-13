@@ -1,1 +1,0 @@
-export { ActiveCells } from "./index";
