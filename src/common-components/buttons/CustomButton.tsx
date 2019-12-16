@@ -25,7 +25,6 @@ interface Props {
 }
 
 const defaultProps = {
-  disabled: true,
   children: null,
   handleClick: () => console.log("Custom Button Clicked!"),
   type: "button",
