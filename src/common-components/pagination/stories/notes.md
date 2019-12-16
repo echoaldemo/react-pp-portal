@@ -4,7 +4,7 @@
 
 ```
 import React from 'react'
-import Pagination from "common-components/pagination";
+import { Pagination } from "common-components";
 
 const data = [
    { cell1: "1", cell2: "x" },
