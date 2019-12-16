@@ -12,3 +12,4 @@ export { Searchbar } from "./search-bar";
 export { TableNoResult } from "./table-no-result";
 export { StatusLabel } from "./status-label";
 export { CampaignMenuSelect } from "./campaign-menu-select";
+export { NavTabs } from "./nav-tabs";

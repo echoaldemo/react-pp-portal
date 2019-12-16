@@ -1,13 +1,32 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
+import { createMemoryHistory } from "history";
 import { StatusLabel, BackButton } from "common-components";
 import { useStyles } from "./styles/NavTabs.style";
 
-export default function SettingsMenuBar(props) {
-  const { tabnames, data, history, back } = props;
+interface Props {
+  tabnames: Array<Obj>;
+  data: Obj;
+  history: Obj;
+  back: Obj;
+  loadingState: Boolean;
+}
+interface Obj {
+  [index: string]: any;
+}
+
+const history = createMemoryHistory();
+
+const NavTabs: React.FC<Props> = ({
+  tabnames,
+  data,
+  history,
+  back,
+  loadingState
+}) => {
   const classes = useStyles();
 
-  function handleClick(tab) {
+  const handleClick = (tab: Obj) => {
     if (history) {
       history.push({
         pathname: `${tab.path}/${data.slug}/${data.uuid}${tab.url}`,
@@ -16,12 +35,16 @@ export default function SettingsMenuBar(props) {
         }
       });
     }
-  }
+  };
 
   return (
     <>
       <Typography style={{ cursor: "pointer" }}>
-        <BackButton text={back.name} to={back.url} />
+        <BackButton
+          text={back.name}
+          to={back.url}
+          backFn={() => console.log("")}
+        />
       </Typography>
       <div
         style={{
@@ -40,7 +63,7 @@ export default function SettingsMenuBar(props) {
             padding: "0 3px 0 0"
           }}
         >
-          {props.loadingState ? (
+          {loadingState ? (
             <>
               <Typography
                 style={{ color: "#444851", fontSize: "20px", marginRight: 25 }}
@@ -66,7 +89,7 @@ export default function SettingsMenuBar(props) {
             justifyContent: "flex-end"
           }}
         >
-          {tabnames.map(tab => (
+          {tabnames.map((tab: Obj) => (
             <div
               key={tab.name}
               className={
@@ -84,4 +107,22 @@ export default function SettingsMenuBar(props) {
       </div>
     </>
   );
-}
+};
+
+NavTabs.defaultProps = {
+  tabnames: [],
+  data: {
+    name: "<data name>",
+    active: true,
+    slug: "one",
+    uuid: "1"
+  },
+  history: history,
+  back: {
+    name: "Back to dashboard",
+    url: "#"
+  },
+  loadingState: false
+} as Partial<Props>;
+
+export { NavTabs };

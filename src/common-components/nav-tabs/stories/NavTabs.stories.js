@@ -2,7 +2,7 @@ import React, { createElement } from "react";
 import { storiesOf } from "@storybook/react";
 import { BrowserRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import NavTabs from "../NavTabs";
+import { NavTabs } from "common-components";
 
 storiesOf("Nav Tabs", module).add("default", () =>
   createElement(() => {
