@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import Upload from "../";
+import { Upload } from "../";
 
 storiesOf("Upload Design", module).add("default", function() {
   return (
