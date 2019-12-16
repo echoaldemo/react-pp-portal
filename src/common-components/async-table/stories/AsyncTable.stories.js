@@ -3,7 +3,11 @@ import { storiesOf } from "@storybook/react";
 import { AsyncTable } from "..";
 import { TableRow, TableCell } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { UnderlineCell, ActiveCell, LiveCell } from "../../table-cells";
+import {
+  UnderlineCell,
+  ActiveCell,
+  LiveCell
+} from "common-components/table-cells";
 import { FileCopyOutlined as Icon } from "@material-ui/icons";
 import { mdiContentCopy } from "@mdi/js";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -11,7 +15,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { withStyles } from "@material-ui/core/styles";
 import notes from "./notes.md";
 
-const LightTooltip = withStyles(theme => ({
+const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
     color: "rgba(0, 0, 0, 0.87)",
@@ -49,7 +53,7 @@ stories.add(
           headers={["Name", "Slug", "UUID"]}
           tableData={sampleData}
           render={(samples, { row, cell, uuid, icon }) =>
-            samples.map(sample => (
+            samples.map((sample) => (
               <TableRow className={row} key={sample.uuid}>
                 <TableCell className={cell}>{sample.name}</TableCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -100,7 +104,7 @@ stories.add(
           headers={["Name", "Slug", "UUID"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map(sample => (
+            samples.map((sample) => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -123,7 +127,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map(sample => (
+            samples.map((sample) => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -147,7 +151,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live", "active"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map(sample => (
+            samples.map((sample) => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -172,7 +176,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live", "active", ""]}
           tableData={sampleData}
           render={(samples, { row, cell, uuid, icon }) =>
-            samples.map(sample => (
+            samples.map((sample) => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>

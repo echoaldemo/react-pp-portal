@@ -1,8 +1,45 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Grid, Tabs, Tab } from "@material-ui/core";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  makeStyles
+} from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
+
+/**
+ * ==============================================================================
+ * <ButtonTabs />
+ * ------------------------------------------------------------------------------
+ * @param {Function}   handleChange   Triggers Change event
+ * @param {Array}      tabData        Contains Data of Tabs (label,value,path,style)
+ * @return {ReactElement}
+ * ==============================================================================
+ */
+
+interface TabContent {
+  label: string;
+  value: number;
+  path: string;
+  style?: React.CSSProperties;
+}
+interface Props {
+  handleChange: (e: React.ChangeEvent<{}>) => void;
+  tabData: Array<TabContent>;
+}
+
+const defaultProps = {
+  handleChange: () => console.log("Handle Change Event"),
+  tabData: [
+    {
+      label: "DID POOLS",
+      value: 1,
+      path: "/",
+      style: undefined
+    },
+    { label: "SEARCH DIDS", value: 0, path: "/", style: undefined }
+  ]
+};
 
 const theme = createMuiTheme({
   shape: {
@@ -17,7 +54,7 @@ const theme = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   Tabs: {
     color: "#919ca7",
     backgroundColor: "#eeeeee",
@@ -26,7 +63,7 @@ const useStyles = makeStyles(() => ({
     "& span": {
       maxHeight: 40,
       marginBottom: 7,
-      fontWeight: "600"
+      fontWeight: 600
     },
     "& div": {
       maxHeight: 40
@@ -35,13 +72,6 @@ const useStyles = makeStyles(() => ({
       padding: 0,
       maxHeight: 40
     }
-
-    // "@media (max-width: 599px)": {
-    //   width: "100%"
-    // },
-    // "@media (max-width: 1024px  )": {
-    //   width: "100%"
-    // }
   },
   indicator: {
     backgroundColor: "transparent"
@@ -51,7 +81,7 @@ const useStyles = makeStyles(() => ({
     color: "#fff",
     fontFamily: "Roboto",
     fontSize: "14px",
-    fontWeight: "500",
+    fontWeight: 500,
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: "normal",
@@ -76,7 +106,7 @@ const useStyles = makeStyles(() => ({
   notActive: {
     fontFamily: "Roboto",
     fontSize: "14px",
-    fontWeight: "500",
+    fontWeight: 500,
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: "normal",
@@ -100,26 +130,26 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default props => {
-  const classes = useStyles();
+const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
+  const classes: any = useStyles(theme);
   return (
     <MuiThemeProvider theme={theme}>
       <Tabs
         value={0}
-        onChange={props.handleChange}
+        onChange={handleChange}
         className={classes.Tabs}
         classes={{
           indicator: classes.indicator
         }}
       >
-        {props.tabData.map((tab, i) => (
+        {tabData.map(({ path, label, value, style }: TabContent, i: number) => (
           <Tab
-            key={i}
             component={Link}
-            to={tab.path}
-            label={tab.label}
-            className={tab.value === 0 ? classes.activeTab : classes.notActive}
-            style={tab.style ? tab.style : null}
+            key={i}
+            to={path}
+            label={label}
+            className={value === 0 ? classes.activeTab : classes.notActive}
+            style={style}
             value={0}
           />
         ))}
@@ -127,3 +157,7 @@ export default props => {
     </MuiThemeProvider>
   );
 };
+
+ButtonTabs.defaultProps = defaultProps as Partial<Props>;
+
+export default ButtonTabs;

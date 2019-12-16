@@ -15,8 +15,8 @@ import {
   Table,
   TableBody,
   Menu
-} from "@material-ui/core";
-import { ActiveCell, LiveCell } from "../table-cells";
+} from '@material-ui/core'
+import { ActiveCell, LiveCell } from '../table-cells'
 import {
   makeStyles,
   MuiThemeProvider,
