@@ -13,3 +13,4 @@ export { DeleteModal } from './delete-modal'
 export { TableNoResult } from './table-no-result'
 export { StatusLabel } from './status-label'
 export { CampaignMenuSelect } from './campaign-menu-select'
+export { EditButton } from "./edit-button";
