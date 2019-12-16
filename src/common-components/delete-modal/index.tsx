@@ -1,22 +1,8 @@
 import React, { useState } from 'react'
-import {
-  InputField,
-  Center,
-  Box,
-  Header,
-  CenterText,
-  CloseIcon,
-  Content,
-  DelBtn,
-  DisBtn,
-  DelBtnText,
-  Trash,
-  Text,
-  Text2,
-  Name
-} from './styles'
+import * as Styled from './styles'
 
 interface Props {
+  open: boolean
   header?: string
   msg?: string
   name: string
@@ -25,6 +11,7 @@ interface Props {
 }
 
 const DeleteModal: React.FC<Props> = ({
+  open,
   header,
   msg,
   name,
@@ -44,20 +31,20 @@ const DeleteModal: React.FC<Props> = ({
   }
 
   return (
-    <Center>
-      <Box>
-        <Header>
-          <CenterText>{header}</CenterText>
-          <CloseIcon onClick={closeFn} />
-        </Header>
-        <Content>
-          <Text>Are you sure you want to delete this {msg}?</Text>
-          <Name>{name}</Name>
-          <Text2>
+    <Styled.Center open={open} onClose={closeFn}>
+      <Styled.Box>
+        <Styled.Header>
+          <Styled.CenterText>{header}</Styled.CenterText>
+          <Styled.CloseIcon onClick={closeFn} />
+        </Styled.Header>
+        <Styled.Content>
+          <Styled.Text>Are you sure you want to delete this {msg}?</Styled.Text>
+          <Styled.Name>{name}</Styled.Name>
+          <Styled.Text2>
             <strong>{name}</strong> will be removed from all servers. Confirm by
             entering the {msg} name into the input.
-          </Text2>
-          <InputField
+          </Styled.Text2>
+          <Styled.InputField
             label={name}
             margin="normal"
             value={val}
@@ -65,23 +52,23 @@ const DeleteModal: React.FC<Props> = ({
             data-cy="del-field"
           />
           {ok ? (
-            <DelBtn onClick={delFn} id="delBtn">
-              <DelBtnText>
-                <Trash />
+            <Styled.DelBtn onClick={delFn} id="delBtn">
+              <Styled.DelBtnText>
+                <Styled.Trash />
                 Delete
-              </DelBtnText>
-            </DelBtn>
+              </Styled.DelBtnText>
+            </Styled.DelBtn>
           ) : (
-            <DisBtn disabled>
-              <DelBtnText>
-                <Trash />
+            <Styled.DisBtn disabled>
+              <Styled.DelBtnText>
+                <Styled.Trash />
                 Delete
-              </DelBtnText>
-            </DisBtn>
+              </Styled.DelBtnText>
+            </Styled.DisBtn>
           )}
-        </Content>
-      </Box>
-    </Center>
+        </Styled.Content>
+      </Styled.Box>
+    </Styled.Center>
   )
 }
 
