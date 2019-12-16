@@ -1,74 +1,10 @@
-import React, { useState } from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/styles";
-import { Input, Divider, Typography } from "@material-ui/core";
+import React, { useState, useRef } from "react";
+import { Input, Divider, MuiThemeProvider } from "@material-ui/core";
 import { mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
-import styled from "styled-components";
-
 import { CustomText } from "../custom-text";
 
-const LabelText = styled(Typography)`
-  font-size: 14px !important;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #999999;
-`;
-
-const HelperText = styled(Typography)`
-  font-size: 12px !important;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #999999;
-  margin-top: 8px !important;
-`;
-
-const theme = createMuiTheme({
-  shape: {
-    borderRadius: 0
-  },
-  palette: {
-    primary: { main: "#1194f6" }
-  },
-  overrides: {
-    MuiListItem: {
-      button: {
-        "&:hover": {
-          backgroundColor: "#ffffff"
-        }
-      },
-      root: {
-        "&$selected": {
-          backgroundColor: "#ffffff",
-          "&&:hover": {
-            backgroundColor: "#ffffff"
-          },
-          "&&:active:after": {
-            backgroundColor: "#ffffff"
-          }
-        }
-      }
-    },
-    MuiSwitch: {
-      track: {
-        backgroundColor: "#f1f1f1 !important"
-      }
-    }
-  }
-});
-
-const useStyles = makeStyles({
-  hidden: {
-    display: "none !important"
-  }
-});
-
+import { LabelText, HelperText, theme, useStyles } from "./styles";
 interface UploadProps {
   accept: string;
   getAudio: Function;
@@ -87,6 +23,7 @@ const Upload: React.FC<UploadProps> = ({
   style
 }) => {
   const [filename, setFilename] = useState("No file chosen");
+  const myInput: any = useRef();
 
   const upload: Function = (e: any) => {
     try {
@@ -117,6 +54,7 @@ const Upload: React.FC<UploadProps> = ({
           onChange={e => upload(e)}
           type="file"
           className={classes.hidden}
+          inputRef={myInput}
         />
         <label
           style={{
@@ -128,6 +66,7 @@ const Upload: React.FC<UploadProps> = ({
             justifyContent: "space-between",
             textOverflow: "ellipsis"
           }}
+          onClick={() => myInput.current.click()}
         >
           <CustomText size="16px" color="tableDataColor">
             {filename}
