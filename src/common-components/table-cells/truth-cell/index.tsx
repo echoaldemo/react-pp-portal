@@ -2,7 +2,7 @@ import * as React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 
-const styles = {
+const styles: any = {
   root: {
     "& span": {
       display: "inline-flex",
@@ -15,26 +15,34 @@ const styles = {
       textTransform: "capitalize",
       borderRadius: "3px",
       color: "white",
-      "&.Paused": {
-        backgroundColor: "#eeeeee",
-        color: "#777777"
+      "&.True": {
+        backgroundColor: "#a6c556"
       },
-      "&.Start": {
-        backgroundColor: "#eeeeee",
-        color: "#777777"
+      "&.False": {
+        backgroundColor: "#ff504d"
       }
     }
   }
 };
 
-function PausedCell(props) {
-  const classes = `${props.className} ${props.classes.root}`;
-  const style = props.children === false ? "Paused" : "Start";
+interface TruthCellProps {
+  children: any;
+  className?: string;
+  classes: any;
+}
+
+const TruthCell: React.SFC<TruthCellProps> = ({
+  children,
+  className,
+  classes
+}) => {
+  const customClasses = `${className} ${classes.root}`;
+  const style = children === true ? "True" : "False";
   return (
-    <TableCell className={classes}>
+    <TableCell className={customClasses}>
       <span className={style}>{style}</span>
     </TableCell>
   );
-}
+};
 
-export default withStyles(styles)(PausedCell);
+export default withStyles(styles)(TruthCell);
