@@ -9,8 +9,7 @@ interface ActiveCellProps {
   native?: any;
   style?: object;
 }
-
-const Component: React.SFC<ActiveCellProps> = ({
+const Component: React.FC<ActiveCellProps> = ({
   classes,
   className,
   children,
@@ -54,7 +53,13 @@ const Component: React.SFC<ActiveCellProps> = ({
     </>
   );
 };
+Component.defaultProps = {
+  children: "",
+  className: "",
+  classes: [],
+  native: false,
+  style: {}
+} as Partial<ActiveCellProps>;
 
 const ActiveCell = withStyles(styles)(Component);
-
 export { ActiveCell };
