@@ -1,6 +1,12 @@
 import React, { createElement } from "react";
 import { storiesOf } from "@storybook/react";
-import { SeeChartButton, SaveButton, ButtonWithIcon, ButtonTabs } from "../";
+import {
+  SeeChartButton,
+  SaveButton,
+  ButtonWithIcon,
+  ButtonTabs,
+  BackButton
+} from "../";
 import bsNotes from "./bsnotes.md";
 import saveNotes from "./saveNotes.md";
 import btnIconNotes from "./btnIconNotes.md";
@@ -88,4 +94,14 @@ stories.addDecorator(StoryRouter()).add(
     );
   },
   { notes: { markdown: tabNotes } }
+);
+
+stories.add("Back Button", () =>
+  createElement(() => {
+    return (
+      <>
+        <BackButton />
+      </>
+    );
+  })
 );

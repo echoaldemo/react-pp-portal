@@ -66,6 +66,4 @@ BackButtonComp.defaultProps = {
   backFn: () => null
 } as Partial<Props>;
 
-const BackButton = withStyles(styles)(BackButtonComp);
-
-export { BackButton };
+export default withStyles(styles)(BackButtonComp);

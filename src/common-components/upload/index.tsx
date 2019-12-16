@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Input, Divider, MuiThemeProvider } from "@material-ui/core";
 import { mdiUpload } from "@mdi/js";
 import Icon from "@mdi/react";
-import { CustomText } from "../custom-text";
+import { CustomText } from "./custom-text";
 
 import { LabelText, HelperText, theme, useStyles } from "./styles";
 interface UploadProps {
@@ -110,7 +110,7 @@ Upload.defaultProps = {
   limit: 8,
   accept: "audio/*",
   labelText: "Data File",
-  helperText: "A file needed",
+  helperText: "",
   getAudio: () => null
 } as Partial<UploadProps>;
 
