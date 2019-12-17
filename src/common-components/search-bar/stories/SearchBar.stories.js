@@ -1,7 +1,7 @@
 import React, { createElement } from "react";
 import notes from "./notes.md";
 import { storiesOf } from "@storybook/react";
-import { SearchBar } from "common-components";
+import { SearchBar } from "..";
 const stories = storiesOf("SeachBar", module);
 stories.add(
   "SeachBar",
