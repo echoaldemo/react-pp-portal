@@ -7,7 +7,7 @@
 
 ```
 
-### Pagination Props
+### Status Label Props
 
 | Name   | Type    |          | Description          |
 | ------ | ------- | -------- | -------------------- |
