@@ -1,7 +1,6 @@
 import React, { createElement, useState } from 'react'
 import { storiesOf } from '@storybook/react'
 import { DeleteModal } from 'common-components'
-import { Dialog } from '@material-ui/core'
 import notes from './notes.md'
 
 const stories = storiesOf('Delete modal', module)
@@ -20,15 +19,14 @@ stories.add(
       }
 
       return (
-        <Dialog open={open}>
-          <DeleteModal
-            header="Test delete modal"
-            msg="group"
-            name="Test group 101"
-            closeFn={handleClose}
-            delFn={handleDelete}
-          />
-        </Dialog>
+        <DeleteModal
+          open={open}
+          header="Test delete modal"
+          msg="group"
+          name="Test group 101"
+          closeFn={handleClose}
+          delFn={handleDelete}
+        />
       )
     }),
   { notes: { markdown: notes } }

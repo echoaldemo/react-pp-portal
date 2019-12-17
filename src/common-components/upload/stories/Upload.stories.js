@@ -1,18 +1,22 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { Upload } from "../";
+import notes from "./upload.md";
 
-storiesOf("Upload Design", module).add("default", function() {
-  return (
-    <Upload
-      limit={8}
-      accept="audio/*"
-      labelText="Data File"
-      helperText="A file needed"
-      getAudio={e => console.log("I am the file", e)}
-    />
-  );
-});
+storiesOf("Upload Design", module).add(
+  "default",
+  () => {
+    return (
+      <Upload
+        accept="audio/*"
+        labelText="Data File"
+        helperText="A file needed"
+        getAudio={e => console.log("I am the file", e)}
+      />
+    );
+  },
+  { notes: { markdown: notes } }
+);
 
 // Value	Description
 // file_extension	Specify the file extension(s) (e.g: .gif, .jpg, .png, .doc) the user can pick from

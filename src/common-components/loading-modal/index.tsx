@@ -1,4 +1,5 @@
-import React, { SyntheticEvent } from "react";
+import React from 'react'
+import { Dialog } from '@material-ui/core'
 import {
   Center,
   Card,
@@ -6,29 +7,33 @@ import {
   LoadingIcon,
   Button,
   Cancel
-} from "./styles/styles";
+} from './styles/styles'
 
 interface Props {
-  text: string;
-  cancelFn: (e: SyntheticEvent<HTMLButtonElement>) => void;
+  open: boolean
+  text: string
+  cancelFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
-const LoadingModal: React.FC<Props> = ({ text, cancelFn }) => {
+const LoadingModal: React.FC<Props> = ({ open, text, cancelFn }) => {
   return (
-    <Center data-cy="loading-modal">
-      <Card>
-        <Text>{text}</Text>
-        <LoadingIcon />
-        <Button onClick={cancelFn}>
-          <Cancel>cancel</Cancel>
-        </Button>
-      </Card>
-    </Center>
-  );
-};
+    <Dialog open={open}>
+      <Center data-cy="loading-modal">
+        <Card>
+          <Text>{text}</Text>
+          <LoadingIcon />
+          <Button onClick={cancelFn}>
+            <Cancel>cancel</Cancel>
+          </Button>
+        </Card>
+      </Center>
+    </Dialog>
+  )
+}
 
 LoadingModal.defaultProps = {
-  text: ""
-} as Partial<Props>;
+  open: false,
+  text: ''
+} as Partial<Props>
 
-export { LoadingModal };
+export { LoadingModal }

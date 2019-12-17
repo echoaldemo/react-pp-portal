@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TextField } from '@material-ui/core'
+import { TextField, Dialog } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
 import { GoTrashcan } from 'react-icons/go'
 
@@ -19,7 +19,7 @@ const InputField = styled(TextField)`
     }
   }
 `
-const Center = styled.div`
+const Center = styled(Dialog)`
   display: flex;
   justify-content: center;
   align-items: center;

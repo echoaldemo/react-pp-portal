@@ -6,7 +6,9 @@ import { Settings } from "@material-ui/icons";
 import {
   UnderlineCell,
   ActiveCell,
-  LiveCell
+  LiveCell,
+  TruthCell,
+  PausedCell
 } from "common-components/table-cells";
 import { FileCopyOutlined as Icon } from "@material-ui/icons";
 import { mdiContentCopy } from "@mdi/js";
@@ -15,7 +17,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { withStyles } from "@material-ui/core/styles";
 import notes from "./notes.md";
 
-const LightTooltip = withStyles((theme) => ({
+const LightTooltip = withStyles(theme => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
     color: "rgba(0, 0, 0, 0.87)",
@@ -53,7 +55,7 @@ stories.add(
           headers={["Name", "Slug", "UUID"]}
           tableData={sampleData}
           render={(samples, { row, cell, uuid, icon }) =>
-            samples.map((sample) => (
+            samples.map(sample => (
               <TableRow className={row} key={sample.uuid}>
                 <TableCell className={cell}>{sample.name}</TableCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -104,7 +106,7 @@ stories.add(
           headers={["Name", "Slug", "UUID"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map((sample) => (
+            samples.map(sample => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -127,7 +129,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map((sample) => (
+            samples.map(sample => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -151,7 +153,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live", "active"]}
           tableData={sampleData}
           render={(samples, { row, cell }) =>
-            samples.map((sample) => (
+            samples.map(sample => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -176,7 +178,7 @@ stories.add(
           headers={["Name", "Slug", "UUID", "live", "active", ""]}
           tableData={sampleData}
           render={(samples, { row, cell, uuid, icon }) =>
-            samples.map((sample) => (
+            samples.map(sample => (
               <TableRow className={row} key={sample.uuid}>
                 <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
                 <TableCell className={cell}>{sample.slug}</TableCell>
@@ -186,6 +188,55 @@ stories.add(
                 <TableCell className={cell}>
                   <Settings className={icon} />
                 </TableCell>
+              </TableRow>
+            ))
+          }
+        />
+      );
+    }),
+  { notes: { markdown: notes } }
+);
+stories.add(
+  "with truth cell",
+  () =>
+    createElement(() => {
+      return (
+        <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "truth"]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <TruthCell className={cell}>{sample.active}</TruthCell>
+              </TableRow>
+            ))
+          }
+        />
+      );
+    }),
+  { notes: { markdown: notes } }
+);
+
+stories.add(
+  "with paused cell",
+  () =>
+    createElement(() => {
+      return (
+        <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "paused"]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <PausedCell className={cell}>{sample.active}</PausedCell>
               </TableRow>
             ))
           }
