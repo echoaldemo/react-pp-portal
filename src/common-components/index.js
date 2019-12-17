@@ -28,3 +28,4 @@ export { CustomCard, CardHeader, CardBody, CardNoResult } from './card'
 export { HeadMenu } from './head-menu'
 export { MetricContainer } from './metric-container'
 export { HeaderLink } from "./header-link"
+export { SideNav } from "./side-nav"

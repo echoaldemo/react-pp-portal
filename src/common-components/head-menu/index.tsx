@@ -24,7 +24,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 // import logout from '../../../auth/controllers/logout'
 // import getData from '../../../auth/controllers/getUserData'
 // import DashboardSidenav from '../dashboard-sidenav/dashboardSidenav'
-// import SideNav from '../side-nav/SideNav'
+import { SideNav } from "common-components";
 import logo from "assets/images/pp_logo_white_font.png";
 import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
 
@@ -127,24 +127,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                 <Paper id="menu-list-grow">
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList>
-                      {name === "StoryBook User" ? (
-                        <StyledLink to="/change-password">
-                          <MenuItem onClick={handleClose}>
-                            <ListItemIcon>
-                              <FaceIcon />
-                            </ListItemIcon>
-                            <ListItemText>
-                              <Typography
-                                style={{
-                                  fontSize: "15px"
-                                }}
-                              >
-                                Change Password
-                              </Typography>
-                            </ListItemText>
-                          </MenuItem>
-                        </StyledLink>
-                      ) : (
+                      <StyledLink to="/change-password">
                         <MenuItem onClick={handleClose}>
                           <ListItemIcon>
                             <FaceIcon />
@@ -159,7 +142,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                             </Typography>
                           </ListItemText>
                         </MenuItem>
-                      )}
+                      </StyledLink>
                       <MenuItem
                         onClick={() => {
                           logout();
@@ -189,13 +172,11 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
 
       {(location.pathname.includes("/manage") ||
         location.pathname.includes("/change")) && (
-        <p>Side Nav Here</p>
-
-        // <SideNav
-        //   handleDrawerClose={handleDrawerClose}
-        //   drawerOpen={drawerOpen}
-        //   open={open}
-        // />
+        <SideNav
+          handleDrawerClose={handleDrawerClose}
+          drawerOpen={drawerOpen}
+          open={open}
+        />
       )}
 
       {location.pathname.includes("/dashboard") && (

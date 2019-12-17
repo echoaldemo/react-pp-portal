@@ -1,11 +1,13 @@
 import React, { createElement } from 'react'
 import { storiesOf } from '@storybook/react'
 import { HeaderLink } from 'common-components'
+import StoryRouter from "storybook-react-router";
+
 import notes from './notes.md'
 
 const stories = storiesOf('HeaderLink', module)
 
-stories.add(
+stories.addDecorator(StoryRouter()).add(
   'default',
   () =>
     createElement(() => {
