@@ -1,45 +1,30 @@
 import React, { createElement } from "react";
 import { storiesOf } from "@storybook/react";
-import { BrowserRouter } from "react-router-dom";
-import { createMemoryHistory } from "history";
 import { NavTabs } from "common-components";
+import notes from "./notes.md";
 
-storiesOf("Nav Tabs", module).add("default", () =>
-  createElement(() => {
-    const history = createMemoryHistory();
-    history.location.pathname = "/nav-tab/one/1/1";
-
-    return (
-      <>
-        <BrowserRouter>
-          <p></p>
+storiesOf("Nav Tabs", module).add(
+  "default",
+  () =>
+    createElement(() => {
+      return (
+        <>
           <NavTabs
-            data={{
-              name: "<data name>",
-              active: true,
-              slug: "one",
-              uuid: "1"
-            }}
-            history={history}
             tabnames={[
               {
-                name: "<Tab name>",
-                path: "/nav-tab",
-                url: "/1"
+                name: "SETTINGS",
+                active: true,
+                onClickFn: () => console.log("settings")
               },
               {
-                name: "<Tab name>",
-                path: "/nav-tab",
-                url: "/2"
+                name: "PITCH",
+                active: false,
+                onClickFn: () => console.log("pitch")
               }
             ]}
-            back={{
-              name: "Back to dashboard",
-              url: "#"
-            }}
           />
-        </BrowserRouter>
-      </>
-    );
-  })
+        </>
+      );
+    }),
+  { notes: { markdown: notes } }
 );
