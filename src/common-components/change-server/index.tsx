@@ -1,21 +1,20 @@
 import React from "react";
-import {
-  Grid,
-  Typography,
-  MenuItem,
-  Select
-} from "@material-ui/core";
+import { Grid, Typography, MenuItem, Select } from "@material-ui/core";
 import { KeyboardArrowDown } from "@material-ui/icons";
 import { ThemeProvider } from "@material-ui/styles";
-import {useStyles, materialTheme} from './style'
+import { useStyles, materialTheme } from "./styles";
 
 interface ChangeServerProps {
-  selected: string
-  options: Array<{ uuid: string, name: string }>
-  onChangeFn: Function
+  selected: string;
+  options: Array<{ uuid: string; name: string }>;
+  onChangeFn: Function;
 }
 
-const ChangeServer: React.FC<ChangeServerProps> = ({ selected, options, onChangeFn }) => {
+const ChangeServer: React.FC<ChangeServerProps> = ({
+  selected,
+  options,
+  onChangeFn
+}) => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={materialTheme}>
@@ -44,7 +43,7 @@ const ChangeServer: React.FC<ChangeServerProps> = ({ selected, options, onChange
       </div>
     </ThemeProvider>
   );
-}
+};
 
 ChangeServer.defaultProps = {
   selected: "2",
@@ -59,6 +58,5 @@ ChangeServer.defaultProps = {
     }
   ]
 } as Partial<ChangeServerProps>;
-
 
 export { ChangeServer };
