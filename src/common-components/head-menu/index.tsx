@@ -20,7 +20,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { Face as FaceIcon, Notifications } from "@material-ui/icons";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import { Link } from "react-router-dom";
 
 // import logout from '../../../auth/controllers/logout'
 // import getData from '../../../auth/controllers/getUserData'
