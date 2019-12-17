@@ -29,3 +29,4 @@ export { HeadMenu } from "./head-menu";
 export { MetricContainer } from "./metric-container";
 
 export { AsyncTable } from "./async-table";
+export { FilterToolBar } from "./filter";
