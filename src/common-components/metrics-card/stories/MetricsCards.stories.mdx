@@ -1,0 +1,51 @@
+import { MetricsCard } from "..";
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import { useState } from "@storybook/addons";
+
+<Meta title="MDX|Metrics Card" component={MetricsCard} />
+
+# Metrics Card
+
+<Preview>
+  <Story name="MC: On Sales">
+    <MetricsCard title="Sales" percentage={3.77} mode="sales" />
+  </Story>
+</Preview>
+
+#
+
+<Preview>
+  <Story name="MC: On Bills">
+    <MetricsCard
+      title="Sales / Billable hours"
+      percentage={12.22}
+      mode="bills"
+      status="decrease"
+    />
+  </Story>
+</Preview>
+
+#
+
+<Preview>
+  <Story name="MC: On No Change">
+    <MetricsCard
+      title="Sales / Billable hours"
+      percentage={0.0}
+      mode="bills"
+      status="none"
+    />
+  </Story>
+</Preview>
+
+#
+
+### Props
+
+| Name        | Type          | Default | Description                      |
+| ----------- | ------------- | ------- | -------------------------------- |
+| title       | string        | ------- | required, title of the card      |
+| percentage  | number/string | ------- | required, the percentage shown   |
+| mode        | string        |         | required, bills,sales            |
+| status      | string        |         | required, increase,decrease,none |
+| handleClick | Function      | void    | required, onClick Event          |

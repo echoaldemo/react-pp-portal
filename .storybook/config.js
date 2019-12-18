@@ -1,3 +1,5 @@
-import { configure } from '@storybook/react'
+import { configure, addDecorator } from "@storybook/react";
+import StoryRouter from "storybook-react-router";
 
-configure(require.context('../src', true, /\.stories\.(js|mdx)$/), module)
+addDecorator(StoryRouter());
+configure(require.context("../src", true, /\.stories\.(js|mdx)$/), module);

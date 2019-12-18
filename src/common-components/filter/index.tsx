@@ -1,39 +1,7 @@
 import React from "react";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import { withStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { Filter } from "./ConstFilter";
-import styled from "styled-components";
-// import {
-//   getCampaigns,
-//   getCompanies,
-//   getRoles,
-//   getRealms
-// } from '../../../actions/List'
-
-const ApplyBtn = styled(Button)`
-  text-transform: none !important;
-`;
-
-const useStyles = {
-  root: {
-    display: "flex"
-  },
-  inputField: {
-    fontSize: "1rem",
-    "&:focussed": {
-      color: "red"
-    },
-    "&:before": {
-      borderBottom: "1px solid rgba(0,0,0,0.1)"
-    },
-    "&:after": {
-      borderBottom: "2px solid #1394f6"
-    }
-  }
-};
+import { Grid, TextField, MenuItem, withStyles } from "@material-ui/core";
+import { Filter } from "./constant";
+import { ApplyBtn, useStyles } from "./styles";
 
 interface Props {
   FilterApplyButton: ({}) => void;
@@ -48,7 +16,6 @@ interface Props {
   status?: boolean;
   classes: any;
 }
-
 interface State {
   SortBy?: string;
   ActiveStatus?: string;
@@ -162,17 +129,6 @@ class FilterToolBarComp extends React.Component<Props, State> {
     this.setState({
       FilterLabel: filterArr
     });
-
-    // Promise.all([getRoles(), getCampaigns(), getCompanies(), getRealms()]).then(
-    //   res =>
-    //     this.setState({
-    //       rolesData: res[0],
-    //       campaignData: res[1],
-    //       campaignDataO: res[1],
-    //       companyData: res[2],
-    //       realmData: res[3]
-    //     })
-    // )
   }
 
   render() {
@@ -198,19 +154,6 @@ class FilterToolBarComp extends React.Component<Props, State> {
                     return (
                       <Grid
                         item
-                        // style={
-                        //   this.state.FilterLabel.length === 4
-                        //     ? { width: "25%" }
-                        //     : this.state.FilterLabel.length === 3
-                        //     ? { width: "33%" }
-                        //     : this.state.FilterLabel.length === 2
-                        //     ? { width: "35%" }
-                        //     : this.state.FilterLabel.length === 5
-                        //     ? { width: "20%" }
-                        //     : this.state.FilterLabel.length === 6
-                        //     ? { width: "16%" }
-                        //     : { width: "35%" }
-                        // }
                         key={i}
                         xs={
                           this.state.FilterLabel.length <= 3

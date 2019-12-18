@@ -1,19 +1,19 @@
-import { TableRow, TableCell } from "@material-ui/core";
-import { Settings } from "@material-ui/icons";
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { useState } from '@storybook/addons'
+
+import { TableRow, TableCell, withStyles, Tooltip } from "@material-ui/core";
+import { Settings, FileCopyOutlined as Icon } from "@material-ui/icons";
+import { mdiContentCopy } from "@mdi/js";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 import {
+  AsyncTable,
   UnderlineCell,
   ActiveCell,
   LiveCell,
   TruthCell,
   PausedCell
-} from "common-components/table-cells";
-import { FileCopyOutlined as Icon } from "@material-ui/icons";
-import { mdiContentCopy } from "@mdi/js";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
-import { AsyncTable } from "common-components";
-import { useState } from '@storybook/addons'
-import { withStyles, Tooltip } from "@material-ui/core";
+} from "common-components";
 
 export const LightTooltip = withStyles(theme => ({
   tooltip: {
@@ -43,8 +43,10 @@ export const sampleData = [
 
 <Meta title="MDX|Async Table" component={AsyncTable} />
 
-`import` the `Async Table` from `common-components`
-
+# Async Table
+```
+import { AsyncTable } from "common-components"
+```
 ## Default
 
 <Preview>
@@ -101,6 +103,9 @@ export const sampleData = [
 
 ## With Underline Cell
 
+```
+import { UnderlineCell } from "common-components"
+```
 <Preview>
   <Story name="with Underline Cell">
     {
@@ -127,7 +132,9 @@ export const sampleData = [
 </Preview>
 
 ## With Live Cell
-
+```
+import { LiveCell } from "common-components"
+```
 <Preview>
   <Story name="with live cell">
     <AsyncTable
@@ -148,7 +155,9 @@ export const sampleData = [
 </Preview>
 
 ## With Active Cell
-
+```
+import { ActiveCell } from "common-components"
+```
 <Preview>
   <Story name="with active cell">
     <AsyncTable
@@ -195,7 +204,9 @@ export const sampleData = [
 </Preview>
 
 ## With Truth Cell
-
+```
+import { TruthCell } from "common-components"
+```
 <Preview>
   <Story name="with truth cell">
      <AsyncTable
@@ -217,7 +228,9 @@ export const sampleData = [
 </Preview>
 
 ## With Paused Cell
-
+```
+import { PausedCell } from "common-components"
+```
 <Preview>
   <Story name="with paused cell">
      <AsyncTable

@@ -5,7 +5,9 @@ import { Upload } from "common-components";
 
 # Upload
 
-`import` the `Upload` from `common-components`
+```
+import { Upload } from "common-components"
+```
 
 <Preview>
   <Story name="default">
@@ -20,13 +22,9 @@ import { Upload } from "common-components";
 
 ## Upload Properties
 
-```
-
-| Name       | Type      | Default        | Description                           |
-| ---------- | --------- | -------------- | ------------------------------------- |
-|   accept   |  string   |     "audio/*"  | required, desired mime type of files  |
-| labelText  |  string   |  "File Upload" | required, text for label              |
-| helperText |  string   |      null      | optional, text for helper text        |
-|  getAudio  | Function  |      void      | required, onChange Event for upload   |
-
-```
+| Name       | Type     | Default       | Description                          |
+| ---------- | -------- | ------------- | ------------------------------------ |
+| accept     | string   | "audio/\*"    | required, desired mime type of files |
+| labelText  | string   | "File Upload" | required, text for label             |
+| helperText | string   | null          | optional, text for helper text       |
+| getAudio   | Function | void          | required, onChange Event for upload  |
