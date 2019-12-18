@@ -30,17 +30,23 @@ import {TableNoResult} from "common-components"
 ### No Header
 <Preview>
   <Story name="No Header">
-    <TableNoResult
-	    noHeader
-		mainMessage="No global option groups have been created"
-		subMessage="Would you like to creat one? Just hit the “New option group” button."
-	    renderButton={
-            <SaveButton onClick={() => {alert("Clicked")}}>
-                <Add />
-                New option group
-            </SaveButton>
-		}
-	 />
+    {
+      () => {
+        return (
+         <TableNoResult
+           noHeader
+           mainMessage="No global option groups have been created"
+           subMessage="Would you like to creat one? Just hit the “New option group” button."
+           renderButton={
+             <SaveButton onClick={() => {alert("Clicked")}}>
+               <Add />
+               New option group
+             </SaveButton>
+           }
+        />
+        )
+      }
+    }
   </Story>
 </Preview>
 
