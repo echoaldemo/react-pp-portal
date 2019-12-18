@@ -172,11 +172,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
 
       {(location.pathname.includes("/manage") ||
         location.pathname.includes("/change")) && (
-        <SideNav
-          handleDrawerClose={handleDrawerClose}
-          drawerOpen={drawerOpen}
-          open={open}
-        />
+        <SideNav handleDrawerClose={handleDrawerClose} open={open} />
       )}
 
       {location.pathname.includes("/dashboard") && (
