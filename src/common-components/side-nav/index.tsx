@@ -11,8 +11,7 @@ import {
   Collapse,
   Tooltip
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 
 import DashboardOutlinedIcon from "@material-ui/icons/DashboardOutlined";
 import GroupOutlinedIcon from "@material-ui/icons/GroupOutlined";
@@ -26,7 +25,7 @@ import SmsIcon from "@material-ui/icons/SmsOutlined";
 
 import { useStyles } from "./styles";
 
-interface Props {
+interface Props extends RouteComponentProps<any> {
   location: any;
   handleDrawerClose: any;
   open: boolean;

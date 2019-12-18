@@ -2,20 +2,17 @@ import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
 import { Modal, SaveButton} from 'common-components';
 import { useState } from '@storybook/addons'
 
-<Meta title="MDX | Modal" component={Modal} />
+<Meta title="MDX|Modal" component={Modal} />
 
-# Table Loader
-
-
-```
-
-import {TableNoResult} from "common-components"
+# Modal
 
 ```
+import { Modal } from "common-components"
 
+```
 ### Default
 <Preview>
-    <Story name="Default">
+    <Story name="default">
       {
         () => {
           const [open, setOpen] = useState(false)
@@ -32,3 +29,11 @@ import {TableNoResult} from "common-components"
     </Story>
 </Preview>
 
+### Props
+
+| Name    | Type     | Default  | Description   |
+| ------- | -------- | -------- | ------------- |
+| open    | bool     | required | open modal    |
+| title   | string   | required | modal header  |
+| onClose | function | required | close modal   |
+| width   | int      | -------- | with of modal |

@@ -30,3 +30,12 @@ export { MetricContainer } from "./metric-container";
 
 export { AsyncTable } from "./async-table";
 export { FilterToolBar } from "./filter";
+export { InputField } from "./input-field";
+
+export {
+  ActiveCell,
+  UnderlineCell,
+  LiveCell,
+  TruthCell,
+  PausedCell
+} from "./table-cells";
