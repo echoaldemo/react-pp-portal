@@ -51,7 +51,7 @@ export default Header
 
 ### Props
 
-| Name  | Type   | Default  | Description                 |
+| Name  | Type   |          | Description                 |
 | ----- | ------ | -------- | --------------------------- |
 | menu  | Array  | Required | Selections of link          |
 | title | String | Required | Title of currently selected |
