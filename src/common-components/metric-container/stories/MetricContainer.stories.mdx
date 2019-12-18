@@ -1,26 +1,23 @@
-# ** Loading Modal **
-
-## Sample Code
-
-```
-import React from 'react'
-import { FiMap } from 'react-icons/fi'
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
 import { MetricContainer } from 'common-components'
+import { FiMap } from 'react-icons/fi'
+const style={background: '#7c8a97'}
 
-const Container = () => {
-  return (
+<Meta title="MDX|Metric Container" component={MetricContainer} />
+
+<Preview>
+  <Story name="default">
     <MetricContainer
-      icon={<FiMap style={{ height: 20, width: 20, color: '#f89523' }} />}
+      icon={
+        <FiMap style={{ height: 20, width: 20, color: '#f89523' }} />
+      }
       header="Campaign Metrics"
       editFn={() => alert('edit')}
     >
       test
     </MetricContainer>
-  )
-}
-
-export default Container
-```
+  </Story>
+</Preview>
 
 ### Props
 
@@ -29,3 +26,4 @@ export default Container
 | icon   | component | -------- | header icon          |
 | header | string    | -------- | header               |
 | editFn | function  | required | edit button function |
+
