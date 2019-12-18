@@ -12,7 +12,7 @@ export { TableNoResult } from "./table-no-result";
 export { StatusLabel } from "./status-label";
 export { CampaignMenuSelect } from "./campaign-menu-select";
 export { SuccessModal } from "./success-modal";
-export { EditButton } from "./edit-button";
+export { EditButton } from "./buttons/edit-button";
 export { TableLoader } from "./table-loader";
 export { SearchBar } from "./search-bar";
 export {
