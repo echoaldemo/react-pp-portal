@@ -17,10 +17,10 @@ const NavTabs: React.FC<Props> = ({ tabnames }) => {
         {tabnames.map((tab: Obj, i: number) => (
           <div
             key={i}
-            className={tab.active ? classes.activeMenu : classes.inactiveMenu}
             onClick={tab.onClickFn}
+            className={tab.active ? classes.activeMenu : classes.inactiveMenu}
           >
-            <span style={{ padding: "0 20px" }}>{tab.name}</span>
+            <span className={classes.text}>{tab.name}</span>
           </div>
         ))}
       </div>
