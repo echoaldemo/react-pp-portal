@@ -1,5 +1,3 @@
-# ** Head Menu **
-
 ## Sample Code
 
 ```
