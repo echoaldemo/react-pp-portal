@@ -1,0 +1,37 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { NavTabs } from "common-components";
+
+<Meta title="MDX|NavTabs" component={NavTabs} />
+
+## NavTabs
+
+`import { NavTabs } from 'common-components'`
+
+<Preview>
+  <Story name="default">
+    {() => {
+      return (
+        <NavTabs
+          tabnames={[
+            {
+              name: "SETTINGS",
+              active: true,
+              onClickFn: () => console.log("settings")
+            },
+            {
+              name: "PITCH",
+              active: false,
+              onClickFn: () => console.log("pitch")
+            }
+          ]}
+        />
+      );
+    }}
+  </Story>
+</Preview>
+
+### Nav Tabs Props
+
+| Name     | Type             | required | Description                 |
+| -------- | ---------------- | -------- | --------------------------- |
+| tabnames | array of objects | yes      | [{name, active, onClickFn}] |
