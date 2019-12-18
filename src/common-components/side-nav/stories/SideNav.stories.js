@@ -7,9 +7,6 @@ import StoryRouter from "storybook-react-router";
 const stories = storiesOf("Side Nav", module);
 stories.addDecorator(StoryRouter()).add("default", () => {
   const [open, setOpen] = React.useState(false);
-  const drawerOpen = () => {
-    setOpen(true);
-  };
   const handleDrawerClose = () => {
     setOpen(!open);
   };

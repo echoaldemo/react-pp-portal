@@ -1,0 +1,32 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { SearchBar } from "common-components";
+
+<Meta title="MDX|Searchbar" component={SearchBar} />
+
+# Stepper
+
+```
+import { SeachBar } from "common-components"
+```
+
+## Default
+
+<Preview>
+  <Story name="stepper">
+    <SearchBar />
+  </Story>
+</Preview>
+
+### Properties
+
+| Name                | Type      | Default | Description                                                                                             |
+| ------------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| title               | string    | ------- | required                                                                                                |
+| userData            | array     | ------- | required                                                                                                |
+| headers             | string    |         | required                                                                                                |
+| active              | boolean   | false   | displaying of active                                                                                    |
+| loading             | boolean   | false   | need this prop for v2 of searchbar (disabling the search if loading the data)                           |
+| setActiveDataMethod | method    |         | need this prop for v2 of searchbar (this is required if you are setting the data you clicked as active) |
+| settings            | component |         | need this prop for v2 of searchbar (this is needed if you want to display gear icon for settings)       |
+| link                | boolean   |         | need this prop for v2 of searchbar (using of Link component onclick)                                    |
+| pathnameData        | object    |         | need this prop for v2 of searchbar (using of Link component onclick)                                    |
