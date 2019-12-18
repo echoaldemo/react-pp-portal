@@ -41,3 +41,5 @@ export {
 
 export { HeaderLink } from "./header-link";
 export { SideNav } from "./side-nav";
+
+export { Stepper, Step } from "./stepper";

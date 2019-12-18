@@ -1,0 +1,67 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { useState } from '@storybook/addons'
+import { Stepper, Step } from "common-components";
+
+<Meta title="MDX|Stepper" component={Stepper} />
+
+# Stepper
+```
+import { Stepper, Step } from "common-components"
+```
+
+## Default
+
+<Preview>
+  <Story name="stepper">
+    {
+      () => {
+        const [currentStep, setCurrentStep] = useState(1);
+        const handleCancel = () => {
+          console.log("cancel");
+        };
+        const handleFinish = () => {
+          console.log("finish");
+        };
+        return (
+          <div style={{ width: 400 }}>
+            <Stepper
+              steps={6}
+              cancelFn={handleCancel}
+              finishFn={handleFinish}
+              setCurrentStep={setCurrentStep}
+              currentStep={currentStep}
+            >
+              <Step index={1} disabled={false}>
+                1
+              </Step>
+              <Step index={2} disabled={false}>
+                2
+              </Step>
+              <Step index={3} disabled={false}>
+                3
+              </Step>
+            </Stepper>
+          </div>
+        );
+      }
+    }
+  </Story>
+</Preview>
+
+
+### Stepper Props
+
+| Name           | Type     |          | Description             |
+| -------------- | -------- | -------- | ----------------------- |
+| steps          | int      | required | number of steps         |
+| cancelFn       | function | required | cancel function         |
+| finishFn       | function | required | finish button function  |
+| setCurrentStep | function | required | change the current step |
+| currentStep    | int      | required | current step            |
+
+### Step Props
+
+| Name     | Type |          | Description             |
+| -------- | ---- | -------- | ----------------------- |
+| index    | int  | required | position of the step    |
+| disabled | bool | -------- | disable the next button |
