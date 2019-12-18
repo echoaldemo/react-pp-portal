@@ -12,7 +12,6 @@ export { TableNoResult } from "./table-no-result";
 export { StatusLabel } from "./status-label";
 export { CampaignMenuSelect } from "./campaign-menu-select";
 export { SuccessModal } from "./success-modal";
-export { EditButton } from "./buttons/edit-button";
 export { TableLoader } from "./table-loader";
 export { SearchBar } from "./search-bar";
 export {
@@ -21,7 +20,8 @@ export {
   SeeChartButton,
   ButtonWithIcon,
   ButtonTabs,
-  BackButton
+  BackButton,
+  EditButton
 } from "./buttons";
 export { DNDCards } from "./dnd-card";
 export { CustomCard, CardHeader, CardBody, CardNoResult } from "./card";
