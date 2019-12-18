@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/styles";
 
+interface Props {
+  classes: any;
+  children: React.ReactNode;
+}
+
 const styles = {
   cardBody: {
     height: 500,
@@ -11,16 +16,10 @@ const styles = {
     overflow: "auto"
   }
 };
-class CardBodyComp extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
+class CardBodyComp extends Component<Props> {
   render() {
-    const { classes } = this.props;
-    return <div className={classes.cardBody}>{this.props.children}</div>;
+    const { classes, children } = this.props;
+    return <div className={classes.cardBody}>{children}</div>;
   }
 }
 const CardBody = withStyles(styles)(CardBodyComp);

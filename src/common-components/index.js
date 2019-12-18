@@ -6,7 +6,6 @@ export { PanelTabs, Panel } from "./panel-tabs";
 export { MetricsCard } from "./metrics-card";
 export { ChangeServer } from "./change-server";
 export { HeaderButton } from "./header-button";
-export { Searchbar } from "./search-bar";
 export { DeleteModal } from "./delete-modal";
 export { TableNoResult } from "./table-no-result";
 export { StatusLabel } from "./status-label";
@@ -24,7 +23,13 @@ export {
   EditButton
 } from "./buttons";
 export { DNDCards } from "./dnd-card";
-export { CustomCard, CardHeader, CardBody, CardNoResult } from "./card";
+export {
+  CustomCard,
+  CardHeader,
+  CardBody,
+  CardLoading,
+  CardNoResult
+} from "./card";
 export { HeadMenu } from "./head-menu";
 export { MetricContainer } from "./metric-container";
 export { AsyncTable } from "./async-table";
