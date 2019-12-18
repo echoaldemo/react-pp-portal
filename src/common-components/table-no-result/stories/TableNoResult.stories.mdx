@@ -13,10 +13,10 @@ import {TableNoResult} from "common-components"
 
 ```
 
-
+### Default
 <Preview>
     <Story name="Default">
-            <TableNoResult icon={<IoIosGlobe />} headerText="Global option groups" mainMessage="No global option groups have been created" subMessage="Would you like to creat one? Just hit the “New option group” button."
+            <TableNoResult icon={<IoIosGlobe fontSize={46}/>} headerText="Global option groups" mainMessage="No global option groups have been created" subMessage="Would you like to creat one? Just hit the “New option group” button."
                 renderButton={
                     <SaveButton onClick={() => {alert("Clicked")}}>
                         <Add />
@@ -27,7 +27,7 @@ import {TableNoResult} from "common-components"
     </Story>
 </Preview>
 
-
+### No Header
 <Preview>
   <Story name="No Header">
     <TableNoResult
