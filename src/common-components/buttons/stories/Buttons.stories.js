@@ -5,12 +5,14 @@ import {
   SaveButton,
   ButtonWithIcon,
   ButtonTabs,
-  BackButton
+  BackButton,
+  EditButton
 } from "../";
 import bsNotes from "./bsnotes.md";
 import saveNotes from "./saveNotes.md";
 import btnIconNotes from "./btnIconNotes.md";
 import tabNotes from "./tabNotes.md";
+import editNotes from "./editNotes.md";
 import StoryRouter from "storybook-react-router";
 const stories = storiesOf("Buttons", module);
 
@@ -104,4 +106,47 @@ stories.add("Back Button", () =>
       </>
     );
   })
+);
+
+stories.add(
+  "Edit Button",
+  () =>
+    createElement(() => {
+      return (
+        <>
+          <EditButton
+            onClickFunc={() => {
+              alert("Edit button");
+            }}
+            text={"Try Me!"}
+          />
+        </>
+      );
+    }),
+  { notes: { markdown: editNotes } }
+);
+
+stories.add(
+  "Edit Button with style",
+  () =>
+    createElement(() => {
+      return (
+        <>
+          <EditButton
+            onClickFunc={() => {
+              alert("Edit button");
+            }}
+            text={"Customize"}
+            style={{
+              backgroundColor: "#b6d36b",
+              width: "120px",
+              height: "50px"
+            }} //button style
+            iconStyle={{ color: "white" }}
+            textStyle={{ fontStyle: "italic", color: "white" }}
+          />
+        </>
+      );
+    }),
+  { notes: { markdown: editNotes } }
 );

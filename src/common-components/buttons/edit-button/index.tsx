@@ -56,4 +56,4 @@ EditButton.defaultProps = {
   }
 } as Partial<EditButtonProps>;
 
-export { EditButton };
+export default EditButton;

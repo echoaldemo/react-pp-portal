@@ -1,0 +1,64 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { TableNoResult, SaveButton } from 'common-components';
+import { IoIosGlobe } from 'react-icons/io';
+
+<Meta title="MDX | Table no result" component={TableNoResult} />
+
+# Table Loader
+
+
+```
+
+import {TableNoResult} from "common-components"
+
+```
+
+### Default
+<Preview>
+    <Story name="Default">
+            <TableNoResult icon={<IoIosGlobe fontSize={46}/>} headerText="Global option groups" mainMessage="No global option groups have been created" subMessage="Would you like to creat one? Just hit the “New option group” button."
+                renderButton={
+                    <SaveButton onClick={() => {alert("Clicked")}}>
+                        <Add />
+                        New option group
+                    </SaveButton>
+                }
+            />
+    </Story>
+</Preview>
+
+### No Header
+<Preview>
+  <Story name="No Header">
+    {
+      () => {
+        return (
+         <TableNoResult
+           noHeader
+           mainMessage="No global option groups have been created"
+           subMessage="Would you like to creat one? Just hit the “New option group” button."
+           renderButton={
+             <SaveButton onClick={() => {alert("Clicked")}}>
+               <Add />
+               New option group
+             </SaveButton>
+           }
+        />
+        )
+      }
+    }
+  </Story>
+</Preview>
+
+
+## Props
+
+| Name         | Type      |          | Description         |
+| ------------ | --------- | -------- | ------------------- |
+| icon         | component | -------- | Icon for the table  |
+| headerText   | string    | -------- | Header Text         |
+| mainMessage  | string    | -------- | Main Message        |
+| subMessage   | string    | -------- | Sub Message         |
+| renderButton | component | -------- | Button for creating |
+| noHeader     | bool      | -------- | remove the header   |
+
