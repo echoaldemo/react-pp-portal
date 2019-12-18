@@ -1,0 +1,129 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { SuccessModal, SaveButton as Button } from 'common-components'
+import { useState } from '@storybook/addons'
+const style={background: '#7c8a97'}
+
+<Meta title="MDX|Success Modal" component={SuccessModal} />
+
+### with add button
+
+default success modal with add button
+
+
+<Preview>
+  <Story name="with add button">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleClose = () => {
+        setOpen(false)
+      }
+      const handleBtn = () => {
+        console.log('Testing')
+      }
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <SuccessModal
+            open={open}
+            text={'You have removed “HOPE Closers” from PP23'}
+            btnText={'ADD CAMPAIGN'}
+            closeFn={handleClose}
+            btnFn={handleBtn}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### without add button
+
+<Preview>
+  <Story name="without add button">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleClose = () => {
+        setOpen(false)
+      }
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <SuccessModal
+            open={open}
+            text={'You have removed “HOPE Closers” from PP23'}
+            closeFn={handleClose}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### warning
+
+<Preview>
+  <Story name="warning">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleClose = () => {
+        setOpen(false)
+      }
+      const handleBtn = () => {
+        console.log('Testing')
+      }
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+            <SuccessModal
+            open={open}
+            text={'Are you sure you want to remove “HOPE Closers” from PP23?'}
+            btnText={'YES, REMOVE'}
+            closeFn={handleClose}
+            btnFn={handleBtn}
+            warning
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### new user modal
+
+<Preview>
+  <Story name="new user modal">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleClose = () => {
+        setOpen(false)
+      }
+      const handleBtn = () => {
+        console.log('Testing')
+      }
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <SuccessModal
+            user
+            open={open}
+            text={'You have created Cherry Zuniga'}
+            closeFn={handleClose}
+            btnFn={handleBtn}
+          ></SuccessModal>
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### Props
+
+| Name    | Type     |          | Description             |
+| ------- | -------- | -------- | ----------------------- |
+| open    | boolean  | required | to open the modal       |
+| text    | string   | required | success message         |
+| closeFn | function | required | close function          |
+| btnText | string   | -------- | text on button function |
+| btnFn   | function | -------- | function on button      |
+| user    | bool     | -------- | custom user modal       |
+| warning | bool     | -------- | icon for warning modal  |
