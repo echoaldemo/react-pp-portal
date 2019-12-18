@@ -1,6 +1,14 @@
 import SaveButton from "./save-button";
-import CustomButton from "./CustomButton";
+import CustomButton from "./custom-button";
 import SeeChartButton from "./see-chart-button";
 import ButtonWithIcon from "./button-with-icon";
 import ButtonTabs from "./button-tabs";
-export { SaveButton, CustomButton, SeeChartButton, ButtonWithIcon, ButtonTabs };
+import BackButton from "./back-button";
+export {
+  SaveButton,
+  CustomButton,
+  SeeChartButton,
+  ButtonWithIcon,
+  ButtonTabs,
+  BackButton
+};

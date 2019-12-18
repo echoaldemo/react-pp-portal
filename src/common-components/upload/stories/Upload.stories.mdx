@@ -1,0 +1,32 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { Upload } from "common-components";
+
+<Meta title="MDX|Upload" component={Upload} />
+
+# Upload
+
+`import` the `Upload` from `common-components`
+
+<Preview>
+  <Story name="default">
+    <Upload
+      accept="audio/*"
+      labelText="Data File"
+      helperText="A file needed"
+      getAudio={e => console.log("I am the file", e)}
+    />
+  </Story>
+</Preview>
+
+## Upload Properties
+
+```
+
+| Name       | Type      | Default        | Description                           |
+| ---------- | --------- | -------------- | ------------------------------------- |
+|   accept   |  string   |     "audio/*"  | required, desired mime type of files  |
+| labelText  |  string   |  "File Upload" | required, text for label              |
+| helperText |  string   |      null      | optional, text for helper text        |
+|  getAudio  | Function  |      void      | required, onChange Event for upload   |
+
+```

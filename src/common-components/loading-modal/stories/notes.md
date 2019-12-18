@@ -4,7 +4,6 @@
 
 ```
 import React, { useState } from 'react'
-import { Dialog } from '@material-ui/core'
 import { LoadingModal } from 'common-components'
 
 const Loading = () => {
@@ -18,6 +17,7 @@ const Loading = () => {
   return (
     <Dialog open={open}>
       <LoadingModal
+        open={open}
         text={'One moment. We’re removing the campaign…'}
         cancelFn={handleCancel}
       />
@@ -30,7 +30,8 @@ export default Loading
 
 ### Props
 
-| Name     | Type     | Default  | Description     |
-| -------- | -------- | -------- | --------------- |
-| text     | string   | required | loading message |
-| cancelFn | function | required | cancel function |
+| Name     | Type     | Default  | Description       |
+| -------- | -------- | -------- | ----------------- |
+| open     | boolean  | required | to open the modal |
+| text     | string   | required | loading message   |
+| cancelFn | function | required | cancel function   |
