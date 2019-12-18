@@ -1,0 +1,25 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { useState } from "@storybook/addons";
+import { SideNav } from "common-components";
+
+<Meta title="MDX|Side Nav" component={SideNav} />
+
+# Stepper
+
+```
+import { SideNav } from "common-components"
+```
+
+## Default
+
+<Preview>
+  <Story name="stepper">
+    {() => {
+      const [open, setOpen] = React.useState(false);
+      const handleDrawerClose = () => {
+        setOpen(!open);
+      };
+      return <SideNav handleDrawerClose={handleDrawerClose} open={open} />;
+    }}
+  </Story>
+</Preview>
