@@ -27,7 +27,6 @@ export { DNDCards } from "./dnd-card";
 export { CustomCard, CardHeader, CardBody, CardNoResult } from "./card";
 export { HeadMenu } from "./head-menu";
 export { MetricContainer } from "./metric-container";
-
 export { AsyncTable } from "./async-table";
 export { FilterToolBar } from "./filter";
 export { InputField } from "./input-field";
@@ -39,3 +38,6 @@ export {
   TruthCell,
   PausedCell
 } from "./table-cells";
+
+export { HeaderLink } from "./header-link";
+export { SideNav } from "./side-nav";
