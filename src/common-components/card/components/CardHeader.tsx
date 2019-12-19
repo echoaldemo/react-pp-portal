@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { withStyles, IconButton, Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import AddIcon from "@material-ui/icons/Add";
+import { withStyles, IconButton } from "@material-ui/core";
+import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { SearchBar } from "common-components";
-import { Link } from "react-router-dom";
-
+import { cardHeader as styles } from "../styles";
 interface Props {
   searchHeaders: any;
   searchData: any;
@@ -18,40 +16,6 @@ interface State {
   searchData: any;
   showSearch: boolean;
 }
-
-const styles = {
-  cardHeader: {
-    borderBottom: "solid 1px #eee",
-    padding: 15,
-    background: "#FFF",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  cardTitle: {
-    fontSize: 17,
-    fontWeight: 600,
-    color: "#666"
-  },
-  searchWrapper: {
-    display: "flex",
-    border: "solid 1px #eee",
-    justifyContent: "space-between"
-  },
-  searchContainer: {
-    width: "98%"
-  },
-  cancelContainer: {
-    marginTop: 30
-  },
-  cancelText: {
-    fontWeight: 600,
-    textDecoration: "underline",
-    color: "#888",
-    fontSize: 15,
-    cursor: "pointer"
-  }
-};
 class CardHeaderComp extends Component<Props, State> {
   constructor(props: Props) {
     super(props);

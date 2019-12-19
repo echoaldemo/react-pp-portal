@@ -1,5 +1,5 @@
 export { CustomCard } from "./components/";
-export { CardBody } from "./components/cardbody";
-export { CardHeader } from "./components/cardheader";
-export { CardLoading } from "./components/cardloading";
-export { CardNoResult } from "./components/noresult";
+export { CardBody } from "./components/CardBody";
+export { CardHeader } from "./components/CardHeader";
+export { CardLoading } from "./components/CardLoading";
+export { CardNoResult } from "./components/NoResult";
