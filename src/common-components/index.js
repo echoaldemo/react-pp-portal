@@ -22,7 +22,6 @@ export {
   BackButton,
   EditButton
 } from "./buttons";
-export { DNDCards } from "./dnd-card";
 export {
   CustomCard,
   CardHeader,
