@@ -1,0 +1,22 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { StatusLabel } from "common-components";
+
+<Meta title="MDX|StatusLabel" component={StatusLabel} />
+
+## StatusLabel
+
+`import { StatusLabel } from 'common-components'`
+
+<Preview>
+  <Story name="default">
+    {() => {
+      return <StatusLabel status={true} />;
+    }}
+  </Story>
+</Preview>
+
+### Status Label Props
+
+| Name   | Type    |          | Description          |
+| ------ | ------- | -------- | -------------------- |
+| status | boolean | required | Default value : true |
