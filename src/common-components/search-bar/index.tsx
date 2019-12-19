@@ -55,8 +55,8 @@ const SearchBar: React.FC<Props> = ({
   const classes = useStyles({});
   const [results, setResults] = useState<object[][] | null | any>(null);
   const [DummyResults, setDummyResults] = useState<any[]>(userData);
-  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null);
-  const [textSearch, setTextSearch] = React.useState<string>("");
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null);
+  const [textSearch, setTextSearch] = useState<string>("");
 
   const handleClick = (event: any, data: any) => {
     setAnchorEl(event.currentTarget);
@@ -91,8 +91,8 @@ const SearchBar: React.FC<Props> = ({
       const campaigns = JSON.parse(arr);
       let filteredData: any[] = [];
 
-      campaigns.map((data: any) => {
-        headers.filter(head => {
+      campaigns.forEach((data: any) => {
+        headers.forEach(head => {
           if (typeof data[head] !== "boolean") {
             if (data[head].toLowerCase().includes(event.toLowerCase())) {
               filteredData.push(data);
