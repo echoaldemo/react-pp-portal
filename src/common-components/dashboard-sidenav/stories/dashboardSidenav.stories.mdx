@@ -1,13 +1,13 @@
 import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
 import { useState } from "@storybook/addons";
-import { SideNav } from "common-components";
+import { DashboardSidenav } from "common-components";
 
-<Meta title="MDX|Side Nav" component={SideNav} />
+<Meta title="MDX|Dashboard side nav" component={DashboardSidenav} />
 
 # Stepper
 
 ```
-import { SideNav } from "common-components"
+import { DashboardSidenav } from "common-components"
 ```
 
 ## Default
@@ -19,7 +19,9 @@ import { SideNav } from "common-components"
       const handleDrawerClose = () => {
         setOpen(!open);
       };
-      return <SideNav handleDrawerClose={handleDrawerClose} open={open} />;
+      return (
+        <DashboardSidenav handleDrawerClose={handleDrawerClose} open={open} />
+      );
     }}
   </Story>
 </Preview>

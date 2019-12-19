@@ -57,6 +57,7 @@ class CardHeaderComp extends Component<Props, State> {
           onClick={() => {
             this.handleCloseSearch();
           }}
+          href="#"
         >
           <span className={classes.cancelText}>Cancel</span>
         </a>
