@@ -97,11 +97,13 @@ const CampaignMenuSelect: React.FC<Props> = ({ title, options }) => {
                 >
                   {options.map((opt: Obj, i: number) => {
                     if (!Object.keys(opt).length) {
-                      return <Divider classes={{ root: classes.divider }} />;
+                      return (
+                        <Divider key={i} classes={{ root: classes.divider }} />
+                      );
                     } else {
                       if (opt.sublinks) {
                         return (
-                          <>
+                          <div key={i}>
                             <button
                               className={classes.button}
                               onClick={e => handleCollapse(opt.id)}
@@ -127,7 +129,7 @@ const CampaignMenuSelect: React.FC<Props> = ({ title, options }) => {
                                 </ListItem>
                               ))}
                             </Collapse>
-                          </>
+                          </div>
                         );
                       } else {
                         return (
@@ -152,12 +154,14 @@ const CampaignMenuSelect: React.FC<Props> = ({ title, options }) => {
 
 CampaignMenuSelect.defaultProps = {
   title: "<Menu Name>",
-  options: [{
+  options: [
+    {
       name: "<Options here>",
       id: "option",
       sublinks: null,
       url: "#"
-  }],
+    }
+  ]
 } as Partial<Props>;
 
 export { CampaignMenuSelect };
