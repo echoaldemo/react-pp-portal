@@ -23,8 +23,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 // import logout from '../../../auth/controllers/logout'
 // import getData from '../../../auth/controllers/getUserData'
-// import DashboardSidenav from '../dashboard-sidenav/dashboardSidenav'
-import { SideNav } from "common-components";
+import { SideNav, DashboardSidenav } from "common-components";
 import logo from "assets/images/pp_logo_white_font.png";
 import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
 
@@ -176,13 +175,12 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
       )}
 
       {location.pathname.includes("/dashboard") && (
-        <p>Dashboard Side Nav Here</p>
-        // <DashboardSidenav
-        //   handleDrawerClose={handleDrawerClose}
-        //   drawerOpen={drawerOpen}
-        //   open={open}
-        //   {...props}
-        // />
+        <DashboardSidenav
+          handleDrawerClose={handleDrawerClose}
+          drawerOpen={drawerOpen}
+          open={open}
+          {...props}
+        />
       )}
     </div>
   );

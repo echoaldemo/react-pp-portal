@@ -48,3 +48,4 @@ export { SideNav } from "./side-nav";
 
 export { Stepper, Step } from "./stepper";
 export { NavTabs } from "./nav-tabs";
+export { DashboardSidenav } from "./dashboard-sidenav";
