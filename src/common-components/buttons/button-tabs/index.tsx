@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import { Grid, Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab } from "@material-ui/core";
 import {
   createMuiTheme,
   MuiThemeProvider,
@@ -54,7 +54,7 @@ const theme = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   Tabs: {
     color: "#919ca7",
     backgroundColor: "#eeeeee",
