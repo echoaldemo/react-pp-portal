@@ -1,19 +1,19 @@
-import React, { createElement } from 'react'
-import { storiesOf } from '@storybook/react'
-import { HeaderLink } from 'common-components'
-import StoryRouter from "storybook-react-router";
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { HeaderLink } from "common-components";
 
-import notes from './notes.md'
+<Meta title="MDX|Header Link" component={HeaderLink} />
 
-const stories = storiesOf('HeaderLink', module)
+# Header Link
+```
 
-stories.addDecorator(StoryRouter()).add(
-  'default',
-  () =>
-    createElement(() => {
-      return (
-        <>
-          <HeaderLink
+import {HeaderLink} from "common-components"
+
+```
+### Default
+<Preview>
+    <Story name="Default">
+    <>
+     <HeaderLink
             menu={[
               {
                 title: 'Users',
@@ -42,11 +42,17 @@ stories.addDecorator(StoryRouter()).add(
             ]}
             title="Campaigns"
           />
-        </>
-      )
-    }),
-  { notes: { markdown: notes } }
-)
+    </>
+  );
+  
+    </Story>
+</Preview>  
 
 
 
+## Props
+
+| Name  | Type   |          | Description                 |
+| ----- | ------ | -------- | --------------------------- |
+| menu  | Array  | Required | Selections of link          |
+| title | String | Required | Title of currently selected |
