@@ -21,21 +21,16 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
 }) => {
   const [popper, setPopper] = useState<boolean>(false);
   const [anchorRef, setAnchorRef] = useState<any>(null);
+  const checkLinks = () => {
+    if (typeof window != "undefined")
+      menu.map(item => (window.location.pathname === item.path ? null : null));
+  };
 
   useEffect(() => {
     if (pathSensitive) {
       checkLinks();
     }
-  }, []);
-
-  const checkLinks = () => {
-    if (typeof window != "undefined") {
-      menu.map(item => {
-        if (window.location.pathname == item.path) {
-        }
-      });
-    }
-  };
+  });
 
   const handlePopper = (event: any) => {
     setPopper(true);

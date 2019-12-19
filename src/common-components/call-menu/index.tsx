@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Draggable from "react-draggable";
 import { Grid, Avatar, Typography, Box, IconButton } from "@material-ui/core";
 import {
@@ -115,10 +115,13 @@ const CallTimer: Function = (props: Props) => {
 
 const CallMenu: Function = (props: Props) => {
   const classes = useStyles();
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState();
   const { callInfo, ToggleCallButton, OpenMonitorFunc } = props;
   const { agentName, agentImage } = callInfo;
 
+  useEffect(() => {
+    setTime(0);
+  }, [time]);
   return (
     <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
       <Draggable>
