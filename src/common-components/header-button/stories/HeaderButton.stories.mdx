@@ -1,0 +1,51 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { HeaderButton } from 'common-components'
+
+<Meta title="MDX|Header Button" component={HeaderButton} />
+
+### Header Button
+
+```
+import { HeaderButton } from 'common-components'
+```
+
+#### default
+
+<Preview>
+  <Story name="default">
+    <HeaderButton openFunction={() => alert('test')} buttonText="New button" />
+  </Story>
+</Preview>
+
+#### without add icon
+
+<Preview>
+  <Story name="without add icon">
+    <HeaderButton
+      openFunction={() => alert('test')}
+      buttonText="New button"
+      noIcon
+    />
+  </Story>
+</Preview>
+
+#### with style
+
+<Preview>
+  <Story name="with style">
+    <HeaderButton
+      openFunction={() => alert('test')}
+      buttonText="New button"
+      style={{ width: 200 }}
+    />
+  </Story>
+</Preview>
+
+### Props
+
+| Name         | Type     | Default  | Description         |
+| ------------ | -------- | -------- | ------------------- |
+| openFunction | function | required | on click action     |
+| buttonText   | string   | -------- | text on button      |
+| noIcon       | boolean  | false    | display add icon    |
+| style        | object   | -------- | add style on button |
