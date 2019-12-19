@@ -1,12 +1,7 @@
-import React, { ChangeEvent } from "react";
-import { Grid, Tabs, Tab } from "@material-ui/core";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  makeStyles
-} from "@material-ui/core/styles";
+import React from "react";
+import { Tabs, Tab, MuiThemeProvider } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import { theme, buttonTabStyle as useStyles } from "../styles";
 /**
  * ==============================================================================
  * <ButtonTabs />
@@ -40,95 +35,6 @@ const defaultProps = {
     { label: "SEARCH DIDS", value: 0, path: "/", style: undefined }
   ]
 };
-
-const theme = createMuiTheme({
-  shape: {
-    borderRadius: 0
-  },
-  overrides: {
-    MuiTabs: {
-      root: {
-        minHeight: "initial"
-      }
-    }
-  }
-});
-
-const useStyles = makeStyles((theme) => ({
-  Tabs: {
-    color: "#919ca7",
-    backgroundColor: "#eeeeee",
-    borderRadius: "3px",
-    width: "fit-content",
-    "& span": {
-      maxHeight: 40,
-      marginBottom: 7,
-      fontWeight: 600
-    },
-    "& div": {
-      maxHeight: 40
-    },
-    "& button": {
-      padding: 0,
-      maxHeight: 40
-    }
-  },
-  indicator: {
-    backgroundColor: "transparent"
-  },
-  activeTab: {
-    backgroundColor: "#f4a429",
-    color: "#fff",
-    fontFamily: "Roboto",
-    fontSize: "14px",
-    fontWeight: 500,
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: "normal",
-    letterSpacing: "normal",
-    textAlign: "center",
-    "@media (max-width: 336px)": {
-      fontSize: "11px !important"
-    },
-    "@media (max-width: 425px)": {
-      fontSize: 11
-    },
-    "@media (max-width: 499px)": {
-      fontSize: 12
-    },
-    "@media (max-width: 714px)": {
-      fontSize: "12px !important"
-    },
-    "@media (max-width: 866px)": {
-      fontSize: 13
-    }
-  },
-  notActive: {
-    fontFamily: "Roboto",
-    fontSize: "14px",
-    fontWeight: 500,
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: "normal",
-    letterSpacing: "normal",
-    textAlign: "center",
-    "@media (max-width: 336px)": {
-      fontSize: "11px !important"
-    },
-    "@media (max-width: 425px)": {
-      fontSize: 11
-    },
-    "@media (max-width: 499px)": {
-      fontSize: 12
-    },
-    "@media (max-width: 714px)": {
-      fontSize: "12px !important"
-    },
-    "@media (max-width: 866px)": {
-      fontSize: 13
-    }
-  }
-}));
 
 const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
   const classes: any = useStyles(theme);
