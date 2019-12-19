@@ -1,15 +1,9 @@
 import React from "react";
-import { withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core";
 import BackIcon from "@material-ui/icons/ChevronLeft";
 
-const styles = {
-  goBack: {
-    fontSize: 16,
-    marginBottom: 22,
-    maxWidth: "20%"
-  }
-};
+import { backStyles as styles } from "../styles";
 
 interface Props {
   text: string;
@@ -17,23 +11,17 @@ interface Props {
   backFn: () => void;
   classes: {
     goBack: string;
+    back: string;
   };
 }
 
-const BackButtonComp: React.SFC<Props> = ({ classes, backFn, text, to }) => {
+const BackButtonComp: React.FC<Props> = ({ classes, backFn, text, to }) => {
   return (
     <div className={classes.goBack}>
       <span style={{ minWidth: 300, margin: 0 }}>
         {backFn ? (
           <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "#1194f6",
-              textDecoration: "none",
-              minWidth: 300,
-              marginLeft: -6
-            }}
+            className={classes.back}
             onClick={() => {
               backFn();
             }}
@@ -41,17 +29,7 @@ const BackButtonComp: React.SFC<Props> = ({ classes, backFn, text, to }) => {
             <BackIcon /> {text}
           </span>
         ) : (
-          <Link
-            to={to}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              color: "#1194f6",
-              textDecoration: "none",
-              minWidth: 300,
-              marginLeft: -6
-            }}
-          >
+          <Link to={to} className={classes.back}>
             <BackIcon /> {text}
           </Link>
         )}

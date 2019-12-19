@@ -75,7 +75,7 @@ const Stepper: React.FC<Props> = ({
   useEffect(() => {
     setPos(currentStep);
     x();
-  }, [children, currentStep]);
+  }, [currentStep]);
   return (
     <>
       {ren === 1 ? (

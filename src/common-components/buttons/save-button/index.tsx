@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-
+import { Save, SaveText, DisSave, DisText } from "../styles";
 /**
  * ==============================================================================
  * <SaveButton />
@@ -53,41 +52,5 @@ const SaveButton: React.FC<Props> = ({
 };
 
 SaveButton.defaultProps = defaultProps as Partial<Props>;
-
-const Save = styled.button`
-  min-width: 165px;
-  min-height: 40px;
-  border-radius: 3px;
-  background-color: #b6d36b;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  text-transform: uppercase;
-`;
-const SaveText = styled.strong`
-  font-size: 14px;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 8px;
-`;
-const DisSave = styled.button`
-  min-width: 165px;
-  min-height: 40px;
-  border-radius: 3px;
-  background-color: #eeeeee;
-  border: none;
-  outline: none;
-  text-transform: uppercase;
-`;
-const DisText = styled.strong`
-  font-size: 14px;
-  color: #bbbbbb;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 8px;
-`;
 
 export default SaveButton;
