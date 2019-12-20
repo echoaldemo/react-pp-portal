@@ -6,17 +6,15 @@ import {
   TableRow,
   TableCell,
   Checkbox,
-  withStyles,
   MuiThemeProvider
 } from "@material-ui/core";
 
-import { styles, theme } from "./styles";
+import { useStyles, theme } from "./styles";
 
 interface Props {
   headers: any;
   tableData: any;
   render: Function;
-  classes: any;
   customHeight: number | string;
   withBorder: boolean;
 }
@@ -32,14 +30,14 @@ interface HeaderProps {
   check: boolean;
 }
 
-const MainContainer: React.FC<Props> = ({
+const AsyncTable: React.FC<Props> = ({
   headers,
   tableData,
   render,
-  classes,
   customHeight,
   withBorder
 }) => {
+  const classes: any = useStyles();
   const CheckBoxLabel = ({ clickFn, state, label }: CheckProps) => {
     return (
       <>
@@ -120,7 +118,7 @@ const MainContainer: React.FC<Props> = ({
   );
 };
 
-MainContainer.defaultProps = {
+AsyncTable.defaultProps = {
   headers: [],
   tableData: [],
   render: () => null,
@@ -128,7 +126,5 @@ MainContainer.defaultProps = {
   customHeight: "initial",
   withBorder: false
 } as Partial<Props>;
-
-const AsyncTable = withStyles(styles)(MainContainer);
 
 export { AsyncTable };
