@@ -1,11 +1,7 @@
 // Reusable component for New User Modal
 
-import React, { useEffect, useState } from "react";
-import {
-  Done as Check,
-  NavigateBefore,
-  NavigateNext
-} from "@material-ui/icons";
+import React, { useEffect, useState } from 'react'
+import { Done as Check, NavigateBefore, NavigateNext } from '@material-ui/icons'
 import {
   Container,
   Done,
@@ -21,64 +17,64 @@ import {
   Finish,
   FinishText,
   DisText
-} from "./styles";
+} from './styles'
 
 interface Props {
-  steps: number;
-  cancelFn: () => void;
-  finishFn: () => void;
-  setCurrentStep: any;
-  currentStep: number;
-  children: any;
+  steps: number
+  cancelFn: () => void
+  finishFn: () => void
+  setCurrentStep: any
+  currentStep: number
+  children?: any
 }
 
 interface IStep {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 interface IChild {
   props: {
-    index: number;
-    disabled: boolean;
-  };
+    index: number
+    disabled: boolean
+  }
 }
 
-let step: any = [];
+let step: any = []
 
-const Stepper: React.FC<Props> = ({
+const Stepper = ({
   steps,
   cancelFn,
   finishFn,
   children,
   setCurrentStep,
   currentStep
-}) => {
-  const [ren, setRen] = useState<number>(0);
-  const [pos, setPos] = useState<number>(currentStep);
-  const [dis, setDis] = useState<boolean>(false);
+}: Props) => {
+  const [ren, setRen] = useState<number>(0)
+  const [pos, setPos] = useState<number>(currentStep)
+  const [dis, setDis] = useState<boolean>(false)
 
   const x = (nexpos = currentStep) => {
-    setCurrentStep(nexpos);
+    setCurrentStep(nexpos)
     children.forEach((child: IChild) => {
       if (child.props.index === nexpos) {
-        setDis(child.props.disabled);
+        setDis(child.props.disabled)
       }
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    step = [];
+    step = []
     for (let i = 0; i < steps; i++) {
-      step.push(i + 1);
+      step.push(i + 1)
     }
-    setRen(ren + 1);
-    x();
-  }, []);
+    setRen(ren + 1)
+    x()
+  }, [])
 
   useEffect(() => {
-    setPos(currentStep);
-    x();
-  }, []);
+    setPos(currentStep)
+    x()
+  }, [])
 
   const renderSteps: Function = () => {
     return (
@@ -101,17 +97,17 @@ const Stepper: React.FC<Props> = ({
               </Done>
               {s !== steps ? <Line /> : null}
             </React.Fragment>
-          );
+          )
         })}
       </Container>
-    );
-  };
+    )
+  }
 
   const renderPageNumber: Function = () => {
-    return typeof children !== "undefined" && children instanceof Array
-      ? children.find((child) => child.props.index === pos)
-      : children.props.index === pos && children;
-  };
+    return typeof children !== 'undefined' && children instanceof Array
+      ? children.find(child => child.props.index === pos)
+      : children.props.index === pos && children
+  }
 
   const renderButton: Function = () => {
     return (
@@ -124,8 +120,8 @@ const Stepper: React.FC<Props> = ({
           ) : (
             <NormalBtn
               onClick={() => {
-                setPos(pos - 1);
-                x(pos - 1);
+                setPos(pos - 1)
+                x(pos - 1)
               }}
             >
               <BackText>
@@ -155,8 +151,8 @@ const Stepper: React.FC<Props> = ({
                 <Next
                   data-cy="next-btn"
                   onClick={() => {
-                    setPos(pos + 1);
-                    x(pos + 1);
+                    setPos(pos + 1)
+                    x(pos + 1)
                   }}
                 >
                   <NextText>
@@ -173,8 +169,8 @@ const Stepper: React.FC<Props> = ({
           )}
         </BtnCont>
       </>
-    );
-  };
+    )
+  }
 
   return (
     ren === 1 && (
@@ -184,12 +180,12 @@ const Stepper: React.FC<Props> = ({
         {renderButton()}
       </div>
     )
-  );
-};
+  )
+}
 
 const Step: React.FC<IStep> = ({ children }) => {
-  return <div>{children}</div>;
-};
+  return <div>{children}</div>
+}
 
 Stepper.defaultProps = {
   steps: 0,
@@ -198,10 +194,10 @@ Stepper.defaultProps = {
   setCurrentStep: null,
   currentStep: 0,
   children: null
-} as Partial<Props>;
+} as Partial<Props>
 
 Step.defaultProps = {
   children: null
-} as Partial<IStep>;
+} as Partial<IStep>
 
-export { Stepper, Step };
+export { Stepper, Step }
