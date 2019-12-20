@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, Tab, MuiThemeProvider } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { theme, buttonTabStyle as useStyles } from "../styles";
+import { any } from "prop-types";
 /**
  * ==============================================================================
  * <ButtonTabs />
@@ -50,7 +51,7 @@ const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
       >
         {tabData.map(({ path, label, value, style }: TabContent, i: number) => (
           <Tab
-            component={Link}
+            /*             component={Link} */
             key={i}
             to={path}
             label={label}

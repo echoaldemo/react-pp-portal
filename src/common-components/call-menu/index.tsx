@@ -31,7 +31,7 @@ const AgentName: Function = (props: Props) => {
       <Grid item>
         <Avatar
           alt={agentName}
-          src={`${agentImage}`}
+          //src={`${agentImage}`}
           className={classes.avatar}
         />
       </Grid>
