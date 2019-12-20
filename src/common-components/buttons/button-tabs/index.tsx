@@ -20,7 +20,7 @@ interface TabContent {
   style?: React.CSSProperties;
 }
 interface Props {
-  handleChange: (e: React.ChangeEvent<{}>) => void;
+  handleChange: any;
   tabData: Array<TabContent>;
 }
 

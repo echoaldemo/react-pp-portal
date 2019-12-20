@@ -111,7 +111,7 @@ const Stepper = ({
 
   const renderPageNumber: Function = () => {
     return typeof children !== "undefined" && children instanceof Array
-      ? children.find(child => child.props.index === pos)
+      ? children.find((child) => child.props.index === pos)
       : children.props.index === pos && children;
   };
 

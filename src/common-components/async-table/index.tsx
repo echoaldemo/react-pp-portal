@@ -17,8 +17,8 @@ interface Props {
   headers: any;
   tableData: any;
   render: Function;
-  customHeight: number | string;
-  withBorder: boolean;
+  customHeight?: number | string;
+  withBorder?: boolean;
 }
 interface CheckProps {
   clickFn: Function;
