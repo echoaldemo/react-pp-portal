@@ -1,84 +1,84 @@
 /* eslint-disable import/first */
-import React, { useState } from "react";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import { Face as FaceIcon, Notifications } from "@material-ui/icons";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import React, { useState } from 'react'
+import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Grow from '@material-ui/core/Grow'
+import Paper from '@material-ui/core/Paper'
+import Popper from '@material-ui/core/Popper'
+import MenuItem from '@material-ui/core/MenuItem'
+import MenuList from '@material-ui/core/MenuList'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
+import { Face as FaceIcon, Notifications } from '@material-ui/icons'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 // import logout from '../../../auth/controllers/logout'
 // import getData from '../../../auth/controllers/getUserData'
-import { SideNav, DashboardSidenav } from "common-components";
-import logo from "assets/images/pp_logo_white_font.png";
-import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
+import { SideNav, DashboardSidenav } from 'common-components'
+import logo from 'assets/images/pp_logo_white_font.png'
+import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from './style'
 
 interface HeadMenuProps {
-  location: Obj;
-  logout: Function;
-  getData: Function;
+  location: Obj
+  logout: Function
+  getData: Function
 }
 
 interface Obj {
-  [index: string]: any;
+  [index: string]: any
 }
 
 const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
-  const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(false);
-  const [wholeName, setWholeName] = useState<string>("Loading...");
-  const [name, setName] = useState<string>("");
+  const classes = useStyles()
+  const [open, setOpen] = useState<boolean>(false)
+  const [wholeName, setWholeName] = useState<string>('Loading...')
+  const [name, setName] = useState<string>('')
 
   React.useEffect(() => {
-    result();
-  }, []);
+    result()
+  }, [])
 
   const result = async () => {
-    const res = await getData();
+    const res = await getData()
     if (res) {
-      setWholeName(`${res.first_name} ${res.last_name}`);
-      setName(res.first_name);
+      setWholeName(`${res.first_name} ${res.last_name}`)
+      setName(res.first_name)
     }
-  };
+  }
 
   const drawerOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
   const handleDrawerClose = () => {
-    setOpen(!open);
-  };
+    setOpen(!open)
+  }
 
-  const [_open, _setOpen] = React.useState(false);
-  const anchorRef = React.useRef<any>(null);
+  const [_open, _setOpen] = React.useState(false)
+  const anchorRef = React.useRef<any>(null)
 
   function handleToggle() {
-    _setOpen(prevOpen => !prevOpen);
+    _setOpen(prevOpen => !prevOpen)
   }
 
   const handleClose = (event: any) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
+      return
     }
 
-    _setOpen(false);
-  };
+    _setOpen(false)
+  }
 
   function jsUcfirst(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
   return (
@@ -102,7 +102,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
             ref={anchorRef}
             onClick={handleToggle}
             style={{
-              color: "white"
+              color: 'white'
             }}
           >
             <ExpandMoreIcon />
@@ -110,7 +110,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
           <Popper
             open={_open}
             anchorEl={anchorRef.current}
-            placement={"bottom"}
+            placement={'bottom'}
             transition
             disablePortal
           >
@@ -120,7 +120,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                 {...TransitionProps}
                 style={{
                   transformOrigin:
-                    placement === "bottom" ? "center top" : "center bottom"
+                    placement === 'bottom' ? 'center top' : 'center bottom'
                 }}
               >
                 <Paper id="menu-list-grow">
@@ -134,7 +134,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                           <ListItemText>
                             <Typography
                               style={{
-                                fontSize: "15px"
+                                fontSize: '15px'
                               }}
                             >
                               Change Password
@@ -144,7 +144,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                       </StyledLink>
                       <MenuItem
                         onClick={() => {
-                          logout();
+                          logout()
                         }}
                       >
                         <ListItemIcon>
@@ -153,7 +153,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
                         <ListItemText>
                           <Typography
                             style={{
-                              fontSize: "15px"
+                              fontSize: '15px'
                             }}
                           >
                             Logout
@@ -169,31 +169,26 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
         </Toolbar>
       </AppBar>
 
-      {(location.pathname.includes("/manage") ||
-        location.pathname.includes("/change")) && (
+      {(location.pathname.includes('/manage') ||
+        location.pathname.includes('/change')) && (
         <SideNav handleDrawerClose={handleDrawerClose} open={open} />
       )}
 
-      {location.pathname.includes("/dashboard") && (
-        <DashboardSidenav
-          handleDrawerClose={handleDrawerClose}
-          drawerOpen={drawerOpen}
-          open={open}
-          {...props}
-        />
+      {location.pathname.includes('/dashboard') && (
+        <DashboardSidenav handleDrawerClose={handleDrawerClose} open={open} />
       )}
     </div>
-  );
-};
+  )
+}
 
 HeadMenu.defaultProps = {
-  location: { pathname: "/manage/user" },
+  location: { pathname: '/manage/user' },
   getData: () => {
-    return { first_name: "StoryBook", last_name: "User" };
+    return { first_name: 'StoryBook', last_name: 'User' }
   },
   logout: () => {
-    alert("Logout");
+    alert('Logout')
   }
-} as Partial<HeadMenuProps>;
+} as Partial<HeadMenuProps>
 
-export { HeadMenu };
+export { HeadMenu }
