@@ -51,7 +51,7 @@ const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
       >
         {tabData.map(({ path, label, value, style }: TabContent, i: number) => (
           <Tab
-            /*             component={Link} */
+            component={Link}
             key={i}
             to={path}
             label={label}
