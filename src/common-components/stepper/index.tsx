@@ -1,3 +1,5 @@
+// Reusable component for New User Modal
+
 import React, { useEffect, useState } from "react";
 import {
   Done as Check,
@@ -72,102 +74,116 @@ const Stepper: React.FC<Props> = ({
     setRen(ren + 1);
     x();
   }, []);
+
   useEffect(() => {
     setPos(currentStep);
     x();
-  }, [currentStep]);
-  return (
-    <>
-      {ren === 1 ? (
-        <div key={ren}>
-          <Container>
-            {step.map((s: number) => {
-              return s === pos ? (
-                <>
-                  <Current key={s}>{s}</Current>
-                  {s !== steps ? <Line /> : null}
-                </>
-              ) : s > pos ? (
-                <>
-                  <Rest key={s}>{s}</Rest>
-                  {s !== steps ? <Line /> : null}
-                </>
-              ) : (
-                <>
-                  <Done key={s}>
-                    <Check />
-                  </Done>
-                  {s !== steps ? <Line /> : null}
-                </>
-              );
-            })}
-          </Container>
-          {typeof children !== "undefined" ? (
+  }, []);
+
+  const renderSteps: Function = () => {
+    return (
+      <Container>
+        {step.map((s: number) => {
+          return s === pos ? (
+            <React.Fragment key={s}>
+              <Current>{s}</Current>
+              {s !== steps ? <Line /> : null}
+            </React.Fragment>
+          ) : s > pos ? (
+            <React.Fragment key={s}>
+              <Rest key={s}>{s}</Rest>
+              {s !== steps ? <Line /> : null}
+            </React.Fragment>
+          ) : (
+            <React.Fragment key={s}>
+              <Done key={s}>
+                <Check />
+              </Done>
+              {s !== steps ? <Line /> : null}
+            </React.Fragment>
+          );
+        })}
+      </Container>
+    );
+  };
+
+  const renderPageNumber: Function = () => {
+    return typeof children !== "undefined" && children instanceof Array
+      ? children.find((child) => child.props.index === pos)
+      : children.props.index === pos && children;
+  };
+
+  const renderButton: Function = () => {
+    return (
+      <>
+        <BtnCont>
+          {pos === 1 ? (
+            <NormalBtn onClick={cancelFn}>
+              <CancelText>cancel</CancelText>
+            </NormalBtn>
+          ) : (
+            <NormalBtn
+              onClick={() => {
+                setPos(pos - 1);
+                x(pos - 1);
+              }}
+            >
+              <BackText>
+                <NavigateBefore />
+                back
+              </BackText>
+            </NormalBtn>
+          )}
+          {dis ? (
             <>
-              {children instanceof Array
-                ? children.find(child => child.props.index === pos)
-                : children.props.index === pos && children}
+              {pos !== steps ? (
+                <NormalBtn data-cy="next-btn" disabled>
+                  <DisText>
+                    next
+                    <NavigateNext />
+                  </DisText>
+                </NormalBtn>
+              ) : (
+                <NormalBtn data-cy="finish-btn" disabled>
+                  <DisText>finish & save</DisText>
+                </NormalBtn>
+              )}
             </>
-          ) : null}
-          <BtnCont>
-            {pos === 1 ? (
-              <NormalBtn onClick={cancelFn}>
-                <CancelText>cancel</CancelText>
-              </NormalBtn>
-            ) : (
-              <NormalBtn
-                onClick={() => {
-                  setPos(pos - 1);
-                  x(pos - 1);
-                }}
-              >
-                <BackText>
-                  <NavigateBefore />
-                  back
-                </BackText>
-              </NormalBtn>
-            )}
-            {dis ? (
-              <>
-                {pos !== steps ? (
-                  <NormalBtn data-cy="next-btn" disabled>
-                    <DisText>
-                      next
-                      <NavigateNext />
-                    </DisText>
-                  </NormalBtn>
-                ) : (
-                  <NormalBtn data-cy="finish-btn" disabled>
-                    <DisText>finish & save</DisText>
-                  </NormalBtn>
-                )}
-              </>
-            ) : (
-              <>
-                {pos !== steps ? (
-                  <Next
-                    data-cy="next-btn"
-                    onClick={() => {
-                      setPos(pos + 1);
-                      x(pos + 1);
-                    }}
-                  >
-                    <NextText>
-                      next
-                      <NavigateNext />
-                    </NextText>
-                  </Next>
-                ) : (
-                  <Finish data-cy="finish-btn" onClick={finishFn}>
-                    <FinishText>finish & save</FinishText>
-                  </Finish>
-                )}
-              </>
-            )}
-          </BtnCont>
-        </div>
-      ) : null}
-    </>
+          ) : (
+            <>
+              {pos !== steps ? (
+                <Next
+                  data-cy="next-btn"
+                  onClick={() => {
+                    setPos(pos + 1);
+                    x(pos + 1);
+                  }}
+                >
+                  <NextText>
+                    next
+                    <NavigateNext />
+                  </NextText>
+                </Next>
+              ) : (
+                <Finish data-cy="finish-btn" onClick={finishFn}>
+                  <FinishText>finish & save</FinishText>
+                </Finish>
+              )}
+            </>
+          )}
+        </BtnCont>
+      </>
+    );
+  };
+
+  return (
+    ren === 1 && (
+      <div key={ren}>
+        {renderSteps()}
+        {renderPageNumber()}
+        {renderButton()}
+      </div>
+    )
   );
 };
 
