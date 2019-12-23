@@ -1,7 +1,12 @@
 // Make your function for auths here
 
 function loginChecker() {
-  return "sample function";
+	return 'sample function';
 }
 
-export { loginChecker };
+// Function for authentication
+function isAuth() {
+	return false;
+}
+
+export { loginChecker, isAuth };

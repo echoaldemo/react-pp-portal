@@ -1,20 +1,26 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Redirect } from 'react-router-dom';
 import { Manage } from '../views';
+import { isAuth } from '../auth/services/authService';
+
 function PrivateRoute(props: any) {
 	let { location, history, component: Component, ...rest } = props;
 
-	console.log('rest', rest);
+	function protectedComponent(componentProps: any) {
+		return isAuth() ? (
+			<Manage {...componentProps}>
+				<Component {...componentProps} />
+			</Manage>
+		) : (
+			<Redirect push to="/" />
+		);
+	}
 
 	return (
 		<Route
 			{...rest}
 			component={(componentProps: any) => {
-				return (
-					<Manage {...componentProps}>
-						<Component {...componentProps} />
-					</Manage>
-				);
+				return protectedComponent(componentProps);
 			}}
 		/>
 	);
