@@ -1,5 +1,5 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-export default function ManageRoute(props) {
+export default function PublicRoute(props: any) {
 	return <Route {...props} />;
 }
