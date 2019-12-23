@@ -1,11 +1,46 @@
-import React from "react";
-import { HeaderLink, NavTabs } from "common-components";
+import React, { useState, useEffect } from "react";
+import { Paper, Divider } from "@material-ui/core";
+import {
+  HeaderLink,
+  NavTabs,
+  TableLoader,
+  SearchBar,
+  FilterToolBar,
+  Pagination
+} from "common-components";
 import HeaderContainer from "../components/HeaderContainer/HeaderContainer";
+import DIDTable from "../components/DIDTable/DIDTable";
 
 const ManageDID = () => {
+  const [loading, setLoading] = useState(true);
+  const [didData, setDidData] = useState([]);
+  const [paginateList, setPaginateList] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids`)
+      .then((response: any) => response.json())
+      .then((response: any) => {
+        let newResponse = response.map((did: any) => {
+          let uuid = did.uuid;
+          delete did.uuid;
+          did.uuid = uuid;
+          did.number = `+${did.number.toString()}`;
+          return did;
+        });
+        setDidData(newResponse);
+        setPaginateList(newResponse);
+        setLoading(false);
+      });
+  }, []);
+
+  const paginate = (from: number, to: number) => {
+    setDidData(paginateList.slice(from, to));
+  };
+
   return (
     <>
-      <HeaderContainer>
+      <HeaderContainer style={{ paddingBottom: 30 }}>
         <HeaderLink
           menu={[
             {
@@ -40,17 +75,62 @@ const ManageDID = () => {
           tabnames={[
             {
               name: "DID POOLS",
-              active: true,
-              onClickFn: () => console.log("settings")
+              active: false,
+              onClickFn: () => console.log("")
             },
             {
               name: "SEARCH DIDS",
-              active: false,
-              onClickFn: () => console.log("pitch")
+              active: true,
+              onClickFn: () => console.log("")
             }
           ]}
         />
       </HeaderContainer>
+      <Paper>
+        <SearchBar
+          title="dids"
+          userData={didData}
+          headers={["number", "timezone"]}
+          loading={loading}
+        />
+        <Divider />
+        <FilterToolBar
+          FilterApplyButton={() => console.log("")}
+          company={true}
+          campaign={true}
+          status={true}
+          sortBy={false}
+          realm={false}
+          activeStatus={false}
+        />
+        {loading ? (
+          <TableLoader />
+        ) : (
+          <>
+            <div style={{ minHeight: 500 }}>
+              <DIDTable
+                didData={didData}
+                headers={[
+                  "Number",
+                  "Time Zone",
+                  "Owned",
+                  "Pool",
+                  "CName",
+                  "CName Valid",
+                  "Status",
+                  ""
+                ]}
+              />
+              <Divider />
+            </div>
+            <Pagination
+              totalItems={paginateList.length}
+              itemsPerPage={10}
+              paginateFn={paginate}
+            />
+          </>
+        )}
+      </Paper>
     </>
   );
 };

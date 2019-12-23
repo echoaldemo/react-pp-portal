@@ -4,9 +4,9 @@ import EditIcon from "@material-ui/icons/Edit";
 
 interface EditButtonProps {
   text: string;
-  style: object;
-  iconStyle: object;
-  textStyle: object;
+  style?: object;
+  iconStyle?: object;
+  textStyle?: object;
   onClickFunc: Function;
 }
 
