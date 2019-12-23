@@ -11,7 +11,7 @@ function PrivateRoute(props: any) {
 			{...rest}
 			component={(componentProps: any) => {
 				return (
-					<Manage>
+					<Manage {...componentProps}>
 						<Component {...componentProps} />
 					</Manage>
 				);
