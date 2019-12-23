@@ -1,15 +1,41 @@
-import React from 'react'
-import { IconButton, Tooltip } from '@material-ui/core'
+import React, { useEffect, useState } from 'react'
 import {
-  Settings,
+  IconButton,
+  InputBase,
+  Tooltip,
+  CircularProgress
+} from '@material-ui/core'
+import {
+  Clear,
   ExitToApp,
+  KeyboardArrowDown,
+  KeyboardArrowUp,
   Search,
-  KeyboardArrowDown
+  Settings
 } from '@material-ui/icons'
-import { Container, Header, Card } from './style'
 import SEO from 'utils/seo'
+import Content from './components/Content'
+import { Card, Container, Header } from './style'
+import { Campaign } from './types'
 
 const Gateway = () => {
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState(false)
+  const [searchText, setSearchText] = useState('')
+  const [hide, setHide] = useState(false)
+  const [campaigns, setCampaigns] = useState<Array<Campaign>>([])
+
+  useEffect(() => {
+    let mock = []
+    for (let i = 0; i < 20; i++) {
+      mock.push({ name: `Demo ${i}`, uuid: `${i}` })
+    }
+    setCampaigns(mock)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+  }, [])
+
   return (
     <Container>
       <SEO title="Gateway" />
@@ -27,13 +53,52 @@ const Gateway = () => {
         </Tooltip>
       </span>
       <Header>
-        <h2>Campaigns</h2>
+        {search ? (
+          <span>
+            <Search />
+            <InputBase
+              placeholder="Search for Campaigns..."
+              inputProps={{ 'aria-label': 'naked' }}
+              autoFocus
+              value={searchText}
+              onChange={e => setSearchText(e.target.value)}
+            />
+          </span>
+        ) : (
+          <h2>Campaigns</h2>
+        )}
         <span>
-          <Search />
-          <KeyboardArrowDown />
+          {hide ? (
+            <KeyboardArrowUp onClick={() => setHide(false)} />
+          ) : (
+            <>
+              {search ? (
+                <Clear
+                  onClick={() => {
+                    setSearch(false)
+                    setSearchText('')
+                  }}
+                />
+              ) : (
+                <>
+                  <Search onClick={() => setSearch(true)} />
+                  <KeyboardArrowDown onClick={() => setHide(true)} />
+                </>
+              )}
+            </>
+          )}
         </span>
       </Header>
-      <Card></Card>
+      <Card>
+        {loading ? (
+          <span>
+            <h6>Loading...</h6>
+            <CircularProgress thickness={5} size={45} />
+          </span>
+        ) : (
+          <Content campaigns={campaigns} searchText={searchText} />
+        )}
+      </Card>
     </Container>
   )
 }
