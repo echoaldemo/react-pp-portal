@@ -1,8 +1,12 @@
-import "./App.css";
-import TestMainView from "./views/test-main-view/TestMainView";
+import React from 'react';
+import { Routes } from './router';
+function App() {
+	return (
+		<div>
+			{/* Wrap route with context api */}
+			<Routes />
+		</div>
+	);
+}
 
-/* function App() {
-  // Here you will use context api/router etc.
-} */
-
-export default TestMainView;
+export default App;

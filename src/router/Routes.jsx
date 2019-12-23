@@ -1,20 +1,17 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import { LandingRoute, ManageRoute } from './'
-import Gateway from 'components/gateway'
+import { PublicRoute, GatewayRoute, PrivateRoute } from './';
+import Gateway from 'components/gateway';
+import Sample from 'components/sample-component';
 export default function Routes() {
-  return (
-    <BrowserRouter>
-      <Switch>
-        <LandingRoute
-          exact
-          path="/"
-          component={() => <div>Landing Route</div>}
-        />
-        <ManageRoute path="/manage" component={() => <div>Manage Route</div>} />
-        <Route exact path="/gateway" component={Gateway} />
-      </Switch>
-    </BrowserRouter>
-  )
+	return (
+		<BrowserRouter>
+			<Switch>
+				<PublicRoute exact path="/" component={Sample} />
+				<GatewayRoute path="/gateway" component={Gateway} />
+				<PrivateRoute path="/manage/sample" component={() => <div>xx</div>} />
+			</Switch>
+		</BrowserRouter>
+	);
 }
