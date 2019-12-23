@@ -36,11 +36,37 @@ const Header = styled.div`
       cursor: pointer;
     }
   }
+  input {
+    color: #fff;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
 `
 const Card = styled.div`
   height: 80vh;
   background: #fff;
   border-radius: 4px;
+  overflow: scroll;
+  span {
+    color: #777777;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    h6 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: 0.0075em;
+      padding-top: 36px;
+    }
+    svg {
+      color: #5f7d98;
+    }
+  }
+  strong {
+    color: rgba(0, 0, 0, 0.54);
+  }
 `
 
 export { Container, Header, Card }
