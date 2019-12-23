@@ -3,7 +3,8 @@ import {
   IconButton,
   InputBase,
   Tooltip,
-  CircularProgress
+  CircularProgress,
+  Collapse
 } from '@material-ui/core'
 import {
   Clear,
@@ -96,7 +97,9 @@ const Gateway = () => {
             <CircularProgress thickness={5} size={45} />
           </span>
         ) : (
-          <Content campaigns={campaigns} searchText={searchText} />
+          <Collapse in={!hide}>
+            <Content campaigns={campaigns} searchText={searchText} />
+          </Collapse>
         )}
       </Card>
     </Container>
