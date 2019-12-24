@@ -6,6 +6,7 @@ import {
   ActiveCell,
   EditButton
 } from "../../../../../common-components";
+import EditDIDModal from "../EditDIDModal/EditDIDModal";
 
 interface Obj {
   [index: string]: any;
@@ -45,6 +46,7 @@ const DIDTable = ({ headers, didData }: any) => {
           ))
         }
       />
+      <EditDIDModal />
     </div>
   );
 };

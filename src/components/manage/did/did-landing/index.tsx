@@ -15,8 +15,14 @@ const ManageDID = () => {
   const [loading, setLoading] = useState(true);
   const [didData, setDidData] = useState([]);
   const [paginateList, setPaginateList] = useState([]);
+  const [campaigns, setCamapaigns] = useState([]);
+  const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
+    fetchDIDs();
+  }, []);
+
+  const fetchDIDs = () => {
     setLoading(true);
     fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids`)
       .then((response: any) => response.json())
@@ -32,7 +38,26 @@ const ManageDID = () => {
         setPaginateList(newResponse);
         setLoading(false);
       });
-  }, []);
+    fetchCompanies();
+    fetchCampaigns();
+  };
+  const fetchCompanies = () => {
+    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies`)
+      .then((response: any) => response.json())
+      .then((response: any) => {
+        console.log("companies", response);
+        setCompanies(response);
+      });
+  };
+  const fetchCampaigns = () => {
+    setLoading(true);
+    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns`)
+      .then((response: any) => response.json())
+      .then((response: any) => {
+        console.log("campaigns", response);
+        setCamapaigns(response);
+      });
+  };
 
   const paginate = (from: number, to: number) => {
     setDidData(paginateList.slice(from, to));
