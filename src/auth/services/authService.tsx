@@ -5,6 +5,8 @@ function loginChecker() {
 }
 
 // Function for authentication
+
+// Note: This function will be used in `ManageRoute.tsx` and `GatewayRoute.tsx` 
 function isAuth() {
 	return false;
 }
