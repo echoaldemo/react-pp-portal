@@ -8,8 +8,10 @@ function PrivateRoute(props: any) {
     
     
 	function protectedComponent(componentProps: any) {
-	   // 'isAuth' function will return true since the function for login auth
-	   // isn't yet finish
+	   /*
+		'isAuth' function will return true since the function for login auth
+	   	 isn't yet finish
+	   */
 		return isAuth() ? ( 
 			<Manage {...componentProps}>
 				<Component {...componentProps} />
