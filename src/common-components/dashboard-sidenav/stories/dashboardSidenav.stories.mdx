@@ -1,0 +1,27 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { useState } from "@storybook/addons";
+import { DashboardSidenav } from "common-components";
+
+<Meta title="MDX|Dashboard side nav" component={DashboardSidenav} />
+
+# Stepper
+
+```
+import { DashboardSidenav } from "common-components"
+```
+
+## Default
+
+<Preview>
+  <Story name="default">
+    {() => {
+      const [open, setOpen] = React.useState(false);
+      const handleDrawerClose = () => {
+        setOpen(!open);
+      };
+      return (
+        <DashboardSidenav handleDrawerClose={handleDrawerClose} open={open} />
+      );
+    }}
+  </Story>
+</Preview>

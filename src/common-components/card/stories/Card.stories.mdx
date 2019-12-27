@@ -1,0 +1,175 @@
+<!-- // import React from "react";
+// import { storiesOf } from "@storybook/react";
+// import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+// import {
+//   CustomCard,
+//   CardHeader,
+//   CardBody,
+//   CardLoading,
+//   CardNoResult
+// } from "common-components";
+// import { Grid } from "@material-ui/core";
+// import notes from "./notes.md";
+// const stories = storiesOf("Card", module);
+// stories.add(
+//   "Card Header",
+//   () => {
+//     return (
+//       <>
+//         <Grid container direction="row" justify="center" alignItems="center">
+//           <Grid item lg={4} xs={12}>
+//             <CustomCard title="Title">
+//               <CardHeader
+//                 title="Sample User"
+//                 searchData={[
+//                   { id: 1, name: "John" },
+//                   { id: 2, name: "Doe" },
+//                   { id: 2, name: "Doe" }
+//                 ]}
+//                 searchHeaders={["name"]}
+//               >
+//                 Header
+//               </CardHeader>
+//             </CustomCard>
+//           </Grid>
+//         </Grid>
+//       </>
+//     );
+//   },
+//   { notes: { markdown: notes } }
+// );
+
+// stories.add(
+//   "Card Body",
+//   () => {
+//     return (
+//       <>
+//         <Grid container direction="row" justify="center" alignItems="center">
+//           <Grid item lg={4} xs={12}>
+//             <CustomCard title="Title">
+//               <CardBody>I am a child inside this card body.</CardBody>
+//             </CustomCard>
+//           </Grid>
+//         </Grid>
+//       </>
+//     );
+//   },
+//   { notes: { markdown: notes } }
+// );
+
+// stories.add(
+//   "Card Loading",
+//   () => {
+//     return (
+//       <>
+//         <CardLoading />
+//       </>
+//     );
+//   },
+//   { notes: { markdown: notes } }
+// );
+
+// stories.add(
+//   "Card No Result",
+//   () => {
+//     return (
+//       <>
+//         <CardNoResult text="This is a text for card no result." />
+//       </>
+//     );
+//   },
+//   { notes: { markdown: notes } }
+// ); -->
+
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import {
+  CustomCard,
+  CardHeader,
+  CardBody,
+  CardLoading,
+  CardNoResult
+} from "common-components";
+import { useState } from '@storybook/addons'
+
+<Meta title="MDX|Card" component={CustomCard} />
+
+# Card Header
+
+<Preview>
+  <Story name="Card Header">
+          <Grid container direction="row" justify="center" alignItems="center">
+            <Grid item lg={4} xs={12}>
+              <CustomCard title="Title">
+               <CardHeader
+                 title="Sample User"
+               searchData={[
+                   { id: 1, name: "John" },
+                   { id: 2, name: "Doe" },
+                   { id: 2, name: "Doe" }
+                 ]}
+                 searchHeaders={["name"]}
+               >
+                 Header
+              </CardHeader>
+             </CustomCard>
+            </Grid>
+          </Grid>
+  </Story>
+</Preview>
+
+
+# Card Body
+
+<Preview>
+  <Story name="Card Body">
+         <Grid container direction="row" justify="center" alignItems="center">
+            <Grid item lg={4} xs={12}>
+                <CustomCard title="Title">
+                  <CardBody>I am a child inside this card body.</CardBody>
+                </CustomCard>
+            </Grid>
+        </Grid>
+  </Story>
+</Preview>
+
+
+# Card Loading
+
+<Preview>
+  <Story name="Card Loading">
+      <CardLoading />
+  </Story>
+</Preview>
+
+# Card No Result 
+
+<Preview>
+  <Story name="Card No Result">
+      <CardNoResult text="This is a text for card no result." />
+  </Story>
+</Preview>
+
+
+
+
+
+
+### Props
+
+## CardHeader
+
+| Name         | Type   | Default |
+| ------------ | ------ | ------- |
+| title        | string |
+| searchData   | array  | []      |
+| searchHeader | array  | []      |
+| addButton    | bool   |
+| addFunction  | func   |
+
+## CardBody
+
+> No props
+
+## CardNoResult
+
+> No props

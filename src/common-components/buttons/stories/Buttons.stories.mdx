@@ -1,0 +1,202 @@
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import {
+  SeeChartButton,
+  SaveButton,
+  ButtonWithIcon,
+  ButtonTabs,
+  BackButton,
+  EditButton
+} from "../";
+import { useState } from "@storybook/addons";
+import StoryRouter from "storybook-react-router";
+
+<Meta title="MDX|Buttons" component={SeeChartButton} />
+
+# Bills Button
+
+<Preview>
+  <Story name="Bills" live={true}>
+    {() => {
+      function handleClick() {}
+      return <SeeChartButton mode="bills" handleClick={handleClick} />;
+    }}
+  </Story>
+</Preview>
+
+#
+
+# Sales Button
+
+<Preview>
+  <Story name="Sales">
+    {() => {
+      function handleClick() {}
+      return <SeeChartButton mode="sales" handleClick={handleClick} />;
+    }}
+  </Story>
+</Preview>
+
+# Sales/Bills Button Props
+
+| Name        | Type          | Default | Description              |
+| ----------- | ------------- | ------- | ------------------------ |
+| mode        | string        | sales   | required, mode of button |
+| handleClick | number/string | void    | required, onClick Event  |
+
+## Save Button
+
+<Preview>
+  <Story name="Save: Disabled">
+    {() => {
+      function handleClick() {}
+      return (
+        <SaveButton disabled={true} handleClick={handleClick}>
+          Hola Button
+        </SaveButton>
+      );
+    }}
+  </Story>
+</Preview>
+
+#
+
+<Preview>
+  <Story name="Save: Enabled">
+    {() => {
+      function handleClick() {}
+      return <SaveButton handleClick={handleClick}>Hola Button</SaveButton>;
+    }}
+  </Story>
+</Preview>
+
+#
+
+## Save Button Properties
+
+| Name        | Type       | Default | Description                     |
+| ----------- | ---------- | ------- | ------------------------------- |
+| disabled    | boolean    | false   | not required,state of the btn   |
+| handleClick | Function   | void    | required, onClick Event         |
+| children    | React Node | none    | not required, renders btn child |
+
+# Button With Icon
+
+<Preview>
+  <Story name="Button With Icon">
+    {() => {
+      function handleClick() {}
+      return (
+        <ButtonWithIcon handleClick={handleClick}>With Icon ?</ButtonWithIcon>
+      );
+    }}
+  </Story>
+</Preview>
+
+#
+
+| Name        | Type     | Default | Description             |
+| ----------- | -------- | ------- | ----------------------- |
+| icon        | Icon     | none    | required, Button Icon   |
+| handleClick | Function | void    | required, onClick Event |
+
+# Button Tabs
+
+<Preview>
+  <Story name="Button Tabs">
+    <ButtonTabs
+      handleChange={() => console.log("Handle Change")}
+      tabData={[
+        {
+          label: "DID POOLS",
+          value: 1
+        },
+        { label: "SEARCH DIDS", value: 0 }
+      ]}
+    />
+  </Story>
+</Preview>
+
+# Button Tabs Props
+
+| Name         | Type     | Default | Description                   |
+| ------------ | -------- | ------- | ----------------------------- |
+| tabData      | array    | default | required, tabs data for btn   |
+| handleChange | Function | void    | required, onChange Event tabs |
+
+## Tab Data Properties
+
+| Name  | Type   | Default | Description                   |
+| ----- | ------ | ------- | ----------------------------- |
+| label | string | default | required, label for tab       |
+| value | number | default | required, mode for tab on/off |
+| style | object | default | custom style for the tab      |
+
+# Back Button
+
+<Preview>
+  <Story name="Back Button">
+    {() => {
+      function handleClick() {}
+      return <BackButton />;
+    }}
+  </Story>
+</Preview>
+
+| Name    | Type   | Default | Description                |
+| ------- | ------ | ------- | -------------------------- |
+| text    | string | default | required, label for button |
+| to      | string | default | required, link to go       |
+| classes | object | default | classes {goBack,back}      |
+
+# Edit Button
+
+<Preview>
+  <Story name="Edit Button">
+    {() => {
+      function handleClick() {}
+      return (
+        <EditButton
+          onClickFunc={() => {
+            alert("Edit button");
+          }}
+          text={"Try Me!"}
+        />
+      );
+    }}
+  </Story>
+</Preview>
+
+# Edit Button w/ Style
+
+<Preview>
+  <Story name="Edit Button: w/ style">
+    {() => {
+      function handleClick() {}
+      return (
+        <EditButton
+          onClickFunc={() => {
+            alert("Edit button");
+          }}
+          text={"Customize"}
+          style={{
+            backgroundColor: "#b6d36b",
+            width: "120px",
+            height: "50px"
+          }} //button style
+          iconStyle={{ color: "white" }}
+          textStyle={{ fontStyle: "italic", color: "white" }}
+        />
+      );
+    }}
+  </Story>
+</Preview>
+
+### Edit Props
+
+| Name        | Type     | Default  | Description             |
+| ----------- | -------- | -------- | ----------------------- |
+| onClickFunc | function | required | on click action         |
+| text        | string   | required | Button Label            |
+| style       | object   | -------- | Custom style for button |
+| iconStyle   | object   | -------- | Custom style for icon   |
+| textStyle   | object   | -------- | Custom style for text   |

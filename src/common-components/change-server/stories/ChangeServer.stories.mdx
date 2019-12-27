@@ -1,0 +1,54 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { ChangeServer } from "common-components";
+import { useState } from "@storybook/addons"
+
+
+<Meta title="MDX|Change Server" component={ChangeServer} />
+
+# Change Server
+
+
+```
+
+import {ChangeServer} from "common-components"
+
+```
+
+
+### Default
+<Preview>
+    <Story name="Default">
+    {()=>{
+      const [selected, setSelected] = useState("1");
+  const options = [
+    {
+      name: "PP23",
+      uuid: "1"
+    },
+    {
+      name: "PP33",
+      uuid: "2"
+    }
+  ];
+  return (
+    <>
+      <ChangeServer
+        selected={selected}
+        options={options}
+        onChangeFn={setSelected}
+      />
+    </>
+  );
+    }}
+    </Story>
+</Preview>
+
+
+
+## Props
+
+| Name       | Type     | Default  | Description          |
+| ---------- | -------- | -------- | -------------------- |
+| onChangeFn | function | required | on change action     |
+| selected   | string   | required | Selected value       |
+| options    | array    | required | select option values |

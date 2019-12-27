@@ -1,0 +1,44 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { LoadingModal, SaveButton as Button } from 'common-components'
+import { useState } from '@storybook/addons'
+const style={background: '#7c8a97'}
+
+<Meta title="MDX|Loading Modal" component={LoadingModal} />
+
+### Loading Modal
+
+
+```
+import { LoadingModal } from 'common-components'
+```
+
+<Preview>
+  <Story name="default">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => {
+        console.log('cancel')
+        setOpen(false)
+      }
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <LoadingModal
+            open={open}
+            text={'One moment. We’re removing the campaign…'}
+            cancelFn={handleCancel}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### Props
+
+| Name     | Type     | Default  | Description       |
+| -------- | -------- | -------- | ----------------- |
+| open     | boolean  | required | to open the modal |
+| text     | string   | required | loading message   |
+| cancelFn | function | required | cancel function   |
+

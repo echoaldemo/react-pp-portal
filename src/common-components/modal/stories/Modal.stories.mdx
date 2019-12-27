@@ -1,0 +1,39 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { Modal, SaveButton} from 'common-components';
+import { useState } from '@storybook/addons'
+
+<Meta title="MDX|Modal" component={Modal} />
+
+# Modal
+
+```
+import { Modal } from "common-components"
+
+```
+### Default
+<Preview>
+    <Story name="default">
+      {
+        () => {
+          const [open, setOpen] = useState(false)
+          return (
+          <div>
+            <SaveButton onClick={() => setOpen(true)}>Open Modal</SaveButton>
+            <Modal open={open} title="Modal Test" onClose={() => setOpen(false)}>
+              Modal Test
+            </Modal>
+          </div>
+          );
+        }
+      }
+    </Story>
+</Preview>
+
+### Props
+
+| Name    | Type     | Default  | Description   |
+| ------- | -------- | -------- | ------------- |
+| open    | bool     | required | open modal    |
+| title   | string   | required | modal header  |
+| onClose | function | required | close modal   |
+| width   | int      | -------- | with of modal |

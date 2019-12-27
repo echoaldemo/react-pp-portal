@@ -1,0 +1,39 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { HeadMenu } from "common-components";
+
+<Meta title="MDX|Head Menu" component={HeadMenu} />
+
+# Head Menu
+```
+
+import {HeadMenu} from "common-components"
+
+```
+### Default
+<Preview>
+    <Story name="Default">
+    <>
+     <HeadMenu
+        location={{ pathname: "/manage/user" }}
+        getData={() => {
+          return { first_name: "StoryBook", last_name: "User" }
+        }}
+        logout={() => {
+          alert("Logout")
+        }}
+      />
+    </>
+  );
+  
+    </Story>
+</Preview>  
+
+
+
+## Props
+
+| Name       | Type     | Default  | Description          |
+| ---------- | -------- | -------- | -------------------- |
+| onChangeFn | function | required | on change action     |
+| selected   | string   | required | Selected value       |
+| options    | array    | required | select option values |

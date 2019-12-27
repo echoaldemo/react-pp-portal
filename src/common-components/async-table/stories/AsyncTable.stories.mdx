@@ -1,0 +1,261 @@
+import { Meta, Story, Preview } from "@storybook/addon-docs/blocks";
+import { useState } from '@storybook/addons'
+
+import { TableRow, TableCell, withStyles, Tooltip } from "@material-ui/core";
+import { Settings, FileCopyOutlined as Icon } from "@material-ui/icons";
+import { mdiContentCopy } from "@mdi/js";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import {
+  AsyncTable,
+  UnderlineCell,
+  ActiveCell,
+  LiveCell,
+  TruthCell,
+  PausedCell
+} from "common-components";
+
+export const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11
+  }
+}))(Tooltip);
+
+export const sampleData = [
+  {
+    name: "test",
+    slug: "test",
+    uuid: "3d83a30c-0431-11ea-b33e-0242ac110011",
+    live: true,
+    active: true
+  },
+  {
+    name: "test",
+    slug: "test",
+    uuid: "3d83a30c-0431-11ea-b33e-0242ac110014",
+    live: false,
+    active: false
+  }
+];
+
+<Meta title="MDX|Async Table" component={AsyncTable} />
+
+# Async Table
+```
+import { AsyncTable } from "common-components"
+```
+## Default
+
+<Preview>
+  <Story name="default">
+    {
+      () => {
+        const [copy, setCopy] = useState(false);
+        return (
+        <AsyncTable
+          headers={["Name", "Slug", "UUID"]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <TableCell className={cell}>{sample.name}</TableCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={uuid}>
+                  <p>{sample.uuid}</p>
+                  <CopyToClipboard
+                    text={sample.uuid}
+                    onCopy={() => setCopy(true)}
+                    onPointerLeave={() => setCopy(false)}
+                  >
+                    {copy ? (
+                      <LightTooltip title="UUID Copied!" placement="top">
+                        <Icon
+                          className={icon}
+                          path={mdiContentCopy}
+                          size={1}
+                          rotate={360}
+                        />
+                      </LightTooltip>
+                    ) : (
+                      <LightTooltip title="Copy UUID" placement="top">
+                        <Icon
+                          className={icon}
+                          path={mdiContentCopy}
+                          size={1}
+                          rotate={360}
+                        />
+                      </LightTooltip>
+                    )}
+                  </CopyToClipboard>
+                </TableCell>
+              </TableRow>
+            ))
+          }
+        />
+        )
+      }
+    }
+  </Story>
+</Preview>
+
+## With Underline Cell
+
+```
+import { UnderlineCell } from "common-components"
+```
+<Preview>
+  <Story name="with Underline Cell">
+    {
+      () => {
+      const [copy, setCopy] = useState(false);
+      return (
+        <AsyncTable
+          headers={["Name", "Slug", "UUID"]}
+          tableData={sampleData}
+          render={(samples, { row, cell }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+              </TableRow>
+            ))
+          }
+        />
+      );
+      }
+    }
+  </Story>
+</Preview>
+
+## With Live Cell
+```
+import { LiveCell } from "common-components"
+```
+<Preview>
+  <Story name="with live cell">
+    <AsyncTable
+          headers={["Name", "Slug", "UUID", "live"]}
+          tableData={sampleData}
+          render={(samples, { row, cell }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+              </TableRow>
+            ))
+          }
+        />
+  </Story>
+</Preview>
+
+## With Active Cell
+```
+import { ActiveCell } from "common-components"
+```
+<Preview>
+  <Story name="with active cell">
+    <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "active"]}
+          tableData={sampleData}
+          render={(samples, { row, cell }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <ActiveCell className={cell}>{sample.active}</ActiveCell>
+              </TableRow>
+            ))
+          }
+        />
+  </Story>
+</Preview>
+
+## With Button
+
+<Preview>
+  <Story name="with button">
+    <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "active", ""]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <ActiveCell className={cell}>{sample.active}</ActiveCell>
+                <TableCell className={cell}>
+                  <Settings className={icon} />
+                </TableCell>
+              </TableRow>
+            ))
+          }
+        />
+  </Story>
+</Preview>
+
+## With Truth Cell
+```
+import { TruthCell } from "common-components"
+```
+<Preview>
+  <Story name="with truth cell">
+     <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "truth"]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <TruthCell className={cell}>{sample.active}</TruthCell>
+              </TableRow>
+            ))
+          }
+        />
+  </Story>
+</Preview>
+
+## With Paused Cell
+```
+import { PausedCell } from "common-components"
+```
+<Preview>
+  <Story name="with paused cell">
+     <AsyncTable
+          headers={["Name", "Slug", "UUID", "live", "paused"]}
+          tableData={sampleData}
+          render={(samples, { row, cell, uuid, icon }) =>
+            samples.map(sample => (
+              <TableRow className={row} key={sample.uuid}>
+                <UnderlineCell className={cell}>{sample.name}</UnderlineCell>
+                <TableCell className={cell}>{sample.slug}</TableCell>
+                <TableCell className={cell}>{sample.uuid}</TableCell>
+                <LiveCell className={cell}>{sample.live}</LiveCell>
+                <PausedCell className={cell}>{sample.active}</PausedCell>
+              </TableRow>
+            ))
+          }
+        />
+  </Story>
+</Preview>
+
+
+### Props
+
+| Name      | Type   |          | Description      |
+| --------- | ------ | -------- | ---------------- |
+| headers   | array  | required | array of headers |
+| tableData | array  | required | array of data    |
+| render    | method | required | render the table |

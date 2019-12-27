@@ -1,0 +1,22 @@
+import { FilterLog } from "../";
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import { useState } from "@storybook/addons";
+
+<Meta title="MDX|Filter Log" component={FilterLog} />
+
+# Call Menu
+
+<Preview>
+  <Story name="Card Header">
+    <FilterLog />
+  </Story>
+</Preview>
+
+## Filter Log Properties
+
+| Name               | Type     | Default | Description            |
+| ------------------ | -------- | ------- | ---------------------- |
+| data               | array    | -----   | Data of the change log |
+| originalData       | array    | -----   | Data of the change log |
+| handleFilterUpdate | function | -----   | Function result        |
+| modalFunc          | function | -----   | sets active data       |

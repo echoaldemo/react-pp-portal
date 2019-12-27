@@ -1,0 +1,58 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { HeaderLink } from "common-components";
+
+<Meta title="MDX|Header Link" component={HeaderLink} />
+
+# Header Link
+```
+
+import {HeaderLink} from "common-components"
+
+```
+### Default
+<Preview>
+    <Story name="Default">
+    <>
+     <HeaderLink
+            menu={[
+              {
+                title: 'Users',
+                path: '/manage/users'
+              },
+              {
+                title: 'Companies',
+                path: '/manage/companies'
+              },
+              {
+                title: 'Locations',
+                path: '/manage/locations'
+              },
+              {
+                title: 'Realms',
+                path: '/manage/realms'
+              },
+              {
+                title: 'DID Pools',
+                path: '/manage/did-pool'
+              },
+              {
+                title: 'Dids',
+                path: '/manage/dids'
+              }
+            ]}
+            title="Campaigns"
+          />
+    </>
+  );
+  
+    </Story>
+</Preview>  
+
+
+
+## Props
+
+| Name  | Type   |          | Description                 |
+| ----- | ------ | -------- | --------------------------- |
+| menu  | Array  | Required | Selections of link          |
+| title | String | Required | Title of currently selected |

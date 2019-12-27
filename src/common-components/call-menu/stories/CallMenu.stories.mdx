@@ -1,0 +1,36 @@
+import { Meta, Story, Preview, Props } from "@storybook/addon-docs/blocks";
+import { CallMenu } from "../";
+import { useState } from "@storybook/addons";
+
+<Meta title="MDX|Call Menu" component={CallMenu} />
+
+# Call Menu
+
+<Preview>
+  <Story name="Card Header">
+    {() => {
+      const [callInfo, setCallInfo] = useState({
+        agentName: "BoyLado Hernandez",
+        listening: true,
+        whisper: false
+      });
+      const ToggleCallButton = (button) => {
+        setCallInfo({ ...callInfo, [button]: !callInfo[button] });
+      };
+      return <>
+        <CallMenu callInfo={callInfo} ToggleCallButton={ToggleCallButton} />
+      </>
+    }}
+  </Story>
+</Preview>
+
+#
+
+
+# Props
+
+| Name             | Type     | Default  | Description                    |
+| ---------------- | -------- | ---------| ------------------------------ |
+| callInfo         | Array    | ---------| required, info of the call     |
+| ToggleCallButton | Function | void     | required, onClick Event        |
+
