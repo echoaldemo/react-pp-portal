@@ -26,7 +26,7 @@ import {
 } from './contsVar'
 import { Add } from '@material-ui/icons'
 import ReamlTable from './RealmTable'
-
+import SEO from 'utils/seo'
 
 
 const Realms = ({ history }) => {
@@ -40,6 +40,10 @@ const Realms = ({ history }) => {
     getData()
   }, [])
 
+  const cancel = () => {
+    // api cancel
+    console.log("cancel api")
+  }
   const getData = () => {
     setLoading(true)
     setCreate(constCreate)
@@ -111,7 +115,12 @@ const Realms = ({ history }) => {
     }
   }
   const handleCreate = () => {
+
     setCreate({ ...create, load: true })
+    setTimeout(() => {
+      setCreate({ ...create, load: false, done: true })
+    }, 1500)
+
     // post('/identity/realm/create/', {
     //   name: create.name,
     //   active: create.active,
@@ -137,7 +146,7 @@ const Realms = ({ history }) => {
 
   return (
     <>
-      {/* <SEO title="Manage Realms" /> */}
+      <SEO title="Manage Realms" />
 
       <div style={{
         display: 'flex',
@@ -149,7 +158,7 @@ const Realms = ({ history }) => {
         <HeaderLink menu={menus} title="Realms" />
         {realms.length !== 0 && (
           <HeaderButton
-            // openFunction={() => setCreate({ ...create, open: true })}
+            openFunction={() => setCreate({ ...create, open: true })}
             buttonText="New realm"
           />
         )}
@@ -210,6 +219,64 @@ const Realms = ({ history }) => {
           </Container>
         }
       </Paper>
+
+      <LoadingModal
+        open={create.load}
+        text={'One moment. We’re adding the realm…'}
+        cancelFn={() => {
+          // cancel()
+          setCreate({ ...create, load: false })
+        }}
+      />
+      <SuccessModal
+        open={create.done}
+        text={`You have created the “${create.name}” Realm`}
+        btnText={'CREATE ANOTHER'}
+        closeFn={getData}
+        btnFn={() => {
+          const { open, ...rest } = constCreate
+          setCreate({ ...rest, open: true })
+        }}
+      />
+      <Modal open={create.open} title="Create new realm" onClose={handleClose}>
+        <InputField
+          label="Realm name"
+          required
+          fullWidth
+          value={create.name}
+          onChange={handleChange}
+          onBlur={handleChange}
+          error={create.nameErr ? true : false}
+          helperText={create.nameErr ? create.nameErr : ' '}
+        />
+        <InputField
+          label="Active"
+          disabled
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Switch
+                  color="primary"
+                  checked={create.active}
+                  onChange={() =>
+                    setCreate({ ...create, active: !create.active })
+                  }
+                />
+              </InputAdornment>
+            )
+          }}
+        />
+        <BtnCont>
+          <CancelBtn onClick={handleClose}>Cancel</CancelBtn>
+          <SaveButton
+            disabled={!create.name || create.nameErr}
+            onClick={handleCreate}
+          >
+            Create
+          </SaveButton>
+        </BtnCont>
+      </Modal>
     </>
   );
 };
