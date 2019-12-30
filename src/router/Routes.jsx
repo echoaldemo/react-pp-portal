@@ -1,14 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter, Switch } from "react-router-dom";
 
-import { LandingRoute, ManageRoute } from './';
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import Gateway from "components/gateway";
+import Sample from "components/sample-component";
+import { Realms } from "components";
 export default function Routes() {
-	return (
-		<BrowserRouter>
-			<Switch>
-				<LandingRoute exact path="/" component={() => <div>Landing Route</div>} />
-				<ManageRoute path="/manage" component={() => <div>Manage Route</div>} />
-			</Switch>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Switch>
+        <PublicRoute exact path="/" component={Sample} />
+        <GatewayRoute path="/gateway" component={Gateway} />
+        <PrivateRoute path="/manage/sample" component={() => <div>xx</div>} />
+        <PrivateRoute path="/manage/realms" component={Realms} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
