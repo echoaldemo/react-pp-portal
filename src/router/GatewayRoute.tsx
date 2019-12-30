@@ -1,6 +1,14 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-
+import { Route, Redirect } from 'react-router-dom';
+import { isAuth } from '../auth/services/authService';
 export default function GatewayRoute(props: any) {
-	return <Route {...props} />;
+
+	let { component: Component, ...rest } = props;
+
+	return <Route 
+				{...rest} 
+				component={(componentProps: any) => {
+					return isAuth() ? <Component {...componentProps}/> : <Redirect to="/" />
+				}}
+		   />;
 }
