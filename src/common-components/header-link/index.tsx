@@ -92,7 +92,8 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
               >
                 <MenuItem
                   style={{
-                    fontSize: 15
+                    fontSize: 15,
+                    padding: 15
                   }}
                 >
                   {item.title}{" "}
