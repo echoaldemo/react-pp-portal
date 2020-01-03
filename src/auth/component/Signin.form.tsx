@@ -47,7 +47,7 @@ function SignInForm(props: PropType) {
 				}}
 				onSubmit={e => {
 					e.preventDefault();
-					logger()
+					props.logger()
 				}}
 			>
 				<div
