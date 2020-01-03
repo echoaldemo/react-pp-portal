@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TableRow, TableCell } from "@material-ui/core";
 import {
   AsyncTable,
@@ -12,41 +12,62 @@ interface Obj {
   [index: string]: any;
 }
 
-const DIDTable = ({ headers, didData }: any) => {
+const DIDTable = ({ headers, didData, fetchDIDs }: any) => {
+  const [editData, setEditData] = useState<Obj | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
   return (
     <div>
       <AsyncTable
         headers={headers}
         tableData={didData}
-        render={(pools: Obj, { row, userCell }: Obj) =>
-          pools.map((pool: Obj) => (
-            <TableRow className={row} key={pool.uuid}>
+        render={(dids: Obj, { row, userCell }: Obj) =>
+          dids.map((did: Obj) => (
+            <TableRow className={row} key={did.uuid}>
               <TableCell
                 style={{ textDecoration: "underline" }}
                 className={userCell}
               >
-                {pool.number || "Field not set"}
+                {did.number || "Field not set"}
               </TableCell>
               <TableCell className={userCell}>
-                <p>{pool.timezone || "Field not set"}</p>
+                <p>{did.timezone || "Field not set"}</p>
               </TableCell>
-              <TruthCell className={userCell}>{pool.owned}</TruthCell>
+              <TruthCell className={userCell}>{did.owned}</TruthCell>
               <TableCell className={userCell}>
-                <p>{pool.pool ? pool.pool.name : "Field not set"}</p>
+                <p>{did.pool ? did.pool.name : "Field not set"}</p>
               </TableCell>
               <TableCell className={userCell}>
-                <p>{pool.cname_string ? pool.cname_string : "Field not set"}</p>
+                <p>{did.cname_string ? did.cname_string : "Field not set"}</p>
               </TableCell>
-              <TruthCell className={userCell}>{pool.cname_valid}</TruthCell>
-              <ActiveCell className={userCell}>{pool.active}</ActiveCell>
+              <TruthCell className={userCell}>{did.cname_valid}</TruthCell>
+              <ActiveCell className={userCell}>{did.active}</ActiveCell>
               <TableCell className={userCell} align="right">
-                <EditButton text="Edit" onClickFunc={() => {}} />
+                <EditButton
+                  text="Edit"
+                  onClickFunc={() => {
+                    setEditData(did);
+                    handleOpenModal();
+                  }}
+                />
               </TableCell>
             </TableRow>
           ))
         }
       />
-      <EditDIDModal />
+      <EditDIDModal
+        open={open}
+        closeFn={handleCloseModal}
+        editData={editData}
+        fetchDIDs={fetchDIDs}
+      />
     </div>
   );
 };

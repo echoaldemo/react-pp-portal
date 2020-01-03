@@ -145,6 +145,7 @@ const ManageDID = () => {
                   "Status",
                   ""
                 ]}
+                fetchDIDs={fetchDIDs}
               />
               <Divider />
             </div>
