@@ -11,7 +11,7 @@ import {
 import HeaderContainer from "../components/HeaderContainer/HeaderContainer";
 import DIDTable from "../components/DIDTable/DIDTable";
 
-const ManageDID = () => {
+const ManageDID = ({ history }: any) => {
   const [loading, setLoading] = useState(true);
   const [didData, setDidData] = useState([]);
   const [paginateList, setPaginateList] = useState([]);
@@ -101,7 +101,7 @@ const ManageDID = () => {
             {
               name: "DID POOLS",
               active: false,
-              onClickFn: () => console.log("")
+              onClickFn: () => history.push("/manage/did-pool")
             },
             {
               name: "SEARCH DIDS",
