@@ -1,2 +1,2 @@
-export { Realms } from './manage-realms';
-export { Campaigns } from './campaigns';
+export { Realms } from "./manage-realms";
+export { Campaigns, EditCampaigns } from "./campaigns";

@@ -1,7 +1,15 @@
 import React from "react";
 import { SelectField } from "./styles";
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  style?: any;
+  label?: any;
+  select?: any;
+  margin?: any;
+  value?: any;
+  onBlur?: any;
+  onChange?: any;
+  required?: any;
 }
 const InputField: React.FC<Props> = ({ children, ...rest }) => {
   return (

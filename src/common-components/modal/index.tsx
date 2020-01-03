@@ -30,8 +30,10 @@ const Modal: React.FC<ModalProps> = ({
         PaperProps={{
           square: true,
           style: {
-            width: width ? width : 420,
-            height: height ? height : "auto"
+            minWidth: width ? width : 420,
+            minHeight: height ? height : "auto",
+            maxWidth: width ? width : 420,
+            maxHeight: height ? height : "auto"
           }
         }}
         onClose={() => {
@@ -74,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({
             </div>
           </div>
         </DialogTitle>
-        <DialogContent dividers style={{ ...contentStyle }}>
+        <DialogContent dividers style={{ ...contentStyle, overflow: "hidden" }}>
           {children}
         </DialogContent>
       </Dialog>

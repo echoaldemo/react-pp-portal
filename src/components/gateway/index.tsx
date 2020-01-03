@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
 	IconButton,
 	InputBase,
 	Tooltip,
 	CircularProgress,
 	Collapse
-} from '@material-ui/core'
+} from "@material-ui/core";
 import {
 	Clear,
 	ExitToApp,
@@ -13,29 +13,29 @@ import {
 	KeyboardArrowUp,
 	Search,
 	Settings
-} from '@material-ui/icons'
-import SEO from 'utils/seo'
-import Content from './components/Content'
-import { Card, Container, Header } from './style'
-import { Campaign } from './types'
+} from "@material-ui/icons";
+import SEO from "utils/seo";
+import Content from "./components/Content";
+import { Card, Container, Header } from "./style";
+import { Campaign } from "./types";
 
 const Gateway: React.FC<{ history: any }> = ({ history }) => {
-	const [loading, setLoading] = useState(true)
-	const [search, setSearch] = useState(false)
-	const [searchText, setSearchText] = useState('')
-	const [hide, setHide] = useState(false)
-	const [campaigns, setCampaigns] = useState<Array<Campaign>>([])
+	const [loading, setLoading] = useState(true);
+	const [search, setSearch] = useState(false);
+	const [searchText, setSearchText] = useState("");
+	const [hide, setHide] = useState(false);
+	const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
 
 	useEffect(() => {
-		let mock = []
+		let mock = [];
 		for (let i = 0; i < 20; i++) {
-			mock.push({ name: `Demo ${i}`, uuid: `${i}` })
+			mock.push({ name: `Demo ${i}`, uuid: `${i}` });
 		}
-		setCampaigns(mock)
+		setCampaigns(mock);
 		setTimeout(() => {
-			setLoading(false)
-		}, 1000)
-	}, [])
+			setLoading(false);
+		}, 1000);
+	}, []);
 
 	return (
 		<Container>
@@ -43,13 +43,13 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
 			<span>
 				<Tooltip title="Manage Settings" placement="right">
 					<IconButton>
-						<Settings onClick={() => history.push('/manage/users')} />
+						<Settings onClick={() => history.push("/manage/users")} />
 					</IconButton>
 				</Tooltip>
 				<h1>Welcome to the Perfect Pitch Portal</h1>
 				<Tooltip title="Logout" placement="right">
 					<IconButton>
-						<ExitToApp onClick={() => alert('logout!')} />
+						<ExitToApp onClick={() => alert("logout!")} />
 					</IconButton>
 				</Tooltip>
 			</span>
@@ -59,7 +59,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
 						<Search />
 						<InputBase
 							placeholder="Search for Campaigns..."
-							inputProps={{ 'aria-label': 'naked' }}
+							inputProps={{ "aria-label": "naked" }}
 							autoFocus
 							value={searchText}
 							onChange={e => setSearchText(e.target.value)}
@@ -76,8 +76,8 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
 								{search ? (
 									<Clear
 										onClick={() => {
-											setSearch(false)
-											setSearchText('')
+											setSearch(false);
+											setSearchText("");
 										}}
 									/>
 								) : (
@@ -103,7 +103,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
 					)}
 			</Card>
 		</Container>
-	)
-}
+	);
+};
 
-export default Gateway
+export default Gateway;
