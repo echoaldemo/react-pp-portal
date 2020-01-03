@@ -2,7 +2,13 @@ import React from "react";
 import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
 import Gateway from "components/gateway";
-import { Realms, Campaigns, PageNotFound, EditCampaigns } from "components";
+import {
+  Realms,
+  Campaigns,
+  PageNotFound,
+  EditCampaigns,
+  UserLanding
+} from "components";
 import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
 import DidPool from "components/manage/manage-did-pool";
 import Signin from "auth/component";
@@ -14,6 +20,10 @@ export default function Routes() {
         <PublicRoute exact path="/" component={Signin} />
         <GatewayRoute path="/gateway" component={Gateway} />
         <PrivateRoute path="/manage/realms" component={Realms} />
+
+        {/* User routes */}
+
+        <PrivateRoute path="/manage/users" component={UserLanding} />
 
         {/* manage/campaign routes */}
         <PrivateRoute path="/manage/campaigns" component={Campaigns} />
