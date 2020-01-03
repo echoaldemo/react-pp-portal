@@ -17,6 +17,7 @@ import {
 import { menus, new_did_const } from './utils/const-var'
 import { DidPoolProps } from './utils/types'
 import DIDPoolTable from './components/DIDPoolTable'
+import NewDidPool from './components/NewDidPool'
 import './style/style.css'
 
 const DidPool: React.FC<DidPoolProps> = ({ history }) => {
@@ -71,34 +72,34 @@ const DidPool: React.FC<DidPoolProps> = ({ history }) => {
 		setState({ ...state, didPools: state.paginateList.slice(from, to) })
 	}
 
-	const FilterApplyButton = () => {
-		// setState({ ...state, loading: true })
-		// if (params.company === ' ' || params.campaign === ' ') {
-		//   get(`/did/company/all/campaign/all/pool/`).then((result: any) => {
-		//     setState({
-		//       ...state,
-		//       didPools: result.data,
-		//       paginateList: result.data,
-		//       loading: false
-		//     })
-		//   })
-		// } else {
-		//   Promise.all([
-		//     get(`/identity/company/${params.company}`),
-		//     get(`/identity/campaign/${params.campaign}`)
-		//   ]).then(res => {
-		//     get(
-		//       `/did/company/${res[0].data.slug}/campaign/${res[1].data.slug}/pool/`
-		//     ).then((result: any) => {
-		//       setState({
-		//         ...state,
-		//         didPools: result.data,
-		//         paginateList: result.data,
-		//         loading: false
-		//       })
-		//     })
-		//   })
-		// }
+	const FilterApplyButton = (params: any) => {
+		setState({ ...state, loading: true })
+		if (params.company === ' ' || params.campaign === ' ') {
+			get(`/did/company/all/campaign/all/pool/`).then((result: any) => {
+				setState({
+					...state,
+					didPools: result.data,
+					paginateList: result.data,
+					loading: false
+				})
+			})
+		} else {
+			Promise.all([
+				get(`/identity/company/${params.company}`),
+				get(`/identity/campaign/${params.campaign}`)
+			]).then(res => {
+				get(
+					`/did/company/${res[0].data.slug}/campaign/${res[1].data.slug}/pool/`
+				).then((result: any) => {
+					setState({
+						...state,
+						didPools: result.data,
+						paginateList: result.data,
+						loading: false
+					})
+				})
+			})
+		}
 	}
 
 	const handleClose = () => {
@@ -195,18 +196,18 @@ const DidPool: React.FC<DidPoolProps> = ({ history }) => {
 						</div>
 					)}
 			</Paper>
-			{/* <NewDidPool
-        state={state}
-        setState={setState}
-        companys={companys}
-        campaigns={campaigns}
-        setCampaigns={setCampaigns}
-        voice={voice}
-        data={data}
-        setData={setData}
-        handleNewDidPool={handleNewDidPool}
-        handleClose={handleClose}
-      /> */}
+			<NewDidPool
+				state={state}
+				setState={setState}
+				companies={companies}
+				campaigns={campaigns}
+				setCampaigns={setCampaigns}
+				voice={voice}
+				data={data}
+				setData={setData}
+				handleNewDidPool={handleNewDidPool}
+				handleClose={handleClose}
+			/>
 		</div>
 	)
 }
