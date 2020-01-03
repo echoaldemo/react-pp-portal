@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
 
 import Gateway from 'components/gateway';
 import { Realms, Campaigns, PageNotFound, EditCampaigns } from 'components';
@@ -21,9 +21,9 @@ export default function Routes() {
 
 				<PrivateRoute path="/manage/did-pool" component={DidPool} />
 
-				<PublicRoute path="/404" component={PageNotFound} />
-				<Redirect to="/404" />
-			</Switch>
-		</BrowserRouter>
-	);
+        <PublicRoute path="/404" component={PageNotFound} />
+        <Redirect to="/404" />
+      </Switch>
+    </BrowserRouter>
+  )
 }
