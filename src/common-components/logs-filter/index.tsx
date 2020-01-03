@@ -114,7 +114,7 @@ class LogsFilter extends Component<Props, State> {
     } as any;
   }
   removeDuplicates: Function = (originalArray: any, prop: any) => {
-    var newArray = [];
+    var newArray: any = [];
     var lookupObject = {} as any;
 
     for (var i in originalArray) {
@@ -167,7 +167,7 @@ class LogsFilter extends Component<Props, State> {
             className={classes.root}
             id="demo-simple-select"
             value={this.state.userValue}
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ userValue: e.target.value });
             }}
             {...selectProps}
@@ -191,7 +191,7 @@ class LogsFilter extends Component<Props, State> {
           <Select
             id="demo-simple-select"
             value={this.state.createValue}
-            onChange={(e) => {
+            onChange={e => {
               this.setState({ createValue: e.target.value });
             }}
             {...selectProps}

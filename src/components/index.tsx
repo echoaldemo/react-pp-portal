@@ -1,1 +1,1 @@
-export { Realms, Campaigns } from "./manage";
+export { Realms, Campaigns, Companies } from "./manage";
