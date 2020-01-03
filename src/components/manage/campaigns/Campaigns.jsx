@@ -24,7 +24,7 @@ export default function Campaigns({ history }) {
 					setLoading(false);
 					setPaginateList(mockDataCampaigns);
 				});
-		}, 500);
+		}, 200);
 	}, []);
 
 	function FilterApplyButton(params) {
