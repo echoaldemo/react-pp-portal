@@ -1,0 +1,1 @@
+export { DescribeRole } from "./RoleDescription";

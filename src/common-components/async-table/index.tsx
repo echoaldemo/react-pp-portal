@@ -122,7 +122,7 @@ const AsyncTable: React.FC<Props> = ({
   }
 
   return (
-    <div className={classes.rootClass} style={{ minHeight: customHeight }}>
+    <div className={classes.root} style={{ minHeight: customHeight }}>
       <Table
         className={classes.table}
         style={
