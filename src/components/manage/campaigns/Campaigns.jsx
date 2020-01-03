@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HeaderLink, HeaderButton, SearchBar, FilterToolBar } from 'common-components';
+import { HeaderLink, HeaderButton, SearchBar, FilterToolBar, Pagination } from 'common-components';
 import { menus, mockDataCampaigns } from '../globalConstsVar';
 import CampaignTable from './CampaignTable';
 import SEO from 'utils/seo';
@@ -46,9 +46,14 @@ export default function Campaigns({ history }) {
 				setLoading(false);
 			})
 			.catch(() => {
+				setData([]);
+				setPaginateList([]);
 				setLoading(false);
 			});
 	}
+	const paginate = (from, to) => {
+		setPaginateList(data.slice(from, to));
+	};
 	return (
 		<div>
 			<SEO title="Manage Campaigns" />
@@ -77,6 +82,17 @@ export default function Campaigns({ history }) {
 				/>
 
 				<CampaignTable loading={loading} data={paginateList} history={history} />
+				<div style={{ width: '100%' }}>
+					<Divider />
+					{Boolean(paginateList.length) && (
+						<Pagination
+							paginateFn={paginate}
+							totalItems={data.length}
+							paginateList={data}
+							itemsPerPage={7}
+						/>
+					)}
+				</div>
 			</Paper>
 		</div>
 	);
