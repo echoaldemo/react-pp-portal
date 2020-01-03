@@ -1,8 +1,7 @@
-import React from "react";
-import { Tabs, Tab, MuiThemeProvider } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { theme, buttonTabStyle as useStyles } from "../styles";
-import { any } from "prop-types";
+import React from 'react'
+import { Tabs, Tab, MuiThemeProvider } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { theme, buttonTabStyle as useStyles } from '../styles'
 /**
  * ==============================================================================
  * <ButtonTabs />
@@ -14,31 +13,31 @@ import { any } from "prop-types";
  */
 
 interface TabContent {
-  label: string;
-  value: number;
-  path: string;
-  style?: React.CSSProperties;
+  label: string
+  value: number
+  path: string
+  style?: React.CSSProperties
 }
 interface Props {
-  handleChange: any;
-  tabData: Array<TabContent>;
+  handleChange?: any
+  tabData: Array<TabContent>
 }
 
 const defaultProps = {
-  handleChange: () => console.log("Handle Change Event"),
+  handleChange: () => console.log('Handle Change Event'),
   tabData: [
     {
-      label: "DID POOLS",
+      label: 'DID POOLS',
       value: 1,
-      path: "/",
+      path: '/',
       style: undefined
     },
-    { label: "SEARCH DIDS", value: 0, path: "/", style: undefined }
+    { label: 'SEARCH DIDS', value: 0, path: '/', style: undefined }
   ]
-};
+}
 
 const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
-  const classes: any = useStyles(theme);
+  const classes: any = useStyles(theme)
   return (
     <MuiThemeProvider theme={theme}>
       <Tabs
@@ -62,9 +61,9 @@ const ButtonTabs: React.FC<Props> = ({ handleChange, tabData }) => {
         ))}
       </Tabs>
     </MuiThemeProvider>
-  );
-};
+  )
+}
 
-ButtonTabs.defaultProps = defaultProps as Partial<Props>;
+ButtonTabs.defaultProps = defaultProps as Partial<Props>
 
-export default ButtonTabs;
+export default ButtonTabs
