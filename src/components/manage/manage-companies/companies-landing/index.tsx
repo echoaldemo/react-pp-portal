@@ -11,13 +11,25 @@ import {
   SearchBar,
   TableLoader
 } from "common-components";
-//import CompanyTable from "./CompanyTable";
+import { CompanyTable } from "../components/table";
+import { mock } from "../mock";
 //import AddCompanyForm from "./Forms/AddCompanyForm";
 import SEO from "utils/seo";
 
-class Companies extends Component {
-  constructor(props) {
-    super(props);
+interface IProps {}
+
+interface IState {
+  openDrawer: boolean;
+  loading: boolean;
+  userData: any;
+  filterlist: any;
+  paginateList: any;
+  innerLoading: boolean;
+}
+
+class Companies extends Component<IProps, IState> {
+  constructor() {
+    super({});
     this.state = {
       openDrawer: false,
       loading: false,
@@ -29,6 +41,17 @@ class Companies extends Component {
   }
   handleUpdate = () => {
     this.setState({ loading: true });
+    //start mock
+    setTimeout(() => {
+      this.setState({
+        userData: mock,
+        filterlist: mock,
+        paginateList: mock,
+        loading: false
+      });
+    }, 2000);
+
+    //end mock
 
     /* get("/identity/company/list/").then(res => {
       this.setState({
@@ -71,11 +94,11 @@ class Companies extends Component {
   closeDrawerHandler = () => {
     this.setState({ openDrawer: false });
   };
-  /* paginate = (from, to) => {
+  paginate = (from, to) => {
     this.setState({
       userData: this.state.paginateList.slice(from, to)
     });
-  }; */
+  };
 
   render() {
     return (
@@ -157,14 +180,14 @@ class Companies extends Component {
                 />
               }
 
-              {true ? (
+              {this.state.loading ? (
                 <TableLoader />
               ) : (
                 <>
-                  {/* <CompanyTable
-                    DataNotFound={this.state.filterlist}
+                  <CompanyTable
+                    //DataNotFound={this.state.filterlist}
                     userData={this.state.userData}
-                    handleUpdated={this.handleUpdate}
+                    //handleUpdated={this.handleUpdate}
                     innerLoading={this.state.innerLoading}
                     headers={[
                       "Name",
@@ -175,17 +198,17 @@ class Companies extends Component {
                       "Active",
                       " "
                     ]}
-                  /> */}
+                  />
                   <div style={{ width: "100%" }}>
                     <Divider />
-                    {/* {Boolean(this.state.paginateList.length) && (
+                    {Boolean(this.state.paginateList.length) && (
                       <Pagination
                         paginateFn={this.paginate}
                         totalItems={this.state.paginateList.length}
-                        paginateList={this.state.paginateList}
+                        //paginateList={this.state.paginateList}
                         itemsPerPage={6}
                       />
-                    )} */}
+                    )}
                   </div>
                 </>
               )}
