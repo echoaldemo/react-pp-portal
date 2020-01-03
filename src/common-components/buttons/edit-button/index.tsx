@@ -1,13 +1,13 @@
-import React from 'react'
-import { Button } from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit'
+import React from "react";
+import { Button } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 interface EditButtonProps {
-  text: string
-  style?: object
-  iconStyle?: object
-  textStyle?: object
-  onClickFunc: Function
+  text: string;
+  style?: object;
+  iconStyle?: object;
+  textStyle?: object;
+  onClickFunc: Function;
 }
 
 const EditButton: React.FC<EditButtonProps> = ({
@@ -20,10 +20,10 @@ const EditButton: React.FC<EditButtonProps> = ({
   return (
     <Button
       onClick={() => {
-        onClickFunc()
+        onClickFunc();
       }}
       style={{
-        textTransform: 'none',
+        textTransform: "none",
         ...style
       }}
     >
@@ -38,22 +38,22 @@ const EditButton: React.FC<EditButtonProps> = ({
         style={{
           fontSize: 14,
           fontWeight: 600,
-          textDecoration: 'underline',
+          textDecoration: "underline",
           ...textStyle,
-          color: '#444851'
+          color: "#444851"
         }}
       >
         {text}
       </span>
     </Button>
-  )
-}
+  );
+};
 
 EditButton.defaultProps = {
-  text: 'Edit Test',
+  text: "Edit Test",
   onClickFunc: () => {
-    alert('Edit button')
+    alert("Edit button");
   }
-} as Partial<EditButtonProps>
+} as Partial<EditButtonProps>;
 
-export default EditButton
+export default EditButton;
