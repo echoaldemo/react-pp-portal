@@ -23,9 +23,9 @@ import {
   CancelBtn,
   constCreate,
   MockRealm
-} from './components/contsVar'
+} from './contsVar'
 import { Add } from '@material-ui/icons'
-import ReamlTable from './components/RealmTable'
+import ReamlTable from './RealmTable'
 import SEO from 'utils/seo'
 
 
@@ -209,6 +209,7 @@ const Realms = ({ history }) => {
                       <Pagination
                         paginateFn={paginate}
                         totalItems={paginateList.length}
+                        paginateList={paginateList}
                         itemsPerPage={6}
                       />
                     )}
