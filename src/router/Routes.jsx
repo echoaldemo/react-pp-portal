@@ -7,20 +7,27 @@ import {
   Campaigns,
   PageNotFound,
   EditCampaigns,
-  UserLanding
+  UserLanding,
+  RealmSettingsPage,
+  Companies
 } from "components";
 import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
 import DidPool from "components/manage/manage-did-pool";
 import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
 export default function Routes() {
   return (
     <BrowserRouter>
       <Switch>
         <PublicRoute exact path="/" component={Signin} />
-        <GatewayRoute path="/gateway" component={Gateway} />
+        <GatewayRoute exact path="/gateway" component={Gateway} />
         <PrivateRoute path="/manage/realms" component={Realms} />
-
+        <PrivateRoute
+          exact
+          path="/manage/realms/edit/:uuid"
+          component={RealmSettingsPage}
+        />
         {/* User routes */}
 
         <PrivateRoute path="/manage/users" component={UserLanding} />
@@ -32,9 +39,13 @@ export default function Routes() {
           component={EditCampaigns}
         />
         {/* end of manage/campaign routes */}
+        {/* manage/companies */}
+        <PrivateRoute path="/manage/companies" component={Companies} />
+        {/* end manage/companies */}
 
-        <PrivateRoute path="/manage/did-pool" component={DidPool} />
+        <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
         <PrivateRoute path="/manage/dids" component={ManageDIDs} />
+        <PrivateRoute path="/manage/locations" component={ManageLocation} />
 
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />

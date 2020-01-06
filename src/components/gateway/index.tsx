@@ -27,7 +27,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
 
   useEffect(() => {
-    let mock = [];
+    let mock: any = [];
     for (let i = 0; i < 20; i++) {
       mock.push({ name: `Demo ${i}`, uuid: `${i}` });
     }

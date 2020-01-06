@@ -1,2 +1,4 @@
 export { Realms } from "./manage-realms";
-export { Campaigns, EditCampaigns } from "./campaigns";
+export { RealmSettingsPage } from "./manage-realms/settings";
+export { Campaigns, EditCampaigns } from "./manage-campaigns";
+export { Companies } from "./manage-companies";
