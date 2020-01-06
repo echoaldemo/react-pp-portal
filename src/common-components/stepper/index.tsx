@@ -61,11 +61,15 @@ const Stepper = ({
 
   const x = (nexpos = currentStep) => {
     setCurrentStep(nexpos);
-    children.forEach((child: IChild) => {
-      if (child.props.index === nexpos) {
-        setDis(child.props.disabled);
-      }
-    });
+    // console.log("Children: ", children);
+    // children.props.children.forEach((child: IChild) => {
+    //   if (child.props.index === pos) {
+    //     setDis(child.props.disabled);
+    //   }
+    // });
+    if (children.props.index === nexpos) {
+      setDis(children.props.disabled);
+    }
   };
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const Stepper = ({
   useEffect(() => {
     setPos(currentStep);
     x();
-  }, []);
+  }, [children]);
 
   const renderSteps: Function = () => {
     return (

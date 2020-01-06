@@ -35,6 +35,15 @@ const TableComponent: React.FC<Props> = ({
   innerLoading
 }) => {
   const [copy, setCopy] = useState(false);
+  const renderIcon = (icon: any) => {
+    const iconProps = {
+      className: icon,
+      path: mdiContentCopy,
+      size: 1,
+      rotate: 360
+    };
+    return <Icon {...iconProps} />;
+  };
   return (
     <React.Fragment>
       {innerLoading === true ? (
@@ -48,8 +57,8 @@ const TableComponent: React.FC<Props> = ({
         <AsyncTable
           headers={headers}
           tableData={userData}
-          render={(companies, { row, cell, uuid, icon }) => {
-            return companies.map(company => (
+          render={(companies: any, { row, cell, uuid, icon }: any) => {
+            return companies.map((company: any) => (
               <TableRow className={row} key={company.uuid} id="demo-body">
                 <TableCell className={cell} style={{ maxWidth: 250 }}>
                   <Link
@@ -115,21 +124,11 @@ const TableComponent: React.FC<Props> = ({
                   >
                     {copy ? (
                       <LightTooltip title="UUID Copied!" placement="top">
-                        <Icon
-                        //path={mdiContentCopy}
-                        /* className={icon}
-                          size={1}
-                          rotate={360} */
-                        />
+                        {renderIcon(icon)}
                       </LightTooltip>
                     ) : (
                       <LightTooltip title="Copy UUID" placement="top">
-                        <Icon
-                        //path={mdiContentCopy}
-                        /* className={icon}
-                          size={1}
-                          rotate={360} */
-                        />
+                        {renderIcon(icon)}
                       </LightTooltip>
                     )}
                   </CopyToClipboard>

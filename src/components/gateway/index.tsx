@@ -19,7 +19,7 @@ import Content from "./components/Content";
 import { Card, Container, Header } from "./style";
 import { Campaign } from "./types";
 
-const Gateway = () => {
+const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -43,13 +43,13 @@ const Gateway = () => {
       <span>
         <Tooltip title="Manage Settings" placement="right">
           <IconButton>
-            <Settings />
+            <Settings onClick={() => history.push("/manage/users")} />
           </IconButton>
         </Tooltip>
         <h1>Welcome to the Perfect Pitch Portal</h1>
         <Tooltip title="Logout" placement="right">
           <IconButton>
-            <ExitToApp />
+            <ExitToApp onClick={() => alert("logout!")} />
           </IconButton>
         </Tooltip>
       </span>

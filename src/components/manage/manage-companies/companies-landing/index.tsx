@@ -66,7 +66,7 @@ class Companies extends Component<IProps, IState> {
     this.handleUpdate();
   }
   //Needed this method for the filtertoolbar component
-  FilterApplyButton = params => {
+  FilterApplyButton = (params: any) => {
     this.setState({ loading: true });
     var parameter = {
       ...(params.sortby !== " " && { order_by: params.sortby }),
@@ -94,7 +94,7 @@ class Companies extends Component<IProps, IState> {
   closeDrawerHandler = () => {
     this.setState({ openDrawer: false });
   };
-  paginate = (from, to) => {
+  paginate = (from: number, to: number) => {
     this.setState({
       userData: this.state.paginateList.slice(from, to)
     });

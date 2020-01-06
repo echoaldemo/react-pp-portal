@@ -1,3 +1,3 @@
 export { Realms } from "./manage-realms";
-export { Campaigns } from "./campaigns";
+export { Campaigns, EditCampaigns } from "./campaigns";
 export { Companies } from "./manage-companies";
