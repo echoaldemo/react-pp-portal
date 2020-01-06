@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { HeaderLink, HeaderButton, SearchBar, FilterToolBar, Pagination } from 'common-components';
+import { HeaderLink, HeaderButton, SearchBar, FilterToolBar, Pagination, Modal } from 'common-components';
 import { menus, mockDataCampaigns } from '../globalConstsVar';
 import CampaignTable from './CampaignTable';
 import SEO from 'utils/seo';
 import { get } from '../../../utils/api';
-import { Paper, Divider } from '@material-ui/core';
+import { Paper, Divider, Dialog } from '@material-ui/core';
+import NewCampaign from './new-campaign/NewCampaign';
 export default function Campaigns({ history }) {
 	const [ loading, setLoading ] = useState(false);
 	const [ data, setData ] = useState([]);
 	const [ paginateList, setPaginateList ] = useState([]);
-
+	const [ openCreateModal, setOpenCreateModal ] = useState(false);
 	useEffect(() => {
 		setLoading(true);
 		setTimeout(() => {
@@ -46,7 +47,6 @@ export default function Campaigns({ history }) {
 				setLoading(false);
 			})
 			.catch(() => {
-				setData([]);
 				setPaginateList([]);
 				setLoading(false);
 			});
@@ -57,7 +57,7 @@ export default function Campaigns({ history }) {
 	return (
 		<div>
 			<SEO title="Manage Campaigns" />
-			{renderHeader(data)}
+			<CampaignHeader data={data} setOpenCreateModal={setOpenCreateModal} />
 			<Paper>
 				<SearchBar
 					title="Campaign"
@@ -81,7 +81,12 @@ export default function Campaigns({ history }) {
 					company={true}
 				/>
 
-				<CampaignTable loading={loading} data={paginateList} history={history} />
+				<CampaignTable
+					loading={loading}
+					data={paginateList}
+					history={history}
+					setOpenCreateModal={setOpenCreateModal}
+				/>
 				<div style={{ width: '100%' }}>
 					<Divider />
 					{Boolean(paginateList.length) && (
@@ -94,18 +99,36 @@ export default function Campaigns({ history }) {
 					)}
 				</div>
 			</Paper>
+			<Modal
+				open={openCreateModal}
+				onClose={() => {
+					setOpenCreateModal(false);
+				}}
+				title={<b>Create New Campaign</b>}
+			>
+				<NewCampaign
+					closeFn={() => {
+						setOpenCreateModal(false);
+					}}
+					realms={[]}
+					companys={[]}
+					newFn={() => {
+						return null;
+					}}
+				/>
+			</Modal>
 		</div>
 	);
 }
 
-function renderHeader(data) {
+function CampaignHeader({ data, setOpenCreateModal }) {
 	return (
 		<div className="header-container">
 			<HeaderLink menu={menus} title="Campaigns" />
 			{data.length > 0 && (
 				<HeaderButton
 					openFunction={() => {
-						return null;
+						setOpenCreateModal(true);
 					}}
 					buttonText="New Campaign"
 				/>

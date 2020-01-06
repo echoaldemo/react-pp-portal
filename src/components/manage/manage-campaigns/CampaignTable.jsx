@@ -15,22 +15,32 @@ import { mdiContentCopy } from '@mdi/js';
 import { Add, FileCopyOutlined as Icon } from '@material-ui/icons';
 import { TableCell, TableRow } from '@material-ui/core';
 
-export default function CampaignTable({ data, loading, history }) {
+export default function CampaignTable({ data, loading, history, setOpenCreateModal }) {
 	return (
 		<div>
-			{!data.length > 0 && !loading ? renderNoData() : loading ? <TableLoader /> : DataTable(data, history)}
+			{!data.length > 0 && !loading ? (
+				renderNoData(setOpenCreateModal)
+			) : loading ? (
+				<TableLoader />
+			) : (
+				DataTable(data, history)
+			)}
 		</div>
 	);
 }
 
-function renderNoData() {
+function renderNoData(setOpenCreateModal) {
 	return (
 		<TableNoResult
 			headerText="Campagaigns"
 			mainMessage="No campaigns have been created"
 			subMessage="Would you like to create one? Just hit the “New Campaign button."
 			renderButton={
-				<SaveButton>
+				<SaveButton
+					onClick={() => {
+						setOpenCreateModal(true);
+					}}
+				>
 					{' '}
 					<Add /> New Campaign
 				</SaveButton>
