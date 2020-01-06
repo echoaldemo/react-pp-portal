@@ -60,7 +60,8 @@ function DataTable(data, history) {
 					<TableRow key={campaign.uuid} className={row}>
 						<UnderlineCell
 							className={cell}
-							onClick={() => history.push(`/manage/campaign/edit/${campaign.uuid}`)}
+							onClick={() =>
+								history.push(`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`)}
 						>
 							{campaign.name}
 						</UnderlineCell>
@@ -88,7 +89,8 @@ function DataTable(data, history) {
 						<TableCell className={cell} align="right">
 							<EditButton
 								text="Edit"
-								onClickFunc={() => history.push(`/manage/campaign/edit/${campaign.uuid}`)}
+								onClickFunc={() =>
+									history.push(`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`)}
 								style={{
 									color: '#444851'
 								}}

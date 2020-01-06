@@ -4,8 +4,8 @@ import { menus, mockDataCampaigns } from '../globalConstsVar';
 import CampaignTable from './CampaignTable';
 import SEO from 'utils/seo';
 import { get } from '../../../utils/api';
-import { Paper, Divider, Dialog } from '@material-ui/core';
-import NewCampaign from './new-campaign/NewCampaign';
+import { Paper, Divider } from '@material-ui/core';
+import NewCampaign from './components/new-campaign/NewCampaign';
 export default function Campaigns({ history }) {
 	const [ loading, setLoading ] = useState(false);
 	const [ data, setData ] = useState([]);

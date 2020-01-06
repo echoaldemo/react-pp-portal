@@ -2,7 +2,17 @@ import React from 'react';
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom';
 
 import Gateway from 'components/gateway';
-import { Realms, Campaigns, PageNotFound, EditCampaigns, UserLanding, RealmSettingsPage, Companies } from 'components';
+import {
+	Realms,
+	Campaigns,
+	PageNotFound,
+	UserLanding,
+	RealmSettingsPage,
+	Companies,
+	Settings,
+	Pitch,
+	DataPosting
+} from 'components';
 import { PublicRoute, GatewayRoute, PrivateRoute } from './';
 import DidPool from 'components/manage/manage-did-pool';
 import Signin from 'auth/component';
@@ -21,8 +31,12 @@ export default function Routes() {
 
 				{/* manage/campaign routes */}
 				<PrivateRoute path="/manage/campaigns" component={Campaigns} />
-				<PrivateRoute path="/manage/campaign/edit/:uuid" component={EditCampaigns} />
+				<PrivateRoute path="/manage/campaign/edit/:slug/:uuid/settings" component={Settings} />
+				<PrivateRoute path="/manage/campaign/edit/:slug/:uuid/pitch/details" component={Pitch} />
+				<PrivateRoute path="/manage/campaign/edit/:slug/:uuid/dataposting" component={DataPosting} />
+
 				{/* end of manage/campaign routes */}
+
 				{/* manage/companies */}
 				<PrivateRoute path="/manage/companies" component={Companies} />
 				{/* end manage/companies */}
