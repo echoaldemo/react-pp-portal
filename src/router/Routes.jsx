@@ -1,18 +1,19 @@
-import React from 'react'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
-import Gateway from 'components/gateway'
+import Gateway from "components/gateway";
 import {
   Realms,
   Campaigns,
   PageNotFound,
   EditCampaigns,
-  UserLanding
-} from 'components'
-import { PublicRoute, GatewayRoute, PrivateRoute } from './'
-import DidPool from 'components/manage/manage-did-pool'
-import Signin from 'auth/component'
-import ManageDIDs from 'components/manage/did/did-landing'
+  UserLanding,
+  Companies
+} from "components";
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import DidPool from "components/manage/manage-did-pool";
+import Signin from "auth/component";
+import ManageDIDs from "components/manage/did/did-landing";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -32,6 +33,9 @@ export default function Routes() {
           component={EditCampaigns}
         />
         {/* end of manage/campaign routes */}
+        {/* manage/companies */}
+        <PrivateRoute path="/manage/companies" component={Companies} />
+        {/* end manage/companies */}
 
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
         <PrivateRoute path="/manage/dids" component={ManageDIDs} />
@@ -40,5 +44,5 @@ export default function Routes() {
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }

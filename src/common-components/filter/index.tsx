@@ -98,7 +98,7 @@ class FilterToolBarComp extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    const filterArr = [];
+    const filterArr: string[] = [];
     if (this.props.sortBy) {
       filterArr.push("Sort By");
     }
@@ -205,7 +205,7 @@ class FilterToolBarComp extends React.Component<Props, State> {
                               ? "Sort By"
                               : toolbar.Label
                           }
-                          onChange={(e) =>
+                          onChange={e =>
                             this.handleChangeFilter(
                               e.target.value,
                               toolbar.Label.replace(/\s/g, "")
