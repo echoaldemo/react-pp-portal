@@ -8,7 +8,7 @@ import {
   PageNotFound,
   EditCampaigns,
   UserLanding,
-  Companies
+  RealmSettingsPage
 } from "components";
 import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
 import DidPool from "components/manage/manage-did-pool";
@@ -21,7 +21,11 @@ export default function Routes() {
         <PublicRoute exact path="/" component={Signin} />
         <GatewayRoute exact path="/gateway" component={Gateway} />
         <PrivateRoute path="/manage/realms" component={Realms} />
-
+        <PrivateRoute
+          exact
+          path="/manage/realms/edit/:uuid"
+          component={RealmSettingsPage}
+        />
         {/* User routes */}
 
         <PrivateRoute path="/manage/users" component={UserLanding} />
