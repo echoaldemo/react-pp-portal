@@ -24,8 +24,8 @@ const Pagination: React.FC<Props> = ({
 
   useEffect(() => {
     setTotalPage(Math.ceil(totalItems / itemsPerPage));
-    let pages = [],
-      x = [];
+    let pages: any = [],
+      x: any = [];
     for (let i = 0; i < Math.ceil(totalPage); i++) {
       pages.push(i + 1);
     }
