@@ -1,6 +1,6 @@
-import * as React from 'react'
-import TableCell from '@material-ui/core/TableCell'
-import styled from 'styled-components'
+import * as React from "react";
+import TableCell from "@material-ui/core/TableCell";
+import styled from "styled-components";
 
 const Cell = styled(TableCell)`
   text-decoration: underline;
@@ -9,11 +9,11 @@ const Cell = styled(TableCell)`
     cursor: pointer;
     margin: 0;
   }
-`
+`;
 interface Props {
-  children: any
-  className?: any
-  onClick?: any
+  children: any;
+  className?: any;
+  onClick?: any;
 }
 
 const UnderlineCell: React.FC<Props> = ({ children, ...props }) => {
@@ -21,11 +21,11 @@ const UnderlineCell: React.FC<Props> = ({ children, ...props }) => {
     <Cell {...props}>
       <p>{children}</p>
     </Cell>
-  )
-}
+  );
+};
 
 UnderlineCell.defaultProps = {
-  children: 'Sample Child'
-} as Partial<Props>
+  children: "Sample Child"
+} as Partial<Props>;
 
-export default UnderlineCell
+export default UnderlineCell;
