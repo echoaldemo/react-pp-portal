@@ -11,6 +11,7 @@ import {
 } from 'components'
 import { PublicRoute, GatewayRoute, PrivateRoute } from './'
 import DidPool from 'components/manage/manage-did-pool'
+import EditDidPool from 'components/manage/manage-did-pool/components/settings/DidPoolsSettings'
 import Signin from 'auth/component'
 import ManageDIDs from 'components/manage/did/did-landing'
 export default function Routes() {
@@ -34,6 +35,10 @@ export default function Routes() {
         {/* end of manage/campaign routes */}
 
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
+        <PrivateRoute
+          path="/manage/did-pool/edit/:uuid"
+          component={EditDidPool}
+        />
         <PrivateRoute path="/manage/dids" component={ManageDIDs} />
 
         <PublicRoute path="/404" component={PageNotFound} />
