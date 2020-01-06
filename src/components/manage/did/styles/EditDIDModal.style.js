@@ -24,7 +24,6 @@ export const useStyles = makeStyles(() => ({
   focused: {
     color: "#1194f6 !important"
   },
-
   underline: {
     "&:before": {
       borderBottom: "2px solid rgba(0,0,0,0.12)"
@@ -54,9 +53,6 @@ export const useStyles = makeStyles(() => ({
     "&&&&:hover:not($disabled):before": {
       borderBottom: "1px solid #1194f6"
     }
-  },
-  focused: {
-    color: "#1194f6 !important"
   },
   inputLabel: {
     color: "#bbbbbb"

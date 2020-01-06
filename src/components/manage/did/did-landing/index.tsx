@@ -8,15 +8,12 @@ import {
   FilterToolBar,
   Pagination
 } from "common-components";
-import HeaderContainer from "../components/HeaderContainer/HeaderContainer";
 import DIDTable from "../components/DIDTable/DIDTable";
 
 const ManageDID = ({ history }: any) => {
   const [loading, setLoading] = useState(true);
   const [didData, setDidData] = useState([]);
   const [paginateList, setPaginateList] = useState([]);
-  const [campaigns, setCamapaigns] = useState([]);
-  const [companies, setCompanies] = useState([]);
 
   useEffect(() => {
     fetchDIDs();
@@ -38,25 +35,6 @@ const ManageDID = ({ history }: any) => {
         setPaginateList(newResponse);
         setLoading(false);
       });
-    fetchCompanies();
-    fetchCampaigns();
-  };
-  const fetchCompanies = () => {
-    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies`)
-      .then((response: any) => response.json())
-      .then((response: any) => {
-        console.log("companies", response);
-        setCompanies(response);
-      });
-  };
-  const fetchCampaigns = () => {
-    setLoading(true);
-    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns`)
-      .then((response: any) => response.json())
-      .then((response: any) => {
-        console.log("campaigns", response);
-        setCamapaigns(response);
-      });
   };
 
   const paginate = (from: number, to: number) => {
@@ -65,7 +43,7 @@ const ManageDID = ({ history }: any) => {
 
   return (
     <>
-      <HeaderContainer style={{ paddingBottom: 30 }}>
+      <div className="header-container">
         <HeaderLink
           menu={[
             {
@@ -110,7 +88,7 @@ const ManageDID = ({ history }: any) => {
             }
           ]}
         />
-      </HeaderContainer>
+      </div>
       <Paper>
         <SearchBar
           title="dids"
