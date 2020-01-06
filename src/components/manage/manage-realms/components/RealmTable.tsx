@@ -1,26 +1,28 @@
-import { TableCell, TableRow } from '@material-ui/core'
-import { FileCopyOutlined as Icon } from '@material-ui/icons'
-import { mdiContentCopy } from '@mdi/js'
-import React, { useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { AsyncTable } from 'common-components'
-import { EditButton } from 'common-components'
-import {
-  ActiveCell,
-  UnderlineCell
-} from 'common-components'
-import { headers, LightTooltip } from './contsVar'
+import { TableCell, TableRow } from "@material-ui/core";
+import { FileCopyOutlined as Icon } from "@material-ui/icons";
+import { mdiContentCopy } from "@mdi/js";
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { AsyncTable } from "common-components";
+import { EditButton } from "common-components";
+import { ActiveCell, UnderlineCell } from "common-components";
+import { headers, LightTooltip } from "./contsVar";
 
-const RealmTable = ({ realms, history }) => {
-  const [copy, setCopy] = useState(false)
+interface Props {
+  realms: any;
+  history: any;
+}
+
+const RealmTable: React.FC<Props> = ({ realms, history }) => {
+  const [copy, setCopy] = useState(false);
 
   return (
     <>
       <AsyncTable
         headers={headers}
         tableData={realms}
-        render={(realms, { row, cell, uuid, icon }) =>
-          realms.map(realm => (
+        render={(realms: any, { row, cell, uuid, icon }: any) =>
+          realms.map((realm: any) => (
             <TableRow key={realm.uuid} className={row}>
               <UnderlineCell
                 className={cell}
@@ -39,23 +41,13 @@ const RealmTable = ({ realms, history }) => {
                 >
                   {copy ? (
                     <LightTooltip title="UUID Copied!" placement="top">
-                      <Icon
-                        path={mdiContentCopy}
-                        className={icon}
-                        size={1}
-                        rotate={360}
-                      />
+                      <Icon className={icon} rotate={360} />
                     </LightTooltip>
                   ) : (
-                      <LightTooltip title="Copy UUID" placement="top">
-                        <Icon
-                          path={mdiContentCopy}
-                          className={icon}
-                          size={1}
-                          rotate={360}
-                        />
-                      </LightTooltip>
-                    )}
+                    <LightTooltip title="Copy UUID" placement="top">
+                      <Icon className={icon} rotate={360} />
+                    </LightTooltip>
+                  )}
                 </CopyToClipboard>
               </TableCell>
               <ActiveCell className={cell}>{realm.active}</ActiveCell>
@@ -66,7 +58,7 @@ const RealmTable = ({ realms, history }) => {
                     history.push(`/manage/realms/edit/${realm.uuid}`)
                   }
                   style={{
-                    color: '#444851'
+                    color: "#444851"
                   }}
                 />
               </TableCell>
@@ -75,7 +67,7 @@ const RealmTable = ({ realms, history }) => {
         }
       />
     </>
-  )
-}
+  );
+};
 
-export default RealmTable
+export default RealmTable;
