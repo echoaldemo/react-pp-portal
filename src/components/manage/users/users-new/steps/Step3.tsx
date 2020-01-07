@@ -30,7 +30,7 @@ const Step3 = ({
   setDisabled,
   label,
   title,
-  selected = "",
+  selected,
   selectTitle,
   resultSelection,
   values
@@ -38,7 +38,7 @@ const Step3 = ({
   const classes = useStyles();
 
   function sendSelection(value: any) {
-    resultSelection(value, label);
+    resultSelection(label)(value);
   }
 
   const selectProps = {
@@ -50,14 +50,14 @@ const Step3 = ({
   };
 
   const valueProp = {
-    value: { selected }
+    value: selected ? selected : -1
   };
 
   return (
     <div
       style={{
         maxWidth: "100%",
-        minHeight: 320,
+        minHeight: "auto",
         margin: 0
       }}
     >
@@ -72,12 +72,17 @@ const Step3 = ({
         margin="normal"
         {...valueProp}
       >
-        <MenuItem key="none" value="">
+        <MenuItem style={{ minHeight: "36px" }} key="none" value={-1}>
           <CustomText>None</CustomText>
         </MenuItem>
         {values.map((key: any) => {
           return (
-            <MenuItem key={key.id} value={key.uuid} data-cy="select-list">
+            <MenuItem
+              style={{ minHeight: "36px" }}
+              key={key.id}
+              value={key.uuid}
+              data-cy="select-list"
+            >
               <CustomText>{key.name}</CustomText>
             </MenuItem>
           );

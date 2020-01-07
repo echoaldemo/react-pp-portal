@@ -4,7 +4,7 @@ import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
 import { InputField as SelectField } from "common-components";
 import { getRoleInfo } from "../RoleInfo";
 import { DescribeRole } from "../components";
-import { CustomText,theme } from "../styles";
+import { CustomText, theme } from "../styles";
 import { useStyles, TitleTag } from "../styles";
 
 const MenuProps = {
@@ -58,7 +58,9 @@ const Step2 = ({
     }
   };
 
-  let description = getRoleInfo();
+  let description = getRoleInfo(selected[selected.length - 1]);
+
+  console.log("Description: ", description);
 
   return (
     <>
@@ -100,11 +102,14 @@ const Step2 = ({
           </div>
         </>
       )}
-      <Grid container spacing={1}>
-        <Grid item style={divStyle}>
-          <DescribeRole description={description} />
+
+      {up && (
+        <Grid container spacing={1}>
+          <Grid item style={divStyle}>
+            <DescribeRole description={description} />
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </>
   );
 };

@@ -39,8 +39,8 @@ const Step4 = ({
       IconComponent: () => <KeyboardArrowDown />,
       MenuProps,
       multiple: true,
-      onChange: (e: any) => selectFn(e.target.value, label),
-      value: selected,
+      onChange: (e: any) => selectFn(e.target.value),
+      value: selected ? selected : [],
       renderValue: (selected: any) =>
         selected
           .map((select: any) => {
@@ -56,7 +56,7 @@ const Step4 = ({
     <div
       style={{
         maxWidth: "100%",
-        minHeight: 320,
+        minHeight: "auto",
         margin: 0
       }}
     >
