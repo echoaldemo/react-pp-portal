@@ -9,7 +9,12 @@ body {
 }
 
 code {
-	font-family: "Roboto", sans-serif;
+	font-family: Monospace;
+	border: solid 1px #ccc;
+	padding: 5px;
+	background: #eee;
+	border-radius: 4px;
+	color: hotpink;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -74,6 +79,18 @@ code {
 .pb-normal {
 	padding-bottom: 25px;
 }
+.p-normal {
+	padding: 15px;
+}
 .mh-normal {
 	min-height: 629px;
+}
+
+.MuiTabs-indicator {
+	background-color: #f89523 !important;
+	height: 3px !important;
+}
+
+.c-default {
+	color: #444851;
 }
