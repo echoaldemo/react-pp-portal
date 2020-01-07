@@ -20,10 +20,12 @@ import {
 } from '@material-ui/core'
 import {
   DeleteModal,
+  LoadingModal,
   SuccessModal,
   TableLoader,
   StatusLabel,
-  BackButton
+  BackButton,
+  SaveButton
 } from 'common-components'
 import { FileCopyOutlined, Delete as DeleteIcon } from '@material-ui/icons'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -49,7 +51,7 @@ function LocationTable({ classes, uuid, history }) {
   const [copy, setCopy] = useState(false)
   const [active, setActive] = useState(true)
   const [didData, setDidData] = useState({})
-  const [origDidData, setOrigDidData] = useState([])
+  const [origDidData, setOrigDidData] = useState({})
   const [voiceProvider, setVoiceProvider] = useState([])
   const [company, setCompany] = useState([])
   const [campaign, setCampaign] = useState([])
@@ -68,6 +70,7 @@ function LocationTable({ classes, uuid, history }) {
   const fetchDID = () => {
     //mock data
     setDidData(mockDid)
+    setOrigDidData(mockDid)
     setTimeout(() => {
       setLoadingSettings(false)
     }, 1000)
@@ -136,9 +139,9 @@ function LocationTable({ classes, uuid, history }) {
   }
 
   //check if has changes in original data. if true then button will be visible
-  var edit = null
+  let edit = null
   if (didData.name) {
-    var edit =
+    edit =
       JSON.stringify(origDidData) === JSON.stringify(didData)
         ? false
         : didData.name.length === 0
@@ -147,16 +150,16 @@ function LocationTable({ classes, uuid, history }) {
   }
 
   // company & campaign slug fetch
-  var companyID = didData.company
-  var companySlug = ''
+  let companyID = didData.company
+  let companySlug = ''
   if (companyID) {
     const findCompanySlug = company.filter(data => {
       return data.uuid.toLowerCase().indexOf(companyID.toLowerCase()) !== -1
     })
     companySlug = findCompanySlug.length > 0 ? findCompanySlug[0].slug : ''
   }
-  var campaignID = didData.campaign
-  var campaignSlug = ''
+  let campaignID = didData.campaign
+  let campaignSlug = ''
   if (companyID) {
     const findCampaignSlug = campaign.filter(data => {
       return data.uuid.toLowerCase().indexOf(campaignID.toLowerCase()) !== -1
@@ -167,17 +170,21 @@ function LocationTable({ classes, uuid, history }) {
 
   const handleDelete = () => {
     setOpenDeletingModal(true)
-    remove(`/did/company/${companySlug}/campaign/${campaignSlug}/pool/${uuid}/`)
-      .then(res => {
-        setOpenDeletingModal(false)
-        setDelConfirm(false)
-        setOpenDeletedModal(true)
-      })
-      .catch(err => {
-        setOpenDeletingModal(false)
-        setDelConfirm(false)
-        handleSnackbar('Error deleting did pool.')
-      })
+    setTimeout(() => {
+      remove(
+        `/did/company/${companySlug}/campaign/${campaignSlug}/pool/${uuid}/`
+      )
+        .then(res => {
+          setOpenDeletingModal(false)
+          setDelConfirm(false)
+          setOpenDeletedModal(true)
+        })
+        .catch(err => {
+          setOpenDeletingModal(false)
+          setDelConfirm(false)
+          handleSnackbar('Error deleting did pool.')
+        })
+    }, 1000)
   }
 
   // https://dev-api.perfectpitchtech.com/did/company/demo/campaign/32-campsss/pool/9f995a54-5d35-11e8-abfc-0242ac110016/
@@ -942,20 +949,16 @@ function LocationTable({ classes, uuid, history }) {
                     justifyContent: 'space-between'
                   }}
                 >
-                  <button
+                  <SaveButton
                     // disabled={errors.name || errors.email || errors.website}
+                    disabled={false}
                     type="submit"
-                    className={
-                      campaignSlug.length > 0 // lagay mo na lang dito yung function if may tig edit siya tiya ka lang maga active yung save
-                        ? `${classes.button} ${classes.active}`
-                        : `${classes.button} ${classes.disabled}`
-                    }
                     onClick={() => {
                       handleUpdate(companySlug, campaignSlug)
                     }}
                   >
                     SAVE
-                  </button>
+                  </SaveButton>
                   <button
                     className={`${classes.button} ${classes.cancel}`}
                     onClick={e => {
@@ -988,15 +991,22 @@ function LocationTable({ classes, uuid, history }) {
         }}
         delFn={handleDelete}
       /> */}
-      <Dialog open={openDeletingModal}>
-        <DeleteModal
-          text={'Deleting DID pool...'}
-          cancelFn={() => {
-            setOpenDeletingModal(false)
-            cancel()
-          }}
-        />
-      </Dialog>
+      <DeleteModal
+        open={delConfirm}
+        header="Delete DID"
+        msg="DID"
+        name={didData ? didData.name : ''}
+        closeFn={() => setDelConfirm(false)}
+        delFn={handleDelete}
+      />
+      <LoadingModal
+        open={openDeletingModal}
+        text={'Deleting DID pool...'}
+        cancelFn={() => {
+          setOpenDeletingModal(false)
+          cancel()
+        }}
+      />
       {/* To DO success deleting modal */}
       <Dialog open={openDeletedModal}>
         <SuccessModal

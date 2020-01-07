@@ -5,14 +5,13 @@ import { isAuth } from '../auth/services/authService';
 
 function PrivateRoute(props: any) {
 	let { location, history, component: Component, ...rest } = props;
-    
-    
+
 	function protectedComponent(componentProps: any) {
-	   /*
+		/*
 		'isAuth' function will return true since the function for login auth
 	   	 isn't yet finish
 	   */
-		return isAuth() ? ( 
+		return isAuth() ? (
 			<Manage {...componentProps}>
 				<Component {...componentProps} />
 			</Manage>
@@ -22,7 +21,7 @@ function PrivateRoute(props: any) {
 	}
 
 	return (
-	   // Used 'component' prop on route because 'render' prop doensn't work, and i don't know why LOL :D
+		// Used 'component' prop on route because 'render' prop doensn't work, and i don't know why LOL :D
 		<Route
 			{...rest}
 			component={(componentProps: any) => {

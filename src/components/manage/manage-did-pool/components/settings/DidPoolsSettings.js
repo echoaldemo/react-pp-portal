@@ -246,7 +246,7 @@ class DidPoolsSettings extends Component {
             history={this.props.history}
           />
         </div>
-        {/* <div className="header-container">
+        <div className="header-container">
           <HeaderLink menu={menus} title="DID's" />
           <div style={{ display: 'flex' }}>
             <SaveButton
@@ -298,10 +298,11 @@ class DidPoolsSettings extends Component {
               Buy DID
             </SaveButton>
           </div>
-        </div> */}
+        </div>
         <Paper style={{ height: 'auto' }}>
-          {this.state.loadingDid ? // <TableLoader />
-          null : (
+          {this.state.loadingDid ? (
+            <TableLoader />
+          ) : (
             <>
               {/* <DidTable
 								openEdit={this.state.openEdit}

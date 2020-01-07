@@ -9,7 +9,10 @@ import {
   EditCampaigns,
   UserLanding,
   RealmSettingsPage,
-  Companies
+  Companies,
+  Settings,
+  Pitch,
+  DataPosting
 } from 'components'
 import { PublicRoute, GatewayRoute, PrivateRoute } from './'
 import DidPool from 'components/manage/manage-did-pool'
@@ -36,9 +39,18 @@ export default function Routes() {
         {/* manage/campaign routes */}
         <PrivateRoute path="/manage/campaigns" component={Campaigns} />
         <PrivateRoute
-          path="/manage/campaign/edit/:uuid"
-          component={EditCampaigns}
+          path="/manage/campaign/edit/:slug/:uuid/settings"
+          component={Settings}
         />
+        <PrivateRoute
+          path="/manage/campaign/edit/:slug/:uuid/pitch/details"
+          component={Pitch}
+        />
+        <PrivateRoute
+          path="/manage/campaign/edit/:slug/:uuid/dataposting"
+          component={DataPosting}
+        />
+
         {/* end of manage/campaign routes */}
         {/* manage/companies */}
         <PrivateRoute path="/manage/companies" component={Companies} />
