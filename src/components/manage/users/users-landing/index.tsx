@@ -111,7 +111,11 @@ const UserLanding = () => {
 
   return (
     <>
-      <NewUser open={is_new_user} onClose={() => setIsNewUser(false)} />
+      <NewUser
+        open={is_new_user}
+        setOpen={setIsNewUser}
+        onClose={() => setIsNewUser(false)}
+      />
       {renderHeader()}
       <Card square={true}>
         {renderFilter()}

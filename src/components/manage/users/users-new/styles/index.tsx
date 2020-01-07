@@ -201,23 +201,38 @@ const CText = styled(Typography)`
 `;
 
 const CustomText = ({
+  children,
+  color,
   size,
-  weight,
-  style,
-  children
+  weight
 }: {
+  children?: any;
+  color?: any;
   size?: any;
   weight?: any;
-  children: any;
-  style?: any;
 }) => {
-  let customStyle = !style
-    ? {
-        fontSize: `${size} !important`,
-        fontWeight: `${weight} !important`
-      }
-    : style;
-  return <CText style={customStyle as React.CSSProperties}>{children}</CText>;
+  let defaultStyle = {
+    width: "36px",
+    height: "16px",
+    fontSize: "14px",
+    fontWeight: 500,
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: "normal",
+    letterSpacing: "normal",
+    textAlign: "center",
+    color: "#444851"
+  } as React.CSSProperties;
+
+  let dynamicStyle = {
+    ...defaultStyle
+  };
+
+  if (color) Object.assign(defaultStyle, { color });
+  if (size) Object.assign(defaultStyle, { fontSize: size });
+  if (weight) Object.assign(defaultStyle, { fontWeight: weight });
+
+  return <Typography style={dynamicStyle}>{children}</Typography>;
 };
 
 const DTag = styled(Typography)`
@@ -228,7 +243,9 @@ const DTag = styled(Typography)`
 
 const TitleTag = styled(Typography)`
   font-size: 18px !important;
-  font-weight: bolder !important;
+  font-weight: 500 !important;
+  color: #444851 !important;
+  margin-top: 19px !important;
 `;
 
 const TTag = ({ children }: { children: any }) => {
@@ -242,7 +259,7 @@ const TTag = ({ children }: { children: any }) => {
 };
 
 const StepContent = styled.div`
-  min-width: 372px;
+  min-width: auto;
   max-width: 372px;
   min-height: 320px;
   max-height: 320px;

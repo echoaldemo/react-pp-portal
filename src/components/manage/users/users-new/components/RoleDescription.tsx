@@ -49,7 +49,7 @@ const DescribeRole = ({ description }: Props) => {
 
   return (
     <>
-      <Grid container spacing={1}>
+      <Grid container style={{ flexDirection: "column" }} spacing={1}>
         {description.map((describe: any, i: number) => {
           let tag = "Description";
           if (i === 0) return renderDefinitions(describe, i);

@@ -7,34 +7,69 @@ import {
   InputLabel,
   Input
 } from "@material-ui/core";
-import { useStyles } from "../styles";
+import { useStyles, TitleTag } from "../styles";
 
 type Props = {
-  disabled: any;
-  setDisabled: any;
+  handlePassword: any;
+  password: any;
 };
 
-const SetupPassword = ({ disabled, setDisabled }: Props) => {
+const SetupPassword = ({ password, handlePassword }: Props) => {
   const classes = useStyles(0);
   const [passwordError, setPasswordError] = useState({
-    original: false,
-    confirm: false
+    original: "",
+    confirm: "",
+    guideline: false
   });
 
-  function handlePasswords(event: any, type: string) {}
+  const checkGuideline = (pass: any) => {
+    return pass.match(/(?=.{10,}$)/);
+  };
+
+  const hasContent = (str: any) => {
+    return str.match(/(?=.{1,}$)/);
+  };
+
+  const matchPassword = (value: any) => {
+    if (hasContent(password.original) && hasContent(value)) {
+      if (password.original !== value) {
+        setPasswordError(
+          Object.assign(passwordError, {
+            confirm: "Password not match."
+          })
+        );
+      } else {
+        setPasswordError(Object.assign(passwordError, { confirm: "" }));
+      }
+    }
+  };
+
+  const processPassword = (type: any) => ({ target: { value } }: any) => {
+    if (type === "original") {
+      handlePassword(type, value);
+      handlePassword("confirm", "");
+    } else {
+      matchPassword(value);
+      if (checkGuideline(password.original)) {
+        handlePassword(type, value);
+      }
+    }
+  };
+
+  let dynamicStyle = !checkGuideline(password.original) ? { color: "red" } : {};
 
   return (
     <div
       style={{
         minWidth: 360,
-        minHeight: 320,
+        minHeight: "auto",
         margin: "0 auto"
       }}
     >
-      <Typography className={classes.p}>Setup password</Typography>
-
+      <TitleTag>Setup password</TitleTag>
+      <div style={{ marginTop: "14px" }} />
       <Grid item xs>
-        <FormControl fullWidth error={passwordError.original}>
+        <FormControl fullWidth error={passwordError.original.length > 0}>
           <InputLabel
             classes={{ focused: classes.focused, error: classes.err }}
             htmlFor="fname"
@@ -48,17 +83,22 @@ const SetupPassword = ({ disabled, setDisabled }: Props) => {
             classes={{ underline: classes.underline }}
             autoComplete="new-password"
             required
-            value={passwordError.original}
-            onChange={(e) => handlePasswords(e, "password")}
+            value={password.original}
+            onChange={processPassword("original")}
           />
           <FormHelperText data-cy="password-error">
-            {passwordError.original && "Password Msg"}
+            {passwordError.original}
           </FormHelperText>
         </FormControl>
       </Grid>
 
-      <Grid item xs>
-        <FormControl fullWidth error={passwordError.confirm}>
+      <Grid item xs style={{ marginTop: -5 }}>
+        <FormControl
+          fullWidth
+          error={
+            passwordError.confirm.length > 0 && password.confirm.length > 0
+          }
+        >
           <InputLabel
             classes={{ focused: classes.focused, error: classes.err }}
             htmlFor="fname"
@@ -71,16 +111,16 @@ const SetupPassword = ({ disabled, setDisabled }: Props) => {
             type="password"
             classes={{ underline: classes.underline }}
             autoComplete="new-password"
-            value={passwordError.confirm}
-            onChange={(e) => handlePasswords(e, "repassword")}
+            value={password.confirm}
+            onChange={processPassword("confirm")}
           />
           <FormHelperText data-cy="re-password-error">
-            {passwordError.confirm && "Repass Error"}
+            {hasContent(password.confirm) && passwordError.confirm}
           </FormHelperText>
         </FormControl>
       </Grid>
 
-      <Typography className={classes.note}>
+      <Typography style={dynamicStyle} className={classes.note}>
         *The password must contains at least 10 characters.
       </Typography>
     </div>
