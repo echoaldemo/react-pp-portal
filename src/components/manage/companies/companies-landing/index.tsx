@@ -1,7 +1,5 @@
-//Material
 import { Divider, Paper } from "@material-ui/core";
 import React, { Component } from "react";
-//api call
 import {
   FilterToolBar,
   HeaderButton,
@@ -13,7 +11,7 @@ import {
 } from "common-components";
 import { CompanyTable } from "../components/table";
 import { mock } from "../mock";
-//import AddCompanyForm from "./Forms/AddCompanyForm";
+import AddCompanyForm from "../components/add-company-form";
 import SEO from "utils/seo";
 
 interface IProps {}
@@ -216,19 +214,18 @@ class Companies extends Component<IProps, IState> {
           </div>
         </Paper>
 
-        {/* <Modal
+        <Modal
           open={this.state.openDrawer}
-          // open={true}
-          closeDrawer={this.closeDrawerHandler}
+          //closeDrawer={this.closeDrawerHandler}
           title={<b>Create new company</b>}
           onClose={this.closeDrawerHandler}
         >
-          {/* <AddCompanyForm
+          <AddCompanyForm
             handleUpdate={this.handleUpdate}
             closeModal={this.closeDrawerHandler}
             openModal={this.openDrawerHandler}
           />
-        </Modal> */}
+        </Modal>
       </>
     );
   }

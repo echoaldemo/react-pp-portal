@@ -8,7 +8,8 @@ import {
   PageNotFound,
   EditCampaigns,
   UserLanding,
-  Companies
+  Companies,
+  EditCompanies
 } from "components";
 import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
 import DidPool from "components/manage/manage-did-pool";
@@ -34,7 +35,12 @@ export default function Routes() {
         />
         {/* end of manage/campaign routes */}
         {/* manage/companies */}
-        <PrivateRoute path="/manage/companies" component={Companies} />
+        <PrivateRoute exact path="/manage/companies" component={Companies} />
+        <PrivateRoute
+          exact
+          path="/manage/companies/edit/:slug/:uuid"
+          component={EditCompanies}
+        />
         {/* end manage/companies */}
 
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
