@@ -15,9 +15,10 @@ import { USER_HEADERS } from "./constants";
 type Props = {
   users: any;
   loading?: boolean;
+  setEdit: any;
 };
 
-const UserTable: React.FC<Props> = ({ users, loading }) => {
+const UserTable: React.FC<Props> = ({ users, setEdit, loading }) => {
   const [copy, setCopy] = useState(false);
   const filterKeys: Function = (data: any) => {
     let {
@@ -112,7 +113,7 @@ const UserTable: React.FC<Props> = ({ users, loading }) => {
         <TableCell className={styleProps.userCell}>
           <EditButton
             text="Edit"
-            onClickFunc={() => console.log("Click")} //getUserData(example)}
+            onClickFunc={() => setEdit()} //getUserData(example)}
             style={{
               color: "#444851"
             }}
