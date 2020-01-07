@@ -77,3 +77,8 @@ code {
 .mh-normal {
 	min-height: 629px;
 }
+
+.MuiTabs-indicator {
+	background-color: #f89523 !important;
+	height: 3px !important;
+}
