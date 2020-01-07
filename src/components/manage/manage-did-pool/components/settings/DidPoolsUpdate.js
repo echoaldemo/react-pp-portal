@@ -1,94 +1,111 @@
-import React, { useState, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import NavTabs from "../../../common-components/nav-tabs/Settings-menu-bar";
-import { Paper, Grid, Button, Typography } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputField from "../../../common-components/input-field/InputField";
-import Collapse from "@material-ui/core/Collapse";
-import Switch from "@material-ui/core/Switch";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import InputBase from "@material-ui/core/InputBase";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { createMuiTheme } from "@material-ui/core/styles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import { FileCopyOutlined } from "@material-ui/icons";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import Tooltip from "@material-ui/core/Tooltip";
-import { mdiContentCopy } from "@mdi/js";
-import { get, post, cancel, patch, remove } from "../../../../utils/api";
-import TableLoader from "../../../common-components/table-loader/TableLoader";
-import SnackNotif from "../../../../auth/component/snackbar/snackbar";
-import styles from "./DidPoolsSettings.styles";
-import DeleteModal from "./components/DeleteModal";
-import Dialog from "@material-ui/core/Dialog";
-import DeletingModal from "../../../common-components/loading-modal/LoadingModal";
-import SuccessModal from "../../../common-components/success-modal/SuccessModal";
-import { FaWindows } from "react-icons/fa";
+import React, { useState, useEffect } from 'react'
+import { withStyles } from '@material-ui/core/styles'
+
+import {
+  Paper,
+  Grid,
+  Button,
+  Typography,
+  InputLabel,
+  InputAdornment,
+  Switch,
+  Input,
+  FormControl,
+  InputBase,
+  Select,
+  MenuItem,
+  Tooltip,
+  Dialog,
+  Collapse
+} from '@material-ui/core'
+import {
+  DeleteModal,
+  LoadingModal,
+  SuccessModal,
+  TableLoader,
+  StatusLabel,
+  BackButton,
+  SaveButton
+} from 'common-components'
+import { FileCopyOutlined, Delete as DeleteIcon } from '@material-ui/icons'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { mdiContentCopy } from '@mdi/js'
+import { get, cancel, patch, remove } from 'utils/api'
+import SnackNotif from 'auth/component/snackbar/snackbar'
+import styles from './DidPoolsSettings.styles'
+// import DeleteModal from './components/DeleteModal'
+
+//mock data
+import { mockDid } from '../../utils/const-var'
 
 const LightTooltip = withStyles(theme => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
+    color: 'rgba(0, 0, 0, 0.87)',
     boxShadow: theme.shadows[1],
     fontSize: 11
   }
-}))(Tooltip);
+}))(Tooltip)
 
 function LocationTable({ classes, uuid, history }) {
-  const [copy, setCopy] = useState(false);
-  const [active, setActive] = useState(true);
-  const [didData, setDidData] = useState({});
-  const [origDidData, setOrigDidData] = useState([]);
-  const [voiceProvider, setVoiceProvider] = useState([]);
-  const [company, setCompany] = useState([]);
-  const [campaign, setCampaign] = useState([]);
-  const [loadingSettings, setLoadingSettings] = useState(true);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "" });
-  const [delConfirm, setDelConfirm] = useState(false);
-  const [openDeletingModal, setOpenDeletingModal] = useState(false);
-  const [openDeletedModal, setOpenDeletedModal] = useState(false);
+  const [copy, setCopy] = useState(false)
+  const [active, setActive] = useState(true)
+  const [didData, setDidData] = useState({})
+  const [origDidData, setOrigDidData] = useState({})
+  const [voiceProvider, setVoiceProvider] = useState([])
+  const [company, setCompany] = useState([])
+  const [campaign, setCampaign] = useState([])
+  const [loadingSettings, setLoadingSettings] = useState(true)
+  const [snackbar, setSnackbar] = useState({ open: false, message: '' })
+  const [delConfirm, setDelConfirm] = useState(false)
+  const [openDeletingModal, setOpenDeletingModal] = useState(false)
+  const [openDeletedModal, setOpenDeletedModal] = useState(false)
 
   useEffect(() => {
-    fetchDID();
-    fetchVoiceProvider();
-    fetchCompany();
-  }, []);
+    fetchDID()
+    fetchVoiceProvider()
+    fetchCompany()
+  }, [])
 
   const fetchDID = () => {
+    //mock data
+    setDidData(mockDid)
+    setOrigDidData(mockDid)
+    setTimeout(() => {
+      setLoadingSettings(false)
+    }, 1000)
+
     get(`/did/company/all/campaign/all/pool/${uuid}/`).then(res => {
-      setDidData(res.data);
-      setOrigDidData(res.data);
-      fetchCampaign(res.data.company);
-      setLoadingSettings(false);
-    });
-  };
+      setDidData(res.data)
+      setOrigDidData(res.data)
+      fetchCampaign(res.data.company)
+      setLoadingSettings(false)
+    })
+  }
   const fetchVoiceProvider = () => {
     get(`/did/voice_provider/`).then(res => {
-      setVoiceProvider(res.data);
-    });
-  };
+      setVoiceProvider(res.data)
+    })
+  }
   const fetchCompany = () => {
     get(`/identity/company/list/?editable=true&order_by=name`).then(res => {
-      setCompany(res.data);
-    });
-  };
+      setCompany(res.data)
+    })
+  }
   //Get Capaign of the selected company
   const fetchCampaign = uuid => {
     get(`/identity/campaign/list/?assignable=true&company=${uuid}`).then(
       res => {
-        setCampaign(res.data);
+        setCampaign(res.data)
       }
-    );
-  };
+    )
+  }
   const handleSnackbar = message => {
     setSnackbar({
       open: true,
       message: message
-    });
-  };
+    })
+  }
   const handleUpdate = (campaignSlug, companySlug) => {
     // /did/company/adsfasdfsadf/campaign/earl/pool/e75e29b4-0b5d-11ea-b28f-0242ac110016/
     var postData = {
@@ -106,78 +123,87 @@ function LocationTable({ classes, uuid, history }) {
       vars_prospect_channel: didData.vars_prospect_channel,
       ignore_caller_id: didData.ignore_caller_id,
       desired_cname: didData.desired_cname
-    };
+    }
     patch(
       `/did/company/${campaignSlug}/campaign/${companySlug}/pool/${uuid}/`,
       postData
     )
       .then(res => {
-        console.log(res);
-        handleSnackbar("DID pool has been successfully updated.");
-        fetchDID();
+        console.log(res)
+        handleSnackbar('DID pool has been successfully updated.')
+        fetchDID()
       })
       .catch(err => {
-        handleSnackbar("Error updating did pool.");
-      });
-  };
+        handleSnackbar('Error updating did pool.')
+      })
+  }
 
   //check if has changes in original data. if true then button will be visible
-  var edit = null;
+  let edit = null
   if (didData.name) {
-    var edit =
+    edit =
       JSON.stringify(origDidData) === JSON.stringify(didData)
         ? false
         : didData.name.length === 0
         ? false
-        : true;
+        : true
   }
 
   // company & campaign slug fetch
-  var companyID = didData.company;
-  var companySlug = "";
+  let companyID = didData.company
+  let companySlug = ''
   if (companyID) {
     const findCompanySlug = company.filter(data => {
-      return data.uuid.toLowerCase().indexOf(companyID.toLowerCase()) !== -1;
-    });
-    companySlug = findCompanySlug.length > 0 ? findCompanySlug[0].slug : "";
+      return data.uuid.toLowerCase().indexOf(companyID.toLowerCase()) !== -1
+    })
+    companySlug = findCompanySlug.length > 0 ? findCompanySlug[0].slug : ''
   }
-  var campaignID = didData.campaign;
-  var campaignSlug = "";
+  let campaignID = didData.campaign
+  let campaignSlug = ''
   if (companyID) {
     const findCampaignSlug = campaign.filter(data => {
-      return data.uuid.toLowerCase().indexOf(campaignID.toLowerCase()) !== -1;
-    });
-    campaignSlug = findCampaignSlug.length > 0 ? findCampaignSlug[0].slug : "";
+      return data.uuid.toLowerCase().indexOf(campaignID.toLowerCase()) !== -1
+    })
+    campaignSlug = findCampaignSlug.length > 0 ? findCampaignSlug[0].slug : ''
   }
   // end company & campaign slug fetch-------------
 
   const handleDelete = () => {
-    setOpenDeletingModal(true);
-    remove(`/did/company/${companySlug}/campaign/${campaignSlug}/pool/${uuid}/`)
-      .then(res => {
-        setOpenDeletingModal(false);
-        setDelConfirm(false);
-        setOpenDeletedModal(true);
-      })
-      .catch(err => {
-        setOpenDeletingModal(false);
-        setDelConfirm(false);
-        handleSnackbar("Error deleting did pool.");
-      });
-  };
+    setOpenDeletingModal(true)
+    setTimeout(() => {
+      remove(
+        `/did/company/${companySlug}/campaign/${campaignSlug}/pool/${uuid}/`
+      )
+        .then(res => {
+          setOpenDeletingModal(false)
+          setDelConfirm(false)
+          setOpenDeletedModal(true)
+        })
+        .catch(err => {
+          setOpenDeletingModal(false)
+          setDelConfirm(false)
+          handleSnackbar('Error deleting did pool.')
+        })
+    }, 1000)
+  }
 
   // https://dev-api.perfectpitchtech.com/did/company/demo/campaign/32-campsss/pool/9f995a54-5d35-11e8-abfc-0242ac110016/
   return (
     <>
-      <NavTabs
-        data={origDidData}
-        tabnames={[]}
-        history={origDidData}
-        back={{
-          name: "Back to DID pool",
-          url: "/manage/did-pool/"
-        }}
-      />
+      <BackButton text="Back to DID pool" to="/manage/did-pool/" />
+      <div style={{ display: 'flex', alignItems: 'center', margin: '25px 0' }}>
+        <p
+          style={{
+            fontFamily: 'Roboto',
+            fontSize: '24px',
+            color: '#444851',
+            margin: '0 25px 0 0'
+          }}
+        >
+          {'test'}
+        </p>
+        <StatusLabel status={true} />
+      </div>
       {loadingSettings ? (
         <TableLoader />
       ) : (
@@ -193,16 +219,16 @@ function LocationTable({ classes, uuid, history }) {
             >
               <Typography
                 style={{
-                  width: "173px",
-                  height: "21px",
-                  fontFamily: "Roboto",
-                  fontSize: "18px",
-                  fontWeight: "500",
-                  fontStretch: "normal",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                  letterSpacing: "normal",
-                  color: "#444851"
+                  width: '173px',
+                  height: '21px',
+                  fontFamily: 'Roboto',
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  fontStretch: 'normal',
+                  fontStyle: 'normal',
+                  lineHeight: 'normal',
+                  letterSpacing: 'normal',
+                  color: '#444851'
                 }}
               >
                 DID pool settings
@@ -216,7 +242,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -237,7 +263,7 @@ function LocationTable({ classes, uuid, history }) {
                   defaultValue={`${didData.name}`}
                   value={`${didData.name}`}
                   onChange={e => {
-                    setDidData({ ...didData, name: e.target.value });
+                    setDidData({ ...didData, name: e.target.value })
                   }}
                 />
               </FormControl>
@@ -250,7 +276,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -282,9 +308,9 @@ function LocationTable({ classes, uuid, history }) {
                           <LightTooltip title="UUID Copied!" placement="top">
                             <FileCopyOutlined
                               style={{
-                                width: "14px !important",
-                                height: "16px !important",
-                                cursor: "pointer"
+                                width: '14px !important',
+                                height: '16px !important',
+                                cursor: 'pointer'
                               }}
                               path={mdiContentCopy}
                               size={1}
@@ -295,9 +321,9 @@ function LocationTable({ classes, uuid, history }) {
                           <LightTooltip title="Copy UUID" placement="top">
                             <FileCopyOutlined
                               style={{
-                                width: "14px !important",
-                                height: "16px !important",
-                                cursor: "pointer"
+                                width: '14px !important',
+                                height: '16px !important',
+                                cursor: 'pointer'
                               }}
                               path={mdiContentCopy}
                               size={1}
@@ -319,7 +345,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -336,8 +362,8 @@ function LocationTable({ classes, uuid, history }) {
                   value={`${didData.company}`}
                   onChange={e => {
                     // setDidData([...didData, (company: e.target.value)]);
-                    fetchCampaign(e.target.value);
-                    setDidData({ ...didData, company: e.target.value });
+                    fetchCampaign(e.target.value)
+                    setDidData({ ...didData, company: e.target.value })
                   }}
                   input={
                     <Input
@@ -366,7 +392,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -392,7 +418,7 @@ function LocationTable({ classes, uuid, history }) {
                     />
                   }
                   onChange={e => {
-                    setDidData({ ...didData, campaign: e.target.value });
+                    setDidData({ ...didData, campaign: e.target.value })
                   }}
                 >
                   {campaign.map(data => (
@@ -411,7 +437,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -452,7 +478,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -466,7 +492,7 @@ function LocationTable({ classes, uuid, history }) {
                 <Input
                   className={classes.textField}
                   id="input"
-                  value={didData.active ? "Active" : "Inactive"}
+                  value={didData.active ? 'Active' : 'Inactive'}
                   endAdornment={
                     <InputAdornment position="end">
                       <Switch
@@ -477,7 +503,7 @@ function LocationTable({ classes, uuid, history }) {
                         id="active"
                         color="primary"
                         onChange={e => {
-                          setDidData({ ...didData, active: !didData.active });
+                          setDidData({ ...didData, active: !didData.active })
                         }}
                         checked={didData.active ? true : false}
                       />
@@ -494,7 +520,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -521,8 +547,8 @@ function LocationTable({ classes, uuid, history }) {
                   onChange={e => {
                     setDidData({
                       ...didData,
-                      allow_inbound: e.target.value === "true"
-                    });
+                      allow_inbound: e.target.value === 'true'
+                    })
                   }}
                 >
                   <MenuItem value={`true`}>Yes</MenuItem>
@@ -538,7 +564,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }} disabled>
+              <FormControl style={{ width: '95%' }} disabled>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -559,7 +585,7 @@ function LocationTable({ classes, uuid, history }) {
                   value={`${didData.did_count}`}
                   type="number"
                   onChange={e => {
-                    setDidData({ ...didData, did_count: e.target.value });
+                    setDidData({ ...didData, did_count: e.target.value })
                   }}
                 />
               </FormControl>
@@ -572,7 +598,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -599,8 +625,8 @@ function LocationTable({ classes, uuid, history }) {
                   onChange={e => {
                     setDidData({
                       ...didData,
-                      skip_inbound_ivr: e.target.value === "true"
-                    });
+                      skip_inbound_ivr: e.target.value === 'true'
+                    })
                   }}
                 >
                   <MenuItem value={`true`}>Yes</MenuItem>
@@ -616,7 +642,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -637,7 +663,7 @@ function LocationTable({ classes, uuid, history }) {
                   value={`${didData.priority}`}
                   type="number"
                   onChange={e => {
-                    setDidData({ ...didData, priority: e.target.value });
+                    setDidData({ ...didData, priority: e.target.value })
                   }}
                 />
               </FormControl>
@@ -650,7 +676,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -675,13 +701,13 @@ function LocationTable({ classes, uuid, history }) {
                     />
                   }
                   onChange={e => {
-                    setDidData({ ...didData, locale_name: e.target.value });
+                    setDidData({ ...didData, locale_name: e.target.value })
                   }}
                 >
-                  <MenuItem value={"US"}>United States / Canada</MenuItem>
-                  <MenuItem value={"GB"}>Great Britain</MenuItem>
-                  <MenuItem value={"AU"}>Australia</MenuItem>
-                  <MenuItem value={"SG"}>Singapore</MenuItem>
+                  <MenuItem value={'US'}>United States / Canada</MenuItem>
+                  <MenuItem value={'GB'}>Great Britain</MenuItem>
+                  <MenuItem value={'AU'}>Australia</MenuItem>
+                  <MenuItem value={'SG'}>Singapore</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -693,7 +719,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -719,12 +745,12 @@ function LocationTable({ classes, uuid, history }) {
                   onChange={e => {
                     setDidData({
                       ...didData,
-                      ignore_caller_id: e.target.value === "true"
-                    });
+                      ignore_caller_id: e.target.value === 'true'
+                    })
                   }}
                 >
-                  <MenuItem value={"true"}>Yes</MenuItem>
-                  <MenuItem value={"false"}>No</MenuItem>
+                  <MenuItem value={'true'}>Yes</MenuItem>
+                  <MenuItem value={'false'}>No</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -736,7 +762,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -756,7 +782,7 @@ function LocationTable({ classes, uuid, history }) {
                   defaultValue={didData.start_node}
                   value={didData.start_node}
                   onChange={e => {
-                    setDidData({ ...didData, start_node: e.target.value });
+                    setDidData({ ...didData, start_node: e.target.value })
                   }}
                 />
               </FormControl>
@@ -769,7 +795,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -789,7 +815,7 @@ function LocationTable({ classes, uuid, history }) {
                   value={`${didData.sip_uri}`}
                   defaultValue={`${didData.sip_uri}`}
                   onChange={e => {
-                    setDidData({ ...didData, sip_uri: e.target.value });
+                    setDidData({ ...didData, sip_uri: e.target.value })
                   }}
                 />
               </FormControl>
@@ -803,7 +829,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.removeLeader,
@@ -819,14 +845,14 @@ function LocationTable({ classes, uuid, history }) {
                     margin: 8
                   }}
                   shrink="false"
-                  value={" "}
+                  value={' '}
                   id="delete"
                   disabled
                   endAdornment={
                     <InputAdornment position="end">
                       <Button
                         onClick={() => {
-                          setDelConfirm(true);
+                          setDelConfirm(true)
                         }}
                         variant="contained"
                         classes={{ root: classes.delBtn }}
@@ -846,7 +872,7 @@ function LocationTable({ classes, uuid, history }) {
               lg={6}
               className={classes.inputContainer}
             >
-              <FormControl style={{ width: "95%" }}>
+              <FormControl style={{ width: '95%' }}>
                 <InputLabel
                   classes={{
                     root: classes.inputLabel,
@@ -869,7 +895,7 @@ function LocationTable({ classes, uuid, history }) {
                     setDidData({
                       ...didData,
                       vars_prospect_channel: e.target.value
-                    });
+                    })
                   }}
                 />
               </FormControl>
@@ -884,14 +910,14 @@ function LocationTable({ classes, uuid, history }) {
             >
               <p
                 style={{
-                  fontFamily: "Roboto",
-                  fontSize: "14px",
-                  fontWeight: "normal",
-                  fontStretch: "normal",
-                  fontStyle: "normal",
-                  lineHeight: "normal",
-                  letterSpacing: "normal",
-                  color: "#bbbbbb"
+                  fontFamily: 'Roboto',
+                  fontSize: '14px',
+                  fontWeight: 'normal',
+                  fontStretch: 'normal',
+                  fontStyle: 'normal',
+                  lineHeight: 'normal',
+                  letterSpacing: 'normal',
+                  color: '#bbbbbb'
                 }}
               >
                 * Required Fields
@@ -909,38 +935,34 @@ function LocationTable({ classes, uuid, history }) {
                 in={edit}
                 classes={{ wrapper: classes.collapseWrapper }}
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                  transition: "all 1s ease"
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: '100%',
+                  transition: 'all 1s ease'
                 }}
               >
                 <span
                   style={{
-                    width: "50%",
-                    margin: "0 auto",
-                    display: "flex",
-                    justifyContent: "space-between"
+                    width: '50%',
+                    margin: '0 auto',
+                    display: 'flex',
+                    justifyContent: 'space-between'
                   }}
                 >
-                  <button
+                  <SaveButton
                     // disabled={errors.name || errors.email || errors.website}
+                    disabled={false}
                     type="submit"
-                    className={
-                      campaignSlug.length > 0 // lagay mo na lang dito yung function if may tig edit siya tiya ka lang maga active yung save
-                        ? `${classes.button} ${classes.active}`
-                        : `${classes.button} ${classes.disabled}`
-                    }
                     onClick={() => {
-                      handleUpdate(companySlug, campaignSlug);
+                      handleUpdate(companySlug, campaignSlug)
                     }}
                   >
                     SAVE
-                  </button>
+                  </SaveButton>
                   <button
                     className={`${classes.button} ${classes.cancel}`}
                     onClick={e => {
-                      setDidData(origDidData);
+                      setDidData(origDidData)
                     }}
                   >
                     CANCEL
@@ -956,38 +978,45 @@ function LocationTable({ classes, uuid, history }) {
         handleClose={() => {
           setSnackbar({
             open: false,
-            message: ""
-          });
+            message: ''
+          })
         }}
         message={snackbar.message}
       />
-      <DeleteModal
+      {/* <DeleteModal
         did={didData}
         open={delConfirm}
         closeFn={() => {
-          setDelConfirm(false);
+          setDelConfirm(false)
         }}
         delFn={handleDelete}
+      /> */}
+      <DeleteModal
+        open={delConfirm}
+        header="Delete DID"
+        msg="DID"
+        name={didData ? didData.name : ''}
+        closeFn={() => setDelConfirm(false)}
+        delFn={handleDelete}
       />
-      <Dialog open={openDeletingModal}>
-        <DeletingModal
-          text={"Deleting DID pool..."}
-          cancelFn={() => {
-            setOpenDeletingModal(false);
-            cancel();
-          }}
-        />
-      </Dialog>
+      <LoadingModal
+        open={openDeletingModal}
+        text={'Deleting DID pool...'}
+        cancelFn={() => {
+          setOpenDeletingModal(false)
+          cancel()
+        }}
+      />
       {/* To DO success deleting modal */}
       <Dialog open={openDeletedModal}>
         <SuccessModal
           text={`${didData.name} was deleted`}
           closeFn={() => {
-            history.push("/manage/did-pool");
+            history.push('/manage/did-pool')
           }}
         />
       </Dialog>
     </>
-  );
+  )
 }
-export default withStyles(styles)(LocationTable);
+export default withStyles(styles)(LocationTable)
