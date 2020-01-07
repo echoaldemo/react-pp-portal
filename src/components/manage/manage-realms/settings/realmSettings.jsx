@@ -12,7 +12,7 @@ import {
   Switch,
   CircularProgress
 } from "@material-ui/core";
-import TableLoader from "../../../common-components/table-loader/TableLoader";
+import { TableLoader } from "common-components";
 import {
   GroupOutlined,
   Delete as DeleteIcon,
@@ -359,15 +359,16 @@ export default function RealmSettings(props) {
                 </Grid>
               </TabPanel>
               <TabPanel value={tab} index={1} dir={theme.direction}>
-                <Campaigns
-                  data={campaigns}
-                  removeCampaign={removeCampaign}
-                  realm={realm}
-                  paginateList={paginateList}
-                  paginateFn={paginateFn}
-                  addCampaign={addCampaign}
-                  campaignsOrig={campaignsOrig}
-                />
+                Coming Soon
+                {/* <Campaigns
+                    data={campaigns}
+                    removeCampaign={removeCampaign}
+                    realm={realm}
+                    paginateList={paginateList}
+                    paginateFn={paginateFn}
+                    addCampaign={addCampaign}
+                    campaignsOrig={campaignsOrig}
+                  /> */}
               </TabPanel>
             </React.Fragment>
           )}

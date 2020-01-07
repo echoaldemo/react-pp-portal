@@ -18,9 +18,13 @@ type Props = {
   handleInputChange: any;
   handleInputBlur: any;
   handleSelect: any;
-  inputErrors: any;
+  setOpen: any;
   handleEmail: any;
   handleDatePick: any;
+  handlePassword: any;
+  resultSelection: any;
+  campaignSelection: any;
+  finishFn: any;
   disabled?: any;
   setDisabled?: any;
 };
@@ -31,12 +35,16 @@ const Step = ({
   number,
   setCurrentStep,
   inputValues,
-  inputErrors,
   handleDatePick,
   handleEmail,
+  finishFn,
+  setOpen,
   handleInputChange,
   handleInputBlur,
+  handlePassword,
   handleSelect,
+  resultSelection,
+  campaignSelection,
   payload
 }: Props) => {
   const classes = useStyles();
@@ -64,11 +72,11 @@ const Step = ({
           <Step3
             disabled={disabled}
             setDisabled={setDisabled}
-            title="Company Info"
+            title="Company info"
             label="company"
             selectTitle="User company"
-            selected={"User Company"}
-            resultSelection={() => console.log("Result")}
+            selected={inputValues.company}
+            resultSelection={resultSelection}
             values={payload.companies}
           />
         );
@@ -79,11 +87,11 @@ const Step = ({
             disabled={disabled}
             setDisabled={setDisabled}
             selectTitle="User campaign"
-            selectedCompany={""}
-            selected={""}
-            campaign={[]}
+            selectedCompany={"00eede2b-1f5d-4e2f-9d00-3abadb6cdeed"}
+            selected={inputValues.campaign}
+            campaign={payload.campaigns}
             label="campaign"
-            selectFn={() => console.log("Result")}
+            selectFn={campaignSelection}
           />
         );
         break;
@@ -95,21 +103,25 @@ const Step = ({
             title="Team Info"
             label="team"
             selectTitle="User team"
-            selected={"User Company"}
-            resultSelection={() => console.log("Result")}
-            values={[]}
+            selected={inputValues.team}
+            resultSelection={resultSelection}
+            values={payload.teams}
           />
         );
         break;
       case 6:
-        return <Setup disabled={disabled} setDisabled={setDisabled} />;
+        return (
+          <Setup
+            password={inputValues.password}
+            handlePassword={handlePassword}
+          />
+        );
       default:
         return (
           <Step1
             disabled={disabled}
             setDisabled={setDisabled}
             inputValues={inputValues}
-            inputErrors={inputErrors}
             handleDatePick={handleDatePick}
             handleEmail={handleEmail}
             handleInputChange={handleInputChange}
@@ -125,10 +137,8 @@ const Step = ({
 
   let stepConfig = {
     steps: 6,
-    cancelFn: () => {
-      console.log("Cancel Fn");
-    },
-    finishFn: () => console.log("Finish Fn"),
+    cancelFn: () => setOpen(false),
+    finishFn: () => finishFn(),
     setCurrentStep: setCurrentStep,
     currentStep: number
   };
@@ -137,7 +147,7 @@ const Step = ({
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container spacing={1}>
+      <Grid container style={{ width: "inherit", marginTop: -7 }}>
         <Stepper {...stepConfig}>
           <_Step index={number} disabled={isDisabled}>
             <StepContent>{renderStep()}</StepContent>

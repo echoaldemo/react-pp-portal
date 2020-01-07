@@ -8,6 +8,7 @@ import {
   FilterToolBar
 } from "common-components";
 import { NewUser } from "../users-new";
+import { Edit } from "../users-edit";
 import { UserTable } from "../components";
 import { useStyles } from "./styles";
 const UserLanding = () => {
@@ -15,6 +16,7 @@ const UserLanding = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [is_new_user, setIsNewUser] = useState(false);
+  const [is_user_edit, setIsUserEdit] = useState(false);
 
   const classes = useStyles();
 
@@ -29,6 +31,10 @@ const UserLanding = () => {
 
   const paginate: Function = (from: any, to: any) => {
     setUserData(users.slice(from, to));
+  };
+
+  const editUser = () => {
+    setIsUserEdit(true);
   };
 
   const renderPagination: Function = () => {
@@ -111,12 +117,19 @@ const UserLanding = () => {
 
   return (
     <>
-      <NewUser open={is_new_user} onClose={() => setIsNewUser(false)} />
+      <NewUser
+        open={is_new_user}
+        setOpen={setIsNewUser}
+        onClose={() => setIsNewUser(false)}
+      />
+
+      <Edit open={is_user_edit} setOpen={setIsUserEdit} />
+
       {renderHeader()}
       <Card square={true}>
         {renderFilter()}
         <div style={{ minHeight: 500 }}>
-          <UserTable users={userData} loading={loading} />
+          <UserTable users={userData} loading={loading} setEdit={editUser} />
         </div>
         {!loading && renderPagination()}
       </Card>
