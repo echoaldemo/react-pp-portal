@@ -33,7 +33,6 @@ import { mdiContentCopy } from '@mdi/js'
 import { get, cancel, patch, remove } from 'utils/api'
 import SnackNotif from 'auth/component/snackbar/snackbar'
 import styles from './DidPoolsSettings.styles'
-// import DeleteModal from './components/DeleteModal'
 
 //mock data
 import { mockDid } from '../../utils/const-var'

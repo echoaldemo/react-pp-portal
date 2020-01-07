@@ -22,7 +22,7 @@ import {
   HeaderButton,
   HeaderLink
 } from 'common-components'
-// import DidTable from '../components/table/index'
+import DidTable from './components/DidTable'
 import styles from './DidPoolsSettings.styles'
 // import BuyDid from './buy-did-number/BuyDid'
 import styled from 'styled-components'
@@ -122,6 +122,7 @@ class DidPoolsSettings extends Component {
   }
 
   fetchDID = () => {
+    this.setState({ loadingDid: false })
     get(
       `/did/company/all/campaign/all/pool/${this.props.match.params.uuid}/`
     ).then(res => {
@@ -304,9 +305,8 @@ class DidPoolsSettings extends Component {
             <TableLoader />
           ) : (
             <>
-              {/* <DidTable
-								openEdit={this.state.openEdit}
-								
+              <DidTable
+                openEdit={this.state.openEdit}
                 handleOpenEdit={this.handleOpenEdit}
                 handleCloseEdit={() => this.setState({ openEdit: false })}
                 editData={this.state.editData}
@@ -316,7 +316,7 @@ class DidPoolsSettings extends Component {
                 fetchDIDList={this.fetchDIDlistNoParams}
                 campaignSlug={this.state.campaignSlug}
                 companySlug={this.state.companySlug}
-              /> */}
+              />
             </>
           )}
         </Paper>
