@@ -14,16 +14,12 @@ const Campaigns = ({ history }: any) => {
 	const [ paginateList, setPaginateList ] = useState(mockDataCampaigns);
 	const [ openCreateModal, setOpenCreateModal ] = useState(false);
 
-	// useEffect(() => {
-	// 	setLoading(true);
-	// 	setTimeout(() => {
-	// 		get('/identity/campaign/list/').then((result: any) => {
-	// 			setData(result.data);
-	// 			setPaginateList(result.data);
-	// 			setLoading(false);
-	// 		});
-	// 	}, 2000);
-	// }, []);
+	useEffect(() => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 500);
+	}, []);
 
 	function FilterApplyButton(params: any) {
 		setLoading(true);
