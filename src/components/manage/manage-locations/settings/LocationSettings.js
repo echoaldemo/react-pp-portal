@@ -1,28 +1,33 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import NavTabs from "../../../common-components/nav-tabs/Settings-menu-bar";
-import { Paper, Grid, Button, Typography } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import InputBase from "@material-ui/core/InputBase";
-import Collapse from "@material-ui/core/Collapse";
-import Switch from "@material-ui/core/Switch";
+import {
+  Paper,
+  Grid,
+  Button,
+  Typography,
+  FormControl,
+  Input,
+  InputLabel,
+  InputAdornment,
+  InputBase,
+  Collapse,
+  Switch,
+  Dialog
+} from "@material-ui/core";
 /*COMPONENTS*/
+import {
+  HeaderButton,
+  LoadingModal,
+  SuccessModal,
+  TableLoader,
+  BackButton
+} from "common-components";
 import Search from "../common-components/Search";
-import Teams from "../teams/Teams";
-import HeaderContainer from "../../../common-components/HeaderContainer/HeaderContainer";
-import HeaderLink from "../../../common-components/HeaderLink/HeaderLink";
-import HeaderButton from "../../../common-components/HeaderButton/HeaderButton";
-import NewTeam from "./addNewTeam";
 import Toast from "../common-components/Toast";
-import LoadingModal from "../../../common-components/loading-modal/LoadingModal";
-import SuccessModal from "../../../common-components/success-modal/SuccessModal";
-import { Dialog } from "@material-ui/core";
+import Teams from "../teams/Teams";
+import NewTeam from "./addNewTeam";
 
-import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
-import TableLoader from "../../../common-components/table-loader/TableLoader";
+// import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
 
 import styles from "./LocationSettings.styles.js";
 
@@ -51,104 +56,104 @@ class LocationSettings extends Component {
       load: false,
       success: false,
       nameMsg: "",
-      dataLoaded: false
+      dataLoaded: true
     };
   }
 
-  async componentDidMount() {
-    await get(`/identity/location/${this.props.match.params.uuid}/`).then(
-      result => {
-        this.setState({
-          location: result.data,
-          originalData: {
-            name: result.data.name,
-            leader: result.data.leader,
-            active: result.data.active
-          },
-          updateData: {
-            name: result.data.name,
-            leader: result.data.leader,
-            active: result.data.active
-          }
-        });
-        if (result.data.leader) {
-          get(`/identity/user/manage/${result.data.leader}`).then(res => {
-            this.setState({
-              locationLeader: res.data
-            });
-          });
-        }
-      }
-    );
-    await get(`/identity/team/list`, {
-      location: this.props.match.params.uuid
-    }).then(result => {
-      this.setState({
-        locationsTeams: result.data
-      });
-    });
-    await getGroups(
-      `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
-    ).then(result => {
-      this.setState({
-        leader: result.data.results,
-        dataLoaded: true
-      });
-    });
-  }
+  // async componentDidMount() {
+  //   await get(`/identity/location/${this.props.match.params.uuid}/`).then(
+  //     result => {
+  //       this.setState({
+  //         location: result.data,
+  //         originalData: {
+  //           name: result.data.name,
+  //           leader: result.data.leader,
+  //           active: result.data.active
+  //         },
+  //         updateData: {
+  //           name: result.data.name,
+  //           leader: result.data.leader,
+  //           active: result.data.active
+  //         }
+  //       });
+  //       if (result.data.leader) {
+  //         get(`/identity/user/manage/${result.data.leader}`).then(res => {
+  //           this.setState({
+  //             locationLeader: res.data
+  //           });
+  //         });
+  //       }
+  //     }
+  //   );
+  //   await get(`/identity/team/list`, {
+  //     location: this.props.match.params.uuid
+  //   }).then(result => {
+  //     this.setState({
+  //       locationsTeams: result.data
+  //     });
+  //   });
+  //   await getGroups(
+  //     `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
+  //   ).then(result => {
+  //     this.setState({
+  //       leader: result.data.results,
+  //       dataLoaded: true
+  //     });
+  //   });
+  // }
 
   fetchLocationsTeams = () => {
-    get(`/identity/team/list/`, {
-      location: this.props.match.params.uuid
-    }).then(result => {
-      this.setState({
-        locationsTeams: result.data
-      });
-    });
+    // get(`/identity/team/list/`, {
+    //   location: this.props.match.params.uuid
+    // }).then(result => {
+    //   this.setState({
+    //     locationsTeams: result.data
+    //   });
+    // });
   };
 
   fetchLocations = () => {
-    get(`/identity/location/${this.props.match.params.uuid}`).then(result => {
-      this.setState({
-        location: result.data,
-        originalData: {
-          name: result.data.name,
-          leader: result.data.leader,
-          active: result.data.active
-        },
-        updateData: {
-          name: result.data.name,
-          leader: result.data.leader,
-          active: result.data.active
-        }
-      });
-      get(`/identity/user/manage/${result.data.leader}`).then(res => {
-        this.setState({
-          locationLeader: res.data
-        });
-      });
-    });
+    // get(`/identity/location/${this.props.match.params.uuid}`).then(result => {
+    //   this.setState({
+    //     location: result.data,
+    //     originalData: {
+    //       name: result.data.name,
+    //       leader: result.data.leader,
+    //       active: result.data.active
+    //     },
+    //     updateData: {
+    //       name: result.data.name,
+    //       leader: result.data.leader,
+    //       active: result.data.active
+    //     }
+    //   });
+    //   get(`/identity/user/manage/${result.data.leader}`).then(res => {
+    //     this.setState({
+    //       locationLeader: res.data
+    //     });
+    //   });
+    // });
   };
 
   selectedVoice = val => {
-    var temp = this.state.updateData;
-    temp.leader = val.uuid;
-    get(`/identity/user/manage/${val.uuid}`).then(res => {
-      this.setState({
-        locationLeader: res.data,
-        updateData: temp
-      });
-    });
+    // var temp = this.state.updateData;
+    // temp.leader = val.uuid;
+    // get(`/identity/user/manage/${val.uuid}`).then(res => {
+    //   this.setState({
+    //     locationLeader: res.data,
+    //     updateData: temp
+    //   });
+    // });
   };
 
   updateLocation = () => {
-    patch(
-      `/identity/location/${this.props.match.params.uuid}/`,
-      this.state.updateData
-    ).then(res => {
-      this.handleOpenToast();
-      this.fetchLocations();
-    });
+    // patch(
+    //   `/identity/location/${this.props.match.params.uuid}/`,
+    //   this.state.updateData
+    // ).then(res => {
+    //   this.handleOpenToast();
+    //   this.fetchLocations();
+    // });
   };
 
   hancleCloseNewTeam = () => {
@@ -177,23 +182,23 @@ class LocationSettings extends Component {
   };
 
   addNewTeam = (name, leader) => {
-    this.setState({
-      openNewTeam: false,
-      load: true
-    });
-    post(`/identity/team/create/`, {
-      location: this.props.match.params.uuid,
-      leader: leader,
-      name: name
-    }).then(res => {
-      this.setState({ load: false, nameMsg: name, success: true });
-      this.fetchLocationsTeams();
-    });
+    // this.setState({
+    //   openNewTeam: false,
+    //   load: true
+    // });
+    // post(`/identity/team/create/`, {
+    //   location: this.props.match.params.uuid,
+    //   leader: leader,
+    //   name: name
+    // }).then(res => {
+    //   this.setState({ load: false, nameMsg: name, success: true });
+    //   this.fetchLocationsTeams();
+    // });
   };
 
   handleCancel = () => {
-    cancel();
-    this.setState({ load: false });
+    // cancel();
+    // this.setState({ load: false });
   };
   handleCloseSuccess = () => {
     this.setState({ open: false, success: false });
@@ -214,15 +219,7 @@ class LocationSettings extends Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <NavTabs
-            data={this.state.location}
-            tabnames={[]}
-            history={this.state.location}
-            back={{
-              name: "Back to location",
-              url: "/manage/locations/"
-            }}
-          />
+          <BackButton text="Back to location" to="/manage/locations/" />
           <Paper square={true} className={classes.paper}>
             <div style={{ width: "508px" }}>
               <Grid container>
@@ -497,13 +494,13 @@ class LocationSettings extends Component {
             </div>
           </Paper>
 
-          <HeaderContainer style={{ marginTop: 50 }}>
+          <div style={{ marginTop: 50 }}>
             <Typography variant="h5">Location teams</Typography>
             <HeaderButton
               buttonText="New team"
               openFunction={this.handleOpenNewTeam}
             />
-          </HeaderContainer>
+          </div>
           <Paper style={{ height: "auto", marginTop: "2%" }}>
             <Teams
               userData={this.state.locationsTeams}
