@@ -23,3 +23,7 @@
 	margin-right: 15px;
 	padding-top: 15px;
 }
+
+.makeStyles-border-155:before {
+	border-color: transparent !important;
+}

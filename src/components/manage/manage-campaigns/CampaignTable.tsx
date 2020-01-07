@@ -100,7 +100,7 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 function renderNoData(setOpenCreateModal: any) {
 	return (
 		<TableNoResult
-			headerText="Campagaigns"
+			headerText="Campaigns"
 			mainMessage="No campaigns have been created"
 			subMessage="Would you like to create one? Just hit the “New Campaign button."
 			renderButton={
