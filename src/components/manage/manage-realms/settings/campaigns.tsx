@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Tooltip, Dialog } from "@material-ui/core";
-import TableLoader from "../../../common-components/table-loader/TableLoader";
 import {
   GroupOutlined,
   Add,
@@ -11,15 +10,18 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { withStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
-
-import { ActiveCell } from "../../../common-components/table-cells/TableCells";
-import AsyncTable from "../../../common-components/async-table/AsyncTable";
 import { TableRow, TableCell } from "@material-ui/core";
 import { mdiContentCopy } from "@mdi/js";
-import SuccessModal from "../../../common-components/success-modal/SuccessModal";
-import LoadingModal from "../../../common-components/loading-modal/LoadingModal";
-import AddCampaignModal from "./component/realm-add-campaign/AddCampaignModal";
-import Pagination from "../../../common-components/pagination/PaginationV2";
+
+// import AddCampaignModal from "./component/realm-add-campaign/AddCampaignModal";
+import {
+  ActiveCell,
+  AsyncTable,
+  SuccessModal,
+  LoadingModal,
+  Pagination,
+  TableLoader
+} from "common-components";
 
 const LightTooltip = withStyles(theme => ({
   tooltip: {
@@ -101,7 +103,7 @@ const NoCampSub = styled.p`
   max-width: 355px;
 `;
 
-export default function CampaignSettings(props) {
+export default function CampaignSettings(props: any) {
   const {
     data,
     removeCampaign,
@@ -111,13 +113,13 @@ export default function CampaignSettings(props) {
     addCampaign,
     campaignsOrig
   } = props;
-  const [loading, setLoading] = useState(false);
-  const [copy, setCopy] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [copy, setCopy] = useState<boolean>(false);
+  const [selected, setSelected] = useState<any>(null);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [modalType, setModalType] = useState("warn");
-  const [openAdd, setOpenAdd] = useState(false);
-  const [text, setText] = useState("");
+  const [openAdd, setOpenAdd] = useState<boolean>(false);
+  const [text, setText] = useState<string>("");
 
   const openFunc = () => {
     setOpenAdd(!openAdd);
@@ -150,7 +152,7 @@ export default function CampaignSettings(props) {
     }, 800);
   };
 
-  const campFn = async camps => {
+  const campFn = async (camps: any) => {
     setSelected(true);
     setModalType("loading");
     setText("One moment. We're adding the campaigns...");
@@ -166,11 +168,7 @@ export default function CampaignSettings(props) {
   };
 
   return loading ? (
-    <TableLoader
-      headerText="Management"
-      message="Loading campaigns..."
-      Icon={GroupOutlined}
-    />
+    <TableLoader />
   ) : (
     <>
       <Grid>
@@ -179,12 +177,12 @@ export default function CampaignSettings(props) {
           <Add />
           Add Campaign
         </AddCamp>
-        <AddCampaignModal
+        {/* <AddCampaignModal
           open={openAdd}
           openFunc={openFunc}
           data={campaignsOrig}
           addCampaign={campFn}
-        />
+        /> */}
       </Grid>
       {data.length > 0 ? (
         <AsyncTable
@@ -192,14 +190,14 @@ export default function CampaignSettings(props) {
           withBorder
           headers={["Name", "Slug", "UUID", "Status", ""]}
           tableData={data}
-          render={(samples, { userCell, row, cell, uuid, icon }) =>
-            samples.map(sample => (
+          render={(samples: any, { userCell, row, cell, uuid, icon }: any) =>
+            samples.map((sample: any) => (
               <TableRow className={row} key={sample.uuid}>
                 <TableCell className={userCell}>
                   <RealmName>{sample.name}</RealmName>
                 </TableCell>
                 <TableCell className={userCell}>{sample.slug}</TableCell>
-                <TableCell className={uuid} text={sample.uuid}>
+                <TableCell className={uuid}>
                   <IdCont>{sample.uuid}</IdCont>
                   <CopyToClipboard
                     text={sample.uuid}
@@ -208,21 +206,11 @@ export default function CampaignSettings(props) {
                   >
                     {copy ? (
                       <LightTooltip title="UUID Copied!" placement="top">
-                        <Icon
-                          path={mdiContentCopy}
-                          className={icon}
-                          size={1}
-                          rotate={360}
-                        />
+                        <Icon className={icon} rotate={360} />
                       </LightTooltip>
                     ) : (
                       <LightTooltip title="Copy UUID" placement="top">
-                        <Icon
-                          path={mdiContentCopy}
-                          className={icon}
-                          size={1}
-                          rotate={360}
-                        />
+                        <Icon className={icon} rotate={360} />
                       </LightTooltip>
                     )}
                   </CopyToClipboard>
@@ -259,36 +247,35 @@ export default function CampaignSettings(props) {
         <Pagination
           paginateFn={paginateFn}
           totalItems={paginateList.length}
-          paginateList={paginateList}
           itemsPerPage={5}
         />
       )}
-      {selected && (
-        <Dialog open={openDelete}>
-          {modalType === "warn" ? (
-            <SuccessModal
-              warning
-              btnText={"YES, REMOVE"}
-              btnFn={removeFn}
-              closeFn={closeFn}
-              text={`Are you sure you want to remove "${selected.name}" from ${realm.name}?`}
-            />
-          ) : modalType === "loading" ? (
-            <LoadingModal text={text} cancelFn={closeFn} />
-          ) : (
-            <SuccessModal
-              btnText={
-                text === "Successfully added campaigns"
-                  ? "ADD ANOTHER"
-                  : "ADD CAMPAIGN"
-              }
-              btnFn={addCamp}
-              closeFn={closeFn}
-              text={text}
-            />
-          )}
-        </Dialog>
-      )}
+      {selected ? (
+        modalType === "warn" ? (
+          <SuccessModal
+            open={openDelete}
+            warning
+            btnText={"YES, REMOVE"}
+            btnFn={removeFn}
+            closeFn={closeFn}
+            text={`Are you sure you want to remove "${selected.name}" from ${realm.name}?`}
+          />
+        ) : modalType === "loading" ? (
+          <LoadingModal open={true} text={text} cancelFn={closeFn} />
+        ) : (
+          <SuccessModal
+            open={openDelete}
+            btnText={
+              text === "Successfully added campaigns"
+                ? "ADD ANOTHER"
+                : "ADD CAMPAIGN"
+            }
+            btnFn={addCamp}
+            closeFn={closeFn}
+            text={text}
+          />
+        )
+      ) : null}
     </>
   );
 }
