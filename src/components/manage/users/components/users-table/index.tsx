@@ -96,7 +96,7 @@ const UserTable: React.FC<Props> = ({ users, loading }) => {
               {i === 4 && renderIcon(cellVal, iconProps)}
             </TableCell>
           ) : (
-            <UnderlineCell className={cellStyle}>
+            <UnderlineCell key={i} className={cellStyle}>
               <p style={{ color: "rgb(68, 72, 81)" }}>{cellVal}</p>
             </UnderlineCell>
           )}
@@ -107,7 +107,7 @@ const UserTable: React.FC<Props> = ({ users, loading }) => {
   const renderRows: Function = (userData: any, styleProps: any) => {
     let usersInfo = filterKeys(userData);
     return (
-      <TableRow className={styleProps.row}>
+      <TableRow key={userData.uuid} className={styleProps.row}>
         {renderCells(usersInfo, styleProps)}
         <TableCell className={styleProps.userCell}>
           <EditButton
