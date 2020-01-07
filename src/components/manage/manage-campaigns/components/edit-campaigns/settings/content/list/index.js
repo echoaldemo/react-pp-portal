@@ -1,11 +1,15 @@
-import React from 'react'
-import { StateProvider } from './store'
-import List from './List'
+import React from 'react';
 
-export default () => {
-  return (
-    <StateProvider>
-      <List />
-    </StateProvider>
-  )
-}
+const List = () => {
+	return (
+		<div className="p-normal c-default">
+			<h1>List</h1>
+			<p>
+				<b>Modify the code of this file here:</b>
+			</p>
+			<code>File Path:: /manage/manage-campaigns/components/edit-campaigns/settings/content/list </code>
+		</div>
+	);
+};
+
+export default List;

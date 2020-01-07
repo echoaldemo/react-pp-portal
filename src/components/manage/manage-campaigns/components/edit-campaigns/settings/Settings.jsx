@@ -4,7 +4,7 @@ import EditHeader from '../EditHeader';
 import { get } from '../../../../../../utils/api';
 import { mockDataCampaigns } from '../../../../globalConstsVar';
 import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
-import { General, AudioResources } from './content';
+import { General, AudioResources, List, QA, ChangeLog } from './content';
 export default function Settings({ match, history }) {
 	const { uuid } = match.params;
 	const [ data, setData ] = useState([]);
@@ -20,7 +20,6 @@ export default function Settings({ match, history }) {
 			});
 	}, []);
 	function handleChange(event, newValue) {
-		console.log(event);
 		setValue(newValue);
 	}
 
@@ -50,7 +49,13 @@ export default function Settings({ match, history }) {
 						<AudioResources />
 					</TabPanel>
 					<TabPanel value={value} index={2}>
-						Item Three
+						<List />
+					</TabPanel>
+					<TabPanel value={value} index={3}>
+						<QA />
+					</TabPanel>
+					<TabPanel value={value} index={4}>
+						<ChangeLog />
 					</TabPanel>
 				</div>
 			</Paper>
