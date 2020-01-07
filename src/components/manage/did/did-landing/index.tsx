@@ -16,11 +16,11 @@ const ManageDID = ({ history }: any) => {
   const [paginateList, setPaginateList] = useState([]);
 
   useEffect(() => {
+    setLoading(true);
     fetchDIDs();
   }, []);
 
   const fetchDIDs = () => {
-    setLoading(true);
     fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids`)
       .then((response: any) => response.json())
       .then((response: any) => {
@@ -35,6 +35,24 @@ const ManageDID = ({ history }: any) => {
         setPaginateList(newResponse);
         setLoading(false);
       });
+  };
+
+  const filterFn = (params: any) => {
+    setLoading(true);
+    if (params.active !== " ") {
+      fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids`)
+        .then((response: any) => response.json())
+        .then((response: any) => {
+          const filtered = response.filter(
+            (did: any) => did.active.toString() === params.active
+          );
+          setDidData(filtered);
+          setPaginateList(filtered);
+          setLoading(false);
+        });
+    } else {
+      fetchDIDs();
+    }
   };
 
   const paginate = (from: number, to: number) => {
@@ -98,7 +116,7 @@ const ManageDID = ({ history }: any) => {
         />
         <Divider />
         <FilterToolBar
-          FilterApplyButton={() => console.log("")}
+          FilterApplyButton={filterFn}
           company={true}
           campaign={true}
           status={true}
