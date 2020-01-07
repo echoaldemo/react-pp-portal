@@ -1,4 +1,5 @@
-const styles = {
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles(() => ({
   card: {
     width: "450px",
     height: "500px",
@@ -105,7 +106,7 @@ const styles = {
   removeIcon: {
     width: "5%",
     fontSize: "14px",
-    cursor: 'pointer'
+    cursor: "pointer"
   },
   dialog: {
     width: "100%",
@@ -164,6 +165,6 @@ const styles = {
     cursor: "pointer",
     marginTop: "4px"
   }
-};
+}));
 
 export default styles;
