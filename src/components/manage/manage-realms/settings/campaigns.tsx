@@ -177,12 +177,12 @@ export default function CampaignSettings(props: any) {
           <Add />
           Add Campaign
         </AddCamp>
-        {/* <AddCampaignModal
+        <AddCampaignModal
           open={openAdd}
           openFunc={openFunc}
           data={campaignsOrig}
           addCampaign={campFn}
-        /> */}
+        />
       </Grid>
       {data.length > 0 ? (
         <AsyncTable
