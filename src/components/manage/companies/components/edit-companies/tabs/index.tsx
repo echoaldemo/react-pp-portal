@@ -4,6 +4,7 @@ import { tabs as useStyles, CustomTabs } from "./styles";
 //Panel Components
 
 import CompanySettings from "./settings";
+import PhraseBooks from "./phrase-books";
 /* import PhraseBooks from '../../manage/manage-companies/phrase-books/PhraseBooks'
 import RRTest from '../../manage/manage-companies/rapid-response-test'
 import RRSegments from '../../manage/manage-companies/RapidResponse/Index'
@@ -98,11 +99,10 @@ const TabComponent: React.FC<Props> = ({
       <TabPanel value={value} index={0} className={classes.panelContainer}>
         <CompanySettings params={params} />
       </TabPanel>
-      {/* <TabPanel value={value} index={1} className={classes.panelContainer}>
-        {props.companyData !== null && (
-          <PhraseBooks company={props.companyData} />
-        )}
+      <TabPanel value={value} index={1} className={classes.panelContainer}>
+        <PhraseBooks company={companyData} />
       </TabPanel>
+      {/* 
       <TabPanel value={value} index={2} className={classes.panelContainer}>
         {props.companyData !== null && <RRTest company={props.companyData} />}
       </TabPanel>
