@@ -7,4 +7,4 @@ export {
   Pitch,
   DataPosting
 } from "./manage-campaigns";
-export { Companies } from "./manage-companies";
+export { Companies, EditCompanies } from "./companies";

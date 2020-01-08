@@ -1,26 +1,26 @@
-import React from 'react'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
-import Gateway from 'components/gateway'
+import Gateway from "components/gateway";
 import {
   Realms,
   Campaigns,
   PageNotFound,
-  EditCampaigns,
   UserLanding,
   RealmSettingsPage,
   Companies,
+  EditCompanies,
   Settings,
   Pitch,
   DataPosting
-} from 'components'
-import { PublicRoute, GatewayRoute, PrivateRoute } from './'
-import DidPool from 'components/manage/manage-did-pool'
-import EditDidPool from 'components/manage/manage-did-pool/components/settings/DidPoolsSettings'
-import Signin from 'auth/component'
-import ManageDIDs from 'components/manage/did/did-landing'
-import ManageLocation from 'components/manage/manage-locations/ManageLocation'
-import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
+} from "components";
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import DidPool from "components/manage/manage-did-pool";
+import EditDidPool from "components/manage/manage-did-pool/components/settings/DidPoolsSettings";
+import Signin from "auth/component";
+import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -54,7 +54,12 @@ export default function Routes() {
 
         {/* end of manage/campaign routes */}
         {/* manage/companies */}
-        <PrivateRoute path="/manage/companies" component={Companies} />
+        <PrivateRoute exact path="/manage/companies" component={Companies} />
+        <PrivateRoute
+          exact
+          path="/manage/companies/edit/:slug/:uuid"
+          component={EditCompanies}
+        />
         {/* end manage/companies */}
 
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
@@ -77,5 +82,5 @@ export default function Routes() {
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }

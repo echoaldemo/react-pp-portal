@@ -1,5 +1,5 @@
 export { UserLanding } from "./manage/users";
-export { Realms, RealmSettingsPage, Companies } from "./manage";
+export { Realms, RealmSettingsPage, Companies, EditCompanies } from "./manage";
 export {
   Campaigns,
   EditHeader,
