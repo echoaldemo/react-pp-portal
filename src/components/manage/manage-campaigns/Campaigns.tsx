@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { HeaderLink, HeaderButton, SearchBar, FilterToolBar, Pagination, Modal } from 'common-components';
 import { menus, mockDataCampaigns } from '../globalConstsVar';
 import CampaignTable from './CampaignTable';
@@ -6,42 +7,34 @@ import SEO from 'utils/seo';
 import { get } from '../../../utils/api';
 import { Paper, Divider } from '@material-ui/core';
 import NewCampaign from './components/new-campaign/NewCampaign';
-export default function Campaigns({ history }) {
+
+const Campaigns = ({ history }: any) => {
 	const [ loading, setLoading ] = useState(false);
-	const [ data, setData ] = useState([]);
-	const [ paginateList, setPaginateList ] = useState([]);
+	const [ data, setData ] = useState(mockDataCampaigns);
+	const [ paginateList, setPaginateList ] = useState(mockDataCampaigns);
 	const [ openCreateModal, setOpenCreateModal ] = useState(false);
+
 	useEffect(() => {
 		setLoading(true);
 		setTimeout(() => {
-			get('/identity/campaign/list/')
-				.then((result) => {
-					setData(result.data);
-					setPaginateList(result.data);
-					setLoading(false);
-				})
-				.catch(() => {
-					setData(mockDataCampaigns);
-					setLoading(false);
-					setPaginateList(mockDataCampaigns);
-				});
-		}, 200);
+			setLoading(false);
+		}, 500);
 	}, []);
 
-	function FilterApplyButton(params) {
+	function FilterApplyButton(params: any) {
 		setLoading(true);
 		var parameter = {
-			...(params.sortby !== ' ' && { order_by: params.sortby }),
-			...(params.active !== ' ' && { active: params.active }),
-			...(params.company !== ' ' && { company: params.company }),
-			...(params.realm !== ' ' && { realms: params.realm }),
-			...(params.campaign !== ' ' && { campaigns: params.campaign }),
-			...(params.roles !== ' ' && { groups: params.roles }),
-			...(params.hasCompany !== ' ' && { no_company: !params.hasCompany })
+			...params.sortby !== ' ' && { order_by: params.sortby },
+			...params.active !== ' ' && { active: params.active },
+			...params.company !== ' ' && { company: params.company },
+			...params.realm !== ' ' && { realms: params.realm },
+			...params.campaign !== ' ' && { campaigns: params.campaign },
+			...params.roles !== ' ' && { groups: params.roles },
+			...params.hasCompany !== ' ' && { no_company: !params.hasCompany }
 		};
 
 		get('/identity/campaign/list/', parameter)
-			.then((res) => {
+			.then((res: any) => {
 				setData(res.data);
 				setPaginateList(res.data);
 				setLoading(false);
@@ -51,7 +44,7 @@ export default function Campaigns({ history }) {
 				setLoading(false);
 			});
 	}
-	const paginate = (from, to) => {
+	const paginate = (from: any, to: any) => {
 		setPaginateList(data.slice(from, to));
 	};
 	return (
@@ -90,12 +83,7 @@ export default function Campaigns({ history }) {
 				<div style={{ width: '100%' }}>
 					<Divider />
 					{Boolean(paginateList.length) && (
-						<Pagination
-							paginateFn={paginate}
-							totalItems={data.length}
-							paginateList={data}
-							itemsPerPage={7}
-						/>
+						<Pagination paginateFn={paginate} totalItems={data.length} itemsPerPage={7} />
 					)}
 				</div>
 			</Paper>
@@ -104,7 +92,7 @@ export default function Campaigns({ history }) {
 				onClose={() => {
 					setOpenCreateModal(false);
 				}}
-				title={<b>Create New Campaign</b>}
+				title="Create New Campaign"
 			>
 				<NewCampaign
 					closeFn={() => {
@@ -119,9 +107,9 @@ export default function Campaigns({ history }) {
 			</Modal>
 		</div>
 	);
-}
+};
 
-function CampaignHeader({ data, setOpenCreateModal }) {
+function CampaignHeader({ data, setOpenCreateModal }: any) {
 	return (
 		<div className="header-container">
 			<HeaderLink menu={menus} title="Campaigns" />
@@ -136,3 +124,5 @@ function CampaignHeader({ data, setOpenCreateModal }) {
 		</div>
 	);
 }
+
+export default Campaigns;

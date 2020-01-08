@@ -1,25 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
-import {
-  FormControl,
-  InputLabel,
-  Input,
-  FormHelperText
-} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, useStyles, TitleTag } from "../styles";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-
+import { TextField } from "../../components/TextField";
 type Props = {
   disabled: any;
   inputValues: any;
   handleInputChange: any;
   handleInputBlur: any;
-  inputErrors: any;
   handleEmail: any;
   handleDatePick: any;
   setDisabled?: any;
 };
+
+type Indexable = { [key: string]: any };
 
 function Step1({
   disabled,
@@ -27,11 +22,16 @@ function Step1({
   inputValues,
   handleInputChange,
   handleInputBlur,
-  inputErrors,
   handleEmail,
   handleDatePick
 }: Props) {
   const classes = useStyles(1);
+  const [error, setError] = useState({
+    first_name_error: "",
+    last_name_error: "",
+    username_error: "",
+    email_error: ""
+  });
 
   let classProp = {
     classes: {
@@ -39,102 +39,101 @@ function Step1({
     }
   };
 
+  const hasContent = (str: any) => {
+    return str.match(/(?=.{1,}$)/);
+  };
+
+  const handleInput = (type: any) => (label: any) => (value: any) => {
+    if (!hasContent(value.target.value) && type !== "email") {
+      if (hasContent((inputValues as Indexable)[type])) {
+        setError(
+          Object.assign(error, {
+            [`${type}_error`]: `${label} is required.`
+          })
+        );
+      }
+    } else if (type === "email" && hasContent(value.target.value)) {
+      if (
+        value.target.value.match(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      ) {
+        setError(Object.assign(error, { email_error: "" }));
+      } else {
+        setError(Object.assign(error, { email_error: "Invalid email" }));
+      }
+    } else {
+      setError(
+        Object.assign(error, {
+          [`${type}_error`]: ""
+        })
+      );
+    }
+    handleInputBlur(type)(value);
+    handleInputChange(type)(value);
+  };
+
   return (
     <Grid container spacing={1} style={{ overflow: "hidden" }}>
-      <TitleTag>Personal Info</TitleTag>
+      <TitleTag>Personal info</TitleTag>
+      <div style={{ marginTop: "3px" }} />
       <Grid item xs>
-        <FormControl fullWidth error={inputErrors.first_name_error}>
-          <InputLabel
-            classes={{ focused: classes.focused, error: classes.err }}
-            htmlFor="first_name"
-            required
-          >
-            First name
-          </InputLabel>
-          <Input
-            data-cy="first_name"
-            classes={{ underline: classes.underline }}
-            autoComplete="off"
-            required
-            value={inputValues.first_name}
-            onBlur={handleInputBlur("first_name")}
-            onChange={handleInputChange("first_name")}
-          />
-          <FormHelperText data-cy="first_name_error">
-            {inputErrors.first_name_error && "Firstname is required"}
-          </FormHelperText>
-        </FormControl>
+        <TextField
+          error={error.first_name_error}
+          htmlFor="first_name"
+          label="Firstname"
+          name="First Name"
+          autoComplete
+          value={inputValues.first_name}
+          onBlur={handleInput("first_name")("Firstname")}
+          onChange={handleInput("first_name")("Firstname")}
+          required={true}
+        />
       </Grid>
 
       <Grid item xs>
-        <FormControl fullWidth error={inputErrors.last_name_error}>
-          <InputLabel
-            classes={{ focused: classes.focused, error: classes.err }}
-            htmlFor="first_name"
-            required
-            error={inputErrors.last_name}
-          >
-            Last name
-          </InputLabel>
-          <Input
-            data-cy="last_name"
-            classes={{ underline: classes.underline }}
-            autoComplete="off"
-            required
-            value={inputValues.last_name}
-            onChange={handleInputChange("last_name")}
-          />
-          <FormHelperText data-cy="last_name_error">
-            {inputErrors.last_name_error && "Lastname is required"}
-          </FormHelperText>
-        </FormControl>
+        <TextField
+          error={error.last_name_error}
+          htmlFor="last_name"
+          label="Lastname"
+          name="Last Name"
+          autoComplete
+          value={inputValues.last_name}
+          onBlur={handleInput("last_name")("Lastname")}
+          onChange={handleInput("last_name")("Lastname")}
+          required={true}
+        />
       </Grid>
 
-      <Grid item xs={12}>
-        <FormControl fullWidth error={inputErrors.username_error}>
-          <InputLabel
-            classes={{ focused: classes.focused, error: classes.err }}
-            htmlFor="fname"
-            required
-          >
-            Username
-          </InputLabel>
-          <Input
-            data-cy="username"
-            classes={{ underline: classes.underline }}
-            autoComplete="off"
-            required
-            value={inputValues.username}
-            onChange={handleInputChange("username")}
-          />
-          <FormHelperText data-cy="username-error">
-            {inputErrors.username_error && "Username is required"}
-          </FormHelperText>
-        </FormControl>
+      <Grid item xs={12} style={{ marginTop: -8 }}>
+        <TextField
+          error={error.username_error}
+          htmlFor="username"
+          label="Username"
+          name="Username"
+          autoComplete
+          value={inputValues.username}
+          onBlur={handleInput("username")("Username")}
+          onChange={handleInput("username")("Username")}
+          required={true}
+        />
       </Grid>
 
-      <Grid item xs={12}>
-        <FormControl fullWidth error={inputErrors.email_error}>
-          <InputLabel
-            classes={{ focused: classes.focused, error: classes.err }}
-            htmlFor="fname"
-          >
-            Email
-          </InputLabel>
-          <Input
-            data-cy="email"
-            classes={{ underline: classes.underline }}
-            autoComplete="off"
-            value={inputValues.email}
-            onChange={handleEmail}
-          />
-          <FormHelperText data-cy="re-email">
-            {inputErrors.email_error && "Invalid email"}
-          </FormHelperText>
-        </FormControl>
+      <Grid item xs={12} style={{ marginTop: -8 }}>
+        <TextField
+          error={error.email_error}
+          htmlFor="email"
+          label="Email"
+          name="Email"
+          autoComplete
+          value={inputValues.email}
+          onBlur={handleInput("email")("Email")}
+          onChange={handleInput("email")("Email")}
+          required={true}
+        />
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item xs={12} style={{ marginTop: -7 }}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} {...classProp}>
           <DatePicker
             fullWidth

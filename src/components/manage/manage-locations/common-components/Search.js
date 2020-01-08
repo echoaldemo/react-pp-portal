@@ -1,28 +1,28 @@
-import InputAdornment from '@material-ui/core/InputAdornment'
-import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
-import Popper from '@material-ui/core/Popper'
-import { withStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-import SearchIcon from '@material-ui/icons/Search'
-import Downshift from 'downshift'
-import deburr from 'lodash/deburr'
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import MenuItem from "@material-ui/core/MenuItem";
+import Paper from "@material-ui/core/Paper";
+import Popper from "@material-ui/core/Popper";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import SearchIcon from "@material-ui/icons/Search";
+import Downshift from "downshift";
+import deburr from "lodash/deburr";
 
 const styles = {
   input: {
-    fontSize: '18px',
-    '&:before': {
-      borderBottom: '1px solid #e0e0e0'
+    fontSize: "18px",
+    "&:before": {
+      borderBottom: "1px solid #e0e0e0"
     },
-    '&:after': {
-      borderColor: '#1194f6'
+    "&:after": {
+      borderColor: "#1194f6"
     }
   }
-}
+};
 
 function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps
+  const { InputProps, classes, ref, ...other } = inputProps;
   return (
     <TextField
       color="primary"
@@ -31,26 +31,26 @@ function renderInput(inputProps) {
         ...InputProps,
         classes: { underline: classes.classes.input },
         endAdornment: (
-          <InputAdornment position="end" style={{ color: '#bbbbbb' }}>
+          <InputAdornment position="end" style={{ color: "#bbbbbb" }}>
             <SearchIcon />
           </InputAdornment>
         )
       }}
       {...other}
     />
-  )
+  );
 }
 function getHighlightedText(fname, lname, user_name, higlight) {
   // Split text on higlight term, include term itself into parts, ignore case
-  var parts = fname.split(new RegExp(`(${higlight})`, 'gi'))
-  var part2 = lname.split(new RegExp(`(${higlight})`, 'gi'))
-  var username = user_name.split(new RegExp(`(${higlight})`, 'gi'))
+  var parts = fname.split(new RegExp(`(${higlight})`, "gi"));
+  var part2 = lname.split(new RegExp(`(${higlight})`, "gi"));
+  var username = user_name.split(new RegExp(`(${higlight})`, "gi"));
   return (
     <React.Fragment>
       <span>
         {parts.map(part =>
           part.toLowerCase() === higlight.toLowerCase() ? (
-            <b style={{ color: '#2b9ff7' }}>{part}</b>
+            <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
             part
           )
@@ -60,7 +60,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       <span>
         {part2.map(part =>
           part.toLowerCase() === higlight.toLowerCase() ? (
-            <b style={{ color: '#2b9ff7' }}>{part}</b>
+            <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
             part
           )
@@ -70,14 +70,14 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       <span>
         {username.map(part =>
           part.toLowerCase() === higlight.toLowerCase() ? (
-            <b style={{ color: '#2b9ff7' }}>{part}</b>
+            <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
             part
           )
         )}
       </span>
     </React.Fragment>
-  )
+  );
 }
 function renderSuggestion(suggestionProps) {
   const {
@@ -86,14 +86,14 @@ function renderSuggestion(suggestionProps) {
     itemProps,
     highlightedIndex,
     inputValue
-  } = suggestionProps
-  const isHighlighted = highlightedIndex === index
+  } = suggestionProps;
+  const isHighlighted = highlightedIndex === index;
   const highlightedText = getHighlightedText(
     suggestion.first_name,
     suggestion.last_name,
     suggestion.username,
     inputValue
-  )
+  );
   return (
     <MenuItem
       {...itemProps}
@@ -103,27 +103,27 @@ function renderSuggestion(suggestionProps) {
     >
       {highlightedText}
     </MenuItem>
-  )
+  );
 }
 class Search extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
   componentDidMount() {
-    const { setRef } = this.props
-    if (setRef && typeof setRef === 'function') {
-      setRef(this.downshift)
+    const { setRef } = this.props;
+    if (setRef && typeof setRef === "function") {
+      setRef(this.downshift);
     }
   }
   getSuggestions = (value, { showEmpty = false } = {}) => {
-    const inputValue = deburr(value.trim()).toLowerCase()
-    const inputLength = inputValue.length
-    let count = 0
+    const inputValue = deburr(value.trim()).toLowerCase();
+    const inputLength = inputValue.length;
+    let count = 0;
     return inputLength === 0 && !showEmpty
       ? []
       : this.props.data.filter(suggestion => {
-          const splitName = suggestion.first_name.split(' ')
-          const splitLName = suggestion.last_name.split(' ')
+          const splitName = suggestion.first_name.split(" ");
+          const splitLName = suggestion.last_name.split(" ");
           const keep =
             (count < 5 &&
               suggestion.first_name.slice(0, inputLength).toLowerCase() ===
@@ -131,28 +131,28 @@ class Search extends Component {
             splitName[0].slice(0, inputLength).toLowerCase() === inputValue ||
             suggestion.last_name.slice(0, inputLength).toLowerCase() ===
               inputValue ||
-            splitLName[0].slice(0, inputLength).toLowerCase() === inputValue
+            splitLName[0].slice(0, inputLength).toLowerCase() === inputValue;
           if (keep) {
-            count += 1
+            count += 1;
           }
-          return keep
-        })
-  }
+          return keep;
+        });
+  };
   render() {
-    let popperNode
-    const { classes } = this.props
+    let popperNode;
+    const { classes } = this.props;
     return (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: "100%" }}>
         <Downshift
           ref={downshift => (this.downshift = downshift)}
           itemToString={selectedItem =>
             selectedItem
               ? `${selectedItem.first_name} ${selectedItem.last_name} | ${selectedItem.username}`
-              : ''
+              : ""
           }
           onChange={selectedItem => {
             if (selectedItem) {
-              this.props.searchFunction(selectedItem)
+              this.props.searchFunction(selectedItem);
             }
           }}
           id="downshift-popper"
@@ -170,7 +170,7 @@ class Search extends Component {
           }) => {
             const { onBlur, onFocus, onChange, ...inputProps } = getInputProps({
               placeholder: this.props.searchText
-            })
+            });
             return (
               <div>
                 {renderInput({
@@ -185,13 +185,13 @@ class Search extends Component {
                   InputLabelProps: getLabelProps({ shrink: true }),
                   inputProps,
                   ref: node => {
-                    popperNode = node
+                    popperNode = node;
                   }
                 })}
                 <Popper
                   open={isOpen}
                   anchorEl={popperNode}
-                  id={'suggestions'}
+                  id={"suggestions"}
                   styles={{ zIndex: 0 }}
                 >
                   <div
@@ -204,7 +204,7 @@ class Search extends Component {
                       style={{
                         marginTop: 8,
                         maxHeight: 210,
-                        overflow: 'auto',
+                        overflow: "auto",
                         width: popperNode ? popperNode.clientWidth : undefined
                       }}
                     >
@@ -223,12 +223,12 @@ class Search extends Component {
                   </div>
                 </Popper>
               </div>
-            )
+            );
           }}
         </Downshift>
       </div>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(Search)
+export default withStyles(styles)(Search);

@@ -35,7 +35,7 @@ const Pagination: React.FC<Props> = ({
     }
     setPages(x);
     paginateFn(0, itemsPerPage, currentPage);
-  }, [totalPage]);
+  }, [totalPage, totalItems]);
 
   const goToPage = (page: number) => {
     setCurrentPage(page);

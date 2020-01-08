@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles'
 import { get, post, cancel } from 'utils/api'
 import { Paper, Divider, Dialog } from '@material-ui/core'
-// import DidPoolsUpdate from './DidPoolsUpdate'
+import DidPoolsUpdate from './DidPoolsUpdate'
 import { menus } from '../../utils/const-var'
 // import { Create, Validation } from '../components/'
 import {} from 'common-components'
@@ -22,7 +22,7 @@ import {
   HeaderButton,
   HeaderLink
 } from 'common-components'
-// import DidTable from '../components/table/index'
+import DidTable from './components/DidTable'
 import styles from './DidPoolsSettings.styles'
 // import BuyDid from './buy-did-number/BuyDid'
 import styled from 'styled-components'
@@ -122,6 +122,7 @@ class DidPoolsSettings extends Component {
   }
 
   fetchDID = () => {
+    this.setState({ loadingDid: false })
     get(
       `/did/company/all/campaign/all/pool/${this.props.match.params.uuid}/`
     ).then(res => {
@@ -240,11 +241,11 @@ class DidPoolsSettings extends Component {
         {this.renderCreate()}
         {this.renderValidate()}
         <div style={{ marginBottom: '50px' }}>
-          {/* <DidPoolsUpdate
+          <DidPoolsUpdate
             DIDs={this.state.didData}
             uuid={this.props.match.params.uuid}
             history={this.props.history}
-          /> */}
+          />
         </div>
         <div className="header-container">
           <HeaderLink menu={menus} title="DID's" />
@@ -304,9 +305,8 @@ class DidPoolsSettings extends Component {
             <TableLoader />
           ) : (
             <>
-              {/* <DidTable
-								openEdit={this.state.openEdit}
-								
+              <DidTable
+                openEdit={this.state.openEdit}
                 handleOpenEdit={this.handleOpenEdit}
                 handleCloseEdit={() => this.setState({ openEdit: false })}
                 editData={this.state.editData}
@@ -316,7 +316,7 @@ class DidPoolsSettings extends Component {
                 fetchDIDList={this.fetchDIDlistNoParams}
                 campaignSlug={this.state.campaignSlug}
                 companySlug={this.state.companySlug}
-              /> */}
+              />
             </>
           )}
         </Paper>
@@ -325,36 +325,40 @@ class DidPoolsSettings extends Component {
           maxWidth={this.state.showResults ? 'lg' : false}
           fullWidth={this.state.showResults ? true : false}
         >
-          {this.state.loading ? (
-            <LoadingModal
-              text={`One moment. We're loading the results...`}
-              cancelFn={this.toggleBuy}
-            />
-          ) : this.state.successOder ? (
-            <SuccessModal
-              text={'Your order has been placed succesfully'}
-              qty={200}
-              subtitle={
-                'We are processing your order. This could take up to one hour. You will receive a confirmation email when the process is done.'
-              }
-              btnText={'BUY ANOTHER'}
-              closeFn={this.toggleBuy}
-              btnFn={this.buyAgain}
-            />
-          ) : this.state.successError ? //   } //     'Some dids were not bought because they are already taken.' //   subtitle={ //   dids={dids} //   text={'Your order has been placed succesfully'} // <Successful
-          //   btnText={'BUY ANOTHER'}
-          //   error={true}
-          //   closeFn={this.toggleBuy}
-          //   btnFn={this.buyAgain}
-          // />
-          null : this.state.showResults ? null : //       loading: true // /> //   placeOrder={this.placeOrder} //   closeFn={this.toggleBuy} //   header="Buy DID number" // <DidPurchase //     this.setState({ //   searchFn={() => { //   closeFn={this.toggleBuy} //   header="Buy DID number" // <BuyDid
-          //     })
-          //     setTimeout(() => {
-          //       this.setState({ showResults: true, loading: false })
-          //     }, 1000)
-          //   }}
-          // />
-          null}
+          {this.state.loading
+            ? // <LoadingModal
+              //   text={`One moment. We're loading the results...`}
+              //   cancelFn={this.toggleBuy}
+              // />
+              null
+            : this.state.successOder
+            ? // <SuccessModal
+              //   text={'Your order has been placed succesfully'}
+              //   qty={200}
+              //   subtitle={
+              //     'We are processing your order. This could take up to one hour. You will receive a confirmation email when the process is done.'
+              //   }
+              //   btnText={'BUY ANOTHER'}
+              //   closeFn={this.toggleBuy}
+              //   btnFn={this.buyAgain}
+              // />
+              null
+            : this.state.successError //   } //     'Some dids were not bought because they are already taken.' //   subtitle={ //   dids={dids} //   text={'Your order has been placed succesfully'} // <Successful
+            ? //   btnText={'BUY ANOTHER'}
+              //   error={true}
+              //   closeFn={this.toggleBuy}
+              //   btnFn={this.buyAgain}
+              // />
+              null
+            : this.state.showResults
+            ? null //       loading: true // /> //   placeOrder={this.placeOrder} //   closeFn={this.toggleBuy} //   header="Buy DID number" // <DidPurchase //     this.setState({ //   searchFn={() => { //   closeFn={this.toggleBuy} //   header="Buy DID number" // <BuyDid
+            : //     })
+              //     setTimeout(() => {
+              //       this.setState({ showResults: true, loading: false })
+              //     }, 1000)
+              //   }}
+              // />
+              null}
         </CustomDialog>
       </>
     )

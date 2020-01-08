@@ -20,13 +20,14 @@ import EditDidPool from "components/manage/manage-did-pool/components/settings/D
 import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
 export default function Routes() {
   return (
     <BrowserRouter>
       <Switch>
         <PublicRoute exact path="/" component={Signin} />
         <GatewayRoute exact path="/gateway" component={Gateway} />
-        <PrivateRoute path="/manage/realms" component={Realms} />
+        <PrivateRoute exact path="/manage/realms" component={Realms} />
         <PrivateRoute
           exact
           path="/manage/realms/edit/:uuid"
@@ -60,13 +61,22 @@ export default function Routes() {
           component={EditCompanies}
         />
         {/* end manage/companies */}
+
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
         <PrivateRoute
           path="/manage/did-pool/edit/:uuid"
           component={EditDidPool}
         />
         <PrivateRoute path="/manage/dids" component={ManageDIDs} />
-        <PrivateRoute path="/manage/locations" component={ManageLocation} />
+        <PrivateRoute
+          exact
+          path="/manage/locations"
+          component={ManageLocation}
+        />
+        <PrivateRoute
+          path="/manage/locations/edit/:uuid/"
+          component={LocationSettings}
+        />
 
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />

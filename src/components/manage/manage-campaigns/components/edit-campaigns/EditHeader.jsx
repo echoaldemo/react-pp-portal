@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavTabs, BackButton, StatusLabel, ChangeServer } from 'common-components';
 import { Typography } from '@material-ui/core';
+import SEO from 'utils/seo';
 
 const options = [
 	{
@@ -20,6 +21,7 @@ export default function EditHeader(props) {
 	const { slug, uuid, name } = data ? data : match;
 	return (
 		<div>
+			<SEO title={name ? `Edit Campaign: ${name}` : 'Portal'} />
 			<div className="campaign-edit-header-container pb-normal">
 				<BackButton text="Back to campaigns" backFn={() => history.push('/manage/campaigns')} />
 				<ChangeServer selected={selected} options={options} onChangeFn={setSelected} />
@@ -36,7 +38,7 @@ export default function EditHeader(props) {
 						{
 							name: <b>DASHBOARD</b>,
 							active: checkUrl('dashboard'),
-							onClickFn: () => alert('No design yet')
+							onClickFn: () => alert('No content yet')
 						},
 						{
 							name: <b>SETTINGS</b>,
