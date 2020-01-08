@@ -37,8 +37,8 @@ export default function EditHeader(props) {
 					tabnames={[
 						{
 							name: <b>DASHBOARD</b>,
-							active: checkUrl('dashboard'),
-							onClickFn: () => alert('No content yet')
+							active: checkUrl('home'),
+							onClickFn: () => history.push(`/manage/campaign/edit/${slug}/${uuid}/home`)
 						},
 						{
 							name: <b>SETTINGS</b>,
