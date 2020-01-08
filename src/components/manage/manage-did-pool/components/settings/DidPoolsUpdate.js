@@ -982,14 +982,6 @@ function LocationTable({ classes, uuid, history }) {
         }}
         message={snackbar.message}
       />
-      {/* <DeleteModal
-        did={didData}
-        open={delConfirm}
-        closeFn={() => {
-          setDelConfirm(false)
-        }}
-        delFn={handleDelete}
-      /> */}
       <DeleteModal
         open={delConfirm}
         header="Delete DID"
