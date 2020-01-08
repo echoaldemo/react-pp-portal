@@ -6,19 +6,8 @@ import { mockDataCampaigns } from '../../../../globalConstsVar';
 import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
 import { General, AudioResources, List, QA, ChangeLog } from './content';
 export default function Settings({ match, history }) {
-	const { uuid } = match.params;
-	const [ data, setData ] = useState([]);
 	const [ value, setValue ] = useState(0);
-	useEffect(() => {
-		get(`/identity/campaign/${uuid}`)
-			.then((result) => {
-				console.log('data');
-				setData(result.data);
-			})
-			.catch((err) => {
-				setData(mockDataCampaigns[0]);
-			});
-	}, []);
+
 	function handleChange(event, newValue) {
 		setValue(newValue);
 	}
@@ -31,7 +20,7 @@ export default function Settings({ match, history }) {
 	}
 	return (
 		<div>
-			<EditHeader data={data} history={history} />
+			<EditHeader history={history} match={match} />
 			<Paper square={true} className="mh-normal">
 				<div>
 					<Typography className="settings-title">Campaign Settings</Typography>

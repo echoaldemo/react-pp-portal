@@ -6,8 +6,8 @@ import CampaignTable from './CampaignTable';
 import SEO from 'utils/seo';
 import { Paper, Divider } from '@material-ui/core';
 import NewCampaign from './components/new-campaign/NewCampaign';
-import { AppContext } from './ContextProvider';
-const CampaignsSection = ({ history }: any) => {
+import { AppContext } from 'contexts/CampaignContext';
+const Campaigns = ({ history }: any) => {
 	const [ openCreateModal, setOpenCreateModal ] = useState(false);
 
 	return (
@@ -94,4 +94,4 @@ function CampaignHeader({ data, setOpenCreateModal }: any) {
 	);
 }
 
-export default CampaignsSection;
+export default Campaigns;

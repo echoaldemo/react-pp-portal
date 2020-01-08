@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { mockDataCampaigns } from '../globalConstsVar';
-import { get } from '../../../utils/api';
-
+import { mockDataCampaigns } from './mockData';
+import { get } from '../utils/api';
+import axios from 'axios';
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -11,13 +11,16 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
+
+	getEditData: any;
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
-function ContextProvider({ children }: any) {
+
+function CampaignsContextProvider({ children }: any) {
 	const [ data, setData ] = useState(mockDataCampaigns);
-	const [ loading, setLoading ] = useState(false);
 	const [ paginateList, setPaginateList ] = useState(mockDataCampaigns);
+	const [ loading, setLoading ] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -26,6 +29,18 @@ function ContextProvider({ children }: any) {
 		}, 500);
 	}, []);
 
+	const getEditData = (uuid: string) => {
+		axios
+			.get(`https://dev-api.perfectpitchtech.com/identity/campaign/${uuid}/`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
+				}
+			})
+			.then((result) => {
+				console.log(result.data);
+			});
+	};
 	function FilterApplyButton(params: any) {
 		var parameter = {
 			...params.sortby !== ' ' && { order_by: params.sortby },
@@ -61,7 +76,9 @@ function ContextProvider({ children }: any) {
 				paginate,
 				FilterApplyButton,
 				paginateList,
-				setPaginateList
+				setPaginateList,
+
+				getEditData
 			}}
 		>
 			{children}
@@ -69,4 +86,4 @@ function ContextProvider({ children }: any) {
 	);
 }
 
-export { AppContext, ContextProvider };
+export { AppContext, CampaignsContextProvider };

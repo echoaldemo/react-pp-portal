@@ -16,17 +16,17 @@ const options = [
 	}
 ];
 
-export default function EditHeader({ history, match }) {
+export default function EditHeader(props) {
 	const [ selected, setSelected ] = useState('1');
 
 	return (
 		<AppContext.Consumer>
 			{({ getEditData }) => {
-				console.log(getEditData(match.params.uuid));
+				const { name, slug, uuid } = getEditData();
 
 				return (
 					<div>
-						{/* <SEO title={name ? `Edit Campaign: ${name}` : 'Portal'} />
+						<SEO title={name ? `Edit Campaign: ${name}` : 'Portal'} />
 						<div className="campaign-edit-header-container pb-normal">
 							<BackButton text="Back to campaigns" backFn={() => history.push('/manage/campaigns')} />
 							<ChangeServer selected={selected} options={options} onChangeFn={setSelected} />
@@ -66,7 +66,7 @@ export default function EditHeader({ history, match }) {
 									}
 								]}
 							/>
-						</div> */}
+						</div>
 					</div>
 				);
 			}}
