@@ -17,6 +17,7 @@ import { RotateRight as Rotate } from '@material-ui/icons'
 import styled from 'styled-components'
 import { cancel } from 'utils/api'
 import EditDIDModal from './edit-did/EditDIDModal'
+import SuccessRotate from './SuccessRotateModal'
 // import SuccessRotate from '../../settings/components/SuccessRotateModal'
 import Modal from '@material-ui/core/Dialog'
 //mock data
@@ -194,43 +195,40 @@ const DIDTable = ({
         handleAfterDelete={fetchDid}
         handleAfterUpdate={afterUpdateFetchDid}
       />
-      <Modal open={rotateValidation}>
-        <SuccessModal
-          text={`Are you sure you want to rotate DID ${didRotateData.number}`}
-          closeFn={() => {
-            setRotateValidation(false)
-          }}
-          btnText={'Yes, Rotate'}
-          btnFn={() => {
-            setRotateValidation(false)
-            setRotatingDid(true)
-            setTimeout(() => {
-              setRotatingDid(false)
-              setRotatedDid(true)
-            }, 2000)
-          }}
-          warning
-        />
-      </Modal>
-      <Modal open={rotatingDid}>
-        <LoadingModal
-          text={`Rotating DID ${didRotateData.number}...`}
-          cancelFn={() => {
+      <SuccessModal
+        open={rotateValidation}
+        text={`Are you sure you want to rotate DID ${didRotateData.number}`}
+        closeFn={() => {
+          setRotateValidation(false)
+        }}
+        btnText={'Yes, Rotate'}
+        btnFn={() => {
+          setRotateValidation(false)
+          setRotatingDid(true)
+          setTimeout(() => {
             setRotatingDid(false)
-            cancel()
-          }}
-        />
-      </Modal>
-      {/* <Modal open={rotatedDid}>
-        <SuccessModal
-          text={`You Rotated to a new DID successfully`}
-          closeFn={() => {
-            setRotatedDid(false);
-          }}
-        />
-      </Modal> */}
+            setRotatedDid(true)
+          }, 2000)
+        }}
+        warning
+      />
+      <LoadingModal
+        open={rotatingDid}
+        text={`Rotating DID ${didRotateData.number}...`}
+        cancelFn={() => {
+          setRotatingDid(false)
+          cancel()
+        }}
+      />
+      <SuccessModal
+        open={rotatedDid}
+        text={`You Rotated to a new DID successfully`}
+        closeFn={() => {
+          setRotatedDid(false)
+        }}
+      />
       <Modal open={rotatedDid}>
-        {/* <SuccessRotate
+        <SuccessRotate
           text={'You Rotated to a new DID successfully'}
           dids={[]}
           subtitle={
@@ -244,7 +242,7 @@ const DIDTable = ({
           btnFn={() => {
             setRotatedDid(false)
           }}
-        /> */}
+        />
       </Modal>
     </>
   )

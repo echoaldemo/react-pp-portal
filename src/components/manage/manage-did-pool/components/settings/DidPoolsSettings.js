@@ -5,6 +5,8 @@ import { Paper, Divider, Dialog } from '@material-ui/core'
 import DidPoolsUpdate from './DidPoolsUpdate'
 import { menus } from '../../utils/const-var'
 // import { Create, Validation } from '../components/'
+import Create from './components/CreateDid'
+import Validation from './components/validate-did/ValidateDid'
 import {} from 'common-components'
 import {
   ShoppingCartOutlined as Shopping,
@@ -151,27 +153,26 @@ class DidPoolsSettings extends Component {
 
   renderCreate = () => {
     return (
-      // <Create
-      //   poolId={this.state.poolId}
-      //   companySlug={this.state.companySlug}
-      //   campaignSlug={this.state.campaignSlug}
-      //   open={this.state.openNew}
-      //   onClose={e => this.setState({ openNew: false })}
-      // />
-      <></>
+      <Create
+        poolId={this.state.poolId}
+        companySlug={this.state.companySlug}
+        campaignSlug={this.state.campaignSlug}
+        open={this.state.openNew}
+        onClose={e => this.setState({ openNew: false })}
+      />
     )
   }
 
   renderValidate = () => {
     return (
       <>
-        {/* <Validation
+        <Validation
           poolId={this.state.poolId}
           companySlug={this.state.companySlug}
           campaignSlug={this.state.campaignSlug}
           open={this.state.openValidate}
           onClose={e => this.setState({ openValidate: false })}
-        /> */}
+        />
       </>
     )
   }
