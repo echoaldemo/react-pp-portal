@@ -5,6 +5,8 @@ import { Paper, Divider, Dialog } from '@material-ui/core'
 import DidPoolsUpdate from './DidPoolsUpdate'
 import { menus } from '../../utils/const-var'
 // import { Create, Validation } from '../components/'
+import Create from './components/CreateDid'
+import Validation from './components/validate-did/ValidateDid'
 import {} from 'common-components'
 import {
   ShoppingCartOutlined as Shopping,
@@ -24,10 +26,10 @@ import {
 } from 'common-components'
 import DidTable from './components/DidTable'
 import styles from './DidPoolsSettings.styles'
-// import BuyDid from './buy-did-number/BuyDid'
+import BuyDid from './buy-did-number/BuyDid'
 import styled from 'styled-components'
-// import DidPurchase from './did-purchase/DidPurchase'
-// import Successful from './did-purchase/successful'
+import DidPurchase from './did-purchase/DidPurchase'
+import Successful from './did-purchase/successful'
 
 const CustomDialog = styled(Dialog)`
   .MuiDialog-paperScrollPaper {
@@ -151,27 +153,26 @@ class DidPoolsSettings extends Component {
 
   renderCreate = () => {
     return (
-      // <Create
-      //   poolId={this.state.poolId}
-      //   companySlug={this.state.companySlug}
-      //   campaignSlug={this.state.campaignSlug}
-      //   open={this.state.openNew}
-      //   onClose={e => this.setState({ openNew: false })}
-      // />
-      <></>
+      <Create
+        poolId={this.state.poolId}
+        companySlug={this.state.companySlug}
+        campaignSlug={this.state.campaignSlug}
+        open={this.state.openNew}
+        onClose={e => this.setState({ openNew: false })}
+      />
     )
   }
 
   renderValidate = () => {
     return (
       <>
-        {/* <Validation
+        <Validation
           poolId={this.state.poolId}
           companySlug={this.state.companySlug}
           campaignSlug={this.state.campaignSlug}
           open={this.state.openValidate}
           onClose={e => this.setState({ openValidate: false })}
-        /> */}
+        />
       </>
     )
   }
@@ -325,40 +326,54 @@ class DidPoolsSettings extends Component {
           maxWidth={this.state.showResults ? 'lg' : false}
           fullWidth={this.state.showResults ? true : false}
         >
-          {this.state.loading
-            ? // <LoadingModal
-              //   text={`One moment. We're loading the results...`}
-              //   cancelFn={this.toggleBuy}
-              // />
-              null
-            : this.state.successOder
-            ? // <SuccessModal
-              //   text={'Your order has been placed succesfully'}
-              //   qty={200}
-              //   subtitle={
-              //     'We are processing your order. This could take up to one hour. You will receive a confirmation email when the process is done.'
-              //   }
-              //   btnText={'BUY ANOTHER'}
-              //   closeFn={this.toggleBuy}
-              //   btnFn={this.buyAgain}
-              // />
-              null
-            : this.state.successError //   } //     'Some dids were not bought because they are already taken.' //   subtitle={ //   dids={dids} //   text={'Your order has been placed succesfully'} // <Successful
-            ? //   btnText={'BUY ANOTHER'}
-              //   error={true}
-              //   closeFn={this.toggleBuy}
-              //   btnFn={this.buyAgain}
-              // />
-              null
-            : this.state.showResults
-            ? null //       loading: true // /> //   placeOrder={this.placeOrder} //   closeFn={this.toggleBuy} //   header="Buy DID number" // <DidPurchase //     this.setState({ //   searchFn={() => { //   closeFn={this.toggleBuy} //   header="Buy DID number" // <BuyDid
-            : //     })
-              //     setTimeout(() => {
-              //       this.setState({ showResults: true, loading: false })
-              //     }, 1000)
-              //   }}
-              // />
-              null}
+          {this.state.loading ? (
+            <LoadingModal
+              text={`One moment. We're loading the results...`}
+              cancelFn={this.toggleBuy}
+            />
+          ) : this.state.successOder ? (
+            <SuccessModal
+              text={'Your order has been placed succesfully'}
+              qty={200}
+              subtitle={
+                'We are processing your order. This could take up to one hour. You will receive a confirmation email when the process is done.'
+              }
+              btnText={'BUY ANOTHER'}
+              closeFn={this.toggleBuy}
+              btnFn={this.buyAgain}
+            />
+          ) : this.state.successError ? (
+            <Successful
+              text={'Your order has been placed succesfully'}
+              dids={dids}
+              subtitle={
+                'Some dids were not bought because they are already taken.'
+              }
+              btnText={'BUY ANOTHER'}
+              error={true}
+              closeFn={this.toggleBuy}
+              btnFn={this.buyAgain}
+            />
+          ) : this.state.showResults ? (
+            <DidPurchase
+              header="Buy DID number"
+              closeFn={this.toggleBuy}
+              placeOrder={this.placeOrder}
+            />
+          ) : (
+            <BuyDid
+              header="Buy DID number"
+              closeFn={this.toggleBuy}
+              searchFn={() => {
+                this.setState({
+                  loading: true
+                })
+                setTimeout(() => {
+                  this.setState({ showResults: true, loading: false })
+                }, 1000)
+              }}
+            />
+          )}
         </CustomDialog>
       </>
     )
