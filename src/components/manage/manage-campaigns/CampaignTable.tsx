@@ -45,9 +45,7 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 								>
 									{campaign.name}
 								</UnderlineCell>
-								<TableCell className={cell} style={{ color: '#777777', width: '20%' }}>
-									{campaign.slug}
-								</TableCell>
+								<TableCell className={cell}>{campaign.slug}</TableCell>
 
 								<TableCell className={uuid}>
 									<p>{campaign.uuid}</p>
