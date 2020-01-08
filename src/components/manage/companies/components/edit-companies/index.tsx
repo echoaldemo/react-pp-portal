@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { NavTabs } from "common-components";
+import { BackButton, StatusLabel } from "common-components";
 import { TabComponent } from "./tabs";
 import { Paper } from "@material-ui/core";
+import "./style.scss";
 
 const companyData = {
   active: false,
@@ -15,8 +16,17 @@ const companyData = {
   website: ""
 };
 
-class EditCompanies extends Component {
-  constructor(props) {
+interface IProps {
+  match: any;
+}
+
+interface IState {
+  company: any;
+  loadingState: boolean;
+}
+
+class EditCompanies extends Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -40,19 +50,13 @@ class EditCompanies extends Component {
     });
   };
   render() {
-    console.log(this.state, this.props);
     return (
       <div>
-        <NavTabs
-          data={this.state.company}
-          tabnames={[]}
-          history={this.props.history}
-          back={{
-            name: "Back to companies",
-            url: "/manage/companies/"
-          }}
-          loadingState={this.state.loadingState}
-        />
+        <BackButton text="Back to companies" to="/manage/companies" />
+        <div className="name-container">
+          <p>{companyData.name}</p>
+          <StatusLabel status={companyData.active} />
+        </div>
         <Paper square={true} style={{ paddingTop: 15 }}>
           <TabComponent
             companyData={companyData}

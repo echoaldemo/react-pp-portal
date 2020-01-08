@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import * as Styled from './styles'
+import React, { useState } from "react";
+import * as Styled from "./styles";
 
 interface Props {
-  open: boolean
-  header?: string
-  msg?: string
-  name: string
-  closeFn: () => void
-  delFn: () => void
+  open: boolean;
+  header?: string;
+  msg?: string;
+  name: string;
+  closeFn: () => void;
+  delFn: () => void;
 }
 
 const DeleteModal: React.FC<Props> = ({
@@ -18,24 +18,29 @@ const DeleteModal: React.FC<Props> = ({
   closeFn,
   delFn
 }) => {
-  const [val, setVal] = useState('')
-  const [ok, setOk] = useState(false)
+  const [val, setVal] = useState("");
+  const [ok, setOk] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVal(e.target.value)
+    setVal(e.target.value);
     if (e.target.value === name) {
-      setOk(true)
+      setOk(true);
     } else {
-      setOk(false)
+      setOk(false);
     }
-  }
+  };
+
+  const closeModal = () => {
+    closeFn();
+    setVal("");
+  };
 
   return (
-    <Styled.Center open={open} onClose={closeFn}>
+    <Styled.Center open={open} onClose={closeModal}>
       <Styled.Box>
         <Styled.Header>
           <Styled.CenterText>{header}</Styled.CenterText>
-          <Styled.CloseIcon onClick={closeFn} />
+          <Styled.CloseIcon onClick={closeModal} />
         </Styled.Header>
         <Styled.Content>
           <Styled.Text>Are you sure you want to delete this {msg}?</Styled.Text>
@@ -69,13 +74,13 @@ const DeleteModal: React.FC<Props> = ({
         </Styled.Content>
       </Styled.Box>
     </Styled.Center>
-  )
-}
+  );
+};
 
 DeleteModal.defaultProps = {
-  header: '',
-  msg: '',
-  name: ''
-} as Partial<Props>
+  header: "",
+  msg: "",
+  name: ""
+} as Partial<Props>;
 
-export { DeleteModal }
+export { DeleteModal };

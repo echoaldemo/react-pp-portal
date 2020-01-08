@@ -1,44 +1,79 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 body {
-  margin: 0;
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: #ececec;
+	margin: 0;
+	font-family: "Roboto", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: #ececec;
 }
 
 code {
-  font-family: "Roboto", sans-serif;
+	font-family: "Roboto", sans-serif;
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 9px;
+	width: 9px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+	background: transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  background: #d8d8d8;
+	border-radius: 5px;
+	background: #d8d8d8;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+	background: #555;
 }
 
 .header-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 30px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 30px;
 }
 .table-container {
-  padding: 15px;
+	padding: 15px;
+}
+.campaign-edit-header-container {
+	display: flex;
+	justify-content: space-between;
+}
+.campaign-edit-title {
+	width: 196px;
+	height: 32px;
+	font-family: Roboto;
+	font-size: 24px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #444851;
+}
+.title-container {
+	display: flex;
+	align-items: center;
+}
+.edit-title {
+	font-size: 24px !important;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #444851;
+}
+.pb-normal {
+	padding-bottom: 25px;
+}
+.mh-normal {
+	min-height: 629px;
 }

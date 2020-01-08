@@ -6,15 +6,20 @@ import {
   Realms,
   Campaigns,
   PageNotFound,
-  EditCampaigns,
   UserLanding,
+  RealmSettingsPage,
   Companies,
-  EditCompanies
+  EditCompanies,
+  Settings,
+  Pitch,
+  DataPosting
 } from "components";
 import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
 import DidPool from "components/manage/manage-did-pool";
+import EditDidPool from "components/manage/manage-did-pool/components/settings/DidPoolsSettings";
 import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -22,7 +27,11 @@ export default function Routes() {
         <PublicRoute exact path="/" component={Signin} />
         <GatewayRoute exact path="/gateway" component={Gateway} />
         <PrivateRoute path="/manage/realms" component={Realms} />
-
+        <PrivateRoute
+          exact
+          path="/manage/realms/edit/:uuid"
+          component={RealmSettingsPage}
+        />
         {/* User routes */}
 
         <PrivateRoute path="/manage/users" component={UserLanding} />
@@ -30,9 +39,18 @@ export default function Routes() {
         {/* manage/campaign routes */}
         <PrivateRoute path="/manage/campaigns" component={Campaigns} />
         <PrivateRoute
-          path="/manage/campaign/edit/:uuid"
-          component={EditCampaigns}
+          path="/manage/campaign/edit/:slug/:uuid/settings"
+          component={Settings}
         />
+        <PrivateRoute
+          path="/manage/campaign/edit/:slug/:uuid/pitch/details"
+          component={Pitch}
+        />
+        <PrivateRoute
+          path="/manage/campaign/edit/:slug/:uuid/dataposting"
+          component={DataPosting}
+        />
+
         {/* end of manage/campaign routes */}
         {/* manage/companies */}
         <PrivateRoute exact path="/manage/companies" component={Companies} />
@@ -42,9 +60,13 @@ export default function Routes() {
           component={EditCompanies}
         />
         {/* end manage/companies */}
-
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
+        <PrivateRoute
+          path="/manage/did-pool/edit/:uuid"
+          component={EditDidPool}
+        />
         <PrivateRoute path="/manage/dids" component={ManageDIDs} />
+        <PrivateRoute path="/manage/locations" component={ManageLocation} />
 
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />

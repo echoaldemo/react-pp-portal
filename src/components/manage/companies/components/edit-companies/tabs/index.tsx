@@ -1,22 +1,28 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Tabs, Tab, Typography, Box, makeStyles } from "@material-ui/core";
-
+import { Tab, Typography, Box } from "@material-ui/core";
+import { tabs as useStyles, CustomTabs } from "./styles";
 //Panel Components
 
-/* import CompanySettings from '../../manage/manage-companies/edit-settings'
-import PhraseBooks from '../../manage/manage-companies/phrase-books/PhraseBooks'
+import CompanySettings from "./settings";
+/* import PhraseBooks from '../../manage/manage-companies/phrase-books/PhraseBooks'
 import RRTest from '../../manage/manage-companies/rapid-response-test'
 import RRSegments from '../../manage/manage-companies/RapidResponse/Index'
 import AudioResources from '../../manage/manage-companies/audio-resources/AudioResources' */
 
-import styled from "styled-components";
+interface ITabPanel {
+  children?: React.ReactNode;
+  value: number;
+  index: number;
+  className: any;
+}
 
-const CustomTabs = styled(Tabs)`
-  background-color: "#FFF" !important;
-`;
+interface Props {
+  companyData: any;
+  params: any;
+  companySettingsData: any;
+}
 
-function TabPanel(props) {
+const TabPanel = (props: ITabPanel) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -31,44 +37,45 @@ function TabPanel(props) {
       <Box>{children}</Box>
     </Typography>
   );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
+const a11yProps = (index: number) => {
   return {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`
   };
-}
+};
 
-const useStyles = makeStyles(theme => ({
-  root: { minHeight: 600 },
-  tab: {
-    fontWeight: 600,
-    fontSize: 14,
-    color: "#444851"
-  },
-  tabsContainer: {
-    borderBottom: "solid 2px #F1F1F1",
-    width: "95%",
-    margin: "0 auto"
-  },
-  panelContainer: {
-    minHeight: 600
-  }
-}));
-
-function TabComponent(props) {
+const TabComponent: React.FC<Props> = ({
+  companyData,
+  params,
+  companySettingsData
+}) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: any, newValue: number) => {
     setValue(newValue);
+  };
+
+  const renderTabs = () => {
+    const tabs = [
+      "SETTINGS",
+      "PHRASE BOOKS",
+      "RAPID RESPONSE TESTS",
+      "RAPID RESPONSE SEGMENTS",
+      "AUDIO RESOURCES"
+    ];
+    return tabs.map((tab, index) => {
+      return (
+        <Tab
+          disableFocusRipple={true}
+          label={tab}
+          {...a11yProps(index)}
+          className={classes.tab}
+        />
+      );
+    });
   };
 
   return (
@@ -84,42 +91,12 @@ function TabComponent(props) {
             }
           }}
         >
-          <Tab
-            disableFocusRipple={true}
-            label="SETTINGS"
-            {...a11yProps(0)}
-            className={classes.tab}
-          />
-          <Tab
-            disableFocusRipple={true}
-            label="PHRASE BOOKS"
-            {...a11yProps(1)}
-            className={classes.tab}
-          />
-          <Tab
-            disableFocusRipple={true}
-            label="RAPID RESPONSE TESTS"
-            {...a11yProps(2)}
-            className={classes.tab}
-          />
-          <Tab
-            disableFocusRipple={true}
-            label="RAPID RESPONSE SEGMENTS"
-            {...a11yProps(3)}
-            className={classes.tab}
-          />
-          <Tab
-            disableFocusRipple={true}
-            label="AUDIO RESOURCES"
-            {...a11yProps(4)}
-            className={classes.tab}
-          />
+          {renderTabs()}
         </CustomTabs>
       </div>
 
       <TabPanel value={value} index={0} className={classes.panelContainer}>
-        {/* <CompanySettings params={props.params} /> */}
-        <div>Content</div>
+        <CompanySettings params={params} />
       </TabPanel>
       {/* <TabPanel value={value} index={1} className={classes.panelContainer}>
         {props.companyData !== null && (
@@ -139,5 +116,5 @@ function TabComponent(props) {
       </TabPanel> */}
     </div>
   );
-}
+};
 export { TabComponent };
