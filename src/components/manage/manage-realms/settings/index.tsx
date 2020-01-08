@@ -103,6 +103,7 @@ const RealmSettingsPage = () => {
     //   }
     // );
     // return update;
+    return { status: 200 };
   };
 
   const removeCampaign = async (uuid: string) => {
@@ -115,6 +116,7 @@ const RealmSettingsPage = () => {
     //   { campaigns }
     // );
     // return update;
+    return { status: 200 };
   };
 
   const paginate = (from: number, to: number) => {
