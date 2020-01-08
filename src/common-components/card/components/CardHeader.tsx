@@ -73,7 +73,6 @@ class CardHeaderComp extends Component<Props, State> {
     title: any,
     addButton: any
   ) => {
-    console.log("Search Data Length: ", searchData.length);
     return (
       <div className={classes.cardHeader}>
         <div>

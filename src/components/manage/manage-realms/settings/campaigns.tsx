@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { TableRow, TableCell } from "@material-ui/core";
 import { mdiContentCopy } from "@mdi/js";
 
-// import AddCampaignModal from "./component/realm-add-campaign/AddCampaignModal";
+import AddCampaignModal from "./components/AddCampaignModal";
 import {
   ActiveCell,
   AsyncTable,
