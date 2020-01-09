@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { TableRow, TableCell } from "@material-ui/core";
 import { mdiContentCopy } from "@mdi/js";
 
-// import AddCampaignModal from "./component/realm-add-campaign/AddCampaignModal";
+import AddCampaignModal from "./components/AddCampaignModal";
 import {
   ActiveCell,
   AsyncTable,
@@ -177,12 +177,12 @@ export default function CampaignSettings(props: any) {
           <Add />
           Add Campaign
         </AddCamp>
-        {/* <AddCampaignModal
+        <AddCampaignModal
           open={openAdd}
           openFunc={openFunc}
           data={campaignsOrig}
           addCampaign={campFn}
-        /> */}
+        />
       </Grid>
       {data.length > 0 ? (
         <AsyncTable

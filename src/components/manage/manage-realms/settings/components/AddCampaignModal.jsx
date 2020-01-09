@@ -14,14 +14,16 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
-import CHeader from "./components/cards/CHeader";
-import SaveButton from "../../../../../../components/common-components/buttons/save-button/SaveButton";
-import CustomButton from "../../../../../../components/common-components/buttons/CustomButton";
-import Modal from "../../../../../../components/common-components/Modal";
-import CustomCard from "../../../../../../components/common-components/card";
-import CardHeader from "../../../../../../components/common-components/card/cardheader";
-import CardBody from "../../../../../../components/common-components/card/cardbody";
-import { get } from "../../../../../../utils/api.js";
+import {
+  CardHeader,
+  CustomButton,
+  Modal,
+  CustomCard,
+  CardBody
+} from "common-components";
+import { MockCampaigns } from "../../components/contsVar";
+
+// import { get } from "../../../../../../utils/api.js";
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -40,13 +42,8 @@ const useStyles = makeStyles(theme => ({
     borderBottom: "none"
   }
 }));
-const DataMock = [
-  { id: 1, name: "Academic Advisor" },
-  { id: 2, name: "Boom Recruiting" },
-  { id: 2, name: "BKA" }
-];
+
 function AddCampaignModal(props) {
-  const [open, setOpen] = useState(false);
   const [selectC, setSelectC] = useState([]);
   const [campaignData, setCampaignData] = useState([]);
   const [campaignDataSearchOrig, setCampaignDataOrig] = useState([]);
@@ -55,27 +52,31 @@ function AddCampaignModal(props) {
   useEffect(() => {
     //api fetch here
     if (props.data.length !== 0) {
-      get("/identity/campaign/list/").then(res => {
-        setCampaignData(
-          res.data.filter(
-            dataCamp =>
-              props.data.filter(campData => campData.name === dataCamp.name)
-                .length === 0
-          )
-        );
-        setCampaignDataOrig(
-          res.data.filter(
-            dataCamp =>
-              props.data.filter(campData => campData.name === dataCamp.name)
-                .length === 0
-          )
-        );
-      });
+      // get("/identity/campaign/list/").then(res => {
+      //   setCampaignData(
+      //     res.data.filter(
+      //       dataCamp =>
+      //         props.data.filter(campData => campData.name === dataCamp.name)
+      //           .length === 0
+      //     )
+      //   );
+      //   setCampaignDataOrig(
+      //     res.data.filter(
+      //       dataCamp =>
+      //         props.data.filter(campData => campData.name === dataCamp.name)
+      //           .length === 0
+      //     )
+      //   );
+      // });
+      setCampaignDataOrig(MockCampaigns);
+      setCampaignData(MockCampaigns);
     } else {
-      get("/identity/campaign/list/").then(res => {
-        setCampaignDataOrig(res.data);
-        setCampaignData(res.data);
-      });
+      // get("/identity/campaign/list/").then(res => {
+      //   setCampaignDataOrig(res.data);
+      //   setCampaignData(res.data);
+      // });
+      setCampaignDataOrig(MockCampaigns);
+      setCampaignData(MockCampaigns);
     }
   }, [props]);
 
@@ -143,7 +144,7 @@ function AddCampaignModal(props) {
           <Grid container>
             <Grid item xs={6}>
               <CustomCard>
-                <CHeader title={`${selectC.length} items selected`} />
+                <CardHeader title={`${selectC.length} items selected`} />
                 <CardBody>
                   <Table className={classes.table}>
                     <TableBody>
@@ -185,7 +186,7 @@ function AddCampaignModal(props) {
             </Grid>
             <Grid item xs={6}>
               <CustomCard>
-                <CHeader
+                <CardHeader
                   title="Campaign list"
                   searchData={campaignData}
                   searchFor={`campaign`}

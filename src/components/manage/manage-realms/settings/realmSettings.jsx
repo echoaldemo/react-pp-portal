@@ -359,16 +359,15 @@ export default function RealmSettings(props) {
                 </Grid>
               </TabPanel>
               <TabPanel value={tab} index={1} dir={theme.direction}>
-                Coming Soon
-                {/* <Campaigns
-                    data={campaigns}
-                    removeCampaign={removeCampaign}
-                    realm={realm}
-                    paginateList={paginateList}
-                    paginateFn={paginateFn}
-                    addCampaign={addCampaign}
-                    campaignsOrig={campaignsOrig}
-                  /> */}
+                <Campaigns
+                  data={campaigns}
+                  removeCampaign={removeCampaign}
+                  realm={realm}
+                  paginateList={paginateList}
+                  paginateFn={paginateFn}
+                  addCampaign={addCampaign}
+                  campaignsOrig={campaignsOrig}
+                />
               </TabPanel>
             </React.Fragment>
           )}

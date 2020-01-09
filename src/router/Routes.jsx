@@ -6,6 +6,7 @@ import {
   Realms,
   Campaigns,
   PageNotFound,
+  EditCampaigns,
   UserLanding,
   RealmSettingsPage,
   Companies,
