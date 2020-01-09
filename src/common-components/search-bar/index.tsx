@@ -199,7 +199,6 @@ const SearchBar: React.FC<Props> = ({
                 padding: 20,
                 backgroundColor: "white",
                 zIndex: 1,
-                boxShadow: "none !important"
               }}
               elevation={0}
             >
