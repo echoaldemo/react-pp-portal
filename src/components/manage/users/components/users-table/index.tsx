@@ -97,7 +97,11 @@ const UserTable: React.FC<Props> = ({ users, setEdit, loading }) => {
               {i === 4 && renderIcon(cellVal, iconProps)}
             </TableCell>
           ) : (
-            <UnderlineCell key={i} className={cellStyle}>
+            <UnderlineCell
+              onClick={() => setEdit(userData.uuid)}
+              key={i}
+              className={cellStyle}
+            >
               <p style={{ color: "rgb(68, 72, 81)" }}>{cellVal}</p>
             </UnderlineCell>
           )}
@@ -113,7 +117,7 @@ const UserTable: React.FC<Props> = ({ users, setEdit, loading }) => {
         <TableCell className={styleProps.userCell}>
           <EditButton
             text="Edit"
-            onClickFunc={() => setEdit()} //getUserData(example)}
+            onClickFunc={() => setEdit(userData.uuid)} //getUserData(example)}
             style={{
               color: "#444851"
             }}

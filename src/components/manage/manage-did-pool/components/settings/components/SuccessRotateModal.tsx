@@ -87,12 +87,6 @@ const Text = styled.div`
   color: #7c8a97;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 `
-const P = styled.p`
-  color: #7c8a97;
-  margin: 10px 0 40px 0;
-  max-width: 75%;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-`
 
 const SubDiv = styled.div`
   display: grid;
@@ -103,61 +97,48 @@ const SubDiv = styled.div`
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 `
 
-const GridDiv = styled.div`
-  display: grid;
-  width: 332px;
-`
+interface Props {
+	subtitle: string
+	text: string
+	btnText?: string
+	closeFn: () => void
+	btnFn?: () => void
+}
 
-const Did = styled.p`
-  margin: 0px 0px 12px;
-  display: grid;
-  grid-template-columns: 120px 25px;
-  align-items: center;
-  color: #7c8a97;
-  max-width: 75%;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-`
-
-const ErrorDid = styled.span`
-  text-decoration: line-through;
-  color: #bbbbbb;
-`
-
-const SuccessRotateModal = ({
-  dids,
-  subtitle,
-  text,
-  btnText,
-  closeFn,
-  btnFn
+const SuccessRotateModal: React.FC<Props> = ({
+	subtitle,
+	text,
+	btnText,
+	closeFn,
+	btnFn
 }) => {
-  return (
-    <>
-      <Center data-cy="success-modal">
-        <Card>
-          <CloseIconCont>
-            <CloseIcon onClick={closeFn} />
-          </CloseIconCont>
-          <CheckIcon />
-          <Text>{text}</Text>
-          <SubDiv>
-            <Error style={{ color: '7c8a97' }} />
-            {subtitle}
-          </SubDiv>
-          <BtnCont>
-            <CloseBtn onClick={closeFn}>
-              <CloseText>Close</CloseText>
-            </CloseBtn>
-            {btnFn || btnText ? (
-              <BtnFn onClick={btnFn}>
-                <BtnText>{btnText}</BtnText>
-              </BtnFn>
-            ) : null}
-          </BtnCont>
-        </Card>
-      </Center>
-    </>
-  )
+	return (
+		<>
+			<Center data-cy="success-modal">
+				<Card>
+					<CloseIconCont>
+						<CloseIcon onClick={closeFn} />
+					</CloseIconCont>
+					<CheckIcon />
+					<Text>{text}</Text>
+					<SubDiv>
+						<Error style={{ color: '7c8a97' }} />
+						{subtitle}
+					</SubDiv>
+					<BtnCont>
+						<CloseBtn onClick={closeFn}>
+							<CloseText>Close</CloseText>
+						</CloseBtn>
+						{btnFn || btnText ? (
+							<BtnFn onClick={btnFn}>
+								<BtnText>{btnText}</BtnText>
+							</BtnFn>
+						) : null}
+					</BtnCont>
+				</Card>
+			</Center>
+		</>
+	)
 }
 
 export default SuccessRotateModal
