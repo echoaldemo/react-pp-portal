@@ -7,7 +7,7 @@ interface Props {
 	open: boolean
 	qty?: number
 	subtitle?: string
-	text?: string
+	text?: string | React.ReactNode
 	btnText?: string
 	closeFn: () => void
 	btnFn?: () => void
