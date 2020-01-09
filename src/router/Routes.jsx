@@ -22,6 +22,7 @@ import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
+import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -78,7 +79,11 @@ export default function Routes() {
           path="/manage/locations/edit/:uuid/"
           component={LocationSettings}
         />
-
+        {/* Global Pitch routes */}
+        <PrivateRoute
+          path="/manage/global-pitch-phrasebooks"
+          component={GlobalPhraseBooks}
+        />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>
