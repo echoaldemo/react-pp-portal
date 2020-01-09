@@ -94,3 +94,6 @@ code {
 .c-default {
 	color: #444851;
 }
+.MuiCircularProgress-colorPrimary {
+	color: #1194f6 !important;
+}

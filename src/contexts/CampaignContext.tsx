@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { mockDataCampaigns } from './mockData';
 import { get } from '../utils/api';
 import axios from 'axios';
+import { async } from 'q';
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -29,18 +30,15 @@ function CampaignsContextProvider({ children }: any) {
 		}, 500);
 	}, []);
 
-	const getEditData = (uuid: string) => {
-		axios
-			.get(`https://dev-api.perfectpitchtech.com/identity/campaign/${uuid}/`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
-				}
-			})
-			.then((result) => {
-				console.log(result.data);
+	async function getEditData(uuid: string) {
+		let data = await fetch('https://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles')
+			.then((data) => data.json())
+			.then((data) => {
+				return data;
 			});
-	};
+
+		return data;
+	}
 	function FilterApplyButton(params: any) {
 		var parameter = {
 			...params.sortby !== ' ' && { order_by: params.sortby },
