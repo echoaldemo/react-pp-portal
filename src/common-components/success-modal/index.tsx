@@ -10,7 +10,7 @@ interface Props {
 	text?: string
 	btnText?: string
 	closeFn: () => void
-	btnFn: () => void
+	btnFn?: () => void
 	user?: boolean
 	warning?: boolean
 }

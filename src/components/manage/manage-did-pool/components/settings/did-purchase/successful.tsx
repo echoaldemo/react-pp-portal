@@ -124,59 +124,69 @@ const ErrorDid = styled.span`
   color: #bbbbbb;
 `
 
-const SuccessModal = ({
-  open,
-  dids,
-  subtitle,
-  text,
-  btnText,
-  closeFn,
-  btnFn
+interface Props {
+	open: boolean
+	dids: Array<any>
+	subtitle: string
+	text: string
+	btnText: string
+	closeFn: () => void
+	btnFn: () => void
+}
+
+const SuccessModal: React.FC<Props> = ({
+	open,
+	dids,
+	subtitle,
+	text,
+	btnText,
+	closeFn,
+	btnFn
 }) => {
-  return (
-    <Dialog open={open}>
-      <Center data-cy="success-modal">
-        <Card>
-          <CloseIconCont>
-            <CloseIcon onClick={closeFn} />
-          </CloseIconCont>
-          <CheckIcon />
-          <Text>{text}</Text>
-          <SubDiv>
-            <Error style={{ color: 'red' }} />
-            {subtitle}
-          </SubDiv>
-          <GridDiv>
-            <P style={{ margin: '13px 0 13px 0' }}>
-              <strong>
-                {[...dids].filter(did => did.purchased).length} DID's Purchased:
+	return (
+		<Dialog open={open}>
+			<Center data-cy="success-modal">
+				<Card>
+					<CloseIconCont>
+						<CloseIcon onClick={closeFn} />
+					</CloseIconCont>
+					<CheckIcon />
+					<Text>{text}</Text>
+					<SubDiv>
+						<Error style={{ color: 'red' }} />
+						{subtitle}
+					</SubDiv>
+					<GridDiv>
+						<P style={{ margin: '13px 0 13px 0' }}>
+							<strong>
+								{[...dids].filter(did => did.purchased).length} DID's Purchased:
               </strong>
-            </P>
-            {dids.map(did => (
-              <Did style={{ margin: '0 0 12px 0' }}>
-                {did.purchased ? did.number : <ErrorDid>{did.number}</ErrorDid>}
-                {did.purchased ? (
-                  <CheckCircle style={{ color: '#b6d36b', fontSize: 20 }} />
-                ) : (
-                  <Error style={{ color: 'red', fontSize: 20 }} />
-                )}
-              </Did>
-            ))}
-          </GridDiv>
-          <BtnCont>
-            <CloseBtn onClick={closeFn}>
-              <CloseText>Close</CloseText>
-            </CloseBtn>
-            {btnFn || btnText ? (
-              <BtnFn onClick={btnFn}>
-                <BtnText>{btnText}</BtnText>
-              </BtnFn>
-            ) : null}
-          </BtnCont>
-        </Card>
-      </Center>
-    </Dialog>
-  )
+						</P>
+						{dids.map(did => (
+							<Did style={{ margin: '0 0 12px 0' }}>
+								{did.purchased ? did.number : <ErrorDid>{did.number}</ErrorDid>}
+								{did.purchased ? (
+									<CheckCircle style={{ color: '#b6d36b', fontSize: 20 }} />
+								) : (
+										<Error style={{ color: 'red', fontSize: 20 }} />
+									)}
+							</Did>
+						))}
+					</GridDiv>
+					<BtnCont>
+						<CloseBtn onClick={closeFn}>
+							<CloseText>Close</CloseText>
+						</CloseBtn>
+						{btnFn || btnText ? (
+							<BtnFn onClick={btnFn}>
+								<BtnText>{btnText}</BtnText>
+							</BtnFn>
+						) : null}
+					</BtnCont>
+				</Card>
+			</Center>
+		</Dialog>
+	)
 }
 
 export default SuccessModal
