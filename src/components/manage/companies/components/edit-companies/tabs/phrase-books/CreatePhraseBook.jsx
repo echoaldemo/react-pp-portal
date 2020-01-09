@@ -68,7 +68,7 @@ export default class CreatePhraseBook extends Component {
 				loading: false,
 				createSuccess: true
 			});
-		}, 500);
+		}, 3000);
 	};
 
 	render() {
