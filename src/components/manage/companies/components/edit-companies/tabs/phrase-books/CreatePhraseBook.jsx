@@ -1,9 +1,4 @@
 import React, { Component } from 'react';
-
-// import { createPhraseBook } from "../../../../actions/PhraseBook";
-// import { cancel } from "../../../../utils/api";
-
-// import HeaderButton from "common-components/HeaderButton/HeaderButton";
 import { InputField, Modal, LoadingModal, SuccessModal } from 'common-components';
 import { Dialog, Button } from '@material-ui/core';
 const classes = {
@@ -67,7 +62,9 @@ export default class CreatePhraseBook extends Component {
 			this.setState({
 				loading: false,
 				createSuccess: true
-			});
+      });
+      this.props.addFunction();
+      console.log(this.props.phraseBooksData);
 		}, 3000);
 	};
 
