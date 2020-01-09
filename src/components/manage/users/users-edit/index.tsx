@@ -533,7 +533,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 
   const customProp = {
     error: info.role.length <= 0,
-    helperText: "A role is required."
+    helperText: info.role.length <= 0 ? "A role is required." : ""
   };
 
   const MenuProps = {
