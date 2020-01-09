@@ -163,7 +163,7 @@ function SignInForm(props: PropType) {
               type="password"
               required
               id="password"
-              label="Password"
+              la-abel="Password"
               value={state.formText.password}
               classes={{
                 root: classes.inputField,

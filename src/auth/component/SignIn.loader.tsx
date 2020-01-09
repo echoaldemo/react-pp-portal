@@ -1,5 +1,5 @@
 import React from 'react';
-import {CircularProgress,Typography} from '@material-ui/core/';
+import { CircularProgress, Typography } from '@material-ui/core/';
 
 export default function SignInLoader() {
     return (
@@ -34,7 +34,7 @@ export default function SignInLoader() {
                     height: '45px',
                     width: '45px',
                     color: '#5f7d98'
-                }} 
+                }}
             />
         </div>
     )
