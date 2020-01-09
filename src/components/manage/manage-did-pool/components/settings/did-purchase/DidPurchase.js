@@ -282,7 +282,7 @@ const DidPurchase = ({ header, closeFn, placeOrder }) => {
             withBorder={true}
             headers={headers}
             tableData={tableData}
-            render={(results, { row, cell, icon }) => {
+            render={(results, { row, cell }) => {
               return results.map((result, i) => (
                 <TableRow key={i} className={row}>
                   <TableCell className={cell}>
