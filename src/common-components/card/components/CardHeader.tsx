@@ -54,6 +54,7 @@ class CardHeaderComp extends Component<Props, State> {
       </div>
       <div className={classes.cancelContainer}>
         <a
+          style={{marginRight: '15px'}}
           onClick={() => {
             this.handleCloseSearch();
           }}

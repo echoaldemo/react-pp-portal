@@ -54,6 +54,7 @@ export default function Routes() {
         />
 
         {/* end of manage/campaign routes */}
+        
         {/* manage/companies */}
         <PrivateRoute exact path="/manage/companies" component={Companies} />
         <PrivateRoute
