@@ -22,6 +22,8 @@ import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
+import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
+
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -78,6 +80,10 @@ export default function Routes() {
         <PrivateRoute
           path="/manage/locations/edit/:uuid/"
           component={LocationSettings}
+        />
+        <PrivateRoute
+          path="/manage/team/edit/:uuid/"
+          component={TeamSettings}
         />
 
         <PublicRoute path="/404" component={PageNotFound} />

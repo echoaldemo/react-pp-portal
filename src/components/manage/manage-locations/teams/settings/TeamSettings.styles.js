@@ -34,9 +34,9 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: "30px",
-    minWidth: "500px",
-    paddingBottom: "30px"
+    paddingTop: 30,
+    minWidth: 500,
+    paddingBottom: 30
   },
   inputContainer: {
     paddingBottom: 20,
@@ -87,12 +87,11 @@ const styles = {
     backgroundColor: "#b1b1b1"
   },
   delIcon: {
-    fontSize: "20px",
-    marginTop: "-2.5px",
+    fontSize: 20,
+    marginTop: -2.5,
     marginRight: "3%"
   },
   delBtn: {
-    textTransform: "capitalize",
     fontSize: 16,
     fontWeight: 600,
     width: 130,
@@ -107,11 +106,11 @@ const styles = {
     width: "100%"
   },
   button: {
-    minHeight: "36px",
+    minHeight: 36,
     minWidth: "48%",
     fontWeight: 600,
     cursor: "pointer",
-    borderRadius: "2px",
+    borderRadius: 2,
     border: 0,
     outline: "none"
   },
@@ -149,9 +148,7 @@ const styles = {
   },
   cardCon: {
     marginTop: "1%",
-    "@media (min-width: 492px) and (max-width: 959px)": {
-      textAlign: "-webkit-center"
-    }
+    "@media (min-width: 492px) and (max-width: 959px)": {}
   },
   cardItem: {
     "@media (min-width: 492px) and (max-width: 959px)": {
@@ -161,7 +158,7 @@ const styles = {
   icon: {
     fontSize: 20,
     opacity: 0.9,
-    marginTop: "2px",
+    marginTop: 2,
     color: "#959a95"
   }
 };
