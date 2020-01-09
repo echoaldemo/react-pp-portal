@@ -13,7 +13,7 @@ type InputProps = {
   name: string;
   label: string;
   autoComplete: any;
-  required: boolean;
+  required?: boolean;
   value: any;
   onBlur: any;
   onChange: any;
@@ -41,7 +41,7 @@ const TextField = ({
       <InputLabel
         classes={{ focused: classes.focused, error: classes.err }}
         htmlFor={htmlFor}
-        required
+        required={required}
       >
         {name}
       </InputLabel>
@@ -52,7 +52,6 @@ const TextField = ({
         value={value}
         onBlur={onBlur}
         onChange={onChange}
-        required={required}
       />
       <FormHelperText data-cy={`${label}-error`}>
         {hasContent(error) && error}
