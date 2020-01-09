@@ -75,10 +75,12 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 								<TableCell className={cell} align="right">
 									<EditButton
 										text="Edit"
-										onClickFunc={() =>
+										onClickFunc={() => {
 											history.push(
 												`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
-											)}
+											);
+											localStorage.setItem(`campaignData`, JSON.stringify(campaign));
+										}}
 										style={{
 											color: '#444851'
 										}}

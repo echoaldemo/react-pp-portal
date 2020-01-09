@@ -4,7 +4,6 @@ import { Typography } from '@material-ui/core';
 import SEO from 'utils/seo';
 import { getEditData } from './Functions';
 import { CircularProgress } from '@material-ui/core';
-import { AppContext } from 'contexts/CampaignContext';
 
 const options = [
 	{
@@ -21,38 +20,20 @@ export default function EditHeader({ history, match }) {
 	const [ selected, setSelected ] = useState('1');
 	const [ data, setData ] = useState([]);
 
-	useEffect(() => {
-		getEditData(match.params.uuid).then((result) => {
-			setData(result);
-		});
-	}, []);
-
-	const { name, active } = data;
+	const { name, active } = JSON.parse(localStorage.getItem('campaignData'));
 	const { uuid, slug } = match.params;
 	return (
 		<div>
-			<AppContext.Consumer>
-				{({ getEditData }) => {
-					console.log(getEditData(uuid));
-					return <div>ad</div>;
-				}}
-			</AppContext.Consumer>
 			<SEO title={name ? `Edit Campaign: ${name}` : 'Portal'} />
 			<div className="campaign-edit-header-container pb-normal">
 				<BackButton text="Back to campaigns" backFn={() => history.push('/manage/campaigns')} />
-				<ChangeServer selected={selected} options={options} onChangeFn={setSelected} />
+				{/* <ChangeServer selected={selected} options={options} onChangeFn={setSelected} /> */}
 			</div>
 			<div className="campaign-edit-header-container pb-normal">
 				<div className="title-container">
-					{data.name ? (
-						<React.Fragment>
-							<Typography className="edit-title">{name}</Typography>
-							&emsp;
-							<StatusLabel active={active} />
-						</React.Fragment>
-					) : (
-						<CircularProgress size={20} />
-					)}
+					<Typography className="edit-title">{name}</Typography>
+					&emsp;
+					<StatusLabel status={active} />
 				</div>
 
 				<NavTabs

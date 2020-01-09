@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { mockDataCampaigns } from './mockData';
 import { get } from '../utils/api';
-import axios from 'axios';
-import { async } from 'q';
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -12,8 +10,6 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
-
-	getEditData: any;
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
@@ -30,15 +26,6 @@ function CampaignsContextProvider({ children }: any) {
 		}, 500);
 	}, []);
 
-	async function getEditData(uuid: string) {
-		let data = await fetch('https://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles')
-			.then((data) => data.json())
-			.then((data) => {
-				return data;
-			});
-
-		return data;
-	}
 	function FilterApplyButton(params: any) {
 		var parameter = {
 			...params.sortby !== ' ' && { order_by: params.sortby },
@@ -74,9 +61,7 @@ function CampaignsContextProvider({ children }: any) {
 				paginate,
 				FilterApplyButton,
 				paginateList,
-				setPaginateList,
-
-				getEditData
+				setPaginateList
 			}}
 		>
 			{children}

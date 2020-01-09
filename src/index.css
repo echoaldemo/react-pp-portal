@@ -82,6 +82,9 @@ code {
 .p-normal {
 	padding: 15px;
 }
+.p-24 {
+	padding: 24px;
+}
 .mh-normal {
 	min-height: 629px;
 }
@@ -96,4 +99,10 @@ code {
 }
 .MuiCircularProgress-colorPrimary {
 	color: #1194f6 !important;
+}
+.MuiSwitch-switchBase {
+	color: #1194f6 !important;
+}
+.MuiSwitch-track {
+	background-color: #ccc !important;
 }

@@ -32,7 +32,7 @@ export default function Settings({ match, history }) {
 						<Tab label="Change Log" {...a11yProps(4)} className="tab-text" />
 					</Tabs>
 					<TabPanel value={value} index={0}>
-						<General />
+						<General match={match} />
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						<AudioResources />
