@@ -286,6 +286,7 @@ const NewUser = ({ open, setOpen, onClose }: Props) => {
   const renderUserCreate = () => {
     return (
       <Modal
+        contentStyle={{ paddingBottom: 0 }}
         open={open && !loading && !success}
         onClose={onClose}
         title="New User"

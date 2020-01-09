@@ -15,18 +15,18 @@ import Search from "../common-components/Search";
 import { Grid, Button } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   dialogTitle: {
     backgroundColor: "#5f7d98",
     color: "#ffff"
   },
   textFieldSize: {
-    width: "420px",
+    width: 420,
     "@media (max-width: 425px)": {
-      width: "200px"
+      width: 200
     },
     "@media (max-width: 320px)": {
-      width: "170px"
+      width: 170
     }
   },
   customTitle: {
@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#5f7d98",
-    fontWeight: "600",
-    fontSize: "20px",
+    fontWeight: 600,
+    fontSize: 20,
     color: "#ffffff",
     padding: "0 20px",
     "@media (max-width: 425px)": {
@@ -48,8 +48,8 @@ const useStyles = makeStyles(theme => ({
   saveBtn: {
     width: "50%",
     backgroundColor: "#b6d36b",
-    padding: "10px",
-    fontWeight: "700",
+    padding: 10,
+    fontWeight: 700,
     margin: "auto",
     color: "white",
     "&:hover": {
@@ -63,12 +63,12 @@ const useStyles = makeStyles(theme => ({
     }
   },
   resize: {
-    fontSize: "30px"
+    fontSize: 30
   },
   dialogRoot: {
-    zIndex: "0 !important"
+    zIndex: 0
   }
-}));
+});
 
 const CssTextField = withStyles({
   root: {
@@ -131,12 +131,12 @@ const theme = createMuiTheme({
   }
 });
 
-export default function AddNewTeam(props) {
+export default function AddNewTeam(props: any) {
   const classes = useStyles();
   const [teamName, setTeamName] = useState("");
   const [leader, setLeader] = useState("");
 
-  function selectedVoice(val) {
+  function selectedVoice(val: any) {
     setLeader(val.uuid);
   }
   return (
@@ -168,7 +168,6 @@ export default function AddNewTeam(props) {
                   onClick={() => {
                     props.handleClose();
                   }}
-                  className={classes.closeIcon}
                 />
               </span>
             </div>
@@ -179,11 +178,6 @@ export default function AddNewTeam(props) {
               className={classes.textFieldSize}
               label="Team Name*"
               id="textfield-ar"
-              InputLabelProps={{
-                classes: {
-                  input: classes.resize
-                }
-              }}
               defaultValue={
                 props.currentResourceInfo ? props.currentResourceInfo.name : ""
               }
@@ -191,14 +185,7 @@ export default function AddNewTeam(props) {
           </DialogContent>
 
           <DialogContent style={{ paddingTop: "40px" }}>
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              md={12}
-              lg={12}
-              className={classes.inputContainer}
-            >
+            <Grid item xs={12} sm={12} md={12} lg={12}>
               <FormControl fullWidth disabled>
                 <Search
                   searchOption="modal"

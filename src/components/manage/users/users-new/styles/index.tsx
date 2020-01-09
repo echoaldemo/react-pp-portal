@@ -26,6 +26,10 @@ const DatePicker = styled(KeyboardDatePicker)`
   .MuiButton-textPrimary-874 {
     color: red !important;
   }
+  .MuiInput-input {
+    color: #444851 !important;
+    font-size: 16px !important;
+  }
 `;
 
 const overrides = {

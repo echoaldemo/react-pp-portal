@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Toast(props) {
+export default function Toast(props: any) {
   const classes = useStyles();
   let icon, color;
   if (props.toastType === "check") {
