@@ -198,8 +198,10 @@ const SearchBar: React.FC<Props> = ({
                 color: "#7c8a97",
                 padding: 20,
                 backgroundColor: "white",
-                zIndex: 1
+                zIndex: 1,
+                boxShadow: "none !important"
               }}
+              elevation={0}
             >
               No results - Try searching for{" "}
               {headers === undefined ? "other fields" : `${headers}`}
