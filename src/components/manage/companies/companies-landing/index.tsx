@@ -158,10 +158,10 @@ class Companies extends Component<IProps, IState> {
             <div style={{ width: "100%" }}>
               <SearchBar
                 title="Company"
-                userData={[]}
+                userData={mock}
                 headers={["name", "slug", "uuid"]}
                 active={true}
-                loading={true}
+                //loading={true}
                 link={true}
                 pathnameData={{
                   firstLink: `/manage/companies/edit/`,
