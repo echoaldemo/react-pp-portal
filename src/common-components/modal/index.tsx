@@ -76,7 +76,13 @@ const Modal: React.FC<ModalProps> = ({
             </div>
           </div>
         </DialogTitle>
-        <DialogContent dividers style={{ ...contentStyle, overflow: "hidden" }}>
+        <DialogContent
+          dividers
+          style={{
+            ...contentStyle,
+            overflow: "auto"
+          }}
+        >
           {children}
         </DialogContent>
       </Dialog>

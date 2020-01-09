@@ -23,6 +23,8 @@ import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
 import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
+import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
+
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -55,6 +57,7 @@ export default function Routes() {
         />
 
         {/* end of manage/campaign routes */}
+
         {/* manage/companies */}
         <PrivateRoute exact path="/manage/companies" component={Companies} />
         <PrivateRoute
@@ -84,6 +87,12 @@ export default function Routes() {
           path="/manage/global-pitch-phrasebooks"
           component={GlobalPhraseBooks}
         />
+        {/* Global Pitch routes end */}
+        <PrivateRoute
+          path="/manage/team/edit/:uuid/"
+          component={TeamSettings}
+        />
+
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>

@@ -60,8 +60,6 @@ const Step2 = ({
 
   let description = getRoleInfo(selected[selected.length - 1]);
 
-  console.log("Description: ", description);
-
   return (
     <>
       <TitleTag>Roles</TitleTag>
