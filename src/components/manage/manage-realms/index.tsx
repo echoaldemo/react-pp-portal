@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   HeaderButton,
-  HeaderContainer,
   HeaderLink,
   SearchBar,
   TableLoader,
@@ -12,8 +11,8 @@ import {
   LoadingModal,
   SuccessModal,
   TableNoResult
-} from 'common-components'
-import { Divider, Paper, InputAdornment, Dialog } from '@material-ui/core'
+} from "common-components";
+import { Divider, Paper, InputAdornment, Dialog } from "@material-ui/core";
 import {
   Container,
   menus,
@@ -23,35 +22,37 @@ import {
   CancelBtn,
   constCreate,
   MockRealm
-} from './components/contsVar'
-import { Add } from '@material-ui/icons'
-import ReamlTable from './components/RealmTable'
-import SEO from 'utils/seo'
+} from "./components/contsVar";
+import { Add } from "@material-ui/icons";
+import ReamlTable from "./components/RealmTable";
+import SEO from "utils/seo";
 
+interface RealmProps {
+  history: any;
+}
 
-const Realms = ({ history }) => {
-  const [realms, setRealms] = useState([])
-  const [paginateList, setPaginateList] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [create, setCreate] = useState(constCreate)
-
+const Realms: React.FC<RealmProps> = ({ history }) => {
+  const [realms, setRealms] = useState([]);
+  const [paginateList, setPaginateList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [create, setCreate] = useState(constCreate);
 
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   const cancel = () => {
     // api cancel
-    console.log("cancel api")
-  }
+    console.log("cancel api");
+  };
   const getData = () => {
-    setLoading(true)
-    setCreate(constCreate)
+    setLoading(true);
+    setCreate(constCreate);
     setTimeout(() => {
-      setRealms(MockRealm)
-      setPaginateList(MockRealm)
-      setLoading(false)
-    }, 2000)
+      setRealms(MockRealm);
+      setPaginateList(MockRealm);
+      setLoading(false);
+    }, 2000);
 
     // get('/identity/realm/list/', { order_by: '-datetime_modified' })
     //   .then(res => {
@@ -60,66 +61,67 @@ const Realms = ({ history }) => {
     //     setLoading(false)
     //   })
     //   .catch(err => console.log(err))
-  }
+  };
 
-  const paginate = (from, to) => {
-    setRealms(paginateList.slice(from, to))
-  }
+  const paginate = (from: number, to: number) => {
+    setRealms(paginateList.slice(from, to));
+  };
 
-  const FilterApplyButton = params => {
-    setLoading(true)
+  const FilterApplyButton = (params: any) => {
+    setLoading(true);
     var parameter = {
-      ...(params.sortby !== ' ' && { order_by: params.sortby }),
-      ...(params.active !== ' ' && { is_active: params.active }),
-      ...(params.company !== ' ' && { company: params.company }),
-      ...(params.campaign !== ' ' && { campaigns: params.campaign }),
-      ...(params.roles !== ' ' && { groups: params.roles }),
-      ...(params.hasCompany !== ' ' && { no_company: !params.hasCompany })
-    }
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { is_active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
     setTimeout(() => {
-      const tempData = [{
-        "uuid": "994dceb8-5062-11e7-a132-02420a000304",
-        "leader": null,
-        "slug": "external_rec",
-        "datetime_created": "2017-06-13T18:03:26.715623Z",
-        "datetime_modified": "2019-11-05T09:18:19.641105Z",
-        "name": "arman locas",
-        "active": false
-      }]
-      setRealms(tempData)
-      setPaginateList(tempData)
-      setLoading(false)
-    }, 2000)
+      const tempData: any = [
+        {
+          uuid: "994dceb8-5062-11e7-a132-02420a000304",
+          leader: null,
+          slug: "external_rec",
+          datetime_created: "2017-06-13T18:03:26.715623Z",
+          datetime_modified: "2019-11-05T09:18:19.641105Z",
+          name: "arman locas",
+          active: false
+        }
+      ];
+      setRealms(tempData);
+      setPaginateList(tempData);
+      setLoading(false);
+    }, 2000);
 
     // get('/identity/realm/list/', parameter).then(res => {
     //   setRealms(res.data)
     //   setPaginateList(res.data)
     //   setLoading(false)
     // })
-  }
+  };
 
   const handleClose = () => {
-    setCreate(constCreate)
-  }
+    setCreate(constCreate);
+  };
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     if (e.target.value) {
-      setCreate({ ...create, name: e.target.value, nameErr: '' })
+      setCreate({ ...create, name: e.target.value, nameErr: "" });
     } else {
       setCreate({
         ...create,
         name: e.target.value,
-        nameErr: 'A realm name is required'
-      })
+        nameErr: "A realm name is required"
+      });
     }
-  }
+  };
   const handleCreate = () => {
-
-    setCreate({ ...create, load: true })
+    setCreate({ ...create, load: true });
     setTimeout(() => {
-      setCreate({ ...create, load: false, done: true })
-    }, 1500)
+      setCreate({ ...create, load: false, done: true });
+    }, 1500);
 
     // post('/identity/realm/create/', {
     //   name: create.name,
@@ -142,19 +144,21 @@ const Realms = ({ history }) => {
     //       console.log(err)
     //     }
     //   })
-  }
+  };
 
   return (
     <>
       <SEO title="Manage Realms" />
 
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingBottom: 30
-      }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingBottom: 30
+        }}
+      >
         <HeaderLink menu={menus} title="Realms" />
         {realms.length !== 0 && (
           <HeaderButton
@@ -163,34 +167,33 @@ const Realms = ({ history }) => {
           />
         )}
       </div>
-      <Paper  >
-        {!loading && realms.length === 0 ?
+      <Paper>
+        {!loading && realms.length === 0 ? (
           <TableNoResult
             headerText="Realms"
             mainMessage="No realm have been created"
             subMessage="Would you like to creat one? Just hit the “New Realm” button."
             renderButton={
               // <SaveButton onClick={() => setCreate({ ...create, open: true })}>
-              <SaveButton >
-
+              <SaveButton>
                 <Add />
                 New Realm
               </SaveButton>
             }
           />
-          :
+        ) : (
           <Container>
-            <div style={{ width: '100%' }}>
+            <div style={{ width: "100%" }}>
               <SearchBar
                 title="realm"
                 userData={realms}
-                headers={['name', 'uuid']}
+                headers={["name", "uuid"]}
                 active={true}
                 link={true}
                 loading={loading}
                 pathnameData={{
                   firstLink: `/manage/realms/edit/`,
-                  fetchData: ['uuid'],
+                  fetchData: ["uuid"],
                   lastLink: ``
                 }}
               />
@@ -203,38 +206,38 @@ const Realms = ({ history }) => {
               {loading ? (
                 <TableLoader />
               ) : (
-                  <>
-                    <ReamlTable realms={realms} history={history} />
-                    {Boolean(paginateList.length) && (
-                      <Pagination
-                        paginateFn={paginate}
-                        totalItems={paginateList.length}
-                        itemsPerPage={6}
-                      />
-                    )}
-                  </>
-                )}
+                <>
+                  <ReamlTable realms={realms} history={history} />
+                  {Boolean(paginateList.length) && (
+                    <Pagination
+                      paginateFn={paginate}
+                      totalItems={paginateList.length}
+                      itemsPerPage={6}
+                    />
+                  )}
+                </>
+              )}
             </div>
           </Container>
-        }
+        )}
       </Paper>
 
       <LoadingModal
         open={create.load}
-        text={'One moment. We’re adding the realm…'}
+        text={"One moment. We’re adding the realm…"}
         cancelFn={() => {
           // cancel()
-          setCreate({ ...create, load: false })
+          setCreate({ ...create, load: false });
         }}
       />
       <SuccessModal
         open={create.done}
         text={`You have created the “${create.name}” Realm`}
-        btnText={'CREATE ANOTHER'}
+        btnText={"CREATE ANOTHER"}
         closeFn={getData}
         btnFn={() => {
-          const { open, ...rest } = constCreate
-          setCreate({ ...rest, open: true })
+          const { open, ...rest } = constCreate;
+          setCreate({ ...rest, open: true });
         }}
       />
       <Modal open={create.open} title="Create new realm" onClose={handleClose}>
@@ -246,7 +249,7 @@ const Realms = ({ history }) => {
           onChange={handleChange}
           onBlur={handleChange}
           error={create.nameErr ? true : false}
-          helperText={create.nameErr ? create.nameErr : ' '}
+          helperText={create.nameErr ? create.nameErr : " "}
         />
         <InputField
           label="Active"

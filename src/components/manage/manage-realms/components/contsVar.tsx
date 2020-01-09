@@ -7,13 +7,13 @@ import { withStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 import { SaveButton } from "common-components";
 
-const CancelBtn = styled(SaveButton)`
+const CancelBtn: any = styled(SaveButton)`
   background: #eeeeee;
   strong {
     color: #444851;
   }
 `;
-const BtnCont = styled.div`
+const BtnCont: any = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -25,7 +25,7 @@ const Container = styled.div`
   align-content: space-between;
   height: auto;
 `;
-const menus = [
+const menus: any = [
   {
     title: "Users",
     path: "/manage/users"
@@ -52,8 +52,8 @@ const menus = [
     path: "/manage/dids"
   }
 ];
-const headers = ["Name", "UUID", "Status", ""];
-const constCreate = {
+const headers: Array<string> = ["Name", "UUID", "Status", ""];
+const constCreate: any = {
   open: false,
   active: true,
   name: "",
@@ -61,7 +61,7 @@ const constCreate = {
   load: false,
   done: false
 };
-const LightTooltip = withStyles(theme => ({
+const LightTooltip: any = withStyles(theme => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
     color: "rgba(0, 0, 0, 0.87)",
@@ -70,7 +70,7 @@ const LightTooltip = withStyles(theme => ({
   }
 }))(Tooltip);
 
-const Switch = styled(Switch2)`
+const Switch: any = styled(Switch2)`
   .MuiSwitch-track {
     background: #eeeeee !important;
   }
@@ -80,13 +80,13 @@ const Switch = styled(Switch2)`
   }
 `;
 
-const MenuItem = styled(MenuItem2)`
+const MenuItem: any = styled(MenuItem2)`
   min-width: 200px;
   padding-top: 0;
   padding-bottom: 0;
 `;
 
-const MockRealm = [
+const MockRealm: any = [
   {
     uuid: "994dceb8-5062-11e7-a132-02420a000304",
     leader: null,
@@ -170,7 +170,7 @@ const MockRealm = [
   }
 ];
 
-const MockCampaigns = [
+const MockCampaigns: any = [
   {
     uuid: "15af2c2a-d9d4-11e9-bbb5-0242ac110006",
     dialingparams: null,
@@ -269,7 +269,7 @@ const MockCampaigns = [
   }
 ];
 
-const MockRealmData = {
+const MockRealmData: any = {
   uuid: "847a624a-a6a4-11e9-ac77-0242ac110012",
   campaigns: MockCampaigns,
   slug: "test",

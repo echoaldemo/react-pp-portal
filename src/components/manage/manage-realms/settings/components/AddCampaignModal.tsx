@@ -25,7 +25,7 @@ import { MockCampaigns } from "../../components/contsVar";
 
 // import { get } from "../../../../../../utils/api.js";
 
-const useStyles = makeStyles(theme => ({
+const useStyles: any = makeStyles(theme => ({
   table: {
     backgroundColor: "#FFF"
   },
@@ -43,10 +43,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function AddCampaignModal(props) {
-  const [selectC, setSelectC] = useState([]);
-  const [campaignData, setCampaignData] = useState([]);
-  const [campaignDataSearchOrig, setCampaignDataOrig] = useState([]);
+function AddCampaignModal(props: any) {
+  const [selectC, setSelectC] = useState<any>([]);
+  const [campaignData, setCampaignData] = useState<any>([]);
+  const [campaignDataSearchOrig, setCampaignDataOrig] = useState<any>([]);
   const classes = useStyles();
 
   useEffect(() => {
@@ -80,7 +80,7 @@ function AddCampaignModal(props) {
     }
   }, [props]);
 
-  const classicSearch = result => {
+  const classicSearch = (result: any) => {
     if (result) {
       if (result.length !== 0) {
         setCampaignData(result);
@@ -92,28 +92,27 @@ function AddCampaignModal(props) {
     }
   };
 
-  const AddCampaignFunc = () => {
+  const AddCampaignFunc: any = () => {
     props.addCampaign(selectC);
     setCampaignData(campaignDataSearchOrig);
     setSelectC([]);
     props.openFunc();
   };
 
-  const CancelCampaignFunc = () => {
+  const CancelCampaignFunc: any = () => {
     setCampaignData(campaignDataSearchOrig);
     setSelectC([]);
     props.openFunc();
   };
-  const selectAllFunc = () => {
-    setSelectC(campaignData);
-  };
 
-  const SelectCampaign = data => {
+  const SelectCampaign = (data: any) => {
     let arrCamp = [...selectC];
     if (selectC.length === 0) {
       arrCamp.push(data);
     } else {
-      if (selectC.filter(select => select.uuid === data.uuid).length === 0) {
+      if (
+        selectC.filter((select: any) => select.uuid === data.uuid).length === 0
+      ) {
         arrCamp.push(data);
       }
     }
@@ -121,9 +120,9 @@ function AddCampaignModal(props) {
     setSelectC(arrCamp);
   };
 
-  const RemoveSelected = data => {
+  const RemoveSelected = (data: any) => {
     let arrCamp = [];
-    arrCamp = selectC.filter(arr => arr !== data);
+    arrCamp = selectC.filter((arr: any) => arr !== data);
 
     setSelectC(arrCamp);
   };
@@ -149,7 +148,7 @@ function AddCampaignModal(props) {
                   <Table className={classes.table}>
                     <TableBody>
                       {selectC.length !== 0 &&
-                        selectC.map((campaign, i) => (
+                        selectC.map((campaign: any, i: any) => (
                           <Slide
                             key={i}
                             direction="left"
@@ -189,15 +188,12 @@ function AddCampaignModal(props) {
                 <CardHeader
                   title="Campaign list"
                   searchData={campaignData}
-                  searchFor={`campaign`}
-                  selectAllFunc={selectAllFunc}
                   searchHeaders={["name"]}
-                  classicSearch={classicSearch}
                 />
                 <CardBody>
                   <Table className={classes.table}>
                     <TableBody>
-                      {campaignData.map((data, i) => (
+                      {campaignData.map((data: any, i: any) => (
                         <TableRow className={classes.row} key={i}>
                           <TableCell className={classes.cell}>
                             {data.name}
@@ -226,11 +222,11 @@ function AddCampaignModal(props) {
         </div>
         <Grid container justify="center" style={{ paddingTop: 20 }} spacing={2}>
           <Grid item>
-            <CustomButton onClick={AddCampaignFunc}>Save</CustomButton>
+            <CustomButton handleClick={AddCampaignFunc}>Save</CustomButton>
           </Grid>
           <Grid item>
             <CustomButton
-              onClick={CancelCampaignFunc}
+              handleClick={CancelCampaignFunc}
               style={{ backgroundColor: "#eee" }}
             >
               <strong style={{ color: "#444851" }}>Cancel</strong>
