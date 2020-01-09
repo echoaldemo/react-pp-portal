@@ -15,7 +15,6 @@ import {
 	Select,
 	MenuItem,
 	Tooltip,
-	Dialog,
 	Collapse
 } from '@material-ui/core'
 import {
@@ -29,14 +28,12 @@ import {
 } from 'common-components'
 import { FileCopyOutlined, Delete as DeleteIcon } from '@material-ui/icons'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { mdiContentCopy } from '@mdi/js'
-import { get, cancel, patch, remove } from 'utils/api'
+import { get, patch, remove, cancel } from 'utils/api'
 import SnackNotif from 'auth/component/snackbar/snackbar'
 import styles from './DidPoolsSettings.styles'
 
 //mock data
 import { mockDid } from '../../utils/const-var'
-import { any } from 'prop-types'
 
 const LightTooltip = withStyles(theme => ({
 	tooltip: {
@@ -53,7 +50,7 @@ interface Props {
 	history: any
 }
 
-function LocationTable({ classes, uuid, history }) {
+const LocationTable: React.FC<Props> = ({ classes, uuid, history }) => {
 	const [copy, setCopy] = useState(false)
 	const [didData, setDidData] = useState<any>({})
 	const [origDidData, setOrigDidData] = useState({})
@@ -80,7 +77,7 @@ function LocationTable({ classes, uuid, history }) {
 			setLoadingSettings(false)
 		}, 1000)
 
-		get(`/did/company/all/campaign/all/pool/${uuid}/`).then(res => {
+		get(`/did/company/all/campaign/all/pool/${uuid}/`).then((res: any) => {
 			setDidData(res.data)
 			setOrigDidData(res.data)
 			fetchCampaign(res.data.company)
@@ -88,30 +85,30 @@ function LocationTable({ classes, uuid, history }) {
 		})
 	}
 	const fetchVoiceProvider = () => {
-		get(`/did/voice_provider/`).then(res => {
+		get(`/did/voice_provider/`).then((res: any) => {
 			setVoiceProvider(res.data)
 		})
 	}
 	const fetchCompany = () => {
-		get(`/identity/company/list/?editable=true&order_by=name`).then(res => {
+		get(`/identity/company/list/?editable=true&order_by=name`).then((res: any) => {
 			setCompany(res.data)
 		})
 	}
 	//Get Capaign of the selected company
-	const fetchCampaign = uuid => {
+	const fetchCampaign = (uuid: string) => {
 		get(`/identity/campaign/list/?assignable=true&company=${uuid}`).then(
-			res => {
+			(res: any) => {
 				setCampaign(res.data)
 			}
 		)
 	}
-	const handleSnackbar = message => {
+	const handleSnackbar = (message: string) => {
 		setSnackbar({
 			open: true,
 			message: message
 		})
 	}
-	const handleUpdate = (campaignSlug, companySlug) => {
+	const handleUpdate = (campaignSlug: string, companySlug: string) => {
 		// /did/company/adsfasdfsadf/campaign/earl/pool/e75e29b4-0b5d-11ea-b28f-0242ac110016/
 		var postData = {
 			name: didData.name,
@@ -133,12 +130,11 @@ function LocationTable({ classes, uuid, history }) {
 			`/did/company/${campaignSlug}/campaign/${companySlug}/pool/${uuid}/`,
 			postData
 		)
-			.then(res => {
-				console.log(res)
+			.then(() => {
 				handleSnackbar('DID pool has been successfully updated.')
 				fetchDID()
 			})
-			.catch(err => {
+			.catch(() => {
 				handleSnackbar('Error updating did pool.')
 			})
 	}
@@ -157,18 +153,16 @@ function LocationTable({ classes, uuid, history }) {
 	// company & campaign slug fetch
 	let companyID = didData.company
 	let companySlug = ''
-	let findCompanySlug
 	if (companyID) {
-		findCompanySlug = company.filter((data: any) => {
+		const findCompanySlug: any = company.filter((data: any) => {
 			return data.uuid.toLowerCase().indexOf(companyID.toLowerCase()) !== -1
 		})
 		companySlug = findCompanySlug.length > 0 ? findCompanySlug[0].slug : ''
 	}
 	let campaignID = didData.campaign
 	let campaignSlug = ''
-	let findCampaignSlug
 	if (companyID) {
-		findCampaignSlug = campaign.filter((data: any) => {
+		const findCampaignSlug: any = campaign.filter((data: any) => {
 			return data.uuid.toLowerCase().indexOf(campaignID.toLowerCase()) !== -1
 		})
 		campaignSlug = findCampaignSlug.length > 0 ? findCampaignSlug[0].slug : ''
@@ -181,12 +175,12 @@ function LocationTable({ classes, uuid, history }) {
 			remove(
 				`/did/company/${companySlug}/campaign/${campaignSlug}/pool/${uuid}/`
 			)
-				.then(res => {
+				.then(() => {
 					setOpenDeletingModal(false)
 					setDelConfirm(false)
 					setOpenDeletedModal(true)
 				})
-				.catch(err => {
+				.catch(() => {
 					setOpenDeletingModal(false)
 					setDelConfirm(false)
 					handleSnackbar('Error deleting did pool.')
@@ -297,7 +291,7 @@ function LocationTable({ classes, uuid, history }) {
 										id="name"
 										defaultValue={`${didData.uuid}`}
 										value={`${didData.uuid}`}
-										onChange={event => { }}
+										onChange={() => { }}
 										disabled
 										endAdornment={
 											<InputAdornment position='end'>
@@ -359,7 +353,7 @@ function LocationTable({ classes, uuid, history }) {
 									<Select
 										defaultValue={`${didData.company}`}
 										value={`${didData.company}`}
-										onChange={e => {
+										onChange={(e: any) => {
 											// setDidData([...didData, (company: e.target.value)]);
 											fetchCampaign(e.target.value)
 											setDidData({ ...didData, company: e.target.value })
@@ -959,7 +953,7 @@ function LocationTable({ classes, uuid, history }) {
                   </SaveButton>
 										<button
 											className={`${classes.button} ${classes.cancel}`}
-											onClick={e => {
+											onClick={() => {
 												setDidData(origDidData)
 											}}
 										>
