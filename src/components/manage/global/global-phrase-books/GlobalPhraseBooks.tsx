@@ -9,7 +9,7 @@ import {
 } from "common-components";
 import { phraseBooks } from "./components/PBTable/mockData";
 import PBTable from "./components/PBTable/PBTable";
-
+import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
 const GlobalPhraseBooks = () => {
   const [pb, setpb] = useState<any>([]);
   const [paginateList, setPaginateList] = useState<any>([]);
@@ -25,7 +25,7 @@ const GlobalPhraseBooks = () => {
       setpb(phraseBooks);
       setPaginateList(phraseBooks);
       setLoading(false);
-    }, 2000);
+    }, 1000);
   };
 
   const paginate = (from: number, to: number) => {
@@ -80,6 +80,7 @@ const GlobalPhraseBooks = () => {
           </>
         )}
       </Paper>
+      <CreatePhraseBook />
     </>
   );
 };
