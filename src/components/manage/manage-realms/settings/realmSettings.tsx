@@ -12,20 +12,15 @@ import {
   Switch,
   CircularProgress
 } from "@material-ui/core";
-import TableLoader from "../../../common-components/table-loader/TableLoader";
-import {
-  GroupOutlined,
-  Delete as DeleteIcon,
-  FileCopyOutlined as CopyIcon
-} from "@material-ui/icons/";
-import PropTypes from "prop-types";
+import { TableLoader } from "common-components";
+import { FileCopyOutlined as CopyIcon } from "@material-ui/icons/";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ThemeProvider } from "@material-ui/styles";
 import { createMuiTheme, withStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 import Campaigns from "./campaigns";
 
-const useStyles = makeStyles(theme => ({
+const useStyles: any = makeStyles(theme => ({
   appBarSpacer: theme.mixins.toolbar,
   MuiSwitch: {
     MuiSwitchTrack: {
@@ -39,7 +34,6 @@ const useStyles = makeStyles(theme => ({
     background: "white",
     color: "#444851"
   },
-  container: {},
   text: {
     fontFamily: "Roboto, Helvetica, sans-serif",
     fontSize: "14px",
@@ -53,17 +47,19 @@ const useStyles = makeStyles(theme => ({
   },
   paperCont: {
     height: "auto",
-    minHeight: 530,
+    minHeight: "530px",
     padding: "26px 30px",
     color: "#444851"
   },
   title: {
-    fontWeight: "900",
+    fontWeight: 900,
     fontSize: "18px"
   },
   indicator: {
     backgroundColor: "#F89523",
-    height: "4px"
+    height: "4px",
+    borderBottom: "solid 1px #F1F1F1",
+    paddingTop: 10
   }
 }));
 
@@ -152,7 +148,7 @@ const SaveLoader = styled(CircularProgress)`
   color: #959a95;
 `;
 
-function TabPanel(props) {
+function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -169,20 +165,14 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
-};
-
-function a11yProps(index) {
+function a11yProps(index: any) {
   return {
     id: `full-width-tab-${index}`,
     "aria-controls": `full-width-tabpanel-${index}`
   };
 }
 
-export default function RealmSettings(props) {
+export default function RealmSettings(props: any) {
   const {
     realm,
     active,
@@ -205,11 +195,11 @@ export default function RealmSettings(props) {
   const classes = useStyles();
   const theme = useTheme();
 
-  const handleChange = (event, newValue) => {
+  const handleChange: any = (event: any, newValue: any) => {
     setTab(newValue);
   };
 
-  const portalTheme = createMuiTheme({
+  const portalTheme: any = createMuiTheme({
     palette: {
       primary: {
         main: "#1194f6"
@@ -224,28 +214,19 @@ export default function RealmSettings(props) {
       <ThemeProvider theme={portalTheme}>
         <Paper className={classes.paperCont}>
           {loading ? (
-            <TableLoader
-              headerText="Management"
-              message="Loading campaigns..."
-              Icon={GroupOutlined}
-            />
+            <TableLoader />
           ) : (
             <React.Fragment>
               <div>
                 <Typography className={classes.title}>
                   Realm Settings
                 </Typography>
+
                 <Tabs
                   value={tab}
-                  classes={{
-                    indicator: classes.indicator
-                  }}
-                  fullwidth="true"
+                  classes={{ indicator: classes.indicator }}
+                  variant="fullWidth"
                   onChange={handleChange}
-                  style={{
-                    borderBottom: "solid 1px #F1F1F1",
-                    paddingTop: 10
-                  }}
                 >
                   <Tab
                     label="General"
@@ -264,7 +245,6 @@ export default function RealmSettings(props) {
               <TabPanel
                 value={tab}
                 index={0}
-                dir={theme.direction}
                 style={{ padding: "35px 30px", minHeight: 626 }}
               >
                 <Grid>

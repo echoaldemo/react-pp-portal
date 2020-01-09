@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../../../../../../components/common-components/Modal";
-import CustomCard from "../../../../../../components/common-components/card";
-import CardHeader from "../../../../../../components/common-components/card/cardheader";
-import CardBody from "../../../../../../components/common-components/card/cardbody";
+
 import {
   Grid,
   makeStyles,
@@ -17,12 +14,18 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
-import CHeader from "./components/cards/CHeader";
-import SaveButton from "../../../../../../components/common-components/buttons/save-button/SaveButton";
-import CustomButton from "../../../../../../components/common-components/buttons/CustomButton";
-import { get } from "../../../../../../utils/api.js";
+import {
+  CardHeader,
+  CustomButton,
+  Modal,
+  CustomCard,
+  CardBody
+} from "common-components";
+import { MockCampaigns } from "../../components/contsVar";
 
-const useStyles = makeStyles(theme => ({
+// import { get } from "../../../../../../utils/api.js";
+
+const useStyles: any = makeStyles(theme => ({
   table: {
     backgroundColor: "#FFF"
   },
@@ -39,46 +42,45 @@ const useStyles = makeStyles(theme => ({
     borderBottom: "none"
   }
 }));
-const DataMock = [
-  { id: 1, name: "Academic Advisor" },
-  { id: 2, name: "Boom Recruiting" },
-  { id: 2, name: "BKA" }
-];
-function AddCampaignModal(props) {
-  const [open, setOpen] = useState(false);
-  const [selectC, setSelectC] = useState([]);
-  const [campaignData, setCampaignData] = useState([]);
-  const [campaignDataSearchOrig, setCampaignDataOrig] = useState([]);
+
+function AddCampaignModal(props: any) {
+  const [selectC, setSelectC] = useState<any>([]);
+  const [campaignData, setCampaignData] = useState<any>([]);
+  const [campaignDataSearchOrig, setCampaignDataOrig] = useState<any>([]);
   const classes = useStyles();
 
   useEffect(() => {
     //api fetch here
     if (props.data.length !== 0) {
-      get("/identity/campaign/list/").then(res => {
-        setCampaignData(
-          res.data.filter(
-            dataCamp =>
-              props.data.filter(campData => campData.name === dataCamp.name)
-                .length === 0
-          )
-        );
-        setCampaignDataOrig(
-          res.data.filter(
-            dataCamp =>
-              props.data.filter(campData => campData.name === dataCamp.name)
-                .length === 0
-          )
-        );
-      });
+      // get("/identity/campaign/list/").then(res => {
+      //   setCampaignData(
+      //     res.data.filter(
+      //       dataCamp =>
+      //         props.data.filter(campData => campData.name === dataCamp.name)
+      //           .length === 0
+      //     )
+      //   );
+      //   setCampaignDataOrig(
+      //     res.data.filter(
+      //       dataCamp =>
+      //         props.data.filter(campData => campData.name === dataCamp.name)
+      //           .length === 0
+      //     )
+      //   );
+      // });
+      setCampaignDataOrig(MockCampaigns);
+      setCampaignData(MockCampaigns);
     } else {
-      get("/identity/campaign/list/").then(res => {
-        setCampaignDataOrig(res.data);
-        setCampaignData(res.data);
-      });
+      // get("/identity/campaign/list/").then(res => {
+      //   setCampaignDataOrig(res.data);
+      //   setCampaignData(res.data);
+      // });
+      setCampaignDataOrig(MockCampaigns);
+      setCampaignData(MockCampaigns);
     }
   }, [props]);
 
-  const classicSearch = result => {
+  const classicSearch = (result: any) => {
     if (result) {
       if (result.length !== 0) {
         setCampaignData(result);
@@ -90,28 +92,27 @@ function AddCampaignModal(props) {
     }
   };
 
-  const AddCampaignFunc = () => {
+  const AddCampaignFunc: any = () => {
     props.addCampaign(selectC);
     setCampaignData(campaignDataSearchOrig);
     setSelectC([]);
     props.openFunc();
   };
 
-  const CancelCampaignFunc = () => {
+  const CancelCampaignFunc: any = () => {
     setCampaignData(campaignDataSearchOrig);
     setSelectC([]);
     props.openFunc();
   };
-  const selectAllFunc = () => {
-    setSelectC(campaignData);
-  };
 
-  const SelectCampaign = data => {
+  const SelectCampaign = (data: any) => {
     let arrCamp = [...selectC];
     if (selectC.length === 0) {
       arrCamp.push(data);
     } else {
-      if (selectC.filter(select => select.uuid === data.uuid).length === 0) {
+      if (
+        selectC.filter((select: any) => select.uuid === data.uuid).length === 0
+      ) {
         arrCamp.push(data);
       }
     }
@@ -119,9 +120,9 @@ function AddCampaignModal(props) {
     setSelectC(arrCamp);
   };
 
-  const RemoveSelected = data => {
+  const RemoveSelected = (data: any) => {
     let arrCamp = [];
-    arrCamp = selectC.filter(arr => arr !== data);
+    arrCamp = selectC.filter((arr: any) => arr !== data);
 
     setSelectC(arrCamp);
   };
@@ -142,12 +143,12 @@ function AddCampaignModal(props) {
           <Grid container>
             <Grid item xs={6}>
               <CustomCard>
-                <CHeader title={`${selectC.length} items selected`} />
+                <CardHeader title={`${selectC.length} items selected`} />
                 <CardBody>
                   <Table className={classes.table}>
                     <TableBody>
                       {selectC.length !== 0 &&
-                        selectC.map((campaign, i) => (
+                        selectC.map((campaign: any, i: any) => (
                           <Slide
                             key={i}
                             direction="left"
@@ -184,18 +185,15 @@ function AddCampaignModal(props) {
             </Grid>
             <Grid item xs={6}>
               <CustomCard>
-                <CHeader
+                <CardHeader
                   title="Campaign list"
                   searchData={campaignData}
-                  searchFor={`campaign`}
-                  selectAllFunc={selectAllFunc}
                   searchHeaders={["name"]}
-                  classicSearch={classicSearch}
                 />
                 <CardBody>
                   <Table className={classes.table}>
                     <TableBody>
-                      {campaignData.map((data, i) => (
+                      {campaignData.map((data: any, i: any) => (
                         <TableRow className={classes.row} key={i}>
                           <TableCell className={classes.cell}>
                             {data.name}
@@ -224,11 +222,11 @@ function AddCampaignModal(props) {
         </div>
         <Grid container justify="center" style={{ paddingTop: 20 }} spacing={2}>
           <Grid item>
-            <CustomButton onClick={AddCampaignFunc}>Save</CustomButton>
+            <CustomButton handleClick={AddCampaignFunc}>Save</CustomButton>
           </Grid>
           <Grid item>
             <CustomButton
-              onClick={CancelCampaignFunc}
+              handleClick={CancelCampaignFunc}
               style={{ backgroundColor: "#eee" }}
             >
               <strong style={{ color: "#444851" }}>Cancel</strong>

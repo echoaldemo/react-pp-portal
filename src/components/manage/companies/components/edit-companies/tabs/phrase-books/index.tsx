@@ -10,7 +10,7 @@ import { phrase } from "./styles"
   getGlobalPhraseBook
 } from '../../../../actions/PhraseBook' */
 
-/* import CreatePhraseBook from './CreatePhraseBook' */
+import CreatePhraseBook from './CreatePhraseBook';
 
 const defaultState = {
   loadingState: false,
@@ -125,7 +125,7 @@ class PhraseBooks extends Component<IProps, IState> {
               saveActiveSegment={this.saveActiveSegment}
             />
 
-            {/* {this.props.company !== null && (
+            {this.props.company !== null && (
               <CreatePhraseBook
                 open={this.state.openModal}
                 refresh={this.getAllData}
@@ -134,7 +134,7 @@ class PhraseBooks extends Component<IProps, IState> {
                 openModal={this.openCreateModal}
               />
             )}
-            */}
+           
           </div>
         )}
       </>

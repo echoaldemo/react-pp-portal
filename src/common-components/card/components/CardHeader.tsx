@@ -4,12 +4,12 @@ import { Search as SearchIcon, Add as AddIcon } from "@material-ui/icons";
 import { SearchBar } from "common-components";
 import { cardHeader as styles } from "../styles";
 interface Props {
-  searchHeaders: any;
-  searchData: any;
-  classes: any;
-  addButton: any;
-  title: any;
-  addFunction: any;
+  searchHeaders?: any;
+  searchData?: any;
+  classes?: any;
+  addButton?: any;
+  title?: any;
+  addFunction?: any;
 }
 
 interface State {
@@ -54,6 +54,7 @@ class CardHeaderComp extends Component<Props, State> {
       </div>
       <div className={classes.cancelContainer}>
         <a
+          style={{marginRight: '15px'}}
           onClick={() => {
             this.handleCloseSearch();
           }}
