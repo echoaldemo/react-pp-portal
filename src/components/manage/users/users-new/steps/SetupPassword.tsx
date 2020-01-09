@@ -12,9 +12,10 @@ import { useStyles, TitleTag } from "../styles";
 type Props = {
   handlePassword: any;
   password: any;
+  custom?: any;
 };
 
-const SetupPassword = ({ password, handlePassword }: Props) => {
+const SetupPassword = ({ password, handlePassword, custom }: Props) => {
   const classes = useStyles(0);
   const [passwordError, setPasswordError] = useState({
     original: "",
@@ -66,7 +67,7 @@ const SetupPassword = ({ password, handlePassword }: Props) => {
         margin: "0 auto"
       }}
     >
-      <TitleTag>Setup password</TitleTag>
+      {!custom && <TitleTag>Setup password</TitleTag>}
       <div style={{ marginTop: "14px" }} />
       <Grid item xs>
         <FormControl fullWidth error={passwordError.original.length > 0}>
