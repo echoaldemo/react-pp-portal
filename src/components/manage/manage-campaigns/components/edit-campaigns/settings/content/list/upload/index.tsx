@@ -3,7 +3,7 @@ import { PanelTabs, Panel } from "common-components";
 import Upload from "./components/upload";
 import Instructions from "./components/instructions";
 import History from "./components/history";
-export default function List() {
+const List: React.FC = () => {
   const [tab, setTab] = useState(0);
 
   return (
@@ -32,4 +32,6 @@ export default function List() {
       </Panel>
     </>
   );
-}
+};
+
+export default List;

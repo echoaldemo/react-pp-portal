@@ -22,7 +22,7 @@ const List: React.FC = () => {
     </>
   );
 
-  return <>{state.list ? renderList() : <Upload />}</>;
+  return <>{!state.list ? renderList() : <Upload />}</>;
 };
 
 export default List;

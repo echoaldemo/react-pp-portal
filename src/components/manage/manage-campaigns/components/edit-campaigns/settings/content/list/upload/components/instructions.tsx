@@ -37,22 +37,23 @@ const mock = [
 
 const headers = ["ID", "Field", "Constraints", "Description"];
 
-const Instructions = () => {
-  const [list, setList] = useState([]);
-  const [paginateList, setPaginateList] = useState([]);
+const Instructions: React.FC = () => {
+  const [list, setList] = useState<any>([]);
+  const [paginateList, setPaginateList] = useState<any>([]);
 
   useEffect(() => {
     setList(mock);
     setPaginateList(mock);
   }, []);
 
-  const paginate = (from, to) => {
+  const paginate = (from: number, to: number) => {
     setList(paginateList.slice(from, to));
   };
 
   return (
     <div>
       <SearchBar
+        title="Search lists"
         customTitle="Search lists"
         userData={list}
         headers={["field"]}
@@ -61,8 +62,8 @@ const Instructions = () => {
         headers={headers}
         customHeight={335}
         tableData={list}
-        render={(list, { row, cell }) =>
-          list.map((item, i) => (
+        render={(list: any, { row, cell }: any) =>
+          list.map((item: any, i: number) => (
             <TableRow key={i} className={row}>
               <TableCell className={cell}>{item.id}</TableCell>
               <TableCell className={cell}>{item.field}</TableCell>
@@ -82,7 +83,6 @@ const Instructions = () => {
         <Pagination
           paginateFn={paginate}
           totalItems={paginateList.length}
-          paginateList={paginateList}
           itemsPerPage={6}
         />
       )}
