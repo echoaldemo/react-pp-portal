@@ -1,15 +1,12 @@
-import React, { useContext, useState, useRef } from 'react'
-import styled from 'styled-components'
-import { TextField, InputAdornment } from '@material-ui/core'
-import { mdiUpload } from '@mdi/js'
-import Icon from '@mdi/react'
-import { store } from '../../store'
+import styled from "styled-components";
+import { TextField } from "@material-ui/core";
+
 const Title = styled.span`
   font-size: 18px;
   font-weight: bold;
   color: #444851;
   height: 30px;
-`
+`;
 const SelectField = styled(TextField)`
   .MuiInputLabel-root {
     font-weight: bold;
@@ -31,7 +28,7 @@ const SelectField = styled(TextField)`
       border-bottom: 2px solid #1194f6;
     }
   }
-`
+`;
 
 const Button = styled.button`
   cursor: pointer;
@@ -42,7 +39,7 @@ const Button = styled.button`
   font-size: 16px;
   background: white;
   padding: 0;
-`
+`;
 
 const DisBtn = styled.button`
   width: 165px;
@@ -52,7 +49,7 @@ const DisBtn = styled.button`
   outline: none;
   border: none;
   margin: 0 auto;
-`
+`;
 
 const DisText = styled.strong`
   font-size: 14px;
@@ -61,7 +58,7 @@ const DisText = styled.strong`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const NewUserBtn = styled.button`
   width: 165px;
@@ -72,7 +69,7 @@ const NewUserBtn = styled.button`
   border: none;
   outline: none;
   margin: 0 auto;
-`
+`;
 const NewUserText = styled.strong`
   font-size: 14px;
   color: #ffffff;
@@ -80,7 +77,7 @@ const NewUserText = styled.strong`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const CancelBtn = styled.button`
   width: 165px;
@@ -91,7 +88,7 @@ const CancelBtn = styled.button`
   border: none;
   outline: none;
   margin: 0 auto;
-`
+`;
 const CancelText = styled.strong`
   font-size: 14px;
   color: #444851;
@@ -99,86 +96,30 @@ const CancelText = styled.strong`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const BtnCnt = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 395px;
   margin: 172px auto 0 auto;
-`
+`;
 const InputCnt = styled.div`
   display: grid;
   margin: 45px auto 0 auto;
   width: 500px;
-`
+`;
 
-export default function Upload() {
-  const [file, setFile] = useState(null)
-  const { dispatch } = useContext(store)
-  const inputEl = useRef(null)
-  console.log(inputEl)
-  const handleChange = e => {
-    const ufile = e.target.files[0]
-    setFile({
-      file: ufile,
-      name: ufile.name
-    })
-  }
-  const handleCancel = () => {
-    setFile({ file: null })
-    dispatch({ type: 'LIST' })
-  }
-
-  return (
-    <>
-      <input
-        hidden
-        type="file"
-        onChange={e => handleChange(e)}
-        ref={inputEl}
-        accept=".csv, text/csv"
-      />
-      <InputCnt>
-        <Title>Batch Upload Prospects</Title>
-        <SelectField
-          label={`CSV File`}
-          margin="normal"
-          value={file ? file.name : 'No file chosen'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <Icon
-                  path={mdiUpload}
-                  title="Copy"
-                  size={0.8}
-                  rotate={360}
-                  color="#1194f6"
-                />
-                <Button onClick={() => inputEl.current.click()}>
-                  Choose file
-                </Button>
-              </InputAdornment>
-            ),
-            readOnly: true
-          }}
-        />
-        <BtnCnt>
-          <CancelBtn onClick={handleCancel}>
-            <CancelText>cancel</CancelText>
-          </CancelBtn>
-
-          {!file ? (
-            <DisBtn>
-              <DisText>upload</DisText>
-            </DisBtn>
-          ) : (
-            <NewUserBtn>
-              <NewUserText>{'upload'}</NewUserText>
-            </NewUserBtn>
-          )}
-        </BtnCnt>
-      </InputCnt>
-    </>
-  )
-}
+export {
+  Title,
+  SelectField,
+  Button,
+  DisBtn,
+  DisText,
+  NewUserBtn,
+  NewUserText,
+  CancelBtn,
+  CancelText,
+  BtnCnt,
+  InputCnt
+};
