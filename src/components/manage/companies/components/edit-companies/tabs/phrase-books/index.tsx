@@ -69,7 +69,8 @@ class PhraseBooks extends Component<IProps, IState> {
             this.setState({ phraseBooksData: result, loadingState: false })
           })
         }) */
-      /* start mock */
+
+			/* start mock */
 			if (document.cookie !== '') {
 				setTimeout(() => {
 					this.setState({
@@ -122,7 +123,7 @@ class PhraseBooks extends Component<IProps, IState> {
 	};
 
 	//TEMPORARY METHOD FOR ADDING PHRASEBOOK
-	addNewPhraseBook = (data: any) => {
+	addNewPhraseBook = () => {
 		document.cookie = 'add=true';
 	};
 
