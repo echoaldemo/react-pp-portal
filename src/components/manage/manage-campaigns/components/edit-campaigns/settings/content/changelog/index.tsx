@@ -6,7 +6,7 @@ import { Modal } from 'common-components';
 import ChangeLogTable from './components/change-log-table';
 import ModalDetails from './components/modal-details';
 import { getChangeLogData } from '../../../Functions';
-const ChangeLog = ({ match }: any) => {
+const ChangeLog = ({ match, history }: any) => {
 	const { slug } = match.params;
 
 	const [ data, setData ] = useState([]);
@@ -16,7 +16,6 @@ const ChangeLog = ({ match }: any) => {
 
 	useEffect(() => {
 		getChangeLogData(slug).then((result) => {
-			// console.log(result, 'xxxxx');
 			setData(result.data);
 			setOrigData(result.data);
 		});
@@ -27,6 +26,7 @@ const ChangeLog = ({ match }: any) => {
 	};
 
 	const handleActiveData = (data: any) => {
+		console.log(data, 'xxxxx');
 		setActiveData(data);
 		setOpenModal(true);
 	};

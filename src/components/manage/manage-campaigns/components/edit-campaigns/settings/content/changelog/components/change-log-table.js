@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 
 const classes = {
 	linkStyle: {
-		color: '#333'
+		color: '#333',
+		textDecoration: 'underline',
+		cursor: 'pointer'
 	}
 };
 const NoResult = () => {
@@ -31,6 +33,7 @@ export default class ChangeLogTable extends Component {
 
 		this.state = {};
 	}
+
 	render() {
 		return (
 			<div>
@@ -48,15 +51,14 @@ export default class ChangeLogTable extends Component {
 										{Object.keys(change.changed_fields).join(', ')}
 									</TableCell>
 									<TableCell className={cell}>
-										<Link
+										<span
 											onClick={() => {
 												this.props.setActiveData(change);
 											}}
-											to="#"
 											style={classes.linkStyle}
 										>
 											Details
-										</Link>
+										</span>
 									</TableCell>
 								</TableRow>
 							));

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, InputAdornment, Switch, Button, Typography } from '@material-ui/core';
 import { InputField } from 'common-components';
-import { getEditData } from '../../../Functions';
+import { getEditData } from '../../../../Functions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { LightTooltip } from '../../../../../../globalConstsVar';
+import { LightTooltip } from '../../../../../../../globalConstsVar';
 import { GroupOutlined, Delete as DeleteIcon, FileCopyOutlined as CopyIcon } from '@material-ui/icons/';
+
+import { AppContext } from 'contexts/CampaignContext';
+
 const MenuProps = {
 	PaperProps: {
 		style: {
@@ -30,7 +33,13 @@ export default function Info({ match }) {
 
 	return (
 		<div>
-			{console.log(state)}
+			<AppContext.Consumer>
+				{({ getAllRealms }) => {
+					let data = getAllRealms().then((data) => data);
+					console.log(data, 'xxxxx');
+					return <div>Context</div>;
+				}}
+			</AppContext.Consumer>
 			<Grid container spacing={5}>
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
 					<InputField
