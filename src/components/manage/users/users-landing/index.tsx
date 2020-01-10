@@ -17,6 +17,7 @@ const UserLanding = () => {
   const [loading, setLoading] = useState(true);
   const [is_new_user, setIsNewUser] = useState(false);
   const [is_user_edit, setIsUserEdit] = useState(false);
+  const [activeUserData, setActiveUserData] = useState([]);
 
   const classes = useStyles();
 
@@ -33,7 +34,9 @@ const UserLanding = () => {
     setUserData(users.slice(from, to));
   };
 
-  const editUser = () => {
+  const editUser = (id: any) => {
+    let activeData = users.filter((key: any) => key.uuid === id);
+    setActiveUserData(activeData[0]);
     setIsUserEdit(true);
   };
 
@@ -123,7 +126,7 @@ const UserLanding = () => {
         onClose={() => setIsNewUser(false)}
       />
 
-      <Edit open={is_user_edit} setOpen={setIsUserEdit} />
+      <Edit open={is_user_edit} setOpen={setIsUserEdit} data={activeUserData} />
 
       {renderHeader()}
       <Card square={true}>

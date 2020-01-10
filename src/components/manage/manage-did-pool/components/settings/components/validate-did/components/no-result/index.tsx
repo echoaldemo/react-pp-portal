@@ -63,38 +63,38 @@ const Body = styled.div`
 const theme = createMuiTheme({})
 
 const useStyles = makeStyles({
-  container: {
-    width: 'inherit',
-    height: '500px'
-  }
+	container: {
+		width: 'inherit',
+		height: '500px'
+	}
 })
 
-const NoResult = props => {
-  let classes = useStyles()
-  return (
-    <MuiThemeProvider theme={theme}>
-      <div className={classes.container}>
-        <Head>
-          <HeadText>ID's validation</HeadText>
-        </Head>
+const NoResult = () => {
+	let classes = useStyles()
+	return (
+		<MuiThemeProvider theme={theme}>
+			<div className={classes.container}>
+				<Head>
+					<HeadText>ID's validation</HeadText>
+				</Head>
 
-        <Body>
-          <Error
-            style={{
-              fontSize: '30px',
-              color: '#ff504d'
-            }}
-          />
+				<Body>
+					<Error
+						style={{
+							fontSize: '30px',
+							color: '#ff504d'
+						}}
+					/>
 
-          <SubText>
-            <strong>The validation cannot be fetch right now</strong>
-          </SubText>
+					<SubText>
+						<strong>The validation cannot be fetch right now</strong>
+					</SubText>
 
-          <Tag>Refresh the browser window and please try again.</Tag>
-        </Body>
-      </div>
-    </MuiThemeProvider>
-  )
+					<Tag>Refresh the browser window and please try again.</Tag>
+				</Body>
+			</div>
+		</MuiThemeProvider>
+	)
 }
 
 export default NoResult
