@@ -22,7 +22,7 @@ import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
-import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
+import GlobalPhraseBooks from "components/manage/global/global-phrase-books/GlobalPhraseBooks";
 import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
 
 export default function Routes() {
