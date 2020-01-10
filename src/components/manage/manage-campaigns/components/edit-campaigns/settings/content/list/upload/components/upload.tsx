@@ -21,7 +21,6 @@ const Upload: React.FC = () => {
   const [file, setFile] = useState<any>(null);
   const { dispatch }: any = useContext(store);
   const inputEl: any = useRef(null);
-  console.log(inputEl);
   const handleChange = (e: any) => {
     const ufile = e.target.files[0];
     setFile({
@@ -30,10 +29,9 @@ const Upload: React.FC = () => {
     });
   };
   const handleCancel = () => {
-    setFile({ file: null });
+    setFile(null);
     dispatch({ type: "LIST" });
   };
-
   return (
     <>
       <input
