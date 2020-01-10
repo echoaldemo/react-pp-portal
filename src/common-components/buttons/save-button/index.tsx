@@ -11,7 +11,7 @@ import { Save, SaveText, DisSave, DisText } from "../styles";
  */
 
 interface Props {
-	disabled?: Boolean;
+	disabled?: boolean;
 	children: React.ReactNode;
 	style?: any;
 	onClick?: any;
@@ -34,7 +34,7 @@ const SaveButton: React.FC<Props> = ({
 	const renderDisabled: Function = () => {
 		return (
 			<>
-				<DisSave onClick={handleClick} {...rest}>
+				<DisSave disabled={disabled} onClick={handleClick} {...rest}>
 					<DisText>{children}</DisText>
 				</DisSave>
 			</>
@@ -44,7 +44,7 @@ const SaveButton: React.FC<Props> = ({
 	const renderSave: Function = () => {
 		return (
 			<>
-				<Save onClick={handleClick} {...rest}>
+				<Save disabled={disabled} onClick={handleClick} {...rest}>
 					<SaveText>{children}</SaveText>
 				</Save>
 			</>
