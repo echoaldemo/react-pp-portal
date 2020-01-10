@@ -240,8 +240,7 @@ const Upload = props => {
         <CustomButton
           onClick={() => upload2Server()}
           style={{
-            margin: "18px auto 17px auto",
-            backgroundColor: "var(--saveColor)"
+            margin: "18px auto 17px auto"
           }}
         >
           <CustomText size="14px" color="light">

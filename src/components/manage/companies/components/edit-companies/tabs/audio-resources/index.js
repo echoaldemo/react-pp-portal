@@ -306,7 +306,15 @@ class AudioResources extends Component {
   // #endregion
   resetError = () => this.setState({ error: this.originalState.error });
   closeEditModal = async () => {
-    this.setState(this.originalState);
+    /* this.setState(this.originalState); */
+    this.setState({
+      uploadModal: false,
+      createModal: false,
+      create: "create",
+      openEdit: false,
+      save: "edit",
+      openDelete: false
+    });
     await this.getData();
     if (this.state.updated) {
     }
@@ -583,14 +591,13 @@ class AudioResources extends Component {
             justify="center"
             style={{ width: "inherit" }}
           >
-            <Dialog open={this.state.create === "created"}>
-              <SuccessModal
-                text={`You have added ${this.state.name} under audio resource.`}
-                btnText={"UPLOAD AUDIO"}
-                closeFn={this.closeEditModal}
-                btnFn={this.uploadModal}
-              />
-            </Dialog>
+            <SuccessModal
+              open={this.state.create === "created"}
+              text={`You have added ${this.state.name} under audio resource.`}
+              btnText={"UPLOAD AUDIO"}
+              closeFn={this.closeEditModal}
+              btnFn={this.uploadModal}
+            />
 
             {(this.state.create === "create" ||
               this.state.create === "creating") && (
@@ -735,31 +742,26 @@ class AudioResources extends Component {
 
         {/* Delete Modal */}
 
-        <Dialog open={this.state.status === "deleted"}>
-          <SuccessModal
-            text={`You have deleted ${this.state.name} under audio resource.`}
-            closeFn={this.closeEditModal}
-          />
-        </Dialog>
+        <SuccessModal
+          open={this.state.status === "deleted"}
+          text={`You have deleted ${this.state.name} under audio resource.`}
+          closeFn={this.closeEditModal}
+        />
 
-        {this.state.status === "deleting" && (
-          <Dialog open={true}>
-            <LoadingModal
-              text={"One moment. We're deleting the audio resource."}
-              cancelFn={this.deleteCancelled}
-            />
-          </Dialog>
-        )}
+        <LoadingModal
+          open={this.state.status === "deleting"}
+          text={"One moment. We're deleting the audio resource."}
+          cancelFn={this.deleteCancelled}
+        />
 
-        <Dialog open={this.state.openDelete && this.state.status === "delete"}>
-          <DeleteModal
-            header={`Delete ${this.state.name}`}
-            msg="audio resources"
-            name={this.state.name}
-            closeFn={this.closeEditModal}
-            delFn={this.delete}
-          />
-        </Dialog>
+        <DeleteModal
+          open={this.state.openDelete && this.state.status === "delete"}
+          header={`Delete ${this.state.name}`}
+          msg="audio resources"
+          name={this.state.name}
+          closeFn={this.closeEditModal}
+          delFn={this.delete}
+        />
 
         {/* END MODALS */}
 
