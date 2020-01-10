@@ -44,7 +44,7 @@ export default function Settings({ match, history }) {
 						<QA />
 					</TabPanel>
 					<TabPanel value={value} index={4}>
-						<ChangeLog />
+						<ChangeLog match={match} />
 					</TabPanel>
 				</div>
 			</Paper>
