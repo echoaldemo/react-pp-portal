@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { mockDataCampaigns } from './mockData';
 import { get } from '../utils/api';
+import { async, resolve } from 'q';
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -10,6 +11,8 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
+	getAllCompanies: any;
+	getAllRealms: any;
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
@@ -48,8 +51,20 @@ function CampaignsContextProvider({ children }: any) {
 				setLoading(false);
 			});
 	}
+
 	const paginate = (from: any, to: any) => {
 		setPaginateList(data.slice(from, to));
+	};
+
+	const getAllRealms = async () => {
+		let data = await fetch('https://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles')
+			.then((data) => data.json())
+			.then((data) => data);
+
+		return data;
+	};
+	const getAllCompanies = () => {
+		return [];
 	};
 	return (
 		<AppContext.Provider
@@ -61,7 +76,9 @@ function CampaignsContextProvider({ children }: any) {
 				paginate,
 				FilterApplyButton,
 				paginateList,
-				setPaginateList
+				setPaginateList,
+				getAllRealms,
+				getAllCompanies
 			}}
 		>
 			{children}
