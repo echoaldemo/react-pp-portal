@@ -1,65 +1,40 @@
-import React, { Component } from "react";
-import {
-  Dialog,
-  Button,
-  Collapse,
-  FormHelperText,
-  makeStyles
-} from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, Collapse, FormHelperText } from "@material-ui/core";
 import { Modal, InputField, LoadingModal } from "common-components";
-const useStyles = makeStyles(() => ({
-  btnStyle: {
-    backgroundColor: "#b6d36b",
-    color: "#FFF",
-    fontSize: "14px",
-    fontWeight: 700,
-    height: "40px",
-    borderRadius: "3px",
-    textTransform: "none",
-    paddingLeft: 15,
-    paddingRight: 15
-  },
-  underline: {
-    "&:before": {
-      borderBottom: "1px solid rgba(0,0,0,0.12)"
-    },
-    "&:after": {
-      borderBottom: "2px solid #1394f6"
-    },
-    "&&&&:hover:not($disabled):before": {
-      borderBottom: "1px solid #1194f6 !important"
-    }
-  }
-}));
+import { useStyles } from "../../styles/CreatePhraseBookModal.style";
 
-const defaultState = {
-  phrasebook_name: "",
-  phrasebook_nameError: false,
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
 
-  creationSuccess: false
-};
-const CreatePhraseBook = () => {
+const CreatePhraseBook = ({ open, onClose }: Props) => {
   const classes = useStyles();
+  const [phrasebookName, setPhraseBookName] = useState<string>("");
+  const [phrasebookNameError, setPhraseBookNameError] = useState<boolean>(
+    false
+  );
+
   const InputFieldProps = {
     autoFocus: true,
     label: "Phrase book name",
     required: true,
     fullWidth: true,
-    value: "",
+    value: phrasebookName,
     name: "phrasebook_name",
     onChange: (e: any) => {
-      console.log("");
+      handleFieldChanges(e);
     },
     autoComplete: "off",
-    onfocus: () => {
-      // this.setState({ phrasebook_nameError: false });
+    onFocus: () => {
+      setPhraseBookNameError(false);
     },
     onBlur: () => {
-      // if (!this.state.phrasebook_name.length > 0) {
-      //   this.setState({ phrasebook_nameError: true });
-      // }
+      if (phrasebookName.length === 0) {
+        setPhraseBookNameError(true);
+      }
     },
-    error: false,
+    error: phrasebookNameError,
     classes: { underline: classes.underline }
   };
 
@@ -70,9 +45,9 @@ const CreatePhraseBook = () => {
       console.log(e);
     }
   };
-  // handleFieldChanges = e => {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // };
+  const handleFieldChanges = (e: any) => {
+    setPhraseBookName(e.target.value);
+  };
 
   // submitPhraseBook = e => {
   //   e.preventDefault();
@@ -100,11 +75,7 @@ const CreatePhraseBook = () => {
           console.log("");
         }}
       />
-      <Modal
-        title="Create Phrase Book"
-        open={false}
-        onClose={() => console.log("")}
-      >
+      <Modal title="Create Phrase Book" open={open} onClose={onClose}>
         <form
           onSubmit={e => {
             console.log(e);
@@ -118,29 +89,8 @@ const CreatePhraseBook = () => {
           }}
         >
           <div style={{ width: "100%", paddingBottom: 45 }}>
-            <InputField
-              // autoFocus={true}
-              // label="Phrase book name"
-              // required
-              // fullWidth
-              // value={""}
-              // name="phrasebook_name"
-              // onChange={e => {
-              //   this.handleFieldChanges(e);
-              // }}
-              // autoComplete="off"
-              // onFocus={() => {
-              //   this.setState({ phrasebook_nameError: false });
-              // }}
-              // onBlur={() => {
-              //   if (!this.state.phrasebook_name.length > 0) {
-              //     this.setState({ phrasebook_nameError: true });
-              //   }
-              // }}
-              // error={false}
-              {...InputFieldProps}
-            />
-            <Collapse in={false} timeout={500}>
+            <InputField {...InputFieldProps} />
+            <Collapse in={phrasebookNameError} timeout={500}>
               <FormHelperText style={{ color: "red" }}>
                 Phrase book is invalid
               </FormHelperText>

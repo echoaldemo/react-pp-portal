@@ -14,6 +14,7 @@ const GlobalPhraseBooks = () => {
   const [pb, setpb] = useState<any>([]);
   const [paginateList, setPaginateList] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [openNew, setOpenNew] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +56,7 @@ const GlobalPhraseBooks = () => {
         />
         <HeaderButton
           buttonText="New Phrase Book"
-          openFunction={() => console.log("")}
+          openFunction={() => setOpenNew(true)}
         />
       </div>
       <Paper>
@@ -80,7 +81,7 @@ const GlobalPhraseBooks = () => {
           </>
         )}
       </Paper>
-      <CreatePhraseBook />
+      <CreatePhraseBook open={openNew} onClose={() => setOpenNew(false)} />
     </>
   );
 };
