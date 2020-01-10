@@ -6,14 +6,15 @@ import {
   Realms,
   Campaigns,
   PageNotFound,
-  EditCampaigns,
   UserLanding,
   RealmSettingsPage,
-  Companies,
   EditCompanies,
+  Companies,
   Settings,
   Pitch,
-  DataPosting
+  DataPosting,
+  SMSLandingPage,
+  Dashboard
 } from 'components'
 import { PublicRoute, GatewayRoute, PrivateRoute } from './'
 import DidPool from 'components/manage/manage-did-pool'
@@ -44,6 +45,10 @@ export default function Routes() {
 
         {/* manage/campaign routes */}
         <PrivateRoute path="/manage/campaigns" component={Campaigns} />
+        <PrivateRoute
+          path="/manage/campaign/edit/:slug/:uuid/home"
+          component={Dashboard}
+        />
         <PrivateRoute
           path="/manage/campaign/edit/:slug/:uuid/settings"
           component={Settings}
@@ -96,6 +101,11 @@ export default function Routes() {
         <PrivateRoute
           path="/manage/team/edit/:uuid/"
           component={TeamSettings}
+        />
+        <PrivateRoute
+          exact
+          path="/manage/sms-dashboard"
+          component={SMSLandingPage}
         />
 
         <PublicRoute path="/404" component={PageNotFound} />
