@@ -167,4 +167,4 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default styles;
+export default useStyles;

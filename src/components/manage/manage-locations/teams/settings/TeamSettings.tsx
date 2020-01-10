@@ -1,42 +1,80 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import NavTabs from "../../../../common-components/nav-tabs/Settings-menu-bar";
-import { Paper, Grid, Button } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import InputBase from "@material-ui/core/InputBase";
-import Collapse from "@material-ui/core/Collapse";
+import {
+  Paper,
+  Grid,
+  Button,
+  Dialog,
+  CircularProgress,
+  FormHelperText,
+  Select,
+  MenuItem,
+  Collapse,
+  InputBase,
+  InputAdornment,
+  InputLabel,
+  Input,
+  FormControl,
+  Typography
+} from "@material-ui/core";
+
 import DeleteIcon from "@material-ui/icons/Delete";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import FormHelperText from "@material-ui/core/FormHelperText";
 
 /*COMPONENTS*/
+import {
+  BackButton,
+  TableLoader,
+  DeleteModal,
+  StatusLabel
+} from "common-components";
 import Search from "../../common-components/Search";
 
-import { get, patch, remove, getGroups } from "../../../../../utils/api";
+// import { get, patch, remove, getGroups } from "../../../../../utils/api";
+import { get, patch, remove } from "../../../../../utils/api";
 
 import styles from "./TeamSettings.styles.js";
 import Toast from "../../common-components/Toast";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import UserSettings from "./UserSettings";
-import TableLoader from "../../../../common-components/table-loader/TableLoader";
-import { Dialog } from "@material-ui/core";
-import DeleteModal from "../../../../common-components/delete-modal/DeleteModal";
 import { Redirect } from "react-router-dom";
 
-class TeamSettings extends Component {
-  constructor(props) {
+interface Props {
+  match: any;
+  classes: any;
+}
+interface State {
+  active: boolean;
+  location: any;
+  team: any;
+  teamLeader: any;
+  dataLoaded: boolean;
+  locationList: any;
+  leaderList: any;
+  teamName: string;
+  saveDisable: boolean;
+  nameError: boolean;
+  selectedLocation: any | null;
+  selectedLeader: any | null;
+  openToast: boolean;
+  saveLoader: boolean;
+  collapse: boolean;
+  redirect: boolean;
+  userList: any;
+  voices: any;
+  openDelete: boolean;
+}
+class TeamSettings extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
 
     this.state = {
+      openDelete: false,
+      voices: [],
       active: false,
       location: [],
       team: [],
+      userList: [],
       teamLeader: [],
-      dataLoaded: false,
+      dataLoaded: true,
       locationList: [],
       leaderList: [],
       teamName: "",
@@ -47,16 +85,14 @@ class TeamSettings extends Component {
       openToast: false,
       saveLoader: false,
       collapse: false,
-      openToast: false,
       redirect: false
     };
-    this.initialState = {};
   }
 
   async componentDidMount() {
     const team = this.props.match.params.uuid;
     let leader, location;
-    const data = await get(`/identity/team/${team}`).then(result => {
+    const data = await get(`/identity/team/${team}`).then((result: any) => {
       leader = result.data.leader;
       location = result.data.location;
       this.setState({
@@ -65,29 +101,32 @@ class TeamSettings extends Component {
       });
     });
     if (leader) {
-      await get(`/identity/user/manage/${leader}`).then(lead => {
+      await get(`/identity/user/manage/${leader}`).then((lead: any) => {
         this.setState({
           teamLeader: lead.data,
           selectedLeader: lead.data
         });
       });
     }
-    const data3 = await get(`/identity/location/${location}`).then(loc => {
-      this.setState({
-        location: loc.data,
-        selectedLocation: loc.data.uuid
-      });
-    });
+    const data3 = await get(`/identity/location/${location}`).then(
+      (loc: any) => {
+        this.setState({
+          location: loc.data,
+          selectedLocation: loc.data.uuid
+        });
+      }
+    );
     const data4 = await get("/identity/location/list/", {
       order_by: "-datetime_modified"
-    }).then(res => {
+    }).then((res: any) => {
       this.setState({
         locationList: res.data
       });
     });
-    const data5 = await getGroups(
+    // const data5 = await getGroups(
+    const data5 = await get(
       "/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6&groups=7&limit=1000"
-    ).then(leads => {
+    ).then((leads: any) => {
       this.setState({
         leaderList: leads.data.results
       });
@@ -95,7 +134,7 @@ class TeamSettings extends Component {
     //get all users
     const data7 = await get("/identity/user/manage/list/", {
       editable: true
-    }).then(users => {
+    }).then((users: any) => {
       this.setState({ userList: users.data.results });
     });
 
@@ -103,7 +142,6 @@ class TeamSettings extends Component {
       this.setState({
         dataLoaded: true
       });
-      this.initialState = this.state;
     });
   }
 
@@ -113,7 +151,7 @@ class TeamSettings extends Component {
     });
   };
 
-  selectLeader = leader => {
+  selectLeader = (leader: any) => {
     this.setState({
       selectedLeader: leader,
       saveDisable: false,
@@ -121,9 +159,9 @@ class TeamSettings extends Component {
     });
   };
 
-  setDownshift = downshift => {
-    this.downshift = downshift;
-  };
+  // setDownshift = downshift => {
+  //   this.downshift = downshift;
+  // };
 
   updateTeam = () => {
     this.setState({ saveLoader: true });
@@ -133,7 +171,7 @@ class TeamSettings extends Component {
       leader: this.state.selectedLeader.uuid,
       name: this.state.teamName
     };
-    patch(`/identity/team/${team}/`, updateData).then(async res => {
+    patch(`/identity/team/${team}/`, updateData).then(async () => {
       await this.componentDidMount();
       this.setState({
         saveDisable: true,
@@ -141,14 +179,14 @@ class TeamSettings extends Component {
         saveLoader: false,
         collapse: false
       });
-      this.downshift.clearSelection();
+      // this.downshift.clearSelection();
     });
   };
 
   deleteTeam = () => {
     const team = this.props.match.params.uuid;
     this.setState({ dataLoaded: false });
-    remove(`/identity/team/${team}/`).then(res => {
+    remove(`/identity/team/${team}/`).then(() => {
       this.setState({ redirect: true });
     });
   };
@@ -159,15 +197,15 @@ class TeamSettings extends Component {
     if (this.state.dataLoaded) {
       return (
         <div>
-          <NavTabs
-            data={team}
-            tabnames={[]}
-            history={location}
-            back={{
-              name: "Back to Team location",
-              url: `/manage/locations/edit/${location.uuid}`
-            }}
+          <BackButton
+            text="Back to Team location"
+            to={`/manage/locations/edit/${location.uuid}`}
           />
+          <div className="title-container">
+            <Typography className="edit-title">team</Typography>
+            &emsp;
+            <StatusLabel status={false} />
+          </div>
           <Paper square={true} className={classes.paper}>
             <div style={{ width: "508px" }}>
               <Grid container>
@@ -193,7 +231,7 @@ class TeamSettings extends Component {
                       Team name
                     </InputLabel>
                     <Input
-                      inputRef={nameInput => (this.nameInput = nameInput)}
+                      // inputRef={nameInput => (this.nameInput = nameInput)}
                       onChange={e => {
                         if (e.target.value.length === 0) {
                           this.setState({
@@ -257,7 +295,7 @@ class TeamSettings extends Component {
                         this.setState({ collapse: true });
                       }}
                     >
-                      {locationList.map(loc => (
+                      {locationList.map((loc: any) => (
                         <MenuItem value={loc.uuid}>{loc.name}</MenuItem>
                       ))}
                     </Select>
@@ -342,7 +380,7 @@ class TeamSettings extends Component {
                 >
                   <FormControl fullWidth disabled>
                     <Search
-                      setRef={this.setDownshift}
+                      // setRef={this.setDownshift}
                       searchText="Search for team leader"
                       data={this.state.leaderList}
                       searchFunction={this.selectLeader}
@@ -374,7 +412,6 @@ class TeamSettings extends Component {
                       style={{
                         margin: 8
                       }}
-                      shrink="false"
                       value={" "}
                       id="delete"
                       endAdornment={
@@ -432,9 +469,8 @@ class TeamSettings extends Component {
                     <button
                       className={`${classes.button} ${classes.cancel}`}
                       onClick={() => {
-                        this.setState(this.initialState);
-                        this.nameInput.value = team.name;
-                        this.downshift.clearSelection();
+                        // this.nameInput.value = team.name;
+                        // this.downshift.clearSelection();
                       }}
                     >
                       CANCEL
@@ -454,21 +490,17 @@ class TeamSettings extends Component {
             vertical={"top"}
             horizontal={"right"}
           />
-          <Dialog
+
+          <DeleteModal
             open={this.state.openDelete}
-            disableBackdropClick
-            disableEscapeKeyDown
-          >
-            <DeleteModal
-              header="Delete Team"
-              msg="team"
-              name={this.state.team.name}
-              closeFn={() => {
-                this.setState({ openDelete: false });
-              }}
-              delFn={this.deleteTeam}
-            />
-          </Dialog>
+            header="Delete Team"
+            msg="team"
+            name={this.state.team.name}
+            closeFn={() => {
+              this.setState({ openDelete: false });
+            }}
+            delFn={this.deleteTeam}
+          />
         </div>
       );
     } else if (this.state.redirect) {
