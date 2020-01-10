@@ -21,7 +21,7 @@ const styles = {
   }
 };
 
-function renderInput(inputProps) {
+function renderInput(inputProps: any) {
   const { InputProps, classes, ref, ...other } = inputProps;
   return (
     <TextField
@@ -40,7 +40,12 @@ function renderInput(inputProps) {
     />
   );
 }
-function getHighlightedText(fname, lname, user_name, higlight) {
+function getHighlightedText(
+  fname: any,
+  lname: any,
+  user_name: any,
+  higlight: any
+) {
   // Split text on higlight term, include term itself into parts, ignore case
   var parts = fname.split(new RegExp(`(${higlight})`, "gi"));
   var part2 = lname.split(new RegExp(`(${higlight})`, "gi"));
@@ -48,7 +53,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
   return (
     <React.Fragment>
       <span>
-        {parts.map(part =>
+        {parts.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -58,7 +63,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       </span>
       &nbsp;
       <span>
-        {part2.map(part =>
+        {part2.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -68,7 +73,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       </span>
       &nbsp; | &nbsp;
       <span>
-        {username.map(part =>
+        {username.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -79,7 +84,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
     </React.Fragment>
   );
 }
-function renderSuggestion(suggestionProps) {
+function renderSuggestion(suggestionProps: any) {
   const {
     suggestion,
     index,
@@ -105,23 +110,31 @@ function renderSuggestion(suggestionProps) {
     </MenuItem>
   );
 }
-class Search extends Component {
-  constructor(props) {
+interface Props {
+  searchText: string;
+  data: any;
+  searchFunction: any;
+  voices?: any;
+  searchOption?: string;
+}
+interface State {}
+class Search extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
   }
   componentDidMount() {
-    const { setRef } = this.props;
+    const { setRef }: any = this.props;
     if (setRef && typeof setRef === "function") {
-      setRef(this.downshift);
+      // setRef(this.downshift);
     }
   }
-  getSuggestions = (value, { showEmpty = false } = {}) => {
+  getSuggestions = (value: any, { showEmpty = false } = {}) => {
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
     return inputLength === 0 && !showEmpty
       ? []
-      : this.props.data.filter(suggestion => {
+      : this.props.data.filter((suggestion: any) => {
           const splitName = suggestion.first_name.split(" ");
           const splitLName = suggestion.last_name.split(" ");
           const keep =
@@ -139,12 +152,12 @@ class Search extends Component {
         });
   };
   render() {
-    let popperNode;
-    const { classes } = this.props;
+    let popperNode: any;
+    const { classes }: any = this.props;
     return (
       <div style={{ width: "100%" }}>
         <Downshift
-          ref={downshift => (this.downshift = downshift)}
+          // ref={downshift => (this.downshift = downshift)}
           itemToString={selectedItem =>
             selectedItem
               ? `${selectedItem.first_name} ${selectedItem.last_name} | ${selectedItem.username}`
@@ -182,18 +195,14 @@ class Search extends Component {
                     onChange,
                     clearSelection
                   },
-                  InputLabelProps: getLabelProps({ shrink: true }),
+                  //  getLabelProps({ shrink: true })
+                  InputLabelProps: getLabelProps(),
                   inputProps,
-                  ref: node => {
+                  ref: (node: any) => {
                     popperNode = node;
                   }
                 })}
-                <Popper
-                  open={isOpen}
-                  anchorEl={popperNode}
-                  id={"suggestions"}
-                  styles={{ zIndex: 0 }}
-                >
+                <Popper open={isOpen} anchorEl={popperNode} id={"suggestions"}>
                   <div
                     {...(isOpen
                       ? getMenuProps({}, { suppressRefError: true })
@@ -209,7 +218,7 @@ class Search extends Component {
                       }}
                     >
                       {this.getSuggestions(inputValue).map(
-                        (suggestion, index) =>
+                        (suggestion: any, index: number) =>
                           renderSuggestion({
                             suggestion,
                             index,

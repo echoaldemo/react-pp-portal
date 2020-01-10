@@ -20,7 +20,8 @@ import {
   LoadingModal,
   SuccessModal,
   TableLoader,
-  BackButton
+  BackButton,
+  StatusLabel
 } from "common-components";
 import Search from "../common-components/Search";
 import Toast from "../common-components/Toast";
@@ -28,6 +29,7 @@ import Teams from "../teams/Teams";
 import NewTeam from "./addNewTeam";
 
 // import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
+import { get, patch, post, cancel } from "../../../../utils/api";
 
 import styles from "./LocationSettings.styles.js";
 
@@ -60,47 +62,58 @@ class LocationSettings extends Component {
     };
   }
 
-  // async componentDidMount() {
-  //   await get(`/identity/location/${this.props.match.params.uuid}/`).then(
-  //     result => {
-  //       this.setState({
-  //         location: result.data,
-  //         originalData: {
-  //           name: result.data.name,
-  //           leader: result.data.leader,
-  //           active: result.data.active
-  //         },
-  //         updateData: {
-  //           name: result.data.name,
-  //           leader: result.data.leader,
-  //           active: result.data.active
-  //         }
-  //       });
-  //       if (result.data.leader) {
-  //         get(`/identity/user/manage/${result.data.leader}`).then(res => {
-  //           this.setState({
-  //             locationLeader: res.data
-  //           });
-  //         });
-  //       }
-  //     }
-  //   );
-  //   await get(`/identity/team/list`, {
-  //     location: this.props.match.params.uuid
-  //   }).then(result => {
-  //     this.setState({
-  //       locationsTeams: result.data
-  //     });
-  //   });
-  //   await getGroups(
-  //     `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
-  //   ).then(result => {
-  //     this.setState({
-  //       leader: result.data.results,
-  //       dataLoaded: true
-  //     });
-  //   });
-  // }
+  async componentDidMount() {
+    //   await get(`/identity/location/${this.props.match.params.uuid}/`).then(
+    //     result => {
+    //       this.setState({
+    //         location: result.data,
+    //         originalData: {
+    //           name: result.data.name,
+    //           leader: result.data.leader,
+    //           active: result.data.active
+    //         },
+    //         updateData: {
+    //           name: result.data.name,
+    //           leader: result.data.leader,
+    //           active: result.data.active
+    //         }
+    //       });
+    //       if (result.data.leader) {
+    //         get(`/identity/user/manage/${result.data.leader}`).then(res => {
+    //           this.setState({
+    //             locationLeader: res.data
+    //           });
+    //         });
+    //       }
+    //     }
+    //   );
+    // await get(`/identity/team/list`, {
+    //   location: this.props.match.params.uuid
+    // }).then(result => {
+    //   this.setState({
+    //     locationsTeams: result.data
+    //   });
+    // });
+    await get(
+      ` http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`,
+      {
+        location: this.props.match.params.uuid
+      }
+    ).then(result => {
+      this.setState({
+        locationsTeams: result.data
+      });
+    });
+
+    //   await getGroups(
+    //     `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
+    //   ).then(result => {
+    //     this.setState({
+    //       leader: result.data.results,
+    //       dataLoaded: true
+    //     });
+    //   });
+  }
 
   fetchLocationsTeams = () => {
     // get(`/identity/team/list/`, {
@@ -220,6 +233,11 @@ class LocationSettings extends Component {
       return (
         <div>
           <BackButton text="Back to location" to="/manage/locations/" />
+          <div className="title-container">
+            <Typography className="edit-title">test-location</Typography>
+            &emsp;
+            <StatusLabel status={false} />
+          </div>
           <Paper square={true} className={classes.paper}>
             <div style={{ width: "508px" }}>
               <Grid container>
@@ -493,13 +511,14 @@ class LocationSettings extends Component {
               </Grid>
             </div>
           </Paper>
-
           <div style={{ marginTop: 50 }}>
             <Typography variant="h5">Location teams</Typography>
-            <HeaderButton
-              buttonText="New team"
-              openFunction={this.handleOpenNewTeam}
-            />
+            <div style={{ marginLeft: "auto" }}>
+              <HeaderButton
+                buttonText="New team"
+                openFunction={this.handleOpenNewTeam}
+              />
+            </div>
           </div>
           <Paper style={{ height: "auto", marginTop: "2%" }}>
             <Teams

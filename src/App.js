@@ -1,10 +1,12 @@
 import React from 'react';
 import { Routes } from './router';
+import { CampaignsContextProvider } from 'contexts/CampaignContext';
 function App() {
 	return (
 		<div>
-			{/* Wrap route with context api */}
-			<Routes />
+			<CampaignsContextProvider>
+				<Routes />
+			</CampaignsContextProvider>
 		</div>
 	);
 }
