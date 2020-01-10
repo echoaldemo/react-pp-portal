@@ -18,4 +18,28 @@ async function getEditData(uuid) {
 	return response;
 }
 
-export { getEditData };
+async function getChangeLogData(slug) {
+	const response = await axios
+		.post(
+			`https://dev-api.perfectpitchtech.com/identity/changelog/filter/`,
+			{
+				campaign: slug
+			},
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
+				}
+			}
+		)
+		.then((result) => {
+			return result.data;
+		})
+		.catch((err) => {
+			return err;
+		});
+
+	return response;
+}
+
+export { getEditData, getChangeLogData };
