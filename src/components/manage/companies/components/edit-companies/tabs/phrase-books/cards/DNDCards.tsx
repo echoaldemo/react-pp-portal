@@ -44,36 +44,36 @@ interface IProps {
 	card1Data: any;
 	card2Data: any;
 	card3Data: any;
-	setActiveData: any;
-	saveActiveSegment: any;
+	setActiveData: Function;
+	saveActiveSegment: Function;
 	card1Title: string;
 	card2Title: string;
 	card3Title: string;
 	card3Popover?: any;
-	addFunction1?: any;
-	addButton1?: any;
-	addButton2?: any;
-	addFunction2?: any;
-	addButton3?: any;
-	addFunction3?: any;
+	addButton1?: boolean;
+	addFunction1?: Function;
+	addButton2?: boolean;
+	addFunction2?: Function;
+	addButton3?: boolean;
+	addFunction3?: Function;
 }
 
 interface IState {
-	card1DataOrig: any;
-	card2DataOrig: any;
-	card3DataOrig: any;
-	card1PrevData: any;
-	card2PrevData: any;
-	card3PrevData: any;
-	card1Data: any;
-	card2Data: any;
-	card3Data: any;
-	saveSetting: any;
+	card1DataOrig: Array<Object>;
+	card2DataOrig: Array<Object>;
+	card3DataOrig: Array<Object>;
+	card1PrevData: Array<Object>;
+	card2PrevData: Array<Object>;
+	card3PrevData: Array<Object>;
+	card1Data: Array<Object>;
+	card2Data: Array<Object>;
+	card3Data: Array<Object>;
+	saveSetting: boolean;
 	anchorEl: any;
-	open: any;
+	open: boolean;
 	anchorElCard1: any;
-	openCard1: any;
-	activeData: any;
+	openCard1: boolean;
+	activeData: Array<Object>;
 }
 
 class DNDCards extends PureComponent<IProps, IState> {
