@@ -14,8 +14,8 @@ const NewOptionGroup: React.FC<Props> = ({ closeCreate, createFn }) => {
 		<Modal open={state.groupState.create} title="Create option group" onClose={closeCreate}>
 			<InputField
 				inputProps={{ 'data-cy': 'option-group-name' }}
-				value={state.name}
-				error={state.errMsg ? true : false}
+				value={state.groupState.name}
+				error={state.groupState.errMsg ? true : false}
 				onChange={e => {
 					if (e.target.value) {
 						dispatch({
@@ -35,7 +35,7 @@ const NewOptionGroup: React.FC<Props> = ({ closeCreate, createFn }) => {
 				label="Group name"
 				required
 				margin="normal"
-				helperText={state.errMsg ? state.errMsg : ' '}
+				helperText={state.groupState.errMsg ? state.groupState.errMsg : ' '}
 				onBlur={e => {
 					if (e.target.value) {
 						dispatch({

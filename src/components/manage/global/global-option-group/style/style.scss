@@ -13,3 +13,72 @@
   justify-content: center;
   margin: 30px 0 6px 0;
 }
+
+.edit-container {
+  margin-top: 36px;
+  border-radius: 3px;
+  box-shadow: 0 0 6px 1px rgba(155, 155, 155, 0.18);
+  background-color: #ffffff;
+  padding: 22px;
+}
+
+.edit-container-2 {
+  min-height: 50vh;
+  height: auto;
+  border-radius: 3px;
+  border: solid 1px #eeeeee;
+}
+
+.add-btn {
+  strong {
+    text-transform: none;
+  }
+}
+
+.cog-icon {
+  font-size: 18px;
+  margin-right: 4px;
+}
+
+.header-cont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  margin: 0 22px;
+}
+
+.header-name {
+  font-weight: 600;
+  font-size: 18px;
+  color: #444851;
+}
+
+.header-icon {
+  text-decoration: underline;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header-action-cont {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  button {
+    margin-left: 36px;
+  }
+  margin: 0 22px;
+}
+
+.cancel-btn {
+  background-color: #eeeeee;
+  strong {
+    color: #444851;
+  }
+}
+
+.del-btn {
+  background: #ff504d;
+  text-transform: none;
+}
