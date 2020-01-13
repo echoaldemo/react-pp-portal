@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, InputAdornment, Switch, Button, Typography, MenuItem, Checkbox } from '@material-ui/core';
-import { InputField, TableLoader } from 'common-components';
+import { InputField, TableLoader, SaveButton } from 'common-components';
 import { getEditData } from '../../../../Functions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { LightTooltip } from '../../../../../../../globalConstsVar';
@@ -26,15 +26,6 @@ export default function Info({ match }) {
 	const [ realms, setRealms ] = useState([]);
 
 	const [ loading, setLoading ] = useState(false);
-	const SwitchAd = () => {
-		return (
-			<Switch
-				color="default"
-				checked={state.active}
-				onChange={(e) => setState({ ...state, active: e.target.checked })}
-			/>
-		);
-	};
 
 	function filterRealm(data, initialRealms) {
 		let newArr = [];
@@ -69,8 +60,72 @@ export default function Info({ match }) {
 			});
 	}, []);
 
-	function EditForm() {
+	return (
+		<div>
+			{loading ? (
+				<TableLoader />
+			) : (
+				<EditForm
+					state={state}
+					setState={setState}
+					errMsg={errMsg}
+					setErrMsg={setErrMsg}
+					addRealms={addRealms}
+					setAddRealms={setAddRealms}
+					addCompany={addCompany}
+					setAddCompany={setAddCompany}
+					realms={realms}
+					setRealms={setRealms}
+				/>
+			)}
+		</div>
+	);
+}
+
+const CopyUUID = ({ uuid }) => {
+	const [ copy, setCopy ] = useState(false);
+
+	return (
+		<InputAdornment position="end">
+			<CopyToClipboard text={uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
+				{copy ? (
+					<LightTooltip title="UUID Copied!" placement="top">
+						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
+					</LightTooltip>
+				) : (
+					<LightTooltip title="Copy UUID" placement="top">
+						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
+					</LightTooltip>
+				)}
+			</CopyToClipboard>
+		</InputAdornment>
+	);
+};
+
+const EditForm = ({
+	state,
+	setState,
+	errMsg,
+	setErrMsg,
+	addRealms,
+	setAddRealms,
+	addCompany,
+	setAddCompany,
+	realms,
+	setRealms
+}) => {
+	const SwitchAd = () => {
 		return (
+			<Switch
+				color="default"
+				checked={state.active}
+				onChange={(e) => setState({ ...state, active: e.target.checked })}
+			/>
+		);
+	};
+
+	return (
+		<form>
 			<Grid container spacing={5}>
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
 					<InputField
@@ -258,28 +313,9 @@ export default function Info({ match }) {
 					/>
 				</Grid>
 			</Grid>
-		);
-	}
-
-	return <div>{loading ? <TableLoader /> : <EditForm />}</div>;
-}
-
-const CopyUUID = ({ uuid }) => {
-	const [ copy, setCopy ] = useState(false);
-
-	return (
-		<InputAdornment position="end">
-			<CopyToClipboard text={uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
-				{copy ? (
-					<LightTooltip title="UUID Copied!" placement="top">
-						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
-					</LightTooltip>
-				) : (
-					<LightTooltip title="Copy UUID" placement="top">
-						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
-					</LightTooltip>
-				)}
-			</CopyToClipboard>
-		</InputAdornment>
+			<Grid>
+				<SaveButton>asds</SaveButton>
+			</Grid>
+		</form>
 	);
 };
