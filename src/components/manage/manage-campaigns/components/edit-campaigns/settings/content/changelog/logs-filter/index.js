@@ -2,7 +2,7 @@ import { FormControl, Grid, InputLabel, MenuItem, Select, withStyles } from '@ma
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { KeyboardArrowDown } from '@material-ui/icons';
 import React, { Component } from 'react';
-import { CustomButton } from 'common-components';
+import { SaveButton } from 'common-components';
 import SearchBar from './components/SearchBar';
 import Styles from './indexStyle';
 
@@ -170,14 +170,14 @@ class LogsFilter extends Component {
 								alignItems: 'center'
 							}}
 						>
-							<CustomButton
+							<SaveButton
 								style={{ backgroundColor: '#7C8A97', color: '#eeeeee' }}
 								onClick={() => {
 									this.filterData();
 								}}
 							>
 								Apply
-							</CustomButton>
+							</SaveButton>
 						</Grid>
 					</Grid>
 				</div>

@@ -79,6 +79,9 @@ code {
 .pb-normal {
 	padding-bottom: 25px;
 }
+.pt-normal {
+	padding-top: 16px;
+}
 .p-normal {
 	padding: 15px;
 }
@@ -105,4 +108,9 @@ code {
 }
 .MuiSwitch-track {
 	background-color: #ccc !important;
+}
+.display-normal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

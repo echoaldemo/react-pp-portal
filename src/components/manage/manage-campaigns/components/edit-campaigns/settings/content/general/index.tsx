@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { PanelTabs, Panel } from 'common-components';
-import Info from './Info';
-export default function General({ match }) {
-	const [ tab, setTab ] = useState(0);
+import Info from './components/Info';
+import DialerParameters from './components/DialerParameters';
 
+export default function General({ match }: any) {
+	const [ tab, setTab ] = useState(0);
 	return (
 		<div className="p-24 c-default">
 			<PanelTabs labels={[ 'INFO', 'DIALER PARAMETERS' ]} tab={tab} setTab={setTab} />
@@ -11,7 +12,7 @@ export default function General({ match }) {
 				<Info match={match} />
 			</Panel>
 			<Panel value={tab} index={1}>
-				asdas
+				<DialerParameters />
 			</Panel>
 		</div>
 	);
