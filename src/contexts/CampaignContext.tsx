@@ -56,6 +56,21 @@ function CampaignsContextProvider({ children }: any) {
 		setPaginateList(data.slice(from, to));
 	};
 
+	const getAllRealms = async () => {
+		let data = await fetch('https://dev-api.perfectpitchtech.com/identity/realm/list/', {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
+			}
+		})
+			.then((data) => data.json())
+			.then((data) => data);
+		return data;
+	};
+
+	const getAllCompanies = () => {
+		return [];
+	};
 	return (
 		<AppContext.Provider
 			value={{
