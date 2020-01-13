@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { mockDataCampaigns } from './mockData';
-import { get } from '../utils/api';
-import { async, resolve } from 'q';
+import React, { useState, useEffect } from "react";
+import { mockDataCampaigns } from "./mockData";
+import { get } from "../utils/api";
+import { async, resolve } from "q";
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -18,9 +18,9 @@ type ContextProps = {
 const AppContext = React.createContext<Partial<ContextProps>>({});
 
 function CampaignsContextProvider({ children }: any) {
-	const [ data, setData ] = useState(mockDataCampaigns);
-	const [ paginateList, setPaginateList ] = useState(mockDataCampaigns);
-	const [ loading, setLoading ] = useState(false);
+	const [data, setData] = useState(mockDataCampaigns);
+	const [paginateList, setPaginateList] = useState(mockDataCampaigns);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -31,16 +31,16 @@ function CampaignsContextProvider({ children }: any) {
 
 	function FilterApplyButton(params: any) {
 		var parameter = {
-			...params.sortby !== ' ' && { order_by: params.sortby },
-			...params.active !== ' ' && { active: params.active },
-			...params.company !== ' ' && { company: params.company },
-			...params.realm !== ' ' && { realms: params.realm },
-			...params.campaign !== ' ' && { campaigns: params.campaign },
-			...params.roles !== ' ' && { groups: params.roles },
-			...params.hasCompany !== ' ' && { no_company: !params.hasCompany }
+			...(params.sortby !== " " && { order_by: params.sortby }),
+			...(params.active !== " " && { active: params.active }),
+			...(params.company !== " " && { company: params.company }),
+			...(params.realm !== " " && { realms: params.realm }),
+			...(params.campaign !== " " && { campaigns: params.campaign }),
+			...(params.roles !== " " && { groups: params.roles }),
+			...(params.hasCompany !== " " && { no_company: !params.hasCompany })
 		};
 
-		get('/identity/campaign/list/', parameter)
+		get("/identity/campaign/list/", parameter)
 			.then((res: any) => {
 				setData(res.data);
 				setPaginateList(res.data);
@@ -57,12 +57,20 @@ function CampaignsContextProvider({ children }: any) {
 	};
 
 	const getAllRealms = async () => {
-		let data = await fetch('https://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles')
-			.then((data) => data.json())
-			.then((data) => data);
-
+		let data = await fetch(
+			"https://dev-api.perfectpitchtech.com/identity/realm/list/",
+			{
+				headers: {
+					"Content-Type": "application/json",
+					"Authorization": "token f6620e466b3902fa6f2edf7f8d28332bd875c79d"
+				}
+			}
+		)
+			.then(data => data.json())
+			.then(data => data);
 		return data;
 	};
+
 	const getAllCompanies = () => {
 		return [];
 	};

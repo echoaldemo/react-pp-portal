@@ -37,7 +37,7 @@ export default class ChangeLogTable extends Component {
 	render() {
 		return (
 			<div>
-				{this.props.tableData.length > 0 ? (
+				{this.props.tableData ?  (
 					<AsyncTable
 						headers={[ 'Users', 'Created', 'Time', 'Changes in', '' ]}
 						tableData={this.props.tableData}
