@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { PanelTabs, Panel } from 'common-components';
 import Info from './components/Info';
 import DialerParameters from './components/DialerParameters';
-
 export default function General({ match }: any) {
 	const [ tab, setTab ] = useState(0);
 	return (
