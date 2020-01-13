@@ -46,16 +46,16 @@ interface IProps {
 	card3Data: any;
 	setActiveData: any;
 	saveActiveSegment: any;
-	card1Title: any;
-	card2Title: any;
-	card3Title: any;
-	addFunction1: any;
-	addButton1: any;
-	card3Popover: any;
-	addButton2: any;
-	addFunction2: any;
-	addButton3: any;
-	addFunction3: any;
+	card1Title: string;
+	card2Title: string;
+	card3Title: string;
+	card3Popover?: any;
+	addFunction1?: any;
+	addButton1?: any;
+	addButton2?: any;
+	addFunction2?: any;
+	addButton3?: any;
+	addFunction3?: any;
 }
 
 interface IState {
@@ -120,13 +120,18 @@ class DNDCards extends PureComponent<IProps, IState> {
 		return rootNode;
 	};
 
-	id2List: Object = {
-		droppable: 'card1Data' ,
+
+	id2List: any  = {
+		droppable: 'card1Data',
 		droppable2: 'card2Data',
 		droppable3: 'card3Data'
 	};
 
-	getList = (id: any,) => this.state[this.id2List[id]];
+	getList = (id: any) => {
+		let curState = this.state;
+		let curId = this.id2List;
+		return (curState as any)[(curId as any)[id]];
+	};
 	
 	move = (source: any, destination: any, droppableSource: any, droppableDestination: any) => {
 		const sourceClone = Array.from(source);
