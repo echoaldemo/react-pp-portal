@@ -24,7 +24,7 @@ import ManageLocation from "components/manage/manage-locations/ManageLocation";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
 import GlobalPhraseBooks from "components/manage/global/global-phrase-books/GlobalPhraseBooks";
 import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
-
+import EditGlobalPhraseBook from "components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -86,6 +86,10 @@ export default function Routes() {
         <PrivateRoute
           path="/manage/global-pitch-phrasebooks"
           component={GlobalPhraseBooks}
+        />
+        <PrivateRoute
+          path="/manage/phrase-book/global/edit/:uuid"
+          component={EditGlobalPhraseBook}
         />
         {/* Global Pitch routes end */}
         <PrivateRoute

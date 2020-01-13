@@ -9,12 +9,13 @@ import { LightTooltip } from "../../styles/PBTable.style";
 interface Props {
   headers: Array<string>;
   data: Array<Obj>;
+  history: any;
 }
 interface Obj {
   [index: string]: any;
 }
 
-const DIDTable = ({ headers, data }: Props) => {
+const DIDTable = ({ headers, data, history }: Props) => {
   const [copy, setCopy] = useState<boolean>(false);
 
   return (
@@ -61,7 +62,18 @@ const DIDTable = ({ headers, data }: Props) => {
                   }}
                   style={{ color: "#777777" }}
                 >
-                  <EditButton text="Edit" onClickFunc={() => console.log("")} />
+                  <EditButton
+                    text="Edit"
+                    onClickFunc={() => {
+                      history.push(
+                        `/manage/phrase-book/global/edit/${phrase.uuid}`
+                      );
+                      localStorage.setItem(
+                        "edit_pb_data",
+                        JSON.stringify(phrase)
+                      );
+                    }}
+                  />
                 </Link>
               </TableCell>
             </TableRow>

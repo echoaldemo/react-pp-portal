@@ -10,7 +10,8 @@ import {
 import { phraseBooks } from "./components/PBTable/mockData";
 import PBTable from "./components/PBTable/PBTable";
 import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
-const GlobalPhraseBooks = () => {
+
+const GlobalPhraseBooks = ({ history }: any) => {
   const [pb, setpb] = useState<any>([]);
   const [paginateList, setPaginateList] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,8 +31,8 @@ const GlobalPhraseBooks = () => {
   };
 
   const addPhraseBook = (data: any) => {
-    setPaginateList(paginateList.concat(data))
-  }
+    setPaginateList(paginateList.concat(data));
+  };
 
   const paginate = (from: number, to: number) => {
     setpb(paginateList.slice(from, to));
@@ -75,7 +76,11 @@ const GlobalPhraseBooks = () => {
           <TableLoader />
         ) : (
           <>
-            <PBTable data={pb} headers={["Name", "Slug", "UUID", ""]} />
+            <PBTable
+              data={pb}
+              headers={["Name", "Slug", "UUID", ""]}
+              history={history}
+            />
             <Divider />
             <Pagination
               totalItems={paginateList.length}
@@ -85,7 +90,11 @@ const GlobalPhraseBooks = () => {
           </>
         )}
       </Paper>
-      <CreatePhraseBook open={openNew} onClose={() => setOpenNew(false)} addPhraseBook={addPhraseBook} />
+      <CreatePhraseBook
+        open={openNew}
+        onClose={() => setOpenNew(false)}
+        addPhraseBook={addPhraseBook}
+      />
     </>
   );
 };

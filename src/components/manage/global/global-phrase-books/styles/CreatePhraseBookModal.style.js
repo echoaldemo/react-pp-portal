@@ -10,7 +10,10 @@ export const useStyles = makeStyles(() => ({
     borderRadius: "3px",
     textTransform: "none",
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
+    "&:hover": {
+      backgroundColor: "#a6c556"
+    }
   },
   underline: {
     "&:before": {
