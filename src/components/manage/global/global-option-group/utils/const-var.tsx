@@ -39,4 +39,22 @@ const InputField = styled(TextField)`
 	}
 `;
 
-export { menu, InputField }
+const editReset = {
+	open: false,
+	load: false,
+	edit: false,
+	done: false,
+	done3: false,
+	delete: false,
+	delete2: false,
+	description: "",
+	value: "",
+	snackErr: "",
+	error: {
+		description: "",
+		value: ""
+	},
+	editData: {}
+}
+
+export { menu, InputField, editReset }

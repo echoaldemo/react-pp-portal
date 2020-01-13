@@ -24,7 +24,10 @@ import ManageDIDs from 'components/manage/did/did-landing'
 import ManageLocation from 'components/manage/manage-locations/ManageLocation'
 import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
 import GlobalPhraseBooks from '../components/manage/global/global-phrase-books/GlobalPhraseBooks'
-import GlobalOptionGroup from 'components/manage/global/global-option-group/OptionGroup'
+import {
+  GlobalOptionGroup,
+  EditOptionGroup
+} from 'components/manage/global/global-option-group/'
 import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
 
 export default function Routes() {
@@ -94,8 +97,13 @@ export default function Routes() {
           component={GlobalPhraseBooks}
         />
         <PrivateRoute
+          exact
           path="/manage/global-option-group"
           component={GlobalOptionGroup}
+        />
+        <PrivateRoute
+          path="/manage/global-option-group/edit/:uuid"
+          component={EditOptionGroup}
         />
         {/* Global Pitch routes end */}
         <PrivateRoute
