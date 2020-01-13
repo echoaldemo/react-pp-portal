@@ -29,6 +29,10 @@ const GlobalPhraseBooks = () => {
     }, 1000);
   };
 
+  const addPhraseBook = (data: any) => {
+    setPaginateList(paginateList.concat(data))
+  }
+
   const paginate = (from: number, to: number) => {
     setpb(paginateList.slice(from, to));
   };
@@ -81,7 +85,7 @@ const GlobalPhraseBooks = () => {
           </>
         )}
       </Paper>
-      <CreatePhraseBook open={openNew} onClose={() => setOpenNew(false)} />
+      <CreatePhraseBook open={openNew} onClose={() => setOpenNew(false)} addPhraseBook={addPhraseBook} />
     </>
   );
 };
