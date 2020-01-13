@@ -1,7 +1,7 @@
-import React from 'react'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
-import Gateway from 'components/gateway'
+import Gateway from "components/gateway";
 import {
   Realms,
   Campaigns,
@@ -15,17 +15,17 @@ import {
   DataPosting,
   SMSLandingPage,
   Dashboard
-} from 'components'
-import { PublicRoute, GatewayRoute, PrivateRoute } from './'
-import DidPool from 'components/manage/manage-did-pool'
-import EditDidPool from 'components/manage/manage-did-pool/components/settings/DidPoolsSettings'
-import Signin from 'auth/component'
-import ManageDIDs from 'components/manage/did/did-landing'
-import ManageLocation from 'components/manage/manage-locations/ManageLocation'
-import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
-import GlobalPhraseBooks from '../components/manage/global/global-phrase-books/GlobalPhraseBooks'
-import GlobalOptionGroup from 'components/manage/global/global-option-group/OptionGroup'
-import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
+} from "components";
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import DidPool from "components/manage/manage-did-pool";
+import EditDidPool from "components/manage/manage-did-pool/components/settings/DidPoolsSettings";
+import Signin from "auth/component";
+import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
+import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
+import GlobalOptionGroup from "components/manage/global/global-option-group/OptionGroup";
+import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
 
 export default function Routes() {
   return (
@@ -112,5 +112,5 @@ export default function Routes() {
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }

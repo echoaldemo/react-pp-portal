@@ -192,7 +192,7 @@ export default function AddNewTeam(props: any) {
                   searchText="Search for location leader"
                   data={props.leader}
                   searchFunction={selectedVoice}
-                  // voices={props.voices}
+                  voices={props.voices}
                 />
               </FormControl>
             </Grid>
