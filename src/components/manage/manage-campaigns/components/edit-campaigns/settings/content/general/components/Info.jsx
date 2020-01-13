@@ -8,22 +8,20 @@ export default function Info({ match }) {
 	const [ state, setState ] = useState(initialState);
 	const [ errMsg, setErrMsg ] = useState({});
 	const [ addRealms, setAddRealms ] = useState([]);
-	const [ addCompany, setAddCompany ] = useState('');
 	const [ realms, setRealms ] = useState([]);
-
+	const [ companies, setCompanies ] = useState([]);
 	const [ loading, setLoading ] = useState(false);
 
 	function filterRealm(data, initialRealms) {
 		let newArr = [];
 
 		initialRealms.map((item) => {
-			const value = data.filter((realm) => {
-				return realm.uuid === item;
+			const value = data.find((realm) => {
+				return realm.uuid == item;
 			});
 
-			newArr.push(value[0]);
+			newArr.push(value);
 		});
-		console.log(newArr, 'newArr');
 		return newArr;
 	}
 
@@ -42,7 +40,21 @@ export default function Info({ match }) {
 				const initialRealms = filterRealm(data, initialState.realms);
 				setAddRealms(initialRealms);
 				setRealms(data);
-				setLoading(false);
+			})
+			.then(() => {
+				fetch('https://dev-api.perfectpitchtech.com/identity/company/list/', {
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
+					}
+				})
+					.then((data) => {
+						return data.json();
+					})
+					.then((data) => {
+						setCompanies(data);
+						setLoading(false);
+					});
 			});
 	}, []);
 
@@ -59,11 +71,9 @@ export default function Info({ match }) {
 					setErrMsg={setErrMsg}
 					addRealms={addRealms}
 					setAddRealms={setAddRealms}
-					addCompany={addCompany}
-					setAddCompany={setAddCompany}
 					realms={realms}
-					setRealms={setRealms}
 					filterRealm={filterRealm}
+					companies={companies}
 				/>
 			)}
 		</div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Collapse, Grid, InputAdornment, Switch, Button, Typography, MenuItem, Checkbox } from '@material-ui/core';
-import { InputField, TableLoader, CustomButton } from 'common-components';
+import { InputField, CustomButton, SaveButton } from 'common-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { LightTooltip } from '../../../../../../../globalConstsVar';
+import axios from 'axios';
 import { Delete as DeleteIcon, FileCopyOutlined as CopyIcon } from '@material-ui/icons/';
 const MenuProps = {
 	PaperProps: {
@@ -21,11 +22,9 @@ const EditForm = ({
 	setErrMsg,
 	addRealms,
 	setAddRealms,
-	addCompany,
-	setAddCompany,
 	realms,
-	setRealms,
-	filterRealm
+	filterRealm,
+	companies
 }) => {
 	const SwitchAd = () => {
 		return (
@@ -41,10 +40,31 @@ const EditForm = ({
 		return initialState.realms.length !== addRealms.length;
 	};
 
+	const handleSaveData = () => {
+		axios
+			.patch(
+				`https://dev-api.perfectpitchtech.com/identity/campaign/${initialState.uuid}/`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
+					}
+				},
+				{ ...state }
+			)
+			.then((res) => {
+				console.log(res, 'saved');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
 	return (
 		<form
-			onSubmit={() => {
-				alert('Submit');
+			onSubmit={(e) => {
+				e.preventDefault();
+				handleSaveData();
+				console.log(state);
 			}}
 		>
 			<Grid container spacing={5}>
@@ -100,39 +120,39 @@ const EditForm = ({
 
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
 					<InputField
-						label="Campaign Server"
-						id="Campaign Slug"
+						label="Company"
+						data-cy="company"
+						id="company"
 						fullWidth
-						margin="normal"
-						style={{ paddingTop: 5 }}
 						required
+						style={{ paddingTop: 22 }}
+						select
+						SelectProps={{ MenuProps }}
 						value={state.company}
+						error={errMsg.addCompany ? true : false}
+						helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
 						onChange={(e) => {
-							setState({
-								...state,
-								name: e.target.value
-							});
+							setState({ ...state, company: e.target.value });
+							setErrMsg({ ...errMsg, addCompany: '' });
 						}}
-						error={errMsg.name ? true : false}
-						helperText={errMsg.name ? errMsg.name : ' '}
 						onBlur={() => {
-							if (state.name) {
-								setErrMsg({
-									...errMsg,
-									name: ''
-								});
+							if (state.company) {
+								setErrMsg({ ...errMsg, addCompany: '' });
 							}
 							else {
-								setErrMsg({
-									...errMsg,
-									name: 'A campaign name is required'
-								});
+								setErrMsg({ ...errMsg, addCompany: 'A company is required' });
 							}
 						}}
 						onFocus={() => {
-							setErrMsg({ ...errMsg, name: '' });
+							setErrMsg({ ...errMsg, addCompany: '' });
 						}}
-					/>
+					>
+						{companies.map((company) => (
+							<MenuItem key={company.uuid} value={company.uuid}>
+								{company.name}
+							</MenuItem>
+						))}
+					</InputField>
 				</Grid>
 
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
@@ -155,7 +175,6 @@ const EditForm = ({
 						fullWidth
 						select
 						margin="normal"
-						style={{ marginTop: 5 }}
 						SelectProps={{
 							MenuProps,
 							multiple: true,
@@ -181,11 +200,8 @@ const EditForm = ({
 							<Typography>Delete Campaign</Typography>
 						</Grid>
 						<Grid item lg={6} xs={12} sm={12} md={6}>
-							<Button
-								onClick={() => alert('xx')}
-								type="submit"
-								variant="contained"
-								size="medium"
+							<CustomButton
+								handleClick={() => alert('xx')}
 								style={{
 									width: '130px',
 									background: '#ff504d',
@@ -194,7 +210,7 @@ const EditForm = ({
 								}}
 							>
 								<DeleteIcon fontSize="small" style={{ marginRight: 5 }} /> DELETE
-							</Button>
+							</CustomButton>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -209,45 +225,34 @@ const EditForm = ({
 						onChange={(e) => {
 							setState({
 								...state,
-								name: e.target.value
+								slug: e.target.value
 							});
-						}}
-						error={errMsg.name ? true : false}
-						helperText={errMsg.name ? errMsg.name : ' '}
-						onBlur={() => {
-							if (state.name) {
-								setErrMsg({
-									...errMsg,
-									name: ''
-								});
-							}
-							else {
-								setErrMsg({
-									...errMsg,
-									name: 'A campaign name is required'
-								});
-							}
-						}}
-						onFocus={() => {
-							setErrMsg({ ...errMsg, name: '' });
 						}}
 					/>
 				</Grid>
 			</Grid>
-			{console.log(state.name !== initialState.name && state.name.length !== 0, 'stateee')}
 			<Collapse
 				in={
 					(state.name !== initialState.name && state.name.length !== 0) ||
 					state.active !== initialState.active ||
-					realmChanged()
+					realmChanged() ||
+					state.company !== initialState.company ||
+					state.slug !== initialState.slug
 				}
 			>
 				<div className="display-normal pt-normal">
-					<CustomButton type="submit">SAVE</CustomButton>
+					<SaveButton type="submit">SAVE</SaveButton>
 					&emsp;
 					<CustomButton
 						handleClick={() => {
-							setState(initialState);
+							setState({ ...initialState });
+							setAddRealms(filterRealm(realms, initialState.realms));
+						}}
+						style={{
+							backgroundColor: '#eeeeee'
+						}}
+						textStyle={{
+							color: '#444851'
 						}}
 					>
 						CANCEL
