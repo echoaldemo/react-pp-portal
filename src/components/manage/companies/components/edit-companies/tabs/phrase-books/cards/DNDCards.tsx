@@ -96,6 +96,7 @@ class DNDCards extends PureComponent<IProps, IState> {
 		// }
 		return x.parentNode.nodeName;
 	};
+
 	getRootNode = (data: any) => {
 		const parser = new DOMParser();
 		const theDom = parser.parseFromString(data, 'application/xml');
@@ -103,7 +104,6 @@ class DNDCards extends PureComponent<IProps, IState> {
 
 		return rootNode;
 	};
-
 
 	id2List: any  = {
 		droppable: 'card1Data',

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { InputField, Modal, LoadingModal, SuccessModal } from 'common-components';
 import { Dialog, Button } from '@material-ui/core';
-const classes = {
+
+const classes:any = {
 	textField: {
 		paddingBottom: 35
 	},
 	btnStyle: {
 		backgroundColor: '#b6d36b',
 		color: '#FFF',
-		fontSize: '14px',
-		fontWeight: '700',
-		height: '40px',
-		borderRadius: '3px',
-		textTransform: 'none',
+		fontSize: 14,
+		fontWeight: 700,
+		height: 40,
+		borderRadius: 3,
 		paddingLeft: 15,
 		paddingRight: 15
 	}
@@ -22,8 +22,26 @@ const defaultState = {
 	phrase_name: '',
 	phrase: ''
 };
-export default class CreatePhraseBook extends Component {
-	constructor(props) {
+
+interface IProps {
+	onClose: any;
+	addFunction: any;
+	openModal: any;
+	refresh: any;
+	open: any;
+	companySlug: any;
+	phraseBooksData?: any;
+}
+
+interface IState {
+	createSuccess: any;
+	phrase: any;
+	phrase_name: any;
+	loading: any;
+}
+
+export default class CreatePhraseBook extends Component<IProps, IState> {
+	constructor(props: IProps) {
 		super(props);
 
 		this.state = {
@@ -33,13 +51,12 @@ export default class CreatePhraseBook extends Component {
 		};
 	}
 
-	handleFieldChanges = (e) => {
-		this.setState({
-			[e.target.name]: e.target.value
-		});
+	handleFieldChanges = (e: any) => {
+		const newState = { [e.target.name]: e.target.value } as Pick<IState, keyof IState>;
+		this.setState(newState);	
 	};
 
-	submitPhraseBook = async (e) => {
+	submitPhraseBook = async (e: any) => {
 		this.setState({ loading: true });
 		this.props.onClose();
 
@@ -111,8 +128,8 @@ export default class CreatePhraseBook extends Component {
 					}}
 				>
 					<form
-						onSubmit={() => {
-							this.submitPhraseBook();
+						onSubmit={(e) => {
+							this.submitPhraseBook(e);
 						}}
 						style={{
 							width: '100%',
@@ -130,10 +147,9 @@ export default class CreatePhraseBook extends Component {
 								value={this.state.phrase_name}
 								style={classes.textField}
 								name="phrase_name"
-								onChange={(e) => {
+								onChange={(e:any) => {
 									this.handleFieldChanges(e);
 								}}
-								autoComplete="off"
 							/>
 						</div>
 						{/* <div style={{ width: "100%" }}>
@@ -152,10 +168,9 @@ export default class CreatePhraseBook extends Component {
             </div> */}
 						<div style={{ paddingBottom: 15 }}>
 							<Button
-								htmlType="submit"
 								style={classes.btnStyle}
-								onClick={() => {
-									this.submitPhraseBook();
+								onClick={(e) => {
+									this.submitPhraseBook(e);
 								}}
 							>
 								Create Phrase
