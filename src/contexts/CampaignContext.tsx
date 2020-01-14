@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { mockDataCampaigns } from './mockData';
-import { get } from '../utils/api';
-import { async, resolve } from 'q';
+import { get } from 'utils/api';
+
 type ContextProps = {
 	data: Array<object>;
 	setData: any;
@@ -24,9 +24,14 @@ function CampaignsContextProvider({ children }: any) {
 
 	useEffect(() => {
 		setLoading(true);
-		setTimeout(() => {
+		// setTimeout(() => {
+		// 	setLoading(false);
+		// }, 500);
+
+		get('/identity/campaign/list/').then((res: any) => {
+			setData(res.data);
 			setLoading(false);
-		}, 500);
+		});
 	}, []);
 
 	function FilterApplyButton(params: any) {

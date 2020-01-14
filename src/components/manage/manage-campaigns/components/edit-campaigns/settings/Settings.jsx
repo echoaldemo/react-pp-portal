@@ -1,12 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import './Settings.css';
 import EditHeader from '../EditHeader';
-import { get } from '../../../../../../utils/api';
+import { get, patch } from 'utils/api';
 import { mockDataCampaigns } from '../../../../globalConstsVar';
 import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
 import { General, AudioResources, List, QA, ChangeLog } from './content';
+
+function filterRealm(data, initialRealms) {
+	let newArr = [];
+	console.log('initRealms', initialRealms);
+
+	initialRealms.map((item) => {
+		const value = data.find((realm) => {
+			return realm.uuid == item;
+		});
+
+		newArr.push(value);
+	});
+
+	return newArr;
+}
+
 export default function Settings({ match, history }) {
 	const [ value, setValue ] = useState(0);
+	const [ campaignRealms, setCampaignRealms ] = useState([]);
+	const [ campaignDetails, setCampaignDetails ] = useState([]);
+	const [ realms, setRealms ] = useState([]);
+	const [ companies, setCompanies ] = useState([]);
+	const [ loading, setLoading ] = useState([]);
+	const { uuid } = match.params;
 
 	function handleChange(event, newValue) {
 		setValue(newValue);
@@ -18,9 +40,58 @@ export default function Settings({ match, history }) {
 			'aria-controls': `full-width-tabpanel-${index}`
 		};
 	}
+
+	useEffect(() => {
+		setLoading(true);
+		get(`/identity/campaign/${uuid}`)
+			.then((res) => {
+				setCampaignDetails(res.data);
+				return res.data;
+			})
+			.then((campaignResult) => {
+				get('/identity/realm/list/')
+					.then((res) => {
+						setRealms(res.data);
+						const filteredRealms = filterRealm(res.data, campaignResult.realms);
+						setCampaignRealms(filteredRealms);
+					})
+					.then(() => {
+						get('/identity/company/list/').then((res) => {
+							setCompanies(res.data);
+							setLoading(false);
+						});
+					});
+			});
+	}, []);
+	function handleSaveData(state) {
+		const { uuid } = state;
+		setLoading(true);
+
+		const realms = state.realms
+			.map((item) => {
+				return item.uuid;
+			})
+			.join(',');
+
+		patch(`/identity/campaign/${campaignDetails.uuid}/`, {
+			name: state.name,
+			company: state.company,
+			realms: state.realms,
+			slug: state.slug,
+			active: state.active
+		})
+			.then((res) => {
+				console.log(res.data, 'update res');
+				setCampaignDetails(res.data);
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}
 	return (
 		<div>
-			<EditHeader history={history} match={match} />
+			<EditHeader campaignDetails={campaignDetails} history={history} />
 			<Paper square={true} className="mh-normal">
 				<div>
 					<Typography className="settings-title">Campaign Settings</Typography>
@@ -32,7 +103,15 @@ export default function Settings({ match, history }) {
 						<Tab label="Change Log" {...a11yProps(4)} className="tab-text" />
 					</Tabs>
 					<TabPanel value={value} index={0}>
-						<General match={match} />
+						<General
+							campaignDetails={campaignDetails}
+							realms={realms}
+							companies={companies}
+							setCampaignDetails={campaignDetails}
+							loading={loading}
+							campaignRealms={campaignRealms}
+							handleSaveData={handleSaveData}
+						/>
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						<AudioResources />

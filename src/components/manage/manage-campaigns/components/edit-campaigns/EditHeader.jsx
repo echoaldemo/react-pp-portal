@@ -16,12 +16,10 @@ const options = [
 	}
 ];
 
-export default function EditHeader({ history, match }) {
-	const [ selected, setSelected ] = useState('1');
-	const [ data, setData ] = useState([]);
+export default function EditHeader({ campaignDetails, history }) {
+	const localData = JSON.parse(localStorage.getItem('campaignData'));
 
-	const { name, active } = JSON.parse(localStorage.getItem('campaignData'));
-	const { uuid, slug } = match.params;
+	const { name, active, uuid, slug } = campaignDetails ? campaignDetails : localData;
 	return (
 		<div>
 			<SEO title={name ? `Edit Campaign: ${name}` : 'Portal'} />
