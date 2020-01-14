@@ -36,10 +36,38 @@ const EditPhraseBook = ({
 }) => {
   const classes = useStyles();
   const [editData, setEditData] = useState(null);
+  const [name, setName] = useState(localStorage.getItem("edit_pb_dataname"));
+
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("edit_pb_data"));
-    setEditData(data);
+    setName(localStorage.getItem("edit_pb_dataname"));
+    fetch(
+      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${uuid}`
+    )
+      .then(res => res.json())
+      .then(res => {
+        setEditData(res);
+      });
   }, []);
+
+  const save = (data, fn) =>
+    fetch(
+      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        fn(data);
+        setName(data.name);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
 
   return (
     <>
@@ -50,20 +78,14 @@ const EditPhraseBook = ({
         />
       </div>
       <div className={classes.editContainer}>
-        {/* {this.state.loading ? (
-            <Paper square={true}>
-              <TableLoader />
-            </Paper>
-          ) : ( */}
         <>
-          <span className={classes.phrasebookName}>
-            {editData ? editData.name : "<name>"}
-          </span>
+          <span className={classes.phrasebookName}>{name}</span>
           <Paper className={classes.formContainer} square={true}>
-            {editData !== null && <EditPhraseBookForm editData={editData} />}
+            {editData !== null && (
+              <EditPhraseBookForm editData={editData} save={save} />
+            )}
           </Paper>
         </>
-        {/* )} */}
       </div>
     </>
   );

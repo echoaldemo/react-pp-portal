@@ -7,7 +7,6 @@ import {
   SearchBar,
   Pagination
 } from "common-components";
-import { phraseBooks } from "./components/PBTable/mockData";
 import PBTable from "./components/PBTable/PBTable";
 import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
 
@@ -23,11 +22,13 @@ const GlobalPhraseBooks = ({ history }: any) => {
   }, []);
 
   const getPhraseBooks = () => {
-    setTimeout(() => {
-      setpb(phraseBooks);
-      setPaginateList(phraseBooks);
-      setLoading(false);
-    }, 1000);
+    fetch("http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books")
+      .then(res => res.json())
+      .then(res => {
+        setpb(res);
+        setPaginateList(res);
+        setLoading(false);
+      });
   };
 
   const addPhraseBook = (data: any) => {

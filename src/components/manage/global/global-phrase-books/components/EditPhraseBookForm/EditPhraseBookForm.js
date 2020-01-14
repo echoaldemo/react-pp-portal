@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, Collapse, createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
-import { CustomButton, InputField } from "common-components";
+import {
+  CustomButton,
+  InputField,
+  LoadingModal,
+  DeleteModal,
+  SuccessModal
+} from "common-components";
 
 const materialTheme = createMuiTheme({
   overrides: {
@@ -66,10 +72,16 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const EditPhraseBookForm = ({ editData }) => {
+const EditPhraseBookForm = ({ editData, save }) => {
   const classes = useStyles();
   const [phrase, setphrase] = useState(editData);
   const [show, setShow] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deletion, setDeletion] = useState({
+    deleting: false,
+    deleted: false
+  });
 
   useEffect(() => {
     setphrase(editData);
@@ -82,32 +94,70 @@ const EditPhraseBookForm = ({ editData }) => {
       [label]: e.target.value
     });
   };
+  const handleSave = () => {
+    if (phrase.name.length !== 0) {
+      setSaving(true);
+      save(phrase, data => {
+        setSaving(false);
+        localStorage.setItem("edit_pb_dataname", data.name);
+      });
+    }
+  };
+
+  const handleDelete = () => {
+    fetch(
+      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${phrase.id}`,
+      {
+        method: "DELETE"
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        setDeletion({
+          ...deletion,
+          deleting: false,
+          deleted: true
+        });
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <div className={classes.formContainer}>
       <ThemeProvider theme={materialTheme}>
         <form
           onSubmit={e => {
-            console.log(e);
+            e.preventDefault();
+            setSaving(true);
+            setShow(false);
+            handleSave(phrase);
           }}
         >
           <InputField
             className={classes.textField}
             label={
-              <span className={true > 0 ? classes.label : classes.labelNormal}>
+              <span
+                className={
+                  phrase.name.length > 0 ? classes.label : classes.labelNormal
+                }
+              >
                 Phrase book name
               </span>
             }
             name="phraseBookName"
             fullWidth
             value={phrase.name}
-            autoFocus
             required
             onChange={e => {
               handleChange(e, "name");
             }}
             autoComplete="off"
-            error={false}
-            helperText={false ? "Invalid Phrase Book Name" : " "}
+            error={phrase.name.length === 0}
+            helperText={
+              phrase.name.length === 0 ? "Invalid Phrase Book Name" : " "
+            }
             onBlur={() => {
               // this.setState({ phraseBookNameError: false });
             }}
@@ -137,8 +187,8 @@ const EditPhraseBookForm = ({ editData }) => {
             <CustomButton
               style={{ background: "rgb(255,80,77)" }}
               type="button"
-              onClick={() => {
-                //   this.handleOpenDeleteModal();
+              handleClick={e => {
+                setOpenDelete(true);
               }}
             >
               Delete
@@ -162,30 +212,34 @@ const EditPhraseBookForm = ({ editData }) => {
             </div>
           </Collapse>
         </form>
+        <LoadingModal open={saving} text="Saving..." />
+        <LoadingModal
+          open={deletion.deleting}
+          text="One moment. We're deleting the phrase book..."
+        />
+        <DeleteModal
+          open={openDelete}
+          closeFn={() => setOpenDelete(false)}
+          name={editData.name}
+          msg="phrase book"
+          delFn={() => {
+            setOpenDelete(false);
+            setDeletion({
+              ...deletion,
+              deleting: true
+            });
+            handleDelete();
+          }}
+        />
+        <SuccessModal
+          open={deletion.deleted}
+          btnText="OK"
+          text="Successfully deleted!"
+          btnFn={() =>
+            (window.location.href = "/manage/global-pitch-phrasebooks")
+          }
+        />
       </ThemeProvider>
-      {/* <Dialog open={this.state.loadingDelete}>
-    <LoadingModal
-      text="One moment. We're deleting the phrase book..."
-      cancelFn={() => {
-        cancel();
-        this.setState({ ...defaultState });
-      }}
-    />
-  </Dialog>
-  <Dialog
-    open={this.state.deleteModalOpen}
-    onClose={() => {
-      this.handleCloseDeleteModal();
-    }}
-  >
-    <DeleteModal
-      header="Test delete modal"
-      msg="Phrase book"
-      name={this.state.phraseBookName}
-      closeFn={this.handleCloseDeleteModal}
-      delFn={this.deletePhraseBook}
-    />
-  </Dialog> */}
     </div>
   );
 };
