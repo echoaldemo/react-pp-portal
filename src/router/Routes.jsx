@@ -30,6 +30,9 @@ import {
 } from 'components/manage/global/global-option-group/'
 import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
 
+//audio
+import AudioResources from 'components/audio/audio-resources'
+
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -114,6 +117,11 @@ export default function Routes() {
           exact
           path="/manage/sms-dashboard"
           component={SMSLandingPage}
+        />
+        <PrivateRoute
+          exact
+          path="/manage/audio/audio-resources"
+          component={AudioResources}
         />
 
         <PublicRoute path="/404" component={PageNotFound} />

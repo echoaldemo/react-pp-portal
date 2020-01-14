@@ -1,20 +1,9 @@
 import React, { useContext } from 'react'
 import { SaveButton } from 'common-components'
 import { InputField } from '../../utils/const-var'
-import styled from 'styled-components'
 import { store } from 'contexts/EditOptionGroupContext'
 import { post } from 'utils/api'
-const Cont = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  div {
-    margin: 8px 0;
-  }
-  /* button {
-    margin-top: 8px;
-  } */
-`
+
 const AddOption = () => {
 	const { state, dispatch } = useContext(store)
 
@@ -72,7 +61,7 @@ const AddOption = () => {
 	}
 
 	return (
-		<Cont>
+		<div className='add-edit-cont'>
 			<InputField
 				value={state.edit.description}
 				onChange={handleChange}
@@ -108,7 +97,7 @@ const AddOption = () => {
 			>
 				save option
       </SaveButton>
-		</Cont>
+		</div>
 	)
 }
 
