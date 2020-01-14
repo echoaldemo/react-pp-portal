@@ -31,7 +31,7 @@ import {
 import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
 
 //audio
-import AudioResources from "components/audio/audio-resources";
+import AudioResources from 'components/audio/audio-resources'
 
 export default function Routes() {
   return (

@@ -63,12 +63,10 @@ const OptionGroup = ({ history }: any) => {
 				groupState: { ...state.groupState, load: true }
 			}
 		})
-		//change to name only
 		post('/pitch/global/gui/field-option-group/', {
 			name: state.groupState.name
-		}).then((res: any) => {
-			dispatch({ type: 'GROUP_LIST', payload: { groupList: [...state.groupList, res.data] } })
-			dispatch({ type: 'PAGINATE', payload: { paginateList: [...state.paginateList, res.data] } })
+		}).then(() => {
+			fetchData()
 			dispatch({
 				type: 'GROUP_STATE', payload: {
 					groupState: { ...state.groupState, load: false, done: true }

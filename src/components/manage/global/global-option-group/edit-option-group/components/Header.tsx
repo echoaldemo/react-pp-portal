@@ -1,20 +1,8 @@
 import React, { useState, useContext } from 'react'
-import styled from 'styled-components'
 import { IoIosSettings } from 'react-icons/io'
 import { Collapse, Divider } from '@material-ui/core'
 import { InputField, SaveButton } from 'common-components'
 import { store } from 'contexts/EditOptionGroupContext'
-
-const CancelBtn = styled(SaveButton)`
-  background-color: #eeeeee;
-  strong {
-    color: #444851;
-  }
-`
-const DelBtn = styled(SaveButton)`
-  background: #ff504d;
-  text-transform: none;
-`
 
 interface Props {
 	saveFn: Function
