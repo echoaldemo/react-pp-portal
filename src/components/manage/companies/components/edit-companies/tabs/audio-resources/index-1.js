@@ -79,6 +79,7 @@ const styles = {
   editText: {
     margin: 0,
     padding: 0,
+    padding: 0,
     textTransform: "capitalize !important"
   },
   popMenu: {
@@ -140,7 +141,7 @@ const styles = {
   }
 };
 
-const LightTooltip = withStyles(theme => ({
+const LightTooltip = withStyles((theme) => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
     color: "rgba(0, 0, 0, 0.87)",
@@ -285,7 +286,7 @@ class AudioResources extends Component {
   };
   // #endregion
   //#region filtered data
-  filteredData = data => {
+  filteredData = (data) => {
     console.log(data);
     this.setState({
       resource: data
@@ -298,7 +299,7 @@ class AudioResources extends Component {
   };
   //#endregion
   // #region typed ? probably not used
-  typed = val => {
+  typed = (val) => {
     this.setState({
       searching: val.length > 0 ? true : false
     });
@@ -394,7 +395,7 @@ class AudioResources extends Component {
         headers={["Name", "Slug", "UUID", "File", ""]}
         tableData={this.state.resource}
         render={(audio, { row, cell, uuid, icon }) => {
-          return audio.map(audi => {
+          return audio.map((audi) => {
             return (
               <>
                 <TableRow className={row} key={audi.uuid}>
@@ -485,7 +486,7 @@ class AudioResources extends Component {
                   <TableCell className={cell}>
                     <Button
                       disableRipple
-                      onClick={e => {
+                      onClick={(e) => {
                         this.openPopOver(e, audi);
                       }}
                       className={classes.editBtn}
@@ -615,8 +616,8 @@ class AudioResources extends Component {
                 >
                   <InputField
                     label="Audio name"
-                    onInput={e => this.setState({ name: e.target.value })}
-                    onBlur={e =>
+                    onInput={(e) => this.setState({ name: e.target.value })}
+                    onBlur={(e) =>
                       this.setState({
                         nameError: e.target.value.length > 0 ? false : true
                       })
@@ -690,8 +691,8 @@ class AudioResources extends Component {
                 <>
                   <InputField
                     label="Audio name"
-                    onInput={e => this.setState({ name: e.target.value })}
-                    onBlur={e =>
+                    onInput={(e) => this.setState({ name: e.target.value })}
+                    onBlur={(e) =>
                       this.setState({
                         nameError: e.target.value.length > 0 ? false : true
                       })
