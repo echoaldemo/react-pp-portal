@@ -10,7 +10,7 @@ import { phrase } from './styles';
   getGlobalPhraseBook
 } from '../../../../actions/PhraseBook' */
 
-import CreatePhraseBook from './CreatePhraseBook';
+import CreatePhraseBook from './add-company-phrase-book/CreatePhraseBook';
 
 const defaultState = {
 	loadingState: false,
