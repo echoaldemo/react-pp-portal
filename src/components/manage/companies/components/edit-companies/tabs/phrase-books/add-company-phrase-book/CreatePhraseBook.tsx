@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { InputField, Modal, LoadingModal, SuccessModal } from 'common-components';
 import { Dialog, Button } from '@material-ui/core';
 
-const classes:any = {
+const classes = {
 	textField: {
 		paddingBottom: 35
 	},
