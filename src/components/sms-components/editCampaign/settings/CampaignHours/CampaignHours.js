@@ -7,7 +7,7 @@ import Switch from "@material-ui/core/Switch";
 import Button from "@material-ui/core/Button";
 import ToastDialog from "../../../Campaigns/ToastDialog";
 import LoaderDialog from "../../common-components/LoaderDialog";
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 import { mockData } from "../../../Campaigns/mockData";
 
 const styles = theme => ({
@@ -90,9 +90,6 @@ const styles = theme => ({
 const PurpleSwitch = withStyles({
   switchBase: {
     color: "#eee",
-    "!checked": {
-      color: "orange"
-    },
     "&$checked": {
       color: "#1194f6"
     },
@@ -200,9 +197,9 @@ class CampaignDetails extends Component {
     if (name === "Open") {
       if (
         Date.parse(`01/01/2019 ${event.target.value}`) <
-          Date.parse(`01/01/2019 8:00`) ||
+        Date.parse(`01/01/2019 8:00`) ||
         Date.parse(`01/01/2019 ${event.target.value}`) >
-          Date.parse(`01/01/2019 ${this.state.schedule[0][index]["Close"]}`)
+        Date.parse(`01/01/2019 ${this.state.schedule[0][index]["Close"]}`)
       ) {
         var tempHelpText = [...this.state.helpTextOpen];
         tempHelpText[index] = "Invalid time input";
@@ -408,6 +405,17 @@ class CampaignDetails extends Component {
                     Save
                   </Button>
                 ) : (
+                    <Button
+                      data-cy="saveBtn"
+                      disabled={true}
+                      variant="contained"
+                      className={classes.addBtn}
+                      onClick={this.update}
+                    >
+                      Save
+                  </Button>
+                  )
+              ) : (
                   <Button
                     data-cy="saveBtn"
                     disabled={true}
@@ -416,9 +424,9 @@ class CampaignDetails extends Component {
                     onClick={this.update}
                   >
                     Save
-                  </Button>
+                </Button>
                 )
-              ) : (
+            ) : (
                 <Button
                   data-cy="saveBtn"
                   disabled={true}
@@ -427,19 +435,8 @@ class CampaignDetails extends Component {
                   onClick={this.update}
                 >
                   Save
-                </Button>
-              )
-            ) : (
-              <Button
-                data-cy="saveBtn"
-                disabled={true}
-                variant="contained"
-                className={classes.addBtn}
-                onClick={this.update}
-              >
-                Save
               </Button>
-            )}
+              )}
           </Grid>
         </Grid>
 

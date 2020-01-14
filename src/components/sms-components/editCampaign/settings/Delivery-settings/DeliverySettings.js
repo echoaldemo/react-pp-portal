@@ -8,7 +8,7 @@ import LoaderDialog from "../../common-components/LoaderDialog";
 import Button from "@material-ui/core/Button";
 import { mockData } from "../../../Campaigns/mockData";
 
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 const styles = theme => ({
   footer: {
@@ -178,20 +178,20 @@ class DeliverySettings extends Component {
           </Grid>
           <Grid item xs={12} sm={4} md={3} lg={3}>
             {this.state.leadsPerDay !== this.state.originalLeads ||
-            this.state.delType !== this.state.originalDelType ||
-            this.state.transfers !== this.state.originalTransfers ||
-            this.state.maxCps !== this.state.originalMaxCps ? (
-              <Button
-                id="updateDelivery"
-                variant="contained"
-                className={classes.addBtn}
-                onClick={this.updateDelSettings}
-              >
-                Save
+              this.state.delType !== this.state.originalDelType ||
+              this.state.transfers !== this.state.originalTransfers ||
+              this.state.maxCps !== this.state.originalMaxCps ? (
+                <Button
+                  id="updateDelivery"
+                  variant="contained"
+                  className={classes.addBtn}
+                  onClick={this.updateDelSettings}
+                >
+                  Save
               </Button>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
           </Grid>
         </Grid>
         <LoaderDialog open={this.state.loaderDialog} />

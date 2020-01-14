@@ -9,7 +9,7 @@ import ConfirmDelete from "../../common-components/Confirmation";
 import currWeek from "./Week";
 import { mockData } from "../../../Campaigns/mockData";
 
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 const styles = theme => ({
   tab: {
