@@ -19,15 +19,11 @@ const DropdownIcon = () => {
 	return <KeyboardArrowDown style={{ color: '#444851' }} />;
 };
 
-const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSaveData }) => {
+const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSaveData, setOpenDeleteModal }) => {
 	const [ state, setState ] = useState(campaignDetails);
 	const [ errMsg, setErrMsg ] = useState({});
 	const [ addRealms, setAddRealms ] = useState(campaignRealms);
-	const [ openDeleteModal, setOpenDeleteModal ] = useState(false);
 
-	const handleCloseDeleteModal = () => {
-		setOpenDeleteModal(false);
-	};
 
 	const SwitchAd = () => {
 		return (

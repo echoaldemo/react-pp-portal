@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Settings.css";
+import {LoadingModal} from "common-components"
 import EditHeader from "../EditHeader";
 import { get, patch, remove } from "utils/api";
 import { Paper, Typography, Tabs, Tab, Box } from "@material-ui/core";
@@ -27,7 +28,20 @@ export default function Settings({ match, history }) {
 	const [realms, setRealms] = useState([]);
 	const [companies, setCompanies] = useState([]);
 	const [loading, setLoading] = useState([]);
+	const [deleteLoading, setDeleteLoading] = useState(false)
 	const { uuid } = match.params;
+	const [ openDeleteModal, setOpenDeleteModal ] = useState(false);
+
+	const renderLoading = () => {
+		return (
+		  <LoadingModal
+			open={deleteLoading}
+			text={`One moment. We're removing campaign ${campaignDetails.name}`}
+			cancelFn={() => setDeleteLoading(false)}
+		  />
+		);
+	  };
+
 	function handleChange(event, newValue) {
 		setValue(newValue);
 	}
@@ -66,11 +80,18 @@ export default function Settings({ match, history }) {
 	}
 
 	const deleteCompany = () => {
-		console.log(uuid);
-		return remove(`/identity/company/${uuid}/`).then(res => {
-			console.log(res);
-			history.push("/manage/campaigns");
-		});
+		setDeleteLoading(true)
+		setOpenDeleteModal(false)
+		remove(`/identity/company/${uuid}/`).then(res => {
+			setDeleteLoading(false)
+			history.push('/manage/campaigns')
+		}).catch(err => {
+			setDeleteLoading(false)
+			history.push('/manage/campaigns')
+
+		})
+
+	
 	};
 	function fetchAllData() {
 		setLoading(true);
@@ -148,7 +169,12 @@ export default function Settings({ match, history }) {
 							campaignRealms={campaignRealms}
 							handleSaveData={handleSaveData}
 							deleteCompany={deleteCompany}
+							openDeleteModal={openDeleteModal}
+							setOpenDeleteModal={setOpenDeleteModal}
 						/>
+						{
+							renderLoading()
+						}
 					</TabPanel>
 					<TabPanel value={value} index={1}>
 						<AudioResources />

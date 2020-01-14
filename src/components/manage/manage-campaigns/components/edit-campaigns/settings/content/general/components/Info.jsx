@@ -1,42 +1,36 @@
 import React, { useState } from 'react';
-import { TableLoader } from 'common-components';
+import { TableLoader, DeleteModal } from 'common-components';
 import EditForm from './EditForm';
 
 export default function Info(props) {
-	const { loading, deleteCompany, campaignDetails } = props;
+	const { loading, deleteCompany, campaignDetails , openDeleteModal, setOpenDeleteModal} = props;
 
-	const [ openDeleteModal, setOpenDeleteModal ] = useState(false);
-
+	
+	
 	const handleCloseDeleteModal = () => {
 		setOpenDeleteModal(false);
 	};
 
-	console.log(props);
+	
+
+	
 	return (
-		<div style={{ paddingBottom: 16 }}>
-			{loading ? <TableLoader /> : <EditForm {...props} />}
+		<div>
+			{loading ? <TableLoader /> : <EditForm {...props}  />}
+			
 			<DeleteModal
-				openDeleteModal={openDeleteModal}
-				setOpenDeleteModal={setOpenDeleteModal}
-				deleteCompany={deleteCompany}
-				handleCloseDeleteModal={handleCloseDeleteModal}
+				open={openDeleteModal}
+				header="Delete Campaign"
 				name={campaignDetails.name}
+				msg="campaign"
+				closeFn={handleCloseDeleteModal}
+				delFn={() => {
+					deleteCompany();
+				}}
 			/>
 		</div>
 	);
-}
 
-const DeleteModal = ({ openDeleteModal, handleCloseDeleteModal, deleteCompany, name }) => {
-	return (
-		<DeleteModal
-			open={openDeleteModal}
-			header="Delete Campaign"
-			name={name}
-			msg="campaign"
-			closeFn={handleCloseDeleteModal}
-			delFn={() => {
-				deleteCompany();
-			}}
-		/>
-	);
-};
+
+
+}
