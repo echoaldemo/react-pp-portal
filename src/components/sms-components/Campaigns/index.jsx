@@ -310,11 +310,17 @@ const SMSLandingPage = props => {
 		//   alert("Suggestions was not found!");
 		//   window.location.reload();
 		// }
-		//---------------------------
+		// ---------------------------
 		// setTimeout(() => {
 		//    (campaignLoader || realmLoader || companyLoader) &&
 		//    fetchingCampaigns();
 		// }, 5000)
+
+		setTimeout(() => {
+			setCampaignLoader(false);
+			setRealmLoader(false);
+			setCompanyLoader(false);
+		}, 2000);
 	}
 
 	function cloneCampaign(id) {

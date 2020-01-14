@@ -6,21 +6,20 @@ import Tab from "@material-ui/core/Tab";
 import AIsettings from "./AI-settings/AIsettings";
 import PhoneNumberSettings from "./PhoneNumber-settings/PhoneNumberSettings";
 import DeliverySettings from "./Delivery-settings/DeliverySettings";
-import Loader from "../common-components/Loader";
+// import Loader from "../common-components/Loader";
 import CampaignDetails from "./CampaignDetails/CampaignDetails";
 import CallRecording from "./CallRecording/CallRecording";
 import TransferCallback from "./TransferCallback/TransferCallback";
 import CampaignHours from "./CampaignHours/CampaignHours";
 import Textfield from "../common-components/Textfield";
 import Hidden from "@material-ui/core/Hidden";
-import TableLoader from "../../../common-components/table-loader/TableLoader"
+import { TableLoader } from "common-components"
 
 
 const styles = theme => ({
   tab: {
     backgroundColor: "#eeeeee",
     color: "#7b8a96",
-    borderRadius: 3,
     marginBottom: theme.spacing(4),
     "& .MuiTab-textColorInherit.Mui-selected": {
       backgroundColor: "#1194f6",
@@ -34,6 +33,7 @@ const styles = theme => ({
     fontFamily: "Roboto, Helvetica, sans-serif",
     // fontSize: "14px",
     fontWeight: 600,
+    boxShadow: 0,
     fontStyle: "normal",
     fontStretch: "normal",
     lineHeight: "normal",

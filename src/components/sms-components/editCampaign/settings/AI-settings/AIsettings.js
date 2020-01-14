@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import LoaderDialog from "../../common-components/LoaderDialog";
 import Button from "@material-ui/core/Button";
 import { mockData } from "../../../Campaigns/mockData";
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 const styles = theme => ({
   footer: {
