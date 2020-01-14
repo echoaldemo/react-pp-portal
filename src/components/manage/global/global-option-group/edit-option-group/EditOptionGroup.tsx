@@ -3,14 +3,12 @@ import { BackButton, TableLoader, TableNoResult, SaveButton, Modal, AsyncTable }
 import { store, StateProvider } from 'contexts/EditOptionGroupContext'
 import Header from './components/Header'
 import NewOptionHeader from './components/NewOptionHeader'
-import AddOption from './components/AddOption'
-import EditOption from './components/EditOption'
-import { TableRow, TableCell, Button, Menu, MenuItem } from '@material-ui/core'
-import { Add, Settings, DeleteOutline } from '@material-ui/icons'
+import Modals from './components/Modals'
+import { TableRow, TableCell, Button } from '@material-ui/core'
+import { Add, Settings } from '@material-ui/icons'
 import SEO from 'utils/seo'
-import { get, post, patch } from 'utils/api'
+import { get, patch } from 'utils/api'
 import '../style/style.scss'
-import { editReset } from '../utils/const-var'
 
 const EditComponent = ({ match, history }: any) => {
 	const { state, dispatch } = useContext(store)
@@ -19,42 +17,8 @@ const EditComponent = ({ match, history }: any) => {
 		getData()
 	}, [])
 
-	const handleClose = () => {
-		dispatch({ type: 'EDIT', payload: { edit: { ...editReset } } })
-	};
-
-	const handleAdd = () => {
-		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: true } } })
-		post(`/pitch/global/gui/field-option-group/${state.uuid}/options/`, {
-			description: state.description,
-			value: state.value
-		})
-			.then((res: any) => {
-				dispatch({
-					type: 'EDIT', payload: {
-						edit: { ...state.edit, load: false, done: true, open: false, name: state.edit.description }
-					}
-				})
-				dispatch({
-					type: 'GROUP', payload: {
-						group: { ...state.group, options: [...state.group.options, res.data] }
-					}
-				})
-			})
-			.catch((err: any) => {
-				try {
-					if (err.response.data) {
-						dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, snackErr: err.response.data.value[0] } } })
-					}
-				} catch {
-					console.log(err);
-				}
-			});
-	};
-
 	const handleSaveName = (name: any) => {
 		dispatch({ type: 'LOADING', payload: { loading: true } })
-		//change id to uuid
 		patch(`/pitch/global/gui/field-option-group/${match.params.uuid}/`, {
 			name
 		})
@@ -69,7 +33,7 @@ const EditComponent = ({ match, history }: any) => {
 				//change id with uuid
 				dispatch({
 					type: 'EDIT',
-					payload: { edit: { ...state.edit, uuid: res.data.id } }
+					payload: { edit: { ...state.edit, uuid: res.data.uuid } }
 				})
 				dispatch({ type: 'LOADING', payload: { loading: false } })
 			}
@@ -144,42 +108,7 @@ const EditComponent = ({ match, history }: any) => {
 							}
 						</div>
 					</div>
-
-					<Modal open={state.edit.open} title="Create Option" onClose={handleClose}>
-						<AddOption
-							handleAdd={handleAdd}
-						/>
-					</Modal>
-					<Modal open={state.edit.edit} title="Edit Option" onClose={handleClose}>
-						<EditOption />
-					</Modal>
-					<Menu
-						anchorEl={state.anchorEl}
-						keepMounted
-						open={Boolean(state.anchorEl)}
-						onClose={() => dispatch({ type: 'ANCHOR_EL', payload: { anchorEl: null } })}
-					>
-						<MenuItem
-							style={{ padding: 15 }}
-							onClick={() => {
-								dispatch({ type: 'ANCHOR_EL', payload: { anchorEl: null } })
-								dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, edit: true } } })
-							}}
-						>
-							<Settings style={{ marginRight: 16 }} />
-							Modify
-            </MenuItem>
-						<MenuItem
-							style={{ padding: 15 }}
-							onClick={() => {
-								dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, delete2: true } } })
-								dispatch({ type: 'ANCHOR_EL', payload: { anchorEl: null } })
-							}}
-						>
-							<DeleteOutline style={{ marginRight: 16 }} />
-							Delete
-            </MenuItem>
-					</Menu>
+					<Modals history={history} />
 				</>
 			}
 		</>

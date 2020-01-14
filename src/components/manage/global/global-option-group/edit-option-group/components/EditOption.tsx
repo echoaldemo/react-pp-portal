@@ -24,7 +24,6 @@ const EditOption = () => {
 	}, [])
 
 	const handleEdit = () => {
-		//console.log('EDIT', state.edit.editData)
 		if (state.current.value === state.edit.editData.value) {
 			delete state.edit.editData.value;
 		}
