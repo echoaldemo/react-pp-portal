@@ -44,7 +44,7 @@ export default (props: any) => {
 			</MenuItem>
 			<MenuItem
 				onClick={e =>
-					routeToPath(`/manage/edit/${props.data.id}/settings/`, {})
+					routeToPath(`/manage/sms/edit/${props.data.id}/settings/`, {})
 				}
 			>
 				Edit settings
@@ -52,7 +52,7 @@ export default (props: any) => {
 
 			<MenuItem
 				onClick={e =>
-					routeToPath(`/manage/edit/${props.data.id}/schedule/`, {})
+					routeToPath(`/manage/sms/edit/${props.data.id}/schedule/`, {})
 				}
 			>
 				Edit schedule

@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button";
 import InputTextField from "../../common-components/InputTextField";
 import { mockData } from "../../../Campaigns/mockData";
 
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 const styles = theme => ({
   formControl: {
@@ -403,25 +403,25 @@ class CampaignDetails extends Component {
           </Grid>
           <Grid item xs={12} sm={4} md={3} lg={3}>
             {this.state.name !== this.state.originalname ||
-            this.state.revenue !== this.state.originalrevenue ||
-            this.state.setLongTransfers !==
+              this.state.revenue !== this.state.originalrevenue ||
+              this.state.setLongTransfers !==
               this.state.originalsetLongTransfers ||
-            this.state.repostRules !== this.state.originalrepostRules ||
-            this.state.closeDuration !== this.state.originalcloseDuration ||
-            this.state.closeLead !== this.state.originalcloseLead ||
-            this.state.longTransfer !== this.state.originallongTransfer ? (
-              <Button
-                variant="contained"
-                id="campaignDetailsSave"
-                className={classes.addBtn}
-                onClick={this.updateCampaignDetails}
-                disabled={this.state.name ? false : true}
-              >
-                Save
+              this.state.repostRules !== this.state.originalrepostRules ||
+              this.state.closeDuration !== this.state.originalcloseDuration ||
+              this.state.closeLead !== this.state.originalcloseLead ||
+              this.state.longTransfer !== this.state.originallongTransfer ? (
+                <Button
+                  variant="contained"
+                  id="campaignDetailsSave"
+                  className={classes.addBtn}
+                  onClick={this.updateCampaignDetails}
+                  disabled={this.state.name ? false : true}
+                >
+                  Save
               </Button>
-            ) : (
-              ""
-            )}
+              ) : (
+                ""
+              )}
           </Grid>
         </Grid>
         <LoaderDialog open={this.state.loaderDialog} />
