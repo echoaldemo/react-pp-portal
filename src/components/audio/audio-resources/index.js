@@ -14,24 +14,26 @@ import {
   Tooltip
 } from "@material-ui/core";
 
-import AddAudioResource from "./addAudioResource";
-import LoadingAddAudioResource from "../common-components/modals/loadingAddAudioResource";
-import AudioResourceCreated from "../common-components/modals/audioResourceCreated";
-import UploadAudioResource from "../common-components/modals/uploadAudioResource";
-import DeleteConfirmation from "../common-components/modals/deleteAudio";
-/* done above */
-import Toast from "../common-components/toast/toast";
+import AddAudioResource from "./components/AddAudioResource";
+import LoadingAddAudioResource from "./components/LoadingAddAudioResource";
+import AudioResourceCreated from "./components/AudioResourceCreated";
+import UploadAudioResource from "./components/UploadAudioResource";
+import DeleteConfirmation from "./components/DeleteConfirmation";
+import Toast from "../common-components/toast";
 
-import Pagination from "../../common-components/pagination/PaginationV2";
-import SearchBar from "../../common-components/search-bar/SearchBar";
-import TableLoader from "../../common-components/table-loader/TableLoader";
-import HeaderLink from "../../common-components/HeaderLink/HeaderLink";
-import HeaderButton from "../../common-components/HeaderButton/HeaderButton";
+import {
+  Pagination,
+  SearchBar,
+  TableLoader,
+  HeaderButton,
+  HeaderLink
+} from "common-components";
 
 import useStyles from "./audioresource.styles";
 import AudioResourceTable from "./AudioResourceTable";
 
-import { get, remove, post, patch } from "../../../utils/api";
+//import { get, remove, post, patch } from "../../../utils/api";
+import { mock, profile } from "./mock";
 
 const theme = createMuiTheme({
   palette: {
@@ -52,7 +54,7 @@ const LightTooltip = withStyles(theme => ({
 const CancelToken = axios.CancelToken;
 let source = CancelToken.source();
 
-class AudioResource extends Component {
+class AudioResources extends Component {
   constructor() {
     super();
     this.state = {
@@ -123,7 +125,7 @@ class AudioResource extends Component {
   };
 
   saveAudioName = name => {
-    if (!this.state.currentResourceInfo) {
+    /* if (!this.state.currentResourceInfo) {
       this.setState({
         loadingAddAudioResource: true,
         addResourceModal: false,
@@ -176,11 +178,11 @@ class AudioResource extends Component {
             addResourceModal: false
           })
         );
-    }
+    } */
   };
 
   uploadResourceAudio = (file, modification, convert, fadeIn, fadeOut) => {
-    this.setState({
+    /* this.setState({
       uploadResourceModal: false,
       loadingAddAudioResource: true,
       loadingType: "audioFile"
@@ -214,12 +216,12 @@ class AudioResource extends Component {
           currentResourceInfo: null
         });
         alert("Error Uploading Audio File");
-      });
+      }); */
   };
 
   componentDidMount() {
     document.title = "Audio Resources";
-    get("/identity/user/profile/").then(profileData => {
+    /* get("/identity/user/profile/").then(profileData => {
       this.setState({
         profile: profileData.data,
         user_group: profileData.data.groups[0]
@@ -231,6 +233,14 @@ class AudioResource extends Component {
         filterlist: [...res.data],
         paginateList: [...res.data]
       });
+    }); */
+    /* mock */
+    this.setState({
+      profile: profile,
+      user_group: profile.groups[0],
+      audioResourceData: mock,
+      filterlist: mock,
+      paginateList: mock
     });
   }
 
@@ -258,7 +268,7 @@ class AudioResource extends Component {
   };
 
   finalDelete = () => {
-    remove(`/pitch/global/audio/resources/${this.state.editUUID}/`);
+    /* remove(`/pitch/global/audio/resources/${this.state.editUUID}/`); */
   };
 
   handleClick = event => {
@@ -309,13 +319,13 @@ class AudioResource extends Component {
       ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
     };
 
-    get("/pitch/global/audio/resources/", parameter).then(res => {
+    /* get("/pitch/global/audio/resources/", parameter).then(res => {
       this.setState({
         audioResourceData: [...res.data],
         filterlist: [...res.data],
         paginateList: [...res.data]
       });
-    });
+    }) */
   };
 
   paginate = (from, to) => {
@@ -474,4 +484,4 @@ class AudioResource extends Component {
   }
 }
 
-export default withStyles(useStyles)(AudioResource);
+export default withStyles(useStyles)(AudioResources);

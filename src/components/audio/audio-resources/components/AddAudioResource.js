@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   TextField
-} from "@material-ui/core/Button";
+} from "@material-ui/core";
 import {
   makeStyles,
   createMuiTheme,
