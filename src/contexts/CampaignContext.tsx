@@ -23,15 +23,16 @@ function CampaignsContextProvider({ children }: any) {
 	const [ loading, setLoading ] = useState(false);
 
 	useEffect(() => {
+		getAllData()
+	}, []);
+
+	function getAllData() {
 		setLoading(true);
-		// setTimeout(() => {
-		// 	setLoading(false);
-		// }, 500);
 		get('/identity/campaign/list/').then((res: any) => {
 			setData(res.data);
 			setLoading(false);
 		});
-	}, []);
+	}
 
 	function FilterApplyButton(params: any) {
 		var parameter = {
