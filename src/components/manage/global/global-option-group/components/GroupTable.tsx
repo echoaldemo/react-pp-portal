@@ -1,9 +1,8 @@
 import React, { useState, useContext } from 'react'
 import {
 	Button,
-	Dialog,
 	Menu,
-	MenuItem as MenuItem2,
+	MenuItem,
 	TableCell,
 	TableRow,
 	Tooltip
@@ -15,18 +14,9 @@ import {
 	Settings
 } from '@material-ui/icons'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import styled from 'styled-components'
 import { cancel } from 'utils/api'
 import { AsyncTable, DeleteModal, LoadingModal, SuccessModal, UnderlineCell } from 'common-components'
 import { store } from 'contexts/OptionGroupContext'
-
-const MenuItem = styled(MenuItem2)`
-  color: #777777 !important;
-  min-width: 256px;
-  padding-top: 0;
-  padding-bottom: 0;
-  font-weight: 400;
-`
 
 const LightTooltip = withStyles(theme => ({
 	tooltip: {
@@ -87,7 +77,6 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
 				//change id to uuid
 				delFn={() => {
 					handleDelete(current.uuid)
-					setCurrent({})
 				}}
 			/>
 			<LoadingModal
@@ -115,6 +104,7 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
 				onClose={handleCloseMenu}
 			>
 				<MenuItem
+					className='menu-item'
 					style={{ padding: 15 }}
 					onClick={() => {
 						handleCloseMenu()
@@ -125,6 +115,7 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
 					Modify
         </MenuItem>
 				<MenuItem
+					className='menu-item'
 					style={{ padding: 15 }}
 					onClick={() => {
 						dispatch({
