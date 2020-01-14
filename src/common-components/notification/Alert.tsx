@@ -7,14 +7,15 @@ const Alert: React.FC<{
   setOpen: any;
   type: string;
   message: string;
-}> = ({ open, setOpen, type, message }) => {
+  timeout?: number;
+}> = ({ open, setOpen, type, message, timeout }) => {
   const classes = style(0);
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id="container"
       open={open}
-      autoHideDuration={2000}
+      autoHideDuration={timeout || 2000}
       onClose={() => setOpen(false)}
     >
       <SnackbarContent
