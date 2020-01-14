@@ -9,4 +9,4 @@ export {
 	Dashboard
 } from "./manage/manage-campaigns";
 export { PageNotFound } from "./PageNotFound";
-export { SMSLandingPage } from "./sms-components";
+export { SMSLandingPage, SMSEdit } from "./sms-components";

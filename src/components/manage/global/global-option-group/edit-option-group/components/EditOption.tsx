@@ -3,19 +3,7 @@ import { InputField } from '../../utils/const-var'
 import { SaveButton } from 'common-components'
 import { store } from 'contexts/EditOptionGroupContext'
 import { patch } from 'utils/api'
-import styled from 'styled-components'
 
-const Cont = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  div {
-    margin: 8px 0;
-  }
-  /* button {
-    margin-top: 8px;
-  } */
-`
 const EditOption = () => {
 	const { state, dispatch } = useContext(store)
 
@@ -24,7 +12,6 @@ const EditOption = () => {
 	}, [])
 
 	const handleEdit = () => {
-		//console.log('EDIT', state.edit.editData)
 		if (state.current.value === state.edit.editData.value) {
 			delete state.edit.editData.value;
 		}
@@ -96,7 +83,7 @@ const EditOption = () => {
 	}
 
 	return (
-		<Cont>
+		<div className='add-edit-cont'>
 			<InputField
 				value={state.edit.editData.description ? state.edit.editData.description : ''}
 				onChange={handleChange}
@@ -125,7 +112,7 @@ const EditOption = () => {
 			>
 				save option
       </SaveButton>
-		</Cont>
+		</div>
 	)
 }
 

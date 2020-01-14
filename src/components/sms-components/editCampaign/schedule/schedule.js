@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import { withStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import TableLoader from "../../../common-components/table-loader/TableLoader"
+import { TableLoader } from "common-components"
 import CallsAndSMS from "./CallsAndSMS/CallsAndSMS";
 import Days from "./Days/Days";
 
@@ -96,14 +96,14 @@ class Schedule extends React.Component {
         ) : this.state.schedule === 0 ? (
           <Days id={this.props.id} />
         ) : (
-          <CallsAndSMS
-            id={id}
-            callsms={campaignDetails.callsms}
-            CDcallsmsChange={CDcallsmsChange}
-            audio={audio}
-            loaded={loaded}
-          />
-        )}
+              <CallsAndSMS
+                id={id}
+                callsms={campaignDetails.callsms}
+                CDcallsmsChange={CDcallsmsChange}
+                audio={audio}
+                loaded={loaded}
+              />
+            )}
       </React.Fragment>
     );
   }
