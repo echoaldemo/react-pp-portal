@@ -15,6 +15,9 @@ import {
   DeleteModal,
   LoadingModal,
   SuccessModal,
+  TableLoader,
+  TableNoResult,
+  SaveButton,
   Pagination
 } from "common-components";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -51,6 +54,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
   const [openSuccess, setOpenSuccess] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [paginateList, setPaginateList] = useState([]);
+  const [table_loading, setTableLoading] = useState(false);
 
   useEffect(() => {
     getAudioResources();
@@ -61,12 +65,17 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
   }, [openNew]);
 
   const getAudioResources = () => {
-    fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/audio")
-      .then((media) => media.json())
-      .then((media: any) => {
-        setAudioResources(media);
-        setPaginateList(media);
-      });
+    setTableLoading(true);
+
+    setTimeout(() => {
+      fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/audio")
+        .then((media) => media.json())
+        .then((media: any) => {
+          setAudioResources(media);
+          setPaginateList(media);
+          setTableLoading(false);
+        });
+    }, 2000);
   };
 
   const getClassName: Function = (i: number, { uuid, userCell }: any) => {
@@ -401,20 +410,39 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
     />
   );
 
-  return (
-    <Grid container>
-      {renderCreate()}
-      {renderDeleteModal()}
-      {renderEdit()}
-      {renderLoading()}
-      {renderHeader()}
-      {renderTable()}
-      {renderPagination()}
-      {renderPopMenu()}
-      {renderSuccess()}
-      {renderUpload()}
-    </Grid>
-  );
+  if (table_loading) return <TableLoader />;
+  else if (audio_resources.length <= 0)
+    return (
+      <>
+        {renderCreate()}
+        <TableNoResult
+          headerText="Audio resources"
+          mainMessage="No audio resource have been created"
+          subMessage="Would you like to create one? Just hit the “New resource” button."
+          renderButton={
+            <SaveButton onClick={() => setOpenNew(true)}>
+              <Add />
+              New resource
+            </SaveButton>
+          }
+        />
+      </>
+    );
+  else
+    return (
+      <Grid container>
+        {renderCreate()}
+        {renderDeleteModal()}
+        {renderEdit()}
+        {renderLoading()}
+        {renderHeader()}
+        {renderTable()}
+        {renderPagination()}
+        {renderPopMenu()}
+        {renderSuccess()}
+        {renderUpload()}
+      </Grid>
+    );
 };
 
 export default AudioResourceComponent;
