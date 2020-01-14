@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { store } from 'contexts/EditOptionGroupContext'
 import { Modal, LoadingModal, SuccessModal, DeleteModal } from 'common-components'
-import { Menu, MenuItem } from '@material-ui/core'
-import { Settings, DeleteOutline } from '@material-ui/icons'
+import { Menu, MenuItem, Snackbar } from '@material-ui/core'
+import { Settings, DeleteOutline, Close } from '@material-ui/icons'
 import AddOption from './AddOption'
 import EditOption from './EditOption'
 import { remove, cancel } from 'utils/api'
@@ -47,6 +47,14 @@ const Modals = ({ history }: any) => {
 	}
 
 	return <>
+		<Snackbar
+			autoHideDuration={5000}
+			onClose={handleClose}
+			open={state.edit.snackErr ? true : false}
+			anchorOrigin={{ vertical: "top", horizontal: "right" }}
+			message={<span>{state.edit.snackErr}</span>}
+			action={[<Close key={1} onClick={handleClose} />]}
+		/>
 		<Modal open={state.edit.edit} title="Edit Option" onClose={handleClose}>
 			<EditOption />
 		</Modal>
