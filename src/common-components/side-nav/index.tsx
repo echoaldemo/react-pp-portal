@@ -77,7 +77,7 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
 
   const audioCheck = () => {
     if (
-      pathname.includes("/manage/audio/resources") ||
+      pathname.includes("/manage/audio/audio-resources") ||
       pathname.includes("/manage/audio/pitch") ||
       pathname.includes("/manage/audio/phrase") ||
       pathname.includes("/manage/audio/prospect")
@@ -787,19 +787,20 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
               <List component="div" disablePadding>
                 {type !== "10" ? (
                   <Link
-                    to="/manage/audio/resources"
+                    to="/manage/audio/audio-resources"
                     className={classes.customLink}
                   >
                     <ListItem
                       className={
-                        pathname.includes("/manage/audio/resources")
+                        pathname.includes("/manage/audio/audio-resources")
                           ? `${classes.collapseItemActive} ${classes.nested}`
                           : classes.nested
                       }
                       onClick={handleDrawerClose}
                       button
                       selected={
-                        pathname.includes("/manage/audio/resources") && true
+                        pathname.includes("/manage/audio/audio-resources") &&
+                        true
                       }
                     >
                       <ListItemIcon>
