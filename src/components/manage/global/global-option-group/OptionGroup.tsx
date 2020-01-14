@@ -21,7 +21,7 @@ const OptionGroup = ({ history }: any) => {
 
 	const fetchData = () => {
 		setLoading(true)
-		get('http://5e16ee0422b5c600140d019f.mockapi.io/field-option-group')
+		get('/pitch/global/gui/field-option-group/')
 			.then((res: any) => {
 				dispatch({ type: 'GROUP_LIST', payload: { groupList: res.data } })
 				dispatch({ type: 'PAGINATE', payload: { paginateList: res.data } })
@@ -35,7 +35,7 @@ const OptionGroup = ({ history }: any) => {
 				groupState: { ...state.groupState, load2: true }
 			}
 		})
-		remove(`http://5e16ee0422b5c600140d019f.mockapi.io/field-option-group/${uuid}`).then(() => {
+		remove(`/pitch/global/gui/field-option-group/${uuid}/`).then(() => {
 			//change id to uuid
 			dispatch({
 				type: 'GROUP_STATE', payload: {
@@ -64,7 +64,7 @@ const OptionGroup = ({ history }: any) => {
 			}
 		})
 		//change to name only
-		post('http://5e16ee0422b5c600140d019f.mockapi.io/field-option-group', {
+		post('/pitch/global/gui/field-option-group/', {
 			name: state.groupState.name
 		}).then((res: any) => {
 			dispatch({ type: 'GROUP_LIST', payload: { groupList: [...state.groupList, res.data] } })

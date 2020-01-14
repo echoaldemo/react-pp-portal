@@ -86,7 +86,7 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
 				}}
 				//change id to uuid
 				delFn={() => {
-					handleDelete(current.id)
+					handleDelete(current.uuid)
 					setCurrent({})
 				}}
 			/>
@@ -150,6 +150,7 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
 								style={{ paddingRight: 50 }}
 								onClick={() =>
 									history.push(`/manage/global-option-group/edit/${group.uuid}`)
+									//change id to uuid
 								}
 							>
 								{group.name}

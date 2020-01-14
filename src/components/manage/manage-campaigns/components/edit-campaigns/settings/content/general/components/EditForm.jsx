@@ -1,10 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Collapse, Grid, InputAdornment, Switch, Button, Typography, MenuItem, Checkbox } from '@material-ui/core';
-import { InputField, CustomButton, SaveButton } from 'common-components';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { LightTooltip } from '../../../../../../../globalConstsVar';
-import axios from 'axios';
-import { Delete as DeleteIcon, FileCopyOutlined as CopyIcon } from '@material-ui/icons/';
+import React, { useEffect, useState } from "react";
+import {
+	Collapse,
+	Grid,
+	InputAdornment,
+	Switch,
+	Button,
+	Typography,
+	MenuItem,
+	Checkbox
+} from "@material-ui/core";
+import { InputField, CustomButton, SaveButton } from "common-components";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { LightTooltip } from "../../../../../../../globalConstsVar";
+import { patch } from "utils/api";
+import {
+	Delete as DeleteIcon,
+	FileCopyOutlined as CopyIcon
+} from "@material-ui/icons/";
 const MenuProps = {
 	PaperProps: {
 		style: {
@@ -31,7 +43,7 @@ const EditForm = ({
 			<Switch
 				color="default"
 				checked={state.active}
-				onChange={(e) => setState({ ...state, active: e.target.checked })}
+				onChange={e => setState({ ...state, active: e.target.checked })}
 			/>
 		);
 	};
@@ -41,27 +53,28 @@ const EditForm = ({
 	};
 
 	const handleSaveData = () => {
-		axios
-			.patch(
-				`https://dev-api.perfectpitchtech.com/identity/campaign/${initialState.uuid}/`,
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
-					}
-				},
-				{ ...state }
-			)
-			.then((res) => {
-				console.log(res, 'saved');
+
+		const {uuid , ...rest} = state
+		patch(
+			`/identity/campaign/${initialState.uuid}/`,
+			{
+				name: state.name,
+				company: state.company,
+				realms: state.realms,
+				slug: state.slug,
+				active: state.active
+			}
+		)
+			.then(res => {
+				console.log(res, "saved");
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err);
 			});
 	};
 	return (
 		<form
-			onSubmit={(e) => {
+			onSubmit={e => {
 				e.preventDefault();
 				handleSaveData();
 				console.log(state);
@@ -76,30 +89,29 @@ const EditForm = ({
 						margin="normal"
 						required
 						value={state.name}
-						onChange={(e) => {
+						onChange={e => {
 							setState({
 								...state,
 								name: e.target.value
 							});
 						}}
 						error={errMsg.name ? true : false}
-						helperText={errMsg.name ? errMsg.name : ' '}
+						helperText={errMsg.name ? errMsg.name : " "}
 						onBlur={() => {
 							if (state.name) {
 								setErrMsg({
 									...errMsg,
-									name: ''
+									name: ""
 								});
-							}
-							else {
+							} else {
 								setErrMsg({
 									...errMsg,
-									name: 'A campaign name is required'
+									name: "A campaign name is required"
 								});
 							}
 						}}
 						onFocus={() => {
-							setErrMsg({ ...errMsg, name: '' });
+							setErrMsg({ ...errMsg, name: "" });
 						}}
 					/>
 				</Grid>
@@ -130,24 +142,26 @@ const EditForm = ({
 						SelectProps={{ MenuProps }}
 						value={state.company}
 						error={errMsg.addCompany ? true : false}
-						helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
-						onChange={(e) => {
+						helperText={errMsg.addCompany ? errMsg.addCompany : " "}
+						onChange={e => {
 							setState({ ...state, company: e.target.value });
-							setErrMsg({ ...errMsg, addCompany: '' });
+							setErrMsg({ ...errMsg, addCompany: "" });
 						}}
 						onBlur={() => {
 							if (state.company) {
-								setErrMsg({ ...errMsg, addCompany: '' });
-							}
-							else {
-								setErrMsg({ ...errMsg, addCompany: 'A company is required' });
+								setErrMsg({ ...errMsg, addCompany: "" });
+							} else {
+								setErrMsg({
+									...errMsg,
+									addCompany: "A company is required"
+								});
 							}
 						}}
 						onFocus={() => {
-							setErrMsg({ ...errMsg, addCompany: '' });
+							setErrMsg({ ...errMsg, addCompany: "" });
 						}}
 					>
-						{companies.map((company) => (
+						{companies.map(company => (
 							<MenuItem key={company.uuid} value={company.uuid}>
 								{company.name}
 							</MenuItem>
@@ -162,7 +176,7 @@ const EditForm = ({
 						fullWidth
 						required
 						margin="normal"
-						value={state.active ? 'Active' : 'Inactive'}
+						value={state.active ? "Active" : "Inactive"}
 						InputProps={{
 							endAdornment: <SwitchAd />
 						}}
@@ -178,16 +192,20 @@ const EditForm = ({
 						SelectProps={{
 							MenuProps,
 							multiple: true,
-							onChange: (e) => {
+							onChange: e => {
 								setAddRealms(e.target.value);
 							},
 							value: addRealms,
-							renderValue: (selected) => selected.map((select) => select.name).join(', ')
+							renderValue: selected =>
+								selected.map(select => select.name).join(", ")
 						}}
 					>
-						{realms.map((realm) => (
+						{realms.map(realm => (
 							<MenuItem key={realm.uuid} value={realm}>
-								<Checkbox color="primary" checked={addRealms.indexOf(realm) > -1} />
+								<Checkbox
+									color="primary"
+									checked={addRealms.indexOf(realm) > -1}
+								/>
 								{realm.name}
 							</MenuItem>
 						))}
@@ -201,15 +219,19 @@ const EditForm = ({
 						</Grid>
 						<Grid item lg={6} xs={12} sm={12} md={6}>
 							<CustomButton
-								handleClick={() => alert('xx')}
+								handleClick={() => alert("xx")}
 								style={{
-									width: '130px',
-									background: '#ff504d',
-									color: 'white',
-									float: 'right'
+									width: "130px",
+									background: "#ff504d",
+									color: "white",
+									float: "right"
 								}}
 							>
-								<DeleteIcon fontSize="small" style={{ marginRight: 5 }} /> DELETE
+								<DeleteIcon
+									fontSize="small"
+									style={{ marginRight: 5 }}
+								/>{" "}
+								DELETE
 							</CustomButton>
 						</Grid>
 					</Grid>
@@ -222,7 +244,7 @@ const EditForm = ({
 						required
 						margin="normal"
 						value={state.slug}
-						onChange={(e) => {
+						onChange={e => {
 							setState({
 								...state,
 								slug: e.target.value
@@ -233,7 +255,8 @@ const EditForm = ({
 			</Grid>
 			<Collapse
 				in={
-					(state.name !== initialState.name && state.name.length !== 0) ||
+					(state.name !== initialState.name &&
+						state.name.length !== 0) ||
 					state.active !== initialState.active ||
 					realmChanged() ||
 					state.company !== initialState.company ||
@@ -246,13 +269,15 @@ const EditForm = ({
 					<CustomButton
 						handleClick={() => {
 							setState({ ...initialState });
-							setAddRealms(filterRealm(realms, initialState.realms));
+							setAddRealms(
+								filterRealm(realms, initialState.realms)
+							);
 						}}
 						style={{
-							backgroundColor: '#eeeeee'
+							backgroundColor: "#eeeeee"
 						}}
 						textStyle={{
-							color: '#444851'
+							color: "#444851"
 						}}
 					>
 						CANCEL
@@ -264,18 +289,28 @@ const EditForm = ({
 };
 
 const CopyUUID = ({ uuid }) => {
-	const [ copy, setCopy ] = useState(false);
+	const [copy, setCopy] = useState(false);
 
 	return (
 		<InputAdornment position="end">
-			<CopyToClipboard text={uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
+			<CopyToClipboard
+				text={uuid}
+				onCopy={() => setCopy(true)}
+				onPointerLeave={() => setCopy(false)}
+			>
 				{copy ? (
 					<LightTooltip title="UUID Copied!" placement="top">
-						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
+						<CopyIcon
+							fontSize="small"
+							style={{ float: "right", cursor: "pointer" }}
+						/>
 					</LightTooltip>
 				) : (
 					<LightTooltip title="Copy UUID" placement="top">
-						<CopyIcon fontSize="small" style={{ float: 'right', cursor: 'pointer' }} />
+						<CopyIcon
+							fontSize="small"
+							style={{ float: "right", cursor: "pointer" }}
+						/>
 					</LightTooltip>
 				)}
 			</CopyToClipboard>

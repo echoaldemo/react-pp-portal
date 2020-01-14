@@ -17,6 +17,7 @@ interface Props {
 	onClick?: any;
 	handleClick?: (e: React.SyntheticEvent<HTMLButtonElement>) => void;
 	type?: any
+	className?: string
 }
 
 const defaultProps = {
