@@ -3,6 +3,9 @@ import { withStyles } from "@material-ui/core";
 import { TableLoader } from 'common-components';
 import DNDCards from '../cards/DNDCards';
 
+//MOCK DATA
+import { global, company } from './Mock';
+
 // import { get } from "../../../../utils/api";
 
 const styles = {
@@ -23,8 +26,8 @@ const defaultState = {
 		{ uuid: 3, name: 'First-names-sentence' },
 		{ uuid: 4, name: 'First-names-questions' }
 	],
-  globalTestData: [ { uuid: 1, name: 'Sample1' }, { uuid: 2, name: 'Sample2' }, { uuid: 3, name: 'Sample3' } ],
-  companyTestData: [ { uuid: 1, name: 'Sample4' }, { uuid: 2, name: 'Sample5' }, { uuid: 3, name: 'Sample6' } ],
+  globalTestData: global,
+  companyTestData: company,
   activeData: []
 };
 class RRTest extends Component {
@@ -35,11 +38,12 @@ class RRTest extends Component {
       ...defaultState
     };
   }
-  componentDidMount() {
-    // this.getAllData();
-  }
 
-  getAllData = () => {
+  // componentDidMount() {
+    // this.getAllData();
+  // }
+
+  // getAllData = () => {
     // this.setState({ loadingState: true });
     // get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
     //   .then(res => {
@@ -56,7 +60,7 @@ class RRTest extends Component {
     //   .catch(err => {
     //     alert("Failed to load data");
     //   });
-  };
+  // };
 
   setActiveData = data => {
     this.setState({
