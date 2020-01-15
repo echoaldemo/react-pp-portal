@@ -12,8 +12,8 @@ import {
 //Panel Components
 import styled from 'styled-components'
 import Settings from './Settings'
-// import ProspectVoice from "../../../global-rr-test/prospect-voices";
-// import Segments from "../../../global-rr-test/segments";
+import ProspectVoice from '../../../global-rr-test/prospect-voices'
+import Segments from '../../../global-rr-test/segments'
 import Campaigns from './Campaigns'
 const CustomTabs = styled(Tabs)`
   background-color: '#FFF' !important;
@@ -147,20 +147,20 @@ export default function SimpleTabs(props) {
         />
       </TabPanel>
       <TabPanel value={value} index={2} className={classes.panelContainer}>
-        {/* <ProspectVoice
+        <ProspectVoice
           router={{ ...props.props }}
           history={props.props.history}
           testId={props.test ? props.test.uuid : null}
           data={props.test ? props.test.voices : []}
-        /> */}
+        />
       </TabPanel>
 
       <TabPanel value={value} index={1} className={classes.panelContainer}>
-        {/* <Segments
+        <Segments
           router={{ ...props.props }}
           testId={props.test ? props.test.uuid : null}
           data={props.test ? props.test.segments : []}
-        /> */}
+        />
       </TabPanel>
       <TabPanel value={value} index={3} className={classes.panelContainer}>
         <Campaigns />
