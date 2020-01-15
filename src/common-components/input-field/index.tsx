@@ -2,6 +2,7 @@ import React from "react";
 import { SelectField } from "./styles";
 interface Props {
   children?: any;
+  name?:any;
   style?: any;
   label?: any;
   select?: any;
