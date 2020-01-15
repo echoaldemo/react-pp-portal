@@ -18,9 +18,14 @@ const styles = {
 const defaultState = {
   loadingState: false,
 
-  activeTestData: [],
-  globalTestData: [],
-  companyTestData: [],
+  activeTestData: [
+		{ uuid: 1, name: 'Programs' },
+		{ uuid: 2, name: 'Portal' },
+		{ uuid: 3, name: 'First-names-sentence' },
+		{ uuid: 4, name: 'First-names-questions' }
+	],
+  globalTestData: [ { uuid: 1, name: 'Sample1' }, { uuid: 2, name: 'Sample2' }, { uuid: 3, name: 'Sample3' } ],
+  companyTestData: [ { uuid: 1, name: 'Sample1' }, { uuid: 2, name: 'Sample2' }, { uuid: 3, name: 'Sample3' } ],
   activeData: []
 };
 class RRTest extends Component {
