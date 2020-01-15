@@ -75,6 +75,12 @@ const SMSTable = (props: any) => {
 				title="campaigns"
 				userData={paginateList}
 				headers={["id", "name", "leads"]}
+				link={true}
+				pathnameData={{
+					firstLink: `/manage/sms/edit/`,
+					fetchData: ["id"],
+					lastLink: `/settings/`
+				}}
 			/>
 			<AsyncTable
 				headers={[

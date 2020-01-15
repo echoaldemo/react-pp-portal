@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core';
-import DNDCards from './cards/DNDCards';
+import DNDCards from '../cards/DNDCards';
 import { company, global } from './Mock';
 import { TableLoader } from 'common-components';
 import { phrase } from './styles';
@@ -10,7 +10,7 @@ import { phrase } from './styles';
   getGlobalPhraseBook
 } from '../../../../actions/PhraseBook' */
 
-import CreatePhraseBook from './CreatePhraseBook';
+import CreatePhraseBook from './add-company-phrase-book/CreatePhraseBook';
 
 const defaultState = {
 	loadingState: false,

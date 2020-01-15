@@ -14,7 +14,8 @@ import {
   Pitch,
   DataPosting,
   SMSLandingPage,
-  Dashboard
+  Dashboard,
+  SMSEdit
 } from 'components'
 import { PublicRoute, GatewayRoute, PrivateRoute } from './'
 import DidPool from 'components/manage/manage-did-pool'
@@ -29,6 +30,10 @@ import {
   EditOptionGroup
 } from 'components/manage/global/global-option-group/'
 import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
+import GlobalSegments from 'components/manage/global/global-segments/GlobalSegments'
+import GlobalRapidResponse from 'components/manage/global/global-rapid-response'
+//audio
+import AudioResources from 'components/audio/audio-resources'
 
 export default function Routes() {
   return (
@@ -43,9 +48,7 @@ export default function Routes() {
           component={RealmSettingsPage}
         />
         {/* User routes */}
-
         <PrivateRoute path="/manage/users" component={UserLanding} />
-
         {/* manage/campaign routes */}
         <PrivateRoute path="/manage/campaigns" component={Campaigns} />
         <PrivateRoute
@@ -64,9 +67,7 @@ export default function Routes() {
           path="/manage/campaign/edit/:slug/:uuid/dataposting"
           component={DataPosting}
         />
-
         {/* end of manage/campaign routes */}
-
         {/* manage/companies */}
         <PrivateRoute exact path="/manage/companies" component={Companies} />
         <PrivateRoute
@@ -75,7 +76,6 @@ export default function Routes() {
           component={EditCompanies}
         />
         {/* end manage/companies */}
-
         <PrivateRoute exact path="/manage/did-pool" component={DidPool} />
         <PrivateRoute
           path="/manage/did-pool/edit/:uuid"
@@ -105,6 +105,15 @@ export default function Routes() {
           path="/manage/global-option-group/edit/:uuid"
           component={EditOptionGroup}
         />
+        <PrivateRoute
+          exact
+          path="/manage/global-rapid-response/tests"
+          component={GlobalRapidResponse}
+        />
+        <PrivateRoute
+          path="/manage/global-pitch-segments"
+          component={GlobalSegments}
+        />
         {/* Global Pitch routes end */}
         <PrivateRoute
           path="/manage/team/edit/:uuid/"
@@ -115,7 +124,16 @@ export default function Routes() {
           path="/manage/sms-dashboard"
           component={SMSLandingPage}
         />
-
+        <PrivateRoute
+          exact
+          path="/manage/sms/edit/:cid/:type"
+          component={SMSEdit}
+        />
+        <PrivateRoute
+          exact
+          path="/manage/audio/audio-resources"
+          component={AudioResources}
+        />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>

@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Settings from "@material-ui/icons/Settings";
 import { mockData } from "../../../Campaigns/mockData";
 
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 const styles = {
   root: {

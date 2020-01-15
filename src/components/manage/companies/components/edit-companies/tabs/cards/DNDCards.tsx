@@ -21,23 +21,7 @@ import {
 
 import { CustomCard, CardHeader, CardBody, CardNoResult } from 'common-components';
 
-const style = {
-	table: {
-		backgroundColor: '#FFF'
-	},
-	row: {
-		height: 50,
-		'&:nth-of-type(even)': {
-			backgroundColor: '#f8f9fa'
-		},
-		'&:nth-of-type(odd)': {
-			backgroundColor: '#FFF'
-		}
-	},
-	cell: {
-		borderBottom: 'none'
-	}
-};
+import { style } from './styles';
 
 interface IProps {
 	classes: any;
@@ -112,6 +96,7 @@ class DNDCards extends PureComponent<IProps, IState> {
 		// }
 		return x.parentNode.nodeName;
 	};
+
 	getRootNode = (data: any) => {
 		const parser = new DOMParser();
 		const theDom = parser.parseFromString(data, 'application/xml');
@@ -119,7 +104,6 @@ class DNDCards extends PureComponent<IProps, IState> {
 
 		return rootNode;
 	};
-
 
 	id2List: any  = {
 		droppable: 'card1Data',
@@ -406,6 +390,7 @@ class DNDCards extends PureComponent<IProps, IState> {
 																							id="simple-menu"
 																							keepMounted
 																							open={this.state.openCard1}
+																							PopoverClasses={{ paper: classes.paper}}
 																						>
 																							{this.state.card2DataOrig.includes(
 																								this.state.activeData

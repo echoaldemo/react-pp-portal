@@ -14,7 +14,7 @@ import NoDataImage from "./nodata.png";
 import currWeek from "./Week";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
-import api from "../../../../services/fetchApi";
+// import api from "../../../../services/fetchApi";
 
 
 const styles = theme => ({
@@ -195,7 +195,7 @@ class HeaderDays extends React.Component {
             action={
               <Button
                 className={classes.add}
-                style={{backgroundColor: 'white'}}
+                style={{ backgroundColor: 'white' }}
                 onClick={() => this.props.add(this.props.id)}
                 id="addEventBtn"
               >
@@ -259,7 +259,7 @@ class HeaderDays extends React.Component {
                 alt=""
               /> */}
               <Typography variant="body2" color="textSecondary" component="p"
-              style={{ marginTop: "26%"}}
+                style={{ marginTop: "26%" }}
               >
                 No event created yet
               </Typography>
