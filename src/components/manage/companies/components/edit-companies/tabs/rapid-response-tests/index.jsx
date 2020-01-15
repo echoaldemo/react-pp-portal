@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
-
 import { TableLoader } from 'common-components';
 import DNDCards from '../cards/DNDCards';
 
@@ -25,7 +24,7 @@ const defaultState = {
 		{ uuid: 4, name: 'First-names-questions' }
 	],
   globalTestData: [ { uuid: 1, name: 'Sample1' }, { uuid: 2, name: 'Sample2' }, { uuid: 3, name: 'Sample3' } ],
-  companyTestData: [ { uuid: 1, name: 'Sample1' }, { uuid: 2, name: 'Sample2' }, { uuid: 3, name: 'Sample3' } ],
+  companyTestData: [ { uuid: 1, name: 'Sample4' }, { uuid: 2, name: 'Sample5' }, { uuid: 3, name: 'Sample6' } ],
   activeData: []
 };
 class RRTest extends Component {
