@@ -11,10 +11,16 @@ import { useStyles } from "../../styles/CreatePhraseBookModal.style";
 interface Props {
   open: boolean;
   onClose: () => void;
-  addPhraseBook: (data: any) => void;
+  addPhraseBook: (data: any, fn: any) => void;
+  afterAdd: () => void;
 }
 
-const CreatePhraseBook = ({ open, onClose, addPhraseBook }: Props) => {
+const CreatePhraseBook = ({
+  open,
+  onClose,
+  addPhraseBook,
+  afterAdd
+}: Props) => {
   const classes = useStyles();
   const [phrasebookName, setPhraseBookName] = useState<string>("");
   const [phrasebookNameError, setPhraseBookNameError] = useState<boolean>(
@@ -52,20 +58,20 @@ const CreatePhraseBook = ({ open, onClose, addPhraseBook }: Props) => {
     classes: { root: classes.btnStyle },
     onClick: (e: any) => {
       e.preventDefault();
+      const data: any = {
+        name: phrasebookName,
+        uuid: uuidv4(),
+        slug: phrasebookName.replace(" ", "-"),
+        company: "",
+        phrases: []
+      };
       if (phrasebookName.length !== 0) {
         onClose();
         setCreation({ ...creation, creating: true });
-        setTimeout(() => {
-          addPhraseBook({
-            name: phrasebookName,
-            uuid: uuidv4(),
-            slug: phrasebookName.replace(" ", "-"),
-            company: "",
-            phrases: []
-          });
+        addPhraseBook(data, () => {
           setCreation({ ...creation, creating: false, created: true });
           reset();
-        }, 1000);
+        });
       }
     }
   };
@@ -98,7 +104,10 @@ const CreatePhraseBook = ({ open, onClose, addPhraseBook }: Props) => {
         text={"Phrase book was added"}
         btnText="OK"
         closeFn={() => setCreation({ ...creation, created: false })}
-        btnFn={() => setCreation({ ...creation, created: false })}
+        btnFn={() => {
+          setCreation({ ...creation, created: false });
+          afterAdd();
+        }}
       />
       <Modal title="Create Phrase Book" open={open} onClose={onClose}>
         <form

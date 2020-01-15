@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, Collapse, createMuiTheme } from "@material-ui/core";
+import { Collapse } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import {
   CustomButton,
@@ -8,69 +8,10 @@ import {
   DeleteModal,
   SuccessModal
 } from "common-components";
-
-const materialTheme = createMuiTheme({
-  overrides: {
-    MuiInput: {
-      underline: {
-        "&:before": {
-          borderBottom: "2px solid rgba(0,0,0,0.12)"
-        },
-        "&::after": {
-          borderBottom: "2px solid #1194f6"
-        },
-        "&:hover:not(.Mui-disabled):before": {
-          borderBottom: "2px solid rgba(0,0,0,0.12)"
-        }
-      }
-    }
-  }
-});
-
-const useStyles = makeStyles(() => ({
-  formContainer: {
-    width: 800,
-    padding: 15,
-    marginTop: 15
-  },
-  textField: {
-    paddingBottom: 40
-  },
-  label: {
-    fontWeight: 600,
-    fontSize: 20
-  },
-  labelNormal: {
-    fontWeight: 500,
-    fontSize: 20
-  },
-  btnFormControl: {
-    display: "flex",
-    justifyContent: "space-between",
-    paddingBottom: 15
-  },
-  btnSaveFormControl: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 15
-  },
-  btn: {
-    marginLeft: 10,
-    marginRight: 10
-  },
-  underline: {
-    "&:before": {
-      borderBottom: "2px solid rgba(0,0,0,0.12)"
-    },
-    "&::after": {
-      borderBottom: "2px solid #1194f6"
-    },
-    "&:hover:not(.Mui-disabled):before": {
-      borderBottom: "2px solid rgba(0,0,0,0.12)"
-    }
-  }
-}));
+import {
+  useStyles,
+  materialTheme
+} from "../../styles/EditPhraseBookForm.style";
 
 const EditPhraseBookForm = ({ editData, save }) => {
   const classes = useStyles();
@@ -88,7 +29,11 @@ const EditPhraseBookForm = ({ editData, save }) => {
   }, [editData]);
 
   const handleChange = (e, label) => {
-    setShow(true);
+    if (e.target.value.length === 0) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
     setphrase({
       ...phrase,
       [label]: e.target.value
@@ -97,7 +42,7 @@ const EditPhraseBookForm = ({ editData, save }) => {
   const handleSave = () => {
     if (phrase.name.length !== 0) {
       setSaving(true);
-      save(phrase, data => {
+      save(phrase, (data) => {
         setSaving(false);
         localStorage.setItem("edit_pb_dataname", data.name);
       });
@@ -111,15 +56,15 @@ const EditPhraseBookForm = ({ editData, save }) => {
         method: "DELETE"
       }
     )
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setDeletion({
           ...deletion,
           deleting: false,
           deleted: true
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
       });
   };
@@ -128,7 +73,7 @@ const EditPhraseBookForm = ({ editData, save }) => {
     <div className={classes.formContainer}>
       <ThemeProvider theme={materialTheme}>
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             setSaving(true);
             setShow(false);
@@ -150,7 +95,7 @@ const EditPhraseBookForm = ({ editData, save }) => {
             fullWidth
             value={phrase.name}
             required
-            onChange={e => {
+            onChange={(e) => {
               handleChange(e, "name");
             }}
             autoComplete="off"
@@ -187,7 +132,7 @@ const EditPhraseBookForm = ({ editData, save }) => {
             <CustomButton
               style={{ background: "rgb(255,80,77)" }}
               type="button"
-              handleClick={e => {
+              handleClick={(e) => {
                 setOpenDelete(true);
               }}
             >

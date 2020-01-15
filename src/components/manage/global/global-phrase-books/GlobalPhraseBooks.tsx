@@ -23,16 +23,28 @@ const GlobalPhraseBooks = ({ history }: any) => {
 
   const getPhraseBooks = () => {
     fetch("http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books")
-      .then(res => res.json())
-      .then(res => {
+      .then((res) => res.json())
+      .then((res) => {
         setpb(res);
         setPaginateList(res);
         setLoading(false);
       });
   };
 
-  const addPhraseBook = (data: any) => {
-    setPaginateList(paginateList.concat(data));
+  const addPhraseBook = (data: any, fn: any) => {
+    fetch(`http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        fn();
+      });
   };
 
   const paginate = (from: number, to: number) => {
@@ -95,6 +107,10 @@ const GlobalPhraseBooks = ({ history }: any) => {
         open={openNew}
         onClose={() => setOpenNew(false)}
         addPhraseBook={addPhraseBook}
+        afterAdd={() => {
+          setLoading(true);
+          getPhraseBooks();
+        }}
       />
     </>
   );
