@@ -390,6 +390,7 @@ class DNDCards extends PureComponent<IProps, IState> {
 																							id="simple-menu"
 																							keepMounted
 																							open={this.state.openCard1}
+																							PopoverClasses={{ paper: classes.paper}}
 																						>
 																							{this.state.card2DataOrig.includes(
 																								this.state.activeData
