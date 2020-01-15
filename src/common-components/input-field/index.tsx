@@ -18,7 +18,8 @@ interface Props {
 }
 const InputField: React.FC<Props> = ({ children, ...rest }) => {
 	return (
-		<SelectField data-cy="text-field" {...rest}>
+		<SelectField data-cy="text-field" {...rest} autoComplete="off"
+		>
 			{children}
 		</SelectField>
 	);

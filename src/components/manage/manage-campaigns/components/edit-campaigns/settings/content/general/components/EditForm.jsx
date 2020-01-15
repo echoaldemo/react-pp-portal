@@ -3,8 +3,7 @@ import { Collapse, Grid, InputAdornment, Switch, Button, Typography, MenuItem, C
 import { InputField, CustomButton, SaveButton } from 'common-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { LightTooltip } from '../../../../../../../globalConstsVar';
-import { KeyboardArrowDown } from '@material-ui/icons';
-import { Delete as DeleteIcon, FileCopyOutlined as CopyIcon } from '@material-ui/icons/';
+import { Delete as DeleteIcon, FileCopyOutlined as CopyIcon, KeyboardArrowDown } from '@material-ui/icons/';
 import { DeleteModal } from 'common-components';
 const MenuProps = {
 	PaperProps: {
@@ -220,6 +219,13 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 					/>
 				</Grid>
 			</Grid>
+			<Grid container style={{marginTop:32}} >
+				<Grid item lg={6} xs={12} sm={12} xl={6}>
+					<span className="form-required-label">
+						*Required Fields
+					</span>
+				</Grid>
+			</Grid>
 			<Collapse
 				in={
 					(state.name !== campaignDetails.name && state.name.length !== 0) ||
@@ -250,6 +256,7 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 					</CustomButton>
 				</div>
 			</Collapse>
+
 		</form>
 	);
 };

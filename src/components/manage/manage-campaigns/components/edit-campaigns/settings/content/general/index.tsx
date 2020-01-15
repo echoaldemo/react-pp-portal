@@ -3,7 +3,7 @@ import { PanelTabs, Panel } from 'common-components';
 import Info from './components/Info';
 import DialerParameters from './components/DialerParameters';
 export default function General(props: any) {
-	const [ tab, setTab ] = useState(0);
+	const [ tab, setTab ] = useState(1);
 
 	return (
 		<div className="p-24 c-default">

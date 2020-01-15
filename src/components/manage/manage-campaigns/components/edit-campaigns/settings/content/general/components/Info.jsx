@@ -4,15 +4,10 @@ import EditForm from './EditForm';
 
 export default function Info(props) {
 	const { loading, deleteCompany, campaignDetails , openDeleteModal, setOpenDeleteModal} = props;
-
-	
 	
 	const handleCloseDeleteModal = () => {
 		setOpenDeleteModal(false);
 	};
-
-	
-
 	
 	return (
 		<div>
