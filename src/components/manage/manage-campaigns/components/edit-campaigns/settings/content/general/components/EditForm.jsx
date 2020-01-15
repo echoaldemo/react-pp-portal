@@ -3,8 +3,9 @@ import { Collapse, Grid, InputAdornment, Switch, Button, Typography, MenuItem, C
 import { InputField, CustomButton, SaveButton } from 'common-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { LightTooltip } from '../../../../../../../globalConstsVar';
-import { patch } from 'utils/api';
+import { KeyboardArrowDown } from '@material-ui/icons';
 import { Delete as DeleteIcon, FileCopyOutlined as CopyIcon } from '@material-ui/icons/';
+import { DeleteModal } from 'common-components';
 const MenuProps = {
 	PaperProps: {
 		style: {
@@ -14,10 +15,19 @@ const MenuProps = {
 	}
 };
 
+const DropdownIcon = () => {
+	return <KeyboardArrowDown style={{ color: '#444851' }} />;
+};
+
 const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSaveData }) => {
 	const [ state, setState ] = useState(campaignDetails);
 	const [ errMsg, setErrMsg ] = useState({});
 	const [ addRealms, setAddRealms ] = useState(campaignRealms);
+	const [ openDeleteModal, setOpenDeleteModal ] = useState(false);
+
+	const handleCloseDeleteModal = () => {
+		setOpenDeleteModal(false);
+	};
 
 	const SwitchAd = () => {
 		return (
@@ -37,7 +47,8 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 		<form
 			onSubmit={(e) => {
 				e.preventDefault();
-				handleSaveData(state);
+
+				handleSaveData({ ...state, realms: addRealms });
 			}}
 		>
 			<Grid container spacing={5}>
@@ -100,7 +111,10 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						required
 						style={{ paddingTop: 22 }}
 						select
-						SelectProps={{ MenuProps }}
+						SelectProps={{
+							IconComponent: () => <DropdownIcon />,
+							...MenuProps
+						}}
 						value={state.company}
 						error={errMsg.addCompany ? true : false}
 						helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
@@ -152,6 +166,7 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						select
 						margin="normal"
 						SelectProps={{
+							IconComponent: () => <DropdownIcon />,
 							MenuProps,
 							multiple: true,
 							onChange: (e) => {
@@ -177,7 +192,9 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						</Grid>
 						<Grid item lg={6} xs={12} sm={12} md={6}>
 							<CustomButton
-								handleClick={() => alert('xx')}
+								handleClick={() => {
+									setOpenDeleteModal(true);
+								}}
 								style={{
 									width: '130px',
 									background: '#ff504d',

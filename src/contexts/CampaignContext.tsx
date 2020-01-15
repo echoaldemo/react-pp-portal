@@ -27,7 +27,6 @@ function CampaignsContextProvider({ children }: any) {
 		// setTimeout(() => {
 		// 	setLoading(false);
 		// }, 500);
-
 		get('/identity/campaign/list/').then((res: any) => {
 			setData(res.data);
 			setLoading(false);

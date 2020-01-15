@@ -109,6 +109,9 @@ code {
 .MuiSwitch-track {
 	background-color: #ccc !important;
 }
+.MuiCheckbox-colorPrimary.Mui-checked {
+	color: #0f97fc !important;
+}
 .display-normal {
 	display: flex;
 	justify-content: center;
