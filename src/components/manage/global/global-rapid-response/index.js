@@ -1,7 +1,7 @@
 import React from 'react'
 import Tabs from './components/Tabs'
 import { Paper, Divider } from '@material-ui/core'
-// import NoTests from '../global-rr-test/components/NoResult'
+import NoTests from '../global-rr-test/components/NoResult'
 import { get } from 'utils/api'
 import RRTTable from './components/Table'
 import CreateNewTestsModal from './components/NewUser/Dialog'
@@ -143,11 +143,10 @@ export default function GlobalRapidResponse(props) {
                 ]}
               />
             ) : (
-              // <NoTests
-              //   open={true}
-              //   newTestOpen={() => setModal({ create: true })}
-              // />
-              <></>
+              <NoTests
+                open={true}
+                newTestOpen={() => setModal({ create: true })}
+              />
             )}
           </div>
           <div style={{ width: '100%' }}>
