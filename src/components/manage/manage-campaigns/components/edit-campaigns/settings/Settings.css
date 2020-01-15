@@ -23,3 +23,13 @@
 	margin-right: 15px;
 	padding-top: 15px;
 }
+.form-required-label {
+	
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #999999;
+}
