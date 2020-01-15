@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 
 import { TableLoader } from 'common-components';
-import DNDCards from './cards/DNDCards';
+import DNDCards from '../cards/DNDCards';
 
 // import { get } from "../../../../utils/api";
 
@@ -32,27 +32,28 @@ class RRTest extends Component {
     };
   }
   componentDidMount() {
-    this.getAllData();
+    // this.getAllData();
   }
 
-  // getAllData = () => {
-  //   this.setState({ loadingState: true });
-  //   get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
-  //     .then(res => {
-  //       this.setState({ companyTestData: res.data });
-  //     })
-  //     .then(() => {
-  //       get(`/pitch/global/rapid-response/tests/`).then(globalRes => {
-  //         this.setState({
-  //           globalTestData: globalRes.data,
-  //           loadingState: false
-  //         });
-  //       });
-  //     })
-  //     .catch(err => {
-  //       alert("Failed to load data");
-  //     });
-  // };
+  getAllData = () => {
+    // this.setState({ loadingState: true });
+    // get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
+    //   .then(res => {
+    //     this.setState({ companyTestData: res.data });
+    //   })
+    //   .then(() => {
+    //     get(`/pitch/global/rapid-response/tests/`).then(globalRes => {
+    //       this.setState({
+    //         globalTestData: globalRes.data,
+    //         loadingState: false
+    //       });
+    //     });
+    //   })
+    //   .catch(err => {
+    //     alert("Failed to load data");
+    //   });
+  };
+
   setActiveData = data => {
     this.setState({
       activeData: data
