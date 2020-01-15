@@ -1,0 +1,216 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Typography, Divider, Zoom, Slide } from "@material-ui/core";
+import { Minimize, Add } from "@material-ui/icons";
+import { FaRegDotCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import {
+  CustomButton,
+  CustomText
+} from "../../../../../../common-components/custom-components/index";
+
+const ColumnContainer = styled.div`
+  width: 100%;
+  height: 70px;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: content-box;
+  &:nth-child(odd) {
+    background: #ffffff;
+  }
+`;
+
+const ColumnData = styled.div`
+  flex: 1;
+`;
+
+const NameText = styled(Typography)`
+  color: #444851;
+  margin: 0;
+  padding: 0;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-transform: capitalize;
+`;
+
+const SubText = styled(Typography)`
+  color: #777777;
+  margin: 0;
+  padding: 0;
+  margin-top: -2px !important;
+  font-size: 14px !important;
+`;
+
+const Link2 = styled.a`
+  color: #444851;
+  text-decoration: underline;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  margin-top: 0.6rem !important;
+`;
+
+const CustomLink = styled(Link)`
+  color: #444851;
+  text-decoration: underline;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  margin-top: 0.6rem !important;
+`;
+
+const Option = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const OptionToSave = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 70px;
+  border-radius: 3px;
+  box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+export default (props) => {
+  const [edit, setEdit] = useState(false);
+
+  function recordNewVoiceBtn() {
+    return (
+      <>
+        <FaRegDotCircle style={{ marginRight: "7.2px", marginTop: "10px" }} />
+        <CustomLink to={{
+          pathname: "/manage/audio/prospect",
+          state: props.data
+        }}>
+          {" "}
+          <Typography style={{ fontSize: "14px", fontWeight: "500" }}>
+            Record new audio
+          </Typography>
+        </CustomLink>
+      </>
+    );
+  }
+
+  function removeVoice() {
+    props.notifyEdit(true);
+  }
+
+  function removeVoiceBtn(voice) {
+    return (
+      <>
+        <Link2
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginRight: "5rem"
+          }}
+          onClick={(e) => removeVoiceItem(voice)}
+        >
+          <Minimize
+            style={{
+              width: "14px",
+              height: "2px",
+              backgroundColor: "#444851",
+              marginRight: "8.5px"
+            }}
+          />
+          <Typography style={{ fontSize: "14px", fontWeight: "500" }}>
+            Remove
+          </Typography>
+        </Link2>
+      </>
+    );
+  }
+
+  function addVoiceBtn(voice) {
+    return (
+      <>
+        <Link2
+          style={{
+            marginRight: "5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          onClick={() => addVoiceItem(voice)}
+        >
+          <Add
+            style={{
+              marginRight: "4px"
+            }}
+          />
+          <Typography style={{ fontSize: "14px", fontWeight: "500" }}>
+            Add voice
+          </Typography>
+        </Link2>
+      </>
+    );
+  }
+
+  function addVoiceItem(voice) {
+    props.addVoice(voice);
+  }
+
+  function removeVoiceItem(voice) {
+    props.removeItem(voice);
+  }
+
+  function cancelEdit() {
+    setEdit(false);
+    props.notifyEdit(false);
+  }
+
+  return (
+    <>
+      <ColumnContainer>
+        <ColumnData
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: "20px"
+          }}
+        >
+          <NameText>{`${props.data.first_name} ${props.data.last_name}` || "[No voice name]"}</NameText>
+          <SubText>{props.data.username || "[Unrecognized Recorder]"}</SubText>
+        </ColumnData>
+
+        <ColumnData
+          style={{
+            display: "flex",
+            flex: 2,
+            flexDirection: "row",
+            alignItems: "start",
+            justifyContent: "flex-start",
+            height: "inherit",
+            marginTop: "18px",
+            marginRight: "-4.5rem"
+          }}
+        >
+          {!props.add ? (
+            <>
+              <Option>{recordNewVoiceBtn(props.data)}</Option>
+              <Option>{removeVoiceBtn(props.data)}</Option>
+            </>
+          ) : (
+              <Option />
+            )}
+          {props.add && <Option>{addVoiceBtn(props.data)}</Option>}
+        </ColumnData>
+      </ColumnContainer>
+    </>
+  );
+};
