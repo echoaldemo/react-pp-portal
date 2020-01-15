@@ -1,10 +1,16 @@
 import React from 'react'
 import { TableNoResult, HeaderButton } from 'common-components'
 import { IoIosGlobe } from 'react-icons/io'
-export default props => {
+
+interface Props {
+	open: boolean
+	newTestOpen: Function
+}
+
+export default ({open, newTestOpen}: Props) => {
   return (
     <>
-      {props.open && (
+      {open && (
         <TableNoResult
           headerText="Global rapid response"
           mainMessage="No rapid response tests have been created"
@@ -19,7 +25,7 @@ export default props => {
                 marginTop: '4px'
               }}
               buttonText="New test"
-              openFunction={() => props.newTestOpen()}
+              openFunction={() => newTestOpen()}
             />
           }
         />
