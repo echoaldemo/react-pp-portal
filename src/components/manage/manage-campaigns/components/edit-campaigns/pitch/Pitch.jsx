@@ -1,21 +1,106 @@
-import React from "react";
-import EditHeader from "../EditHeader";
-import { Paper } from "@material-ui/core";
-export default function Pitch({ match, history }) {
-  return (
-    <div>
-      <EditHeader match={match} history={history} />
-      <Paper square={true} className="mh-normal">
-        <div className="p-normal c-default">
-          <h1>Pitch</h1>
-          <p>
-            <b>Modify the code of this file here:</b>
-          </p>
-          <code>
-            File Path:: /manage/manage-campaigns/components/edit-campaigns/pitch
-          </code>
-        </div>
-      </Paper>
-    </div>
-  );
+import React, { useState } from 'react';
+import EditHeader from '../EditHeader';
+import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
+
+import { IdentityContext } from 'contexts/IdentityProvider';
+import {
+	Details,
+	OptionGroups,
+	Panels,
+	PhraseBooks,
+	RapidResponseTests,
+	Segments,
+	Variables,
+	XML,
+	Voices
+} from './components';
+const tabnames = [
+	'DETAILS',
+	'SEGMENTS',
+	'VARIABLES',
+	'VOICES',
+	'XML',
+	'PANELS',
+	'OPTION GROUPS',
+	'PHRASE BOOK',
+	'RAPID RESPONSE TESTS'
+];
+
+export default function PitchSection({ match, history }) {
+	const [ tabValue, setValue ] = useState(0);
+
+	function handleChange(event, newValue) {
+		setValue(newValue);
+	}
+
+	function a11yProps(index) {
+		return {
+			id: `full-width-tab-${index}`,
+			'aria-controls': `full-width-tabpanel-${index}`
+		};
+	}
+
+	const tabPanels = [
+		Details({ x: 1 }),
+		Segments,
+		Variables,
+		Voices,
+		XML,
+		Panels,
+		OptionGroups,
+		PhraseBooks,
+		RapidResponseTests
+	];
+
+	return (
+		<IdentityContext.Consumer>
+			{(value) => {
+				return (
+					<div>
+						<EditHeader campaignDetails={value.campaignDetails} history={history} />
+						<Paper square={true} className="mh-normal">
+							<div>
+								<Typography className="section-title">Pitch Settings</Typography>
+								<Tabs
+									value={tabValue}
+									fullwidth="true"
+									onChange={handleChange}
+									className="tabs-container"
+								>
+									{tabnames.map((name, i) => {
+										return <Tab label={name} {...a11yProps(i)} className="tab-text" />;
+									})}
+								</Tabs>
+
+								{tabPanels.map((item, i) => {
+									return (
+										<TabPanel value={tabValue} index={i}>
+											{item}
+										</TabPanel>
+									);
+								})}
+							</div>
+						</Paper>
+					</div>
+				);
+			}}
+		</IdentityContext.Consumer>
+	);
+}
+
+function TabPanel(props) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<Typography
+			component="div"
+			role="tabpanel"
+			hidden={value !== index}
+			id={`full-width-tabpanel-${index}`}
+			aria-labelledby={`full-width-tab-${index}`}
+			{...other}
+		>
+			<Box>{children}</Box>
+		</Typography>
+	);
 }

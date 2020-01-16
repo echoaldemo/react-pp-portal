@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { mockDataCampaigns } from './mockData';
+import mockData from './mockData.json';
 import { get } from 'utils/api';
 
 type ContextProps = {
@@ -11,19 +11,24 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
-	getAllCompanies: any;
-	getAllRealms: any;
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
 
 function CampaignsContextProvider({ children }: any) {
-	const [ data, setData ] = useState(mockDataCampaigns);
-	const [ paginateList, setPaginateList ] = useState(mockDataCampaigns);
+	console.log(mockData);
+
+	const [ data, setData ] = useState(mockData.campaigns);
+	const [ paginateList, setPaginateList ] = useState(mockData.campaigns);
 	const [ loading, setLoading ] = useState(false);
 
 	useEffect(() => {
-		getAllData()
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+
+		// getAllData()
 	}, []);
 
 	function getAllData() {
@@ -61,21 +66,6 @@ function CampaignsContextProvider({ children }: any) {
 		setPaginateList(data.slice(from, to));
 	};
 
-	const getAllRealms = async () => {
-		let data = await fetch('https://dev-api.perfectpitchtech.com/identity/realm/list/', {
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'token f6620e466b3902fa6f2edf7f8d28332bd875c79d'
-			}
-		})
-			.then((data) => data.json())
-			.then((data) => data);
-		return data;
-	};
-
-	const getAllCompanies = () => {
-		return [];
-	};
 	return (
 		<AppContext.Provider
 			value={{

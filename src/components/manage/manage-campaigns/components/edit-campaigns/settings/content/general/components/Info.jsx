@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { TableLoader, DeleteModal } from 'common-components';
 import EditForm from './EditForm';
 
-export default function Info(props) {
-	const { loading, deleteCompany, campaignDetails , openDeleteModal, setOpenDeleteModal} = props;
-	
+export default function Info({ state, setState, deleteCompany, handleSaveData }) {
+	const { loading, campaignDetails, openDeleteModal } = state;
+
 	const handleCloseDeleteModal = () => {
-		setOpenDeleteModal(false);
+		setState({ ...state, openDeleteModal: false });
 	};
-	
+
 	return (
 		<div>
-			{loading ? <TableLoader /> : <EditForm {...props}  />}
-			
+			{loading ? <TableLoader /> : <EditForm state={state} setState={setState} handleSaveData={handleSaveData} />}
+
 			<DeleteModal
 				open={openDeleteModal}
 				header="Delete Campaign"
@@ -25,7 +25,4 @@ export default function Info(props) {
 			/>
 		</div>
 	);
-
-
-
 }

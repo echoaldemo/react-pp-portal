@@ -18,35 +18,39 @@ const DropdownIcon = () => {
 	return <KeyboardArrowDown style={{ color: '#444851' }} />;
 };
 
-const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSaveData, setOpenDeleteModal }) => {
-	const [ state, setState ] = useState(campaignDetails);
+const EditForm = ({ state, handleSaveData }) => {
+	const { campaignRealms, campaignDetails, realms, companies } = state;
+
+	const [ formState, setFormState ] = useState(campaignDetails);
 	const [ errMsg, setErrMsg ] = useState({});
 	const [ addRealms, setAddRealms ] = useState(campaignRealms);
-
 
 	const SwitchAd = () => {
 		return (
 			<Switch
 				color="default"
 				checked={state.active}
-				onChange={(e) => setState({ ...state, active: e.target.checked })}
+				onChange={(e) => setFormState({ ...formState, active: e.target.checked })}
 			/>
 		);
 	};
 
 	const realmChanged = () => {
-		return campaignDetails.realms.length !== addRealms.length;
+		// return campaignDetails.realms.length !== addRealms.length;
+		return false;
 	};
 
 	return (
 		<form
 			onSubmit={(e) => {
 				e.preventDefault();
-
-				handleSaveData({ ...state, realms: addRealms });
+				handleSaveData({ ...formState, realms: addRealms });
 			}}
 		>
 			<Grid container spacing={5}>
+				{console.log('formState', formState)}
+				{console.log('re', campaignRealms)}
+
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
 					<InputField
 						label="Campaign name"
@@ -54,10 +58,10 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						fullWidth
 						margin="normal"
 						required
-						value={state.name}
+						value={formState.name}
 						onChange={(e) => {
-							setState({
-								...state,
+							setFormState({
+								...formState,
 								name: e.target.value
 							});
 						}}
@@ -89,10 +93,10 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						fullWidth
 						required
 						margin="normal"
-						value={state.uuid}
+						value={formState.uuid}
 						disabled
 						InputProps={{
-							endAdornment: <CopyUUID uuid={state.uuid} />
+							endAdornment: <CopyUUID uuid={formState.uuid} />
 						}}
 					/>
 				</Grid>
@@ -110,15 +114,15 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 							IconComponent: () => <DropdownIcon />,
 							...MenuProps
 						}}
-						value={state.company}
+						value={formState.company}
 						error={errMsg.addCompany ? true : false}
 						helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
 						onChange={(e) => {
-							setState({ ...state, company: e.target.value });
+							setFormState({ ...formState, company: e.target.value });
 							setErrMsg({ ...errMsg, addCompany: '' });
 						}}
 						onBlur={() => {
-							if (state.company) {
+							if (formState.company) {
 								setErrMsg({ ...errMsg, addCompany: '' });
 							}
 							else {
@@ -188,7 +192,7 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						<Grid item lg={6} xs={12} sm={12} md={6}>
 							<CustomButton
 								handleClick={() => {
-									setOpenDeleteModal(true);
+									setFormState({ ...formState, openDeleteModal: true });
 								}}
 								style={{
 									width: '130px',
@@ -209,40 +213,39 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 						fullWidth
 						required
 						margin="normal"
-						value={state.slug}
+						value={formState.slug}
 						onChange={(e) => {
-							setState({
-								...state,
+							setFormState({
+								...formState,
 								slug: e.target.value
 							});
 						}}
 					/>
 				</Grid>
 			</Grid>
-			<Grid container style={{marginTop:32}} >
+			<Grid container style={{ marginTop: 32 }}>
 				<Grid item lg={6} xs={12} sm={12} xl={6}>
-					<span className="form-required-label">
-						*Required Fields
-					</span>
+					<span className="form-required-label">*Required Fields</span>
 				</Grid>
 			</Grid>
 			<Collapse
 				in={
-					(state.name !== campaignDetails.name && state.name.length !== 0) ||
-					state.active !== campaignDetails.active ||
+					(formState.name !== campaignDetails.name && formState.name.length !== 0) ||
+					formState.active !== campaignDetails.active ||
 					realmChanged() ||
-					state.company !== campaignDetails.company ||
-					state.slug !== campaignDetails.slug
+					formState.company !== campaignDetails.company ||
+					formState.slug !== campaignDetails.slug
 				}
 			>
 				<div className="display-normal pt-normal">
-					<SaveButton type="submit" disabled={state.name.length == 0}>
+					<SaveButton type="submit">
+						{/* // disabled={formState.name.length == 0} */}
 						SAVE
 					</SaveButton>
 					&emsp;
 					<CustomButton
 						handleClick={() => {
-							setState({ ...campaignDetails });
+							setFormState({ ...campaignDetails });
 							setAddRealms(campaignRealms);
 						}}
 						style={{
@@ -256,7 +259,6 @@ const EditForm = ({ campaignRealms, campaignDetails, realms, companies, handleSa
 					</CustomButton>
 				</div>
 			</Collapse>
-
 		</form>
 	);
 };
