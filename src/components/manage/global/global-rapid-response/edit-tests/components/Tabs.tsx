@@ -20,11 +20,12 @@ const CustomTabs = styled(Tabs)`
 `
 
 interface Props {
-	other: any
+	other?: any
 	children: React.ReactNode
-	style: any
+	style?: any
 	value: any
 	index: number
+	className?: any
 }
 
 function TabPanel(props: Props) {
@@ -81,7 +82,7 @@ export default function SimpleTabs(props: any) {
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
-	const handleChange = (event, newValue) => {
+	const handleChange = (event: any, newValue: any) => {
 		setValue(newValue)
 	}
 
@@ -167,7 +168,7 @@ export default function SimpleTabs(props: any) {
 				<Segments
 					router={{ ...props.props }}
 					testId={props.test ? props.test.uuid : null}
-					data={props.test ? props.test.segments : []}
+				// data={props.test ? props.test.segments : []}
 				/>
 			</TabPanel>
 			<TabPanel value={value} index={3} className={classes.panelContainer}>

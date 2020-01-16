@@ -199,7 +199,7 @@ class ManageCampaigns extends React.Component<IProps, IState> {
 						) : (
 								<CampaignTable
 									userData={this.state.userData}
-									handleUpdated={this.handleUpdate}
+									// handleUpdated={this.handleUpdate}
 									innerLoading={this.state.innerLoading}
 									headers={['Name', 'Slug', 'UUID', 'Status', '']}
 								/>
