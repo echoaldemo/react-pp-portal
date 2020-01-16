@@ -3,19 +3,12 @@ import { withStyles } from "@material-ui/core";
 import { TableLoader } from 'common-components';
 import DNDCards from '../cards/DNDCards';
 
+import { styles } from './styles';
+
 //MOCK DATA
 import { global, company } from './Mock';
 
 // import { get } from "../../../../utils/api";
-
-const styles = {
-  container: {
-    padding: 30
-  },
-  cardContainer: {
-    width: 475
-  }
-};
 
 const defaultState = {
   loadingState: false,

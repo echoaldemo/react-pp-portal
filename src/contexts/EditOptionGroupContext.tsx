@@ -24,6 +24,13 @@ const initialState = {
 			description: "",
 			value: ""
 		}
+	},
+	mockData: {
+		uuid: '1b054163-a6a0-4826-b3ec-e304b5aec1c1',
+		slug: 'test-option-group',
+		name: 'test option group',
+		company: 'company 5',
+		options: []
 	}
 }
 
@@ -43,6 +50,8 @@ const StateProvider = ({ children }: any) => {
 				return { ...state, edit: action.payload.edit }
 			case 'ANCHOR_EL':
 				return { ...state, anchorEl: action.payload.anchorEl }
+			case 'MOCK':
+				return { ...state, mockData: action.payload.mockData }
 			default:
 				return null
 		}

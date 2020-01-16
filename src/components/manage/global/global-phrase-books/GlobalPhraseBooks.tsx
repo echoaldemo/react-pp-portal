@@ -7,13 +7,14 @@ import {
   SearchBar,
   Pagination
 } from "common-components";
-import { phraseBooks } from "./components/PBTable/mockData";
 import PBTable from "./components/PBTable/PBTable";
 import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
-const GlobalPhraseBooks = () => {
+
+const GlobalPhraseBooks = ({ history }: any) => {
   const [pb, setpb] = useState<any>([]);
   const [paginateList, setPaginateList] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [openNew, setOpenNew] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
@@ -21,11 +22,29 @@ const GlobalPhraseBooks = () => {
   }, []);
 
   const getPhraseBooks = () => {
-    setTimeout(() => {
-      setpb(phraseBooks);
-      setPaginateList(phraseBooks);
-      setLoading(false);
-    }, 1000);
+    fetch("http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books")
+      .then((res) => res.json())
+      .then((res) => {
+        setpb(res);
+        setPaginateList(res);
+        setLoading(false);
+      });
+  };
+
+  const addPhraseBook = (data: any, fn: any) => {
+    fetch(`http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        fn();
+      });
   };
 
   const paginate = (from: number, to: number) => {
@@ -55,7 +74,7 @@ const GlobalPhraseBooks = () => {
         />
         <HeaderButton
           buttonText="New Phrase Book"
-          openFunction={() => console.log("")}
+          openFunction={() => setOpenNew(true)}
         />
       </div>
       <Paper>
@@ -70,7 +89,11 @@ const GlobalPhraseBooks = () => {
           <TableLoader />
         ) : (
           <>
-            <PBTable data={pb} headers={["Name", "Slug", "UUID", ""]} />
+            <PBTable
+              data={pb}
+              headers={["Name", "Slug", "UUID", ""]}
+              history={history}
+            />
             <Divider />
             <Pagination
               totalItems={paginateList.length}
@@ -80,7 +103,15 @@ const GlobalPhraseBooks = () => {
           </>
         )}
       </Paper>
-      <CreatePhraseBook />
+      <CreatePhraseBook
+        open={openNew}
+        onClose={() => setOpenNew(false)}
+        addPhraseBook={addPhraseBook}
+        afterAdd={() => {
+          setLoading(true);
+          getPhraseBooks();
+        }}
+      />
     </>
   );
 };

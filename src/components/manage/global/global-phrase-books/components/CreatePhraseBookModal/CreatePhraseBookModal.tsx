@@ -1,114 +1,116 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { Button, Collapse, FormHelperText } from "@material-ui/core";
 import {
-  Dialog,
-  Button,
-  Collapse,
-  FormHelperText,
-  makeStyles
-} from "@material-ui/core";
-import { Modal, InputField, LoadingModal } from "common-components";
-const useStyles = makeStyles(() => ({
-  btnStyle: {
-    backgroundColor: "#b6d36b",
-    color: "#FFF",
-    fontSize: "14px",
-    fontWeight: 700,
-    height: "40px",
-    borderRadius: "3px",
-    textTransform: "none",
-    paddingLeft: 15,
-    paddingRight: 15
-  },
-  underline: {
-    "&:before": {
-      borderBottom: "1px solid rgba(0,0,0,0.12)"
-    },
-    "&:after": {
-      borderBottom: "2px solid #1394f6"
-    },
-    "&&&&:hover:not($disabled):before": {
-      borderBottom: "1px solid #1194f6 !important"
-    }
-  }
-}));
+  Modal,
+  InputField,
+  LoadingModal,
+  SuccessModal
+} from "common-components";
+import { useStyles } from "../../styles/CreatePhraseBookModal.style";
 
-const defaultState = {
-  phrasebook_name: "",
-  phrasebook_nameError: false,
+interface Props {
+  open: boolean;
+  onClose: () => void;
+  addPhraseBook: (data: any, fn: any) => void;
+  afterAdd: () => void;
+}
 
-  creationSuccess: false
-};
-const CreatePhraseBook = () => {
+const CreatePhraseBook = ({
+  open,
+  onClose,
+  addPhraseBook,
+  afterAdd
+}: Props) => {
   const classes = useStyles();
+  const [phrasebookName, setPhraseBookName] = useState<string>("");
+  const [phrasebookNameError, setPhraseBookNameError] = useState<boolean>(
+    false
+  );
+  const [creation, setCreation] = useState<any>({
+    creating: false,
+    created: false
+  });
+
   const InputFieldProps = {
     autoFocus: true,
     label: "Phrase book name",
     required: true,
     fullWidth: true,
-    value: "",
+    value: phrasebookName,
     name: "phrasebook_name",
     onChange: (e: any) => {
-      console.log("");
+      handleFieldChanges(e);
     },
     autoComplete: "off",
-    onfocus: () => {
-      // this.setState({ phrasebook_nameError: false });
+    onFocus: () => {
+      setPhraseBookNameError(false);
     },
     onBlur: () => {
-      // if (!this.state.phrasebook_name.length > 0) {
-      //   this.setState({ phrasebook_nameError: true });
-      // }
+      if (phrasebookName.length === 0) {
+        setPhraseBookNameError(true);
+      }
     },
-    error: false,
+    error: phrasebookNameError,
     classes: { underline: classes.underline }
   };
 
   const ButtonProps = {
     classes: { root: classes.btnStyle },
-    htmlType: "submit",
     onClick: (e: any) => {
-      console.log(e);
+      e.preventDefault();
+      const data: any = {
+        name: phrasebookName,
+        uuid: uuidv4(),
+        slug: phrasebookName.replace(" ", "-"),
+        company: "",
+        phrases: []
+      };
+      if (phrasebookName.length !== 0) {
+        onClose();
+        setCreation({ ...creation, creating: true });
+        addPhraseBook(data, () => {
+          setCreation({ ...creation, creating: false, created: true });
+          reset();
+        });
+      }
     }
   };
-  // handleFieldChanges = e => {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // };
+  const handleFieldChanges = (e: any) => {
+    setPhraseBookName(e.target.value);
+  };
 
-  // submitPhraseBook = e => {
-  //   e.preventDefault();
-  //   this.setState({ loading: true });
-  //   post("/pitch/global/phrases/", {
-  //     name: this.state.phrasebook_name
-  //   }).then(result => {
-  //     this.setState({ loading: false, creationSuccess: true });
-  //     this.props.handleUpdate(result.data);
-  //   });
+  const uuidv4 = () => {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
+  const reset = () => {
+    setPhraseBookName("");
+  };
 
-  //   this.props.closeModal();
-  //   this.clearState();
-  // };
-
-  // clearState = () => {
-  //   this.setState({ ...defaultState });
-  // };
   return (
     <div>
       <LoadingModal
-        open={false}
+        open={creation.creating}
         text="One moment. We're creating the new phrase..."
         cancelFn={() => {
           console.log("");
         }}
       />
-      <Modal
-        title="Create Phrase Book"
-        open={false}
-        onClose={() => console.log("")}
-      >
+      <SuccessModal
+        open={creation.created}
+        text={"Phrase book was added"}
+        btnText="OK"
+        closeFn={() => setCreation({ ...creation, created: false })}
+        btnFn={() => {
+          setCreation({ ...creation, created: false });
+          afterAdd();
+        }}
+      />
+      <Modal title="Create Phrase Book" open={open} onClose={onClose}>
         <form
-          onSubmit={e => {
-            console.log(e);
-          }}
           style={{
             width: "100%",
             display: "flex",
@@ -118,29 +120,8 @@ const CreatePhraseBook = () => {
           }}
         >
           <div style={{ width: "100%", paddingBottom: 45 }}>
-            <InputField
-              // autoFocus={true}
-              // label="Phrase book name"
-              // required
-              // fullWidth
-              // value={""}
-              // name="phrasebook_name"
-              // onChange={e => {
-              //   this.handleFieldChanges(e);
-              // }}
-              // autoComplete="off"
-              // onFocus={() => {
-              //   this.setState({ phrasebook_nameError: false });
-              // }}
-              // onBlur={() => {
-              //   if (!this.state.phrasebook_name.length > 0) {
-              //     this.setState({ phrasebook_nameError: true });
-              //   }
-              // }}
-              // error={false}
-              {...InputFieldProps}
-            />
-            <Collapse in={false} timeout={500}>
+            <InputField {...InputFieldProps} />
+            <Collapse in={phrasebookNameError} timeout={500}>
               <FormHelperText style={{ color: "red" }}>
                 Phrase book is invalid
               </FormHelperText>
@@ -148,14 +129,7 @@ const CreatePhraseBook = () => {
           </div>
 
           <div style={{ paddingBottom: 15 }}>
-            <Button
-              onClick={(e: any) => {
-                console.log(e);
-              }}
-              {...ButtonProps}
-            >
-              Create Phrase
-            </Button>
+            <Button {...ButtonProps}>Create Phrase</Button>
           </div>
         </form>
       </Modal>
