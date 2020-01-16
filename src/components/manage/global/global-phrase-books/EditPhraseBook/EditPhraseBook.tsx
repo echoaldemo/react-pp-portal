@@ -49,7 +49,7 @@ const EditPhraseBook = ({
       });
   };
 
-  const save = (data: Obj, fn: () => void) =>
+  const save = (data: Obj, fn: (data: any) => void) =>
     editData &&
     fetch(
       `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
@@ -63,7 +63,7 @@ const EditPhraseBook = ({
     )
       .then((response: any) => response.json())
       .then((data: any) => {
-        fn();
+        fn(data);
         setName(data.name);
         setEditData(data);
       })
