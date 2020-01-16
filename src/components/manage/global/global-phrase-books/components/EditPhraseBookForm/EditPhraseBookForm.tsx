@@ -13,7 +13,15 @@ import {
   materialTheme
 } from "../../styles/EditPhraseBookForm.style";
 
-const EditPhraseBookForm = ({ editData, save }) => {
+interface Props {
+  editData: Obj;
+  save: any;
+}
+interface Obj {
+  [index: string]: any;
+}
+
+const EditPhraseBookForm = ({ editData, save }: Props) => {
   const classes = useStyles();
   const [phrase, setphrase] = useState(editData);
   const [show, setShow] = useState(false);
@@ -24,11 +32,30 @@ const EditPhraseBookForm = ({ editData, save }) => {
     deleted: false
   });
 
+  const inputFieldNameProps = {
+    className: classes.textField,
+    name: "phraseBookName",
+    fullWidth: true,
+    required: true,
+    autoComplete: "off",
+    error: phrase.name.length === 0,
+    helperText: phrase.name.length === 0 ? "Invalid Phrase Book Name" : " "
+  };
+
+  const inputFieldPhraseProps = {
+    className: classes.textField,
+    name: "phraseBookName",
+    fullWidth: true,
+    required: true,
+    autoComplete: "off",
+    disabled: true
+  };
+
   useEffect(() => {
     setphrase(editData);
   }, [editData]);
 
-  const handleChange = (e, label) => {
+  const handleChange = (e: any, label: string) => {
     if (e.target.value.length === 0) {
       setShow(false);
     } else {
@@ -42,7 +69,7 @@ const EditPhraseBookForm = ({ editData, save }) => {
   const handleSave = () => {
     if (phrase.name.length !== 0) {
       setSaving(true);
-      save(phrase, (data) => {
+      save(phrase, (data: Obj) => {
         setSaving(false);
         localStorage.setItem("edit_pb_dataname", data.name);
       });
@@ -77,11 +104,11 @@ const EditPhraseBookForm = ({ editData, save }) => {
             e.preventDefault();
             setSaving(true);
             setShow(false);
-            handleSave(phrase);
+            handleSave();
           }}
         >
           <InputField
-            className={classes.textField}
+            {...inputFieldNameProps}
             label={
               <span
                 className={
@@ -91,34 +118,18 @@ const EditPhraseBookForm = ({ editData, save }) => {
                 Phrase book name
               </span>
             }
-            name="phraseBookName"
-            fullWidth
             value={phrase.name}
-            required
-            onChange={(e) => {
+            onChange={(e: any) => {
               handleChange(e, "name");
-            }}
-            autoComplete="off"
-            error={phrase.name.length === 0}
-            helperText={
-              phrase.name.length === 0 ? "Invalid Phrase Book Name" : " "
-            }
-            onBlur={() => {
-              // this.setState({ phraseBookNameError: false });
-            }}
-            onFocus={() => {
-              // this.setState({ phraseBookNameError: false });
             }}
           />
           <InputField
-            className={classes.textField}
+            {...inputFieldPhraseProps}
             label={
               <span className={classes.label} style={{ color: "#777" }}>
                 Slug
               </span>
             }
-            disabled
-            fullWidth
             value={phrase.slug}
           />
 
@@ -141,7 +152,11 @@ const EditPhraseBookForm = ({ editData, save }) => {
           </div>
           <Collapse in={show} timeout={500}>
             <div className={classes.btnSaveFormControl}>
-              <CustomButton style={{ margin: 5 }} type="submit">
+              <CustomButton
+                style={{ margin: 5 }}
+                type="submit"
+                handleClick={() => {}}
+              >
                 Save
               </CustomButton>
               <CustomButton
@@ -157,10 +172,11 @@ const EditPhraseBookForm = ({ editData, save }) => {
             </div>
           </Collapse>
         </form>
-        <LoadingModal open={saving} text="Saving..." />
+        <LoadingModal open={saving} text="Saving..." cancelFn={() => {}} />
         <LoadingModal
           open={deletion.deleting}
           text="One moment. We're deleting the phrase book..."
+          cancelFn={() => {}}
         />
         <DeleteModal
           open={openDelete}
@@ -178,6 +194,9 @@ const EditPhraseBookForm = ({ editData, save }) => {
         />
         <SuccessModal
           open={deletion.deleted}
+          closeFn={() => {
+            setDeletion({ ...deletion, deleted: false });
+          }}
           btnText="OK"
           text="Successfully deleted!"
           btnFn={() =>

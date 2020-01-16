@@ -10,7 +10,7 @@ export const materialTheme = createMuiTheme({
         "&::after": {
           borderBottom: "2px solid #1194f6"
         },
-        "&:hover:not(.Mui-disabled):before": {
+        "&&&&:hover:not(.Mui-disabled):before": {
           borderBottom: "2px solid rgba(0,0,0,0.12)"
         }
       }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Divider } from "@material-ui/core";
+import { IoIosGlobe } from "react-icons/io";
 import {
   BackButton,
   TableLoader,
@@ -8,26 +9,31 @@ import {
   HeaderButton,
   Pagination
 } from "common-components";
-import { IoIosGlobe } from "react-icons/io";
 import { useStyles } from "../styles/EditPhraseBook.style";
 import EditPhraseBookForm from "../components/EditPhraseBookForm/EditPhraseBookForm";
 import PhrasesTable from "../components/PhrasesTable/PhrasesTable";
 import CreatePhraseModal from "../components/CreatePhraseModal/CreatePhraseModal";
-import { get } from "utils/api";
+
+interface Obj {
+  [index: string]: any;
+}
 
 const EditPhraseBook = ({
   match: {
     params: { uuid }
   }
-}) => {
+}: any) => {
   const classes = useStyles();
-  const [editData, setEditData] = useState(null);
-  const [paginateList, setPaginateList] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [name, setName] = useState(localStorage.getItem("edit_pb_dataname"));
+  const [editData, setEditData] = useState<Obj | null>(null);
+  const [allPhrases, setAllPhrases] = useState<any>(null);
+  const [paginateList, setPaginateList] = useState<any>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [name, setName] = useState<string>(
+    localStorage.getItem("edit_pb_dataname") || ""
+  );
 
   useEffect(() => {
-    setName(localStorage.getItem("edit_pb_dataname"));
+    setName(localStorage.getItem("edit_pb_dataname") || "");
     getPhraseBook();
   }, []);
 
@@ -35,14 +41,16 @@ const EditPhraseBook = ({
     fetch(
       `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${uuid}`
     )
-      .then((res) => res.json())
-      .then((res) => {
+      .then((res: any) => res.json())
+      .then((res: any) => {
+        setAllPhrases(res.phrases);
         setEditData(res);
         setPaginateList(res);
       });
   };
 
-  const save = (data, fn) =>
+  const save = (data: Obj, fn: () => void) =>
+    editData &&
     fetch(
       `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
       {
@@ -53,42 +61,42 @@ const EditPhraseBook = ({
         body: JSON.stringify(data)
       }
     )
-      .then((response) => response.json())
-      .then((data) => {
-        fn(data);
+      .then((response: any) => response.json())
+      .then((data: any) => {
+        fn();
         setName(data.name);
         setEditData(data);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error("Error:", error);
       });
-  const paginate = (from, to) => {
+  const paginate = (from: number, to: number) => {
     setEditData({
       ...editData,
       phrases: paginateList.phrases.slice(from, to)
     });
   };
 
-  const handleAdd = (data, fn) => {
-    console.log(paginateList.phrases.concat(data));
-    fetch(
-      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ phrases: paginateList.phrases.concat(data) })
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        fn();
-        getPhraseBook();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  const handleAdd = (data: Obj, fn: any) => {
+    editData &&
+      fetch(
+        `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ phrases: paginateList.phrases.concat(data) })
+        }
+      )
+        .then((response) => response.json())
+        .then(() => {
+          fn();
+          getPhraseBook();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
   };
 
   return (
@@ -131,18 +139,14 @@ const EditPhraseBook = ({
             <>
               {editData.phrases.length > 0 ? (
                 <>
-                  <div className={classes.searchContainer}>
+                  <div>
                     <SearchBar
                       title="Phrase book"
-                      userData={[]}
+                      userData={allPhrases || []}
                       headers={["name", "slug"]}
                     />
                   </div>
-                  <PhrasesTable
-                    headers={["Name", "Phrase", "Slug"]}
-                    tableData={editData.phrases}
-                    editable={false}
-                  />
+                  <PhrasesTable tableData={editData.phrases} />
                   <Divider />
                   {paginateList !== null && (
                     <Pagination
@@ -163,8 +167,7 @@ const EditPhraseBook = ({
                       <HeaderButton
                         buttonText="New Phrase"
                         openFunction={() => {
-                          // this.handleOpenAddModal()
-                          console.log("");
+                          setOpen(true);
                         }}
                       />
                     }
