@@ -36,7 +36,7 @@ export default function SettingsSection({ match, history }) {
 						<EditHeader campaignDetails={value.campaignDetails} history={history} />
 						<Paper square={true} className="mh-normal">
 							<div>
-								<Typography className="settings-title">Campaign Settings</Typography>
+								<Typography className="section-title">Campaign Settings</Typography>
 								<Tabs
 									value={tabValue}
 									fullwidth="true"
