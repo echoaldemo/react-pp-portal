@@ -6,7 +6,7 @@ import { HeaderLink, HeaderButton, SearchBar, TableNoResult, TableLoader, SaveBu
 import { store, StateProvider } from 'contexts/OptionGroupContext'
 import SEO from 'utils/seo'
 import { get, remove, post, cancel } from 'utils/api'
-import { menu } from './utils/const-var'
+import { menu, uuidv4 } from './utils/const-var'
 import './style/style.scss'
 import GroupTable from './components/GroupTable'
 import NewOptionGroup from './components/NewOptionGroup'
@@ -21,12 +21,18 @@ const OptionGroup = ({ history }: any) => {
 
 	const fetchData = () => {
 		setLoading(true)
-		get('/pitch/global/gui/field-option-group/')
-			.then((res: any) => {
-				dispatch({ type: 'GROUP_LIST', payload: { groupList: res.data } })
-				dispatch({ type: 'PAGINATE', payload: { paginateList: res.data } })
-				setLoading(false)
-			})
+		// get('/pitch/global/gui/field-option-group/')
+		// 	.then((res: any) => {
+		// 		dispatch({ type: 'GROUP_LIST', payload: { groupList: res.data } })
+		// 		dispatch({ type: 'PAGINATE', payload: { paginateList: res.data } })
+		// 		setLoading(false)
+		// 	})
+		//mock
+		setTimeout(() => {
+			dispatch({ type: 'GROUP_LIST', payload: { groupList: state.mockData } })
+			dispatch({ type: 'PAGINATE', payload: { paginateList: state.mockData } })
+			setLoading(false)
+		}, 1000)
 	}
 
 	const handleDelete = (uuid: string) => {
@@ -35,14 +41,26 @@ const OptionGroup = ({ history }: any) => {
 				groupState: { ...state.groupState, load2: true }
 			}
 		})
-		remove(`/pitch/global/gui/field-option-group/${uuid}/`).then(() => {
-			//change id to uuid
+		// remove(`/pitch/global/gui/field-option-group/${uuid}/`).then(() => {
+		// 	dispatch({
+		// 		type: 'GROUP_STATE', payload: {
+		// 			groupState: { ...state.groupState, load2: false, delete: false, done2: true }
+		// 		}
+		// 	})
+		// })
+		//mock
+		setTimeout(() => {
+			dispatch({
+				type: 'MOCK', payload: {
+					mockData: state.mockData.filter((mock: any) => mock.uuid !== uuid)
+				}
+			})
 			dispatch({
 				type: 'GROUP_STATE', payload: {
 					groupState: { ...state.groupState, load2: false, delete: false, done2: true }
 				}
 			})
-		})
+		}, 1000)
 	}
 
 	const paginate = (from: number, to: number) => {
@@ -63,16 +81,38 @@ const OptionGroup = ({ history }: any) => {
 				groupState: { ...state.groupState, load: true }
 			}
 		})
-		post('/pitch/global/gui/field-option-group/', {
-			name: state.groupState.name
-		}).then(() => {
-			fetchData()
+		// post('/pitch/global/gui/field-option-group/', {
+		// 	name: state.groupState.name
+		// }).then(() => {
+		// 	fetchData()
+		// 	dispatch({
+		// 		type: 'GROUP_STATE', payload: {
+		// 			groupState: { ...state.groupState, load: false, done: true }
+		// 		}
+		// 	})
+		// })
+		//mock
+		const mock = [...state.mockData, {
+			uuid: uuidv4(),
+			slug: 'test-slug',
+			name: state.groupState.name,
+			company: 'company 5',
+			options: []
+		}]
+		setLoading(true)
+		setTimeout(() => {
+			dispatch({ type: 'MOCK', payload: { mockData: mock } })
+			dispatch({ type: 'GROUP_LIST', payload: { groupList: mock } })
+			dispatch({ type: 'PAGINATE', payload: { paginateList: mock } })
+			setLoading(false)
+		}, 1000)
+		setTimeout(() => {
 			dispatch({
 				type: 'GROUP_STATE', payload: {
 					groupState: { ...state.groupState, load: false, done: true }
 				}
 			})
-		})
+		}, 2000)
 	}
 
 	return (
