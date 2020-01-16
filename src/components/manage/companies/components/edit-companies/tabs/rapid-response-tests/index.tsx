@@ -10,9 +10,21 @@ import { global, company } from './Mock';
 
 // import { get } from "../../../../utils/api";
 
+interface IProps {
+  classes: any;
+  company: Array<Object>;
+}
+
+interface IState {
+  loadingState: boolean;
+  activeTestData: Array<Object>;
+  globalTestData: Array<Object>;
+  companyTestData: Array<Object>;
+  activeData: Array<Object>;
+}
+
 const defaultState = {
   loadingState: false,
-
   activeTestData: [
 		{ uuid: 1, name: 'Programs' },
 		{ uuid: 2, name: 'Portal' },
@@ -23,8 +35,8 @@ const defaultState = {
   companyTestData: company,
   activeData: []
 };
-class RRTest extends Component {
-  constructor(props) {
+class RRTest extends Component<IProps, IState> {
+	constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -55,12 +67,12 @@ class RRTest extends Component {
     //   });
   // };
 
-  setActiveData = data => {
+  setActiveData = (data:any) => {
     this.setState({
       activeData: data
     });
   };
-  saveActiveSegment = data => {
+  saveActiveSegment = (data:any) => {
     //API request here for updating activeSegments
     this.setState({ activeTestData: data });
   };
@@ -71,10 +83,7 @@ class RRTest extends Component {
         {this.state.loadingState ? (
           <>
             <div style={{ height: 600 }}>
-              <TableLoader
-                headerText="Rapid Response Test"
-                message="Loading All test"
-              />
+              <TableLoader/>
             </div>
           </>
         ) : (
