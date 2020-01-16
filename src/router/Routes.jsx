@@ -1,7 +1,7 @@
-import React from 'react'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
-import Gateway from 'components/gateway'
+import Gateway from "components/gateway";
 import {
   Realms,
   Campaigns,
@@ -16,25 +16,26 @@ import {
   SMSLandingPage,
   Dashboard,
   SMSEdit
-} from 'components'
-import { PublicRoute, GatewayRoute, PrivateRoute } from './'
-import DidPool from 'components/manage/manage-did-pool'
-import EditDidPool from 'components/manage/manage-did-pool/components/settings/DidPoolsSettings'
-import Signin from 'auth/component'
-import ManageDIDs from 'components/manage/did/did-landing'
-import ManageLocation from 'components/manage/manage-locations/ManageLocation'
-import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
-import GlobalPhraseBooks from '../components/manage/global/global-phrase-books/GlobalPhraseBooks'
+} from "components";
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import DidPool from "components/manage/manage-did-pool";
+import EditDidPool from "components/manage/manage-did-pool/components/settings/DidPoolsSettings";
+import Signin from "auth/component";
+import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
+import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
+import EditGlobalPhraseBook from "components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook";
 import {
   GlobalOptionGroup,
   EditOptionGroup
-} from 'components/manage/global/global-option-group/'
-import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
-import GlobalSegments from 'components/manage/global/global-segments/GlobalSegments'
-import GlobalRapidResponse from 'components/manage/global/global-rapid-response'
-import GlobalRRSettingsDashboard from 'components/manage/global/global-rapid-response/edit-tests'
+} from "components/manage/global/global-option-group/";
+import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
+import GlobalSegments from "components/manage/global/global-segments/GlobalSegments";
+import GlobalRapidResponse from "components/manage/global/global-rapid-response";
+import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
 //audio
-import AudioResources from 'components/audio/audio-resources'
+import AudioResources from "components/audio/audio-resources";
 
 export default function Routes() {
   return (
@@ -119,6 +120,10 @@ export default function Routes() {
           path="/manage/global-pitch-segments"
           component={GlobalSegments}
         />
+        <PrivateRoute
+          path="/manage/phrase-book/global/edit/:uuid"
+          component={EditGlobalPhraseBook}
+        />
         {/* Global Pitch routes end */}
         <PrivateRoute
           path="/manage/team/edit/:uuid/"
@@ -143,5 +148,5 @@ export default function Routes() {
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }
