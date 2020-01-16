@@ -43,7 +43,7 @@ const DidPool: React.FC<DidPoolProps> = ({ history }) => {
   const [data, setData] = useState(new_did_const);
 
   useEffect(() => {
-    get("http://5e00169a1fb99500141403ae.mockapi.io/api/v1/pools").then(
+    get("/did/company/all/campaign/all/pool/").then(
       (res: any) => {
         setState({
           ...state,
@@ -54,18 +54,16 @@ const DidPool: React.FC<DidPoolProps> = ({ history }) => {
         });
       }
     );
-    get("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies", {
+    get("/identity/company/list/", {
       assignable: true
     }).then((res: any) => setCompanies(res.data));
 
-    get("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns", {
+    get("/identity/campaign/list/", {
       assignable: true
     }).then((res: any) =>
       setCampaigns({ ...campaigns, fil: res.data, og: res.data })
     );
-    get(
-      "http://5e00169a1fb99500141403ae.mockapi.io/api/v1/voice_provider/"
-    ).then((res: any) => setVoice(res.data));
+    get("/did/voice_provider/").then((res: any) => setVoice(res.data));
   }, []);
 
   const paginate = (from: any, to: any) => {

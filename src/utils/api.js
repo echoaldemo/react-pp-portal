@@ -1,13 +1,14 @@
 import axios from 'axios'
+//sam token
 // const token = localStorage.getItem("ngStorage-ppToken");
-
+const token = '6076491441e22edab73be6bde2793b138fb6de7e'
 axios.defaults.headers.common.Accept = 'application/json'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-// if (token != null) {
-//   axios.defaults.headers.common["Authorization"] = `token ${token}`;
-// }
+if (token != null) {
+  axios.defaults.headers.common['Authorization'] = `token ${token}`
+}
 
-const baseUrl = ''
+const baseUrl = 'http://devswarm.perfectpitchtech.com'
 const CancelToken = axios.CancelToken
 let cancel = () => {}
 
@@ -24,7 +25,7 @@ const get = (endpoint, query) => {
       count++
     }
   }
-  return axios.get(`${endpoint}${test}`)
+  return axios.get(`${baseUrl}${endpoint}${test}`)
 }
 
 const post = (endpoint, data) =>
@@ -39,6 +40,12 @@ const patch = (endpoint, data) =>
       cancel = c
     })
   })
+const put = (endpoint, data) =>
+  axios.put(`${baseUrl}${endpoint}`, data, {
+    cancelToken: new CancelToken(function executor(c) {
+      cancel = c
+    })
+  })
 const remove = endpoint =>
   axios.delete(`${baseUrl}${endpoint}`, {
     cancelToken: new CancelToken(function executor(c) {
@@ -46,4 +53,4 @@ const remove = endpoint =>
     })
   })
 
-export { get, post, patch, remove, cancel }
+export { get, post, patch, put, remove, cancel }

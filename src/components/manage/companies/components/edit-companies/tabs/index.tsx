@@ -5,10 +5,12 @@ import { tabs as useStyles, CustomTabs } from "./styles";
 
 import CompanySettings from "./settings";
 import PhraseBooks from "./phrase-books";
+import RapidResponseTests from "./rapid-response-tests";
 /* import PhraseBooks from '../../manage/manage-companies/phrase-books/PhraseBooks'
 import RRTest from '../../manage/manage-companies/rapid-response-test'
-import RRSegments from '../../manage/manage-companies/RapidResponse/Index'
-import AudioResources from '../../manage/manage-companies/audio-resources/AudioResources' */
+import RRSegments from '../../manage/manage-companies/RapidResponse/Index'*/
+
+import AudioResources from "./audio-resources";
 
 interface ITabPanel {
   children?: React.ReactNode;
@@ -102,18 +104,17 @@ const TabComponent: React.FC<Props> = ({
       <TabPanel value={value} index={1} className={classes.panelContainer}>
         <PhraseBooks company={companyData} />
       </TabPanel>
-      {/* 
       <TabPanel value={value} index={2} className={classes.panelContainer}>
-        {props.companyData !== null && <RRTest company={props.companyData} />}
+        <RapidResponseTests company={companyData} />
       </TabPanel>
+      {/*
       <TabPanel value={value} index={3} className={classes.panelContainer}>
         {props.companyData !== null && <RRSegments company={props.params} />}
       </TabPanel>
+       */}
       <TabPanel value={value} index={4} className={classes.panelContainer}>
-        {props.companyData !== null && (
-          <AudioResources company={props.companyData} />
-        )}
-      </TabPanel> */}
+        <AudioResources company={companyData} />
+      </TabPanel>
     </div>
   );
 };

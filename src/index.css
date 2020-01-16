@@ -79,8 +79,14 @@ code {
 .pb-normal {
 	padding-bottom: 25px;
 }
+.pt-normal {
+	padding-top: 16px;
+}
 .p-normal {
 	padding: 15px;
+}
+.p-24 {
+	padding: 24px;
 }
 .mh-normal {
 	min-height: 629px;
@@ -93,4 +99,21 @@ code {
 
 .c-default {
 	color: #444851;
+}
+.MuiCircularProgress-colorPrimary {
+	color: #1194f6 !important;
+}
+.MuiSwitch-switchBase {
+	color: #1194f6 !important;
+}
+.MuiSwitch-track {
+	background-color: #ccc !important;
+}
+.MuiCheckbox-colorPrimary.Mui-checked {
+	color: #0f97fc !important;
+}
+.display-normal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

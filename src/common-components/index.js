@@ -13,6 +13,7 @@ export { CampaignMenuSelect } from "./campaign-menu-select";
 export { SuccessModal } from "./success-modal";
 export { TableLoader } from "./table-loader";
 export { SearchBar } from "./search-bar";
+export { Alert } from "./notification";
 export {
   SaveButton,
   CustomButton,

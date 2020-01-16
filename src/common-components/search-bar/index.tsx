@@ -92,7 +92,7 @@ const SearchBar: React.FC<Props> = ({
       let filteredData: any[] = [];
 
       campaigns.forEach((data: any) => {
-        headers.forEach((head) => {
+        headers.forEach(head => {
           if (typeof data[head] !== "boolean") {
             if (data[head].toLowerCase().includes(event.toLowerCase())) {
               filteredData.push(data);
@@ -100,8 +100,7 @@ const SearchBar: React.FC<Props> = ({
           }
         });
       });
-
-      filtered.push([...filteredData]);
+      filtered.push(Array.from(new Set(filteredData)));
 
       if (classicSearch) {
         classicSearch(filtered[0]);
@@ -146,7 +145,7 @@ const SearchBar: React.FC<Props> = ({
           <Grid item xs={12} lg={12}>
             <TextField
               disabled={loading !== undefined ? loading : false}
-              onChange={(e) => handleSearch(e)}
+              onChange={e => handleSearch(e)}
               data-cy="search-bar"
               id="standard-full-width"
               value={textSearch}
@@ -198,7 +197,7 @@ const SearchBar: React.FC<Props> = ({
                 color: "#7c8a97",
                 padding: 20,
                 backgroundColor: "white",
-                zIndex: 1,
+                zIndex: 1
               }}
               elevation={0}
             >
@@ -356,9 +355,7 @@ const SearchBar: React.FC<Props> = ({
                                       <Grid item style={{ marginTop: 10 }}>
                                         <GearIcon
                                           style={{ color: "#777777" }}
-                                          onClick={(e) =>
-                                            handleClick(e, result)
-                                          }
+                                          onClick={e => handleClick(e, result)}
                                         />
                                         <Menu
                                           onClose={handClose}
@@ -428,9 +425,7 @@ const SearchBar: React.FC<Props> = ({
                                       <Grid item style={{ marginTop: 10 }}>
                                         <GearIcon
                                           style={{ color: "#777777" }}
-                                          onClick={(e) =>
-                                            handleClick(e, result)
-                                          }
+                                          onClick={e => handleClick(e, result)}
                                         />
                                       </Grid>
                                     )}

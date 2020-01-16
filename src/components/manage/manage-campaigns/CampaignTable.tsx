@@ -45,9 +45,7 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 								>
 									{campaign.name}
 								</UnderlineCell>
-								<TableCell className={cell} style={{ color: '#777777', width: '20%' }}>
-									{campaign.slug}
-								</TableCell>
+								<TableCell className={cell}>{campaign.slug}</TableCell>
 
 								<TableCell className={uuid}>
 									<p>{campaign.uuid}</p>
@@ -77,10 +75,12 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 								<TableCell className={cell} align="right">
 									<EditButton
 										text="Edit"
-										onClickFunc={() =>
+										onClickFunc={() => {
 											history.push(
 												`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
-											)}
+											);
+											localStorage.setItem(`campaignData`, JSON.stringify(campaign));
+										}}
 										style={{
 											color: '#444851'
 										}}
