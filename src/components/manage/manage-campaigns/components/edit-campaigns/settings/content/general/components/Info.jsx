@@ -1,30 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { TableLoader, DeleteModal } from "common-components";
-import EditForm from "./EditForm";
-import { IdentityContext } from "contexts/IdentityProvider";
+import React, { useContext, useEffect } from 'react';
+import { TableLoader, DeleteModal } from 'common-components';
+import EditForm from './EditForm';
+import { IdentityContext } from 'contexts/IdentityProvider';
 
 export default function Info() {
-	const { state, dispatch } = useContext(IdentityContext);
-
-	const  setLoading =(val) => {
-		dispatch({ type: "LOADING", payload: { loading: val } });
-	}
-
-	useEffect(() => {
-		setLoading(true)
-		setTimeout(() => {
-			setLoading(false)
-		}, 1000);
-	}, []);
-
-
+	const { state, dispatch, handleSaveCampaignDetails } = useContext(IdentityContext);
 
 	return state.loading ? (
 		<TableLoader />
 	) : (
-		<div>
-			<h1>Asdfsad</h1>
-		</div>
+		<EditForm state={state} dispatch={dispatch} handleSaveCampaignDetails={handleSaveCampaignDetails} />
 	);
 }
 

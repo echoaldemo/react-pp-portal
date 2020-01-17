@@ -38,8 +38,40 @@
 		}
 	],
 
-	"realms": [],
-	"companies": [],
+	"realms": [
+		{
+			"active": true,
+			"campaigns": [
+				{
+					"active": true,
+					"archived": true,
+					"callback": null,
+					"company": "062866ae-e96a-11e9-80be-0242ac11000e",
+					"dialingparams": null,
+					"name": "perf",
+					"queue": null,
+					"slug": "perf",
+					"uuid": "11e72266-fa07-11e9-9b66-0242ac110014",
+					"warmtransfer": null
+				}
+			],
+			"name": "test-4",
+			"slug": "test-4",
+			"uuid": "2e7fd94c-fffa-11e9-929d-0242ac110014"
+		}
+	],
+	"companies": [
+		{
+			"active": true,
+			"datetime_created": "2020-01-16T21:07:45.367786Z",
+			"datetime_modified": "2020-01-16T21:07:45.367812Z",
+			"email": null,
+			"name": "Company Sample 1",
+			"slug": "company-sample-1",
+			"uuid": "060c8fde-f968-11e9-87aa-0242ac110014",
+			"website": null
+		}
+	],
 	"campaignDetails": {
 		"active": false,
 		"archived": true,
@@ -51,7 +83,7 @@
 		},
 		"company": "060c8fde-f968-11e9-87aa-0242ac110014",
 		"dialingparams": null,
-		"name": "asdfsadasdfs",
+		"name": "Campaign-1",
 		"queue": null,
 		"realms": [
 			"2e7fd94c-fffa-11e9-929d-0242ac110014",
@@ -62,7 +94,7 @@
 			"b1e4f216-0579-11ea-ad4e-0242ac110014",
 			"e77ffcc2-d628-11e7-b049-525400ceb6a1"
 		],
-		"slug": "bka",
+		"slug": "campaign-1",
 		"uuid": "a200193c-db4b-11e9-967c-0242ac11000e"
 	},
 	"campaignRealms": [

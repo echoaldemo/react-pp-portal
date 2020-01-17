@@ -35,15 +35,7 @@ const SettingsContent = () => {
 			'aria-controls': `full-width-tabpanel-${index}`
 		};
 	}
-	const tabPanels = [
-		General,
-		AudioResources,
-		List,
-		QA,
-		() => {
-			return null;
-		}
-	];
+	const tabPanels = [ General, AudioResources, List, QA, ChangeLog ];
 	return (
 		<div>
 			<Typography className="section-title">Campaign Settings</Typography>

@@ -31,11 +31,34 @@ const IdentityContext = React.createContext<any>(initialState);
 const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
 
+	const setLoading = (val: boolean) => {
+		dispatch({ type: 'LOADING', payload: { loading: val } });
+	};
+
+	const handleSaveCampaignDetails = (val: any) => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	};
+
+	useEffect(() => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	}, []);
 
 	const [ state, dispatch ] = useReducer((state: any, action: any) => {
 		switch (action.type) {
 			case 'LOADING':
-				return { ...state, loading: action.payload.loading }
+				return { ...state, loading: action.payload.loading };
+
+			case 'SAVE_INFO':
+				return {
+					...state,
+					campaignDetails: action.payload.campaign_details
+				};
 			default:
 				return null;
 		}
@@ -46,6 +69,7 @@ const IdentityProvider = ({ children, match, history }: any) => {
 			value={{
 				state,
 				dispatch,
+				handleSaveCampaignDetails
 			}}
 		>
 			{children}

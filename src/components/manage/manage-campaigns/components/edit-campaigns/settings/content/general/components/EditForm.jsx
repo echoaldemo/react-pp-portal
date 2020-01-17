@@ -18,7 +18,7 @@ const DropdownIcon = () => {
 	return <KeyboardArrowDown style={{ color: '#444851' }} />;
 };
 
-const EditForm = ({ state, handleSaveData }) => {
+const EditForm = ({ state, handleSaveCampaignDetails }) => {
 	const { campaignRealms, campaignDetails, realms, companies } = state;
 
 	const [ formState, setFormState ] = useState(campaignDetails);
@@ -29,7 +29,7 @@ const EditForm = ({ state, handleSaveData }) => {
 		return (
 			<Switch
 				color="default"
-				checked={state.active}
+				checked={formState.active}
 				onChange={(e) => setFormState({ ...formState, active: e.target.checked })}
 			/>
 		);
@@ -44,7 +44,8 @@ const EditForm = ({ state, handleSaveData }) => {
 		<form
 			onSubmit={(e) => {
 				e.preventDefault();
-				handleSaveData({ ...formState, realms: addRealms });
+				console.log('Save');
+				handleSaveCampaignDetails(formState);
 			}}
 		>
 			<Grid container spacing={5}>
