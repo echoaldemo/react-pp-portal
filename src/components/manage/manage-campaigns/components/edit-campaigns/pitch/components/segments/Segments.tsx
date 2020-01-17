@@ -1,13 +1,28 @@
 import React from 'react';
-
+import { TableNoResult, SaveButton } from 'common-components';
+import { Add } from '@material-ui/icons';
 export default function Segments() {
 	return (
-		<div className="p-normal c-default">
-			<h1>Segments</h1>
-			<p>
-				<b>Modify the code of this file here:</b>
-			</p>
-			<code>File Path:: /manage/manage-campaigns/components/edit-campaigns/pitch/components/segments</code>
+		<div className="c-default">
+			<TableNoResult
+				headerText="Segment Variables"
+				mainMessage="No segment variable have been created"
+				subMessage="Would you like to creat one? Just hit the “New Segment” button."
+				containerStyle={{
+					height: 350,
+					padding: 0
+				}}
+				renderButton={
+					<SaveButton
+						onClick={() => {
+							alert('Clicked');
+						}}
+					>
+						<Add />
+						New Segment
+					</SaveButton>
+				}
+			/>
 		</div>
 	);
 }

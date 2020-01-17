@@ -52,34 +52,37 @@ export default function PitchSection({ match, history }) {
 		RapidResponseTests
 	];
 
+	const renderPitchContent = () => {
+		return (
+			<div>
+				<Typography className="section-title">Pitch Settings</Typography>
+				<Tabs value={tabValue} fullwidth="true" onChange={handleChange} className="tabs-container">
+					{tabnames.map((name, i) => {
+						return <Tab label={name} {...a11yProps(i)} className="tab-text" />;
+					})}
+				</Tabs>
+
+				{tabPanels.map((item, i) => {
+					return (
+						<TabPanel value={tabValue} index={i}>
+							{item}
+						</TabPanel>
+					);
+				})}
+			</div>
+		);
+	};
+
 	return (
 		<IdentityContext.Consumer>
 			{(value) => {
+				console.log('val', value);
+
 				return (
 					<div>
 						<EditHeader campaignDetails={value.campaignDetails} history={history} />
 						<Paper square={true} className="mh-normal">
-							<div>
-								<Typography className="section-title">Pitch Settings</Typography>
-								<Tabs
-									value={tabValue}
-									fullwidth="true"
-									onChange={handleChange}
-									className="tabs-container"
-								>
-									{tabnames.map((name, i) => {
-										return <Tab label={name} {...a11yProps(i)} className="tab-text" />;
-									})}
-								</Tabs>
-
-								{tabPanels.map((item, i) => {
-									return (
-										<TabPanel value={tabValue} index={i}>
-											{item}
-										</TabPanel>
-									);
-								})}
-							</div>
+							{renderPitchContent()}
 						</Paper>
 					</div>
 				);

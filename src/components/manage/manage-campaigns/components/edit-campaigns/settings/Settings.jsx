@@ -8,16 +8,6 @@ import { IdentityContext } from 'contexts/IdentityProvider';
 export default function SettingsSection({ match, history }) {
 	const [ tabValue, setValue ] = useState(0);
 
-	// const renderLoading = () => {
-	// 	return (
-	// 		<LoadingModal
-	// 			open={deleteLoading}
-	// 			text={`One moment. We're removing campaign ${campaignDetails.name}`}
-	// 			cancelFn={() => setDeleteLoading(false)}
-	// 		/>
-	// 	);
-	// };
-
 	function handleChange(event, newValue) {
 		setValue(newValue);
 	}
@@ -28,6 +18,37 @@ export default function SettingsSection({ match, history }) {
 			'aria-controls': `full-width-tabpanel-${index}`
 		};
 	}
+
+	const renderSettingsContent = (value) => {
+		return (
+			<div>
+				<Typography className="section-title">Campaign Settings</Typography>
+				<Tabs value={tabValue} fullwidth="true" onChange={handleChange} className="tabs-container">
+					<Tab label="General" {...a11yProps(0)} className="tab-text" />
+					<Tab label="Audio Resources" {...a11yProps(1)} className="tab-text" />
+					<Tab label="List" {...a11yProps(2)} className="tab-text" />
+					<Tab label="QA" {...a11yProps(3)} className="tab-text" />
+					<Tab label="Change Log" {...a11yProps(4)} className="tab-text" />
+				</Tabs>
+				<TabPanel value={tabValue} index={0}>
+					<General {...value} />
+				</TabPanel>
+				<TabPanel value={tabValue} index={1}>
+					<AudioResources />
+				</TabPanel>
+				<TabPanel value={tabValue} index={2}>
+					<List />
+				</TabPanel>
+				<TabPanel value={tabValue} index={3}>
+					<QA />
+				</TabPanel>
+				<TabPanel value={tabValue} index={4}>
+					<ChangeLog match={match} history={history} />
+				</TabPanel>
+			</div>
+		);
+	};
+
 	return (
 		<IdentityContext.Consumer>
 			{(value) => {
@@ -35,36 +56,7 @@ export default function SettingsSection({ match, history }) {
 					<div>
 						<EditHeader campaignDetails={value.campaignDetails} history={history} />
 						<Paper square={true} className="mh-normal">
-							<div>
-								<Typography className="section-title">Campaign Settings</Typography>
-								<Tabs
-									value={tabValue}
-									fullwidth="true"
-									onChange={handleChange}
-									className="tabs-container"
-								>
-									<Tab label="General" {...a11yProps(0)} className="tab-text" />
-									<Tab label="Audio Resources" {...a11yProps(1)} className="tab-text" />
-									<Tab label="List" {...a11yProps(2)} className="tab-text" />
-									<Tab label="QA" {...a11yProps(3)} className="tab-text" />
-									<Tab label="Change Log" {...a11yProps(4)} className="tab-text" />
-								</Tabs>
-								<TabPanel value={tabValue} index={0}>
-									<General {...value} />
-								</TabPanel>
-								<TabPanel value={tabValue} index={1}>
-									<AudioResources />
-								</TabPanel>
-								<TabPanel value={tabValue} index={2}>
-									<List />
-								</TabPanel>
-								<TabPanel value={tabValue} index={3}>
-									<QA />
-								</TabPanel>
-								<TabPanel value={tabValue} index={4}>
-									<ChangeLog match={match} history={history} />
-								</TabPanel>
-							</div>
+							{renderSettingsContent(value)}
 						</Paper>
 					</div>
 				);

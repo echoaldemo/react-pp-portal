@@ -11,6 +11,8 @@ interface ChangeServerProps {
 	renderButton: React.ReactNode
 	icon?: React.ReactNode
 	headerText: string
+	headerStyle? : any
+	containerStyle? : any
 }
 
 const TableNoResult: React.FC<ChangeServerProps> = ({
@@ -19,7 +21,9 @@ const TableNoResult: React.FC<ChangeServerProps> = ({
 	subMessage,
 	renderButton,
 	icon,
-	headerText
+	headerText,
+	headerStyle,
+	containerStyle,
 }) => {
 	const classes = useStyles()
 	return (
@@ -31,6 +35,9 @@ const TableNoResult: React.FC<ChangeServerProps> = ({
 						className={classes.header}
 						container
 						justify="center"
+						style={{
+							...headerStyle
+						}}
 					>
 						<Grid
 							item
@@ -52,6 +59,9 @@ const TableNoResult: React.FC<ChangeServerProps> = ({
 					container
 					direction="column"
 					justify="center"
+					style={{
+						...containerStyle
+					}}	
 				>
 					<Grid item>
 						<span className={classes.mainMessage}>{mainMessage}</span>
