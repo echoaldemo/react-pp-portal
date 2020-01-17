@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import EditHeader from '../EditHeader';
+import { TableLoader } from 'common-components';
 import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
-
+import AddNewPitch from './AddNewPitch';
 import { IdentityContext } from 'contexts/IdentityProvider';
 import {
 	Details,
@@ -26,7 +27,8 @@ const tabnames = [
 	'RAPID RESPONSE TESTS'
 ];
 
-export default function PitchSection({ match, history }) {
+export default function PitchSection({ history }) {
+	const { state } = useContext(IdentityContext);
 	const [ tabValue, setValue ] = useState(0);
 
 	function handleChange(event, newValue) {
@@ -74,20 +76,16 @@ export default function PitchSection({ match, history }) {
 	};
 
 	return (
-		<IdentityContext.Consumer>
-			{(value) => {
-				console.log('val', value);
-
-				return (
-					<div>
-						<EditHeader campaignDetails={value.campaignDetails} history={history} />
-						<Paper square={true} className="mh-normal">
-							{renderPitchContent()}
-						</Paper>
-					</div>
-				);
-			}}
-		</IdentityContext.Consumer>
+		<div>
+			<EditHeader campaignDetails={state.campaignDetails} history={history} />
+			<Paper square={true} className="mh-normal">
+				{state.pitch.length > 0 ? (
+					<React.Fragment>{state.loading ? <TableLoader /> : renderPitchContent()}</React.Fragment>
+				) : (
+					<AddNewPitch />
+				)}
+			</Paper>
+		</div>
 	);
 }
 

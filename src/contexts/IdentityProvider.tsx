@@ -10,7 +10,15 @@ const initialState = {
 	campaignRealms: mockData.campaignRealms,
 	companies: mockData.companies,
 	deleteLoading: false,
-	openDeleteModal: false
+	openDeleteModal: false,
+	pitch: [
+		{
+			name: 'Academic Advisor',
+			panel: 'Generic',
+			active_version: '37 Version'
+		}
+	],
+	panels: []
 };
 
 const filterRealm = (data: Array<object>, initialRealms: any) => {
@@ -26,6 +34,7 @@ const filterRealm = (data: Array<object>, initialRealms: any) => {
 
 	return newArr;
 };
+
 const IdentityContext = React.createContext<any>(initialState);
 
 const IdentityProvider = ({ children, match, history }: any) => {
@@ -59,6 +68,8 @@ const IdentityProvider = ({ children, match, history }: any) => {
 					...state,
 					campaignDetails: action.payload.campaign_details
 				};
+			case 'CREATE_PANEL':
+				return { ...state, panels: action.payload.panel };
 			default:
 				return null;
 		}
