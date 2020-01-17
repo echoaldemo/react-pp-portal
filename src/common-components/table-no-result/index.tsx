@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core'
 interface ChangeServerProps {
 	noHeader?: boolean
 	mainMessage: string
-	subMessage?: string
+	subMessage?: any
 	renderButton: React.ReactNode
 	icon?: React.ReactNode
 	headerText: string
