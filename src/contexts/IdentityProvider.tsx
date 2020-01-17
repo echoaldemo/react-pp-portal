@@ -31,30 +31,21 @@ const IdentityContext = React.createContext<any>(initialState);
 const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
 
-	const [ infoLoading, setInfoLoading ] = useState(false);
 
 	const [ state, dispatch ] = useReducer((state: any, action: any) => {
 		switch (action.type) {
-			case 'TEST':
-				return { ...state, campaignDetails: {} };
+			case 'LOADING':
+				return { ...state, loading: action.payload.loading }
 			default:
 				return null;
 		}
 	}, initialState);
 
-	useEffect(() => {
-		setInfoLoading(true);
-
-		setTimeout(() => {
-			setInfoLoading(false);
-		}, 1000);
-	}, []);
 	return (
 		<IdentityContext.Provider
 			value={{
 				state,
 				dispatch,
-				infoLoading
 			}}
 		>
 			{children}
