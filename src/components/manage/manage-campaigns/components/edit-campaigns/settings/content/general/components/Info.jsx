@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { TableLoader, DeleteModal } from 'common-components';
 import EditForm from './EditForm';
+import { IdentityContext } from 'contexts/IdentityProvider';
 
-export default function Info({ state, setState, deleteCompany, handleSaveData }) {
-	const { loading, campaignDetails, openDeleteModal } = state;
+export default function Info() {
+	const { state, dispatch, handleSaveCampaignDetails } = useContext(IdentityContext);
 
-	const handleCloseDeleteModal = () => {
-		setState({ ...state, openDeleteModal: false });
-	};
+	return state.loading ? (
+		<TableLoader />
+	) : (
+		<EditForm state={state} dispatch={dispatch} handleSaveCampaignDetails={handleSaveCampaignDetails} />
+	);
+}
 
-	return (
-		<div>
-			{loading ? <TableLoader /> : <EditForm state={state} setState={setState} handleSaveData={handleSaveData} />}
-
-			<DeleteModal
+{
+	/* <DeleteModal
 				open={openDeleteModal}
 				header="Delete Campaign"
 				name={campaignDetails.name}
@@ -22,7 +23,5 @@ export default function Info({ state, setState, deleteCompany, handleSaveData })
 				delFn={() => {
 					deleteCompany();
 				}}
-			/>
-		</div>
-	);
+			/> */
 }
