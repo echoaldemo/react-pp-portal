@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import MetricsCard from "../../../../common-components/metrics-card";
+import { MetricsCard } from "common-components";
 import { Grid } from "@material-ui/core";
-// import Modal from "../../../../common-components/Modal";
 import styled from "styled-components";
 import SalesModal from "../SalesModal";
 
@@ -24,7 +23,7 @@ const MetricCards = ({ data }) => {
   const [open, setOpen] = useState(false);
   const [metric, setMetric] = useState("");
 
-  const handleChart = test => {
+  const handleChart = (test) => {
     setMetric(test);
     setOpen(true);
   };
@@ -38,7 +37,7 @@ const MetricCards = ({ data }) => {
           <SalesModal
             title={metric.title}
             open={open}
-            onClose={e => setOpen(false)}
+            onClose={(e) => setOpen(false)}
           />
           <Grid
             container

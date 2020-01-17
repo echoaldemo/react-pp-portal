@@ -36,6 +36,7 @@ import GlobalRapidResponse from "components/manage/global/global-rapid-response"
 import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
 //audio
 import AudioResources from "components/audio/audio-resources";
+import Overview from "components/dashboard/overview/Overview";
 
 export default function Routes() {
   return (
@@ -144,6 +145,11 @@ export default function Routes() {
           path="/manage/audio/audio-resources"
           component={AudioResources}
         />
+        <PrivateRoute
+          path={`/dashboard/all/:slug/overview`}
+          component={Overview}
+        />
+
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>

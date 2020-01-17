@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
-import MetricCont from "../../../../common-components/metric-container";
 import MetricCards from "./MetricCards";
 import { FiMap } from "react-icons/fi";
 import { PhoneInTalkRounded, Person } from "@material-ui/icons";
 import { FaChartBar } from "react-icons/fa";
 import { camapaign, dialer, agent } from "./mockData";
 import EditMetrics from "./EditMetricsModal";
-import Modal from "../../../../common-components/Modal/index";
+import { Modal, MetricContainer } from "common-components";
 
 const Metrics = () => {
   const [open, setOpen] = useState(false);
@@ -19,16 +18,16 @@ const Metrics = () => {
     <>
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
-          <MetricCont
+          <MetricContainer
             icon={<FiMap style={{ height: 20, width: 20, color: "#f89523" }} />}
             header="Campaign Metrics"
             editFn={handleEdit}
           >
             <MetricCards data={camapaign} />
-          </MetricCont>
+          </MetricContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <MetricCont
+          <MetricContainer
             icon={
               <PhoneInTalkRounded
                 style={{ height: 20, width: 20, color: "#f89523" }}
@@ -38,10 +37,10 @@ const Metrics = () => {
             editFn={handleEdit}
           >
             <MetricCards data={dialer} />
-          </MetricCont>
+          </MetricContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <MetricCont
+          <MetricContainer
             icon={
               <Person style={{ height: 20, width: 20, color: "#f89523" }} />
             }
@@ -49,10 +48,10 @@ const Metrics = () => {
             editFn={handleEdit}
           >
             <MetricCards data={agent} />
-          </MetricCont>
+          </MetricContainer>
         </Grid>
         <Grid item xs={12} md={6}>
-          <MetricCont
+          <MetricContainer
             icon={
               <FaChartBar style={{ height: 20, width: 20, color: "#f89523" }} />
             }
@@ -60,7 +59,7 @@ const Metrics = () => {
             editFn={handleEdit}
           >
             <MetricCards data={[]} />
-          </MetricCont>
+          </MetricContainer>
         </Grid>
       </Grid>
       <Modal
