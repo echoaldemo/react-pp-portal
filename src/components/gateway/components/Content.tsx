@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
 import { ContentProps } from "../types";
 
@@ -6,7 +6,10 @@ const Content: React.FC<ContentProps> = ({
   campaigns,
   searchText,
   history
-}) => {
+}: any) => {
+  useEffect(() => {
+    localStorage.setItem("all_campaigns", JSON.stringify(campaigns));
+  }, []);
   return (
     <List>
       <ListItem>
@@ -22,9 +25,15 @@ const Content: React.FC<ContentProps> = ({
                   <ListItem button>
                     <ListItemText
                       primary={campaign.name}
-                      onClick={() =>
-                        history.push(`/dashboard/all/${campaign.slug}/overview`)
-                      }
+                      onClick={() => {
+                        localStorage.setItem(
+                          "campaign_db_data",
+                          JSON.stringify(campaign)
+                        );
+                        history.push(
+                          `/dashboard/all/${campaign.slug}/overview`
+                        );
+                      }}
                     />
                   </ListItem>
                   <Divider />
@@ -36,9 +45,13 @@ const Content: React.FC<ContentProps> = ({
               <ListItem button>
                 <ListItemText
                   primary={campaign.name}
-                  onClick={() =>
-                    history.push(`/dashboard/all/${campaign.slug}/overview`)
-                  }
+                  onClick={() => {
+                    localStorage.setItem(
+                      "campaign_db_data",
+                      JSON.stringify(campaign)
+                    );
+                    history.push(`/dashboard/all/${campaign.slug}/overview`);
+                  }}
                 />
               </ListItem>
               <Divider />
