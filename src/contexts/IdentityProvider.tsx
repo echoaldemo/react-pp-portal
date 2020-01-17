@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { get, remove, patch } from 'utils/api';
 import mockData from './mockData.json';
 import { setTimeout } from 'timers';
 
 const initialState = {
-	realms: [],
-	campaignDetails: {},
+	realms: mockData.realms,
+	campaignDetails: mockData.campaignDetails,
 	loading: false,
-	campaignRealms: [],
-	companies: [],
+	campaignRealms: mockData.campaignRealms,
+	companies: mockData.companies,
 	deleteLoading: false,
 	openDeleteModal: false
 };
@@ -31,88 +31,30 @@ const IdentityContext = React.createContext<any>(initialState);
 const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
 
-	const [ state, setState ] = useState(initialState);
+	const [ infoLoading, setInfoLoading ] = useState(false);
+
+	const [ state, dispatch ] = useReducer((state: any, action: any) => {
+		switch (action.type) {
+			case 'TEST':
+				return { ...state, campaignDetails: {} };
+			default:
+				return null;
+		}
+	}, initialState);
 
 	useEffect(() => {
-		fetchAllData();
-		// setState({ ...state, loading: true });
+		setInfoLoading(true);
 
-		// setTimeout(() => {
-		// 	setState({
-		// 		...state,
-
-		// 	});
-		// }, 1000);
+		setTimeout(() => {
+			setInfoLoading(false);
+		}, 1000);
 	}, []);
-
-	const fetchAllData = () => {
-		setState({ ...state, loading: true });
-		get(`/identity/campaign/${uuid}`)
-			.then((res: any) => {
-				setState({ ...state, campaignDetails: res.data });
-				return res.data;
-			})
-			.then((campaignResult: any) => {
-				get('/identity/realm/list/')
-					.then((res: any) => {
-						console.log('result', campaignResult);
-
-						setState({
-							...state,
-							realms: res.data,
-							campaignRealms: filterRealm(res.data, campaignResult.realms)
-						});
-					})
-					.then(() => {
-						get('/identity/company/list/').then((res: any) => {
-							setState({ ...state, companies: res.data, loading: false });
-						});
-					});
-			});
-	};
-
-	const deleteCompany = () => {
-		setState({ ...state, deleteLoading: true, openDeleteModal: false });
-		remove(`/identity/campaign/${uuid}/`)
-			.then((res: any) => {
-				setState({ ...state, deleteLoading: false });
-				history.push('/manage/campaigns');
-			})
-			.catch((err: any) => {
-				console.log('Error response => ', err.response);
-			});
-	};
-
-	const handleSaveData = (state: any) => {
-		const { uuid, realms } = state;
-		setState({ ...state, loading: true });
-
-		const newRealms = realms.map((item: any) => {
-			return item.uuid;
-		});
-
-		patch(`/identity/campaign/${uuid}/`, {
-			name: state.name,
-			company: state.company,
-			realms: newRealms,
-			slug: state.slug,
-			active: state.active
-		})
-			.then((res: any) => {
-				fetchAllData();
-			})
-			.catch((err: any) => {
-				setState({ ...state, loading: false });
-			});
-	};
-
 	return (
 		<IdentityContext.Provider
 			value={{
 				state,
-				setState,
-				deleteCompany,
-				handleSaveData
+				dispatch,
+				infoLoading
 			}}
 		>
 			{children}

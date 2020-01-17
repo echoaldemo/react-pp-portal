@@ -58,13 +58,13 @@ export default function PitchSection({ match, history }) {
 				<Typography className="section-title">Pitch Settings</Typography>
 				<Tabs value={tabValue} fullwidth="true" onChange={handleChange} className="tabs-container">
 					{tabnames.map((name, i) => {
-						return <Tab label={name} {...a11yProps(i)} className="tab-text" />;
+						return <Tab label={name} key={i} {...a11yProps(i)} className="tab-text" />;
 					})}
 				</Tabs>
 
 				{tabPanels.map((item, i) => {
 					return (
-						<TabPanel value={tabValue} index={i}>
+						<TabPanel key={i} value={tabValue} index={i}>
 							{item}
 						</TabPanel>
 					);
