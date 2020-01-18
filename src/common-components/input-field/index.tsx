@@ -18,6 +18,7 @@ interface Props {
   helperText?: any;
   className?: any;
   SelectProps?: any;
+  autoFocus?: any;
 }
 const InputField: React.FC<Props> = ({ children, ...rest }) => {
   return (

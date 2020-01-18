@@ -91,6 +91,7 @@ const PitchForm = () => {
         value={formState.name}
         required
         label="Pitch name"
+        autoFocus
         fullWidth
         onChange={(e: any) => {
           setFormState({ ...formState, name: e.target.value });
