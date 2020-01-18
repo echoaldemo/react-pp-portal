@@ -79,7 +79,8 @@ const IdentityProvider = ({ children, match, history }: any) => {
       value={{
         state,
         dispatch,
-        handleSaveCampaignDetails
+        handleSaveCampaignDetails,
+        setLoading
       }}
     >
       {children}

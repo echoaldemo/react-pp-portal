@@ -15,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	message: {
-		marginTop: '15px',
-		padding: '75px 0',
 		fontColor: theme.palette.text.primary,
 		'& p': {
 			color: '#7c8a97',
