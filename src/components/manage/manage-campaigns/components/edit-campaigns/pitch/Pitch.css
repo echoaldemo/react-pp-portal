@@ -1,0 +1,8 @@
+.add-pitch-form {
+  display: flex;
+  height: 300px;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
