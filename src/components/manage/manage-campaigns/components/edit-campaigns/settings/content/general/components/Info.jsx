@@ -1,20 +1,33 @@
-import React, { useContext, useEffect } from 'react';
-import { TableLoader, DeleteModal } from 'common-components';
-import EditForm from './EditForm';
-import { IdentityContext } from 'contexts/IdentityProvider';
+import React, { useContext, useEffect } from "react";
+import { TableLoader, DeleteModal } from "common-components";
+import EditForm from "./EditForm";
+import { IdentityContext } from "contexts/IdentityProvider";
 
 export default function Info() {
-	const { state, dispatch, handleSaveCampaignDetails } = useContext(IdentityContext);
+  const { state, openModal, setOpenModal } = useContext(IdentityContext);
 
-	return state.loading ? (
-		<TableLoader />
-	) : (
-		<EditForm state={state} dispatch={dispatch} handleSaveCampaignDetails={handleSaveCampaignDetails} />
-	);
+  return (
+    <React.Fragment>
+      {state.loading ? <TableLoader /> : <EditForm />}
+      <DeleteModal
+        open={openModal}
+        header="Delete Campaign"
+        name={state.campaignDetails.name}
+        msg="campaign"
+        closeFn={() => {
+          setOpenModal(false);
+        }}
+        delFn={() => {
+          // deleteCompany();
+          return null;
+        }}
+      />
+    </React.Fragment>
+  );
 }
 
 {
-	/* <DeleteModal
+  /* <DeleteModal
 				open={openDeleteModal}
 				header="Delete Campaign"
 				name={campaignDetails.name}
