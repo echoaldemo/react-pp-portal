@@ -86,6 +86,10 @@ export default function SimpleTabs(props: any) {
 		setValue(newValue)
 	}
 
+	React.useEffect(() => {
+		console.log(props)
+	}, [])
+
 	return (
 		<div className={classes.root}>
 			<div className={classes.tabsContainer}>

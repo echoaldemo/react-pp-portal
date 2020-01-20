@@ -32,10 +32,11 @@ const ProspectVoices = (props: any) => {
 	const [voicesData, setVoicesData] = useState([])
 
 	useEffect(() => {
+		console.log('PROPS', props)
 		async function fetchDatas() {
 			setLoading(true)
-			let active_voices = await getRRTest(props.router.match.params.test_uuid)
-			let voices = await getVoices()
+			let active_voices: any = await getRRTest(props.router.match.params.test_uuid)
+			let voices: any = await getVoices()
 			setVoicesData(voices.data)
 			fetchVoices(voices.data, active_voices.data.voices)
 			parseVoices(voices.data, active_voices.data.voices)
