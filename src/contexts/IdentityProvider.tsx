@@ -12,7 +12,7 @@ const initialState = {
 	deleteLoading: false,
 	openDeleteModal: false,
 	panels: [],
-	pitch: { name: 'Sample Pitch' },
+	// pitch: { name: 'Sample Pitch' },
 	option_groups: [
 		{
 			name: 'Interest',
