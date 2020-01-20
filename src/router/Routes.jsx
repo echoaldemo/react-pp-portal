@@ -34,6 +34,8 @@ import TeamSettings from "components/manage/manage-locations/teams/settings/Team
 import GlobalSegments from "components/manage/global/global-segments/GlobalSegments";
 import GlobalRapidResponse from "components/manage/global/global-rapid-response";
 import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
+import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
+import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
 //audio
 import AudioResources from "components/audio/audio-resources";
 import Overview from "components/dashboard/overview/Overview";
@@ -116,6 +118,15 @@ export default function Routes() {
         <PrivateRoute
           path={`/manage/rapid-response-tests/global/edit/:test_uuid/menu`}
           component={GlobalRRSettingsDashboard}
+        />
+        <PrivateRoute
+          exact
+          path={`/manage/global-rapid-response/segments`}
+          component={GlobalRRSegments}
+        />
+        <PrivateRoute
+          path={`/manage/edit-segment-variables/company/global-rapid-response/segment/:uuid`}
+          component={GlobalRRSegmentsVarialble}
         />
         <PrivateRoute
           path="/manage/global-pitch-segments"

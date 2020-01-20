@@ -1,8 +1,8 @@
-import React from 'react';
-import { SelectField } from './styles';
+import React from "react";
+import { SelectField } from "./styles";
 interface Props {
   children?: any;
-  name?:any;
+  name?: any;
   style?: any;
   label?: any;
   select?: any;
@@ -16,17 +16,19 @@ interface Props {
   error?: any;
   InputProps?: any;
   helperText?: any;
+  className?: any;
+  SelectProps?: any;
+  autoFocus?: any;
 }
 const InputField: React.FC<Props> = ({ children, ...rest }) => {
-	return (
-		<SelectField data-cy="text-field" {...rest} autoComplete="off"
-		>
-			{children}
-		</SelectField>
-	);
+  return (
+    <SelectField data-cy="text-field" {...rest} autoComplete="off">
+      {children}
+    </SelectField>
+  );
 };
 InputField.defaultProps = {
-	children: ''
+  children: ""
 } as Partial<Props>;
 
 export { InputField };
