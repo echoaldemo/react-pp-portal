@@ -48,7 +48,7 @@ export default function EditHeader({ campaignDetails, history }) {
 						},
 						{
 							name: <b>PITCH</b>,
-							active: checkUrl('pitch'),
+							active: checkUrl('details'),
 							onClickFn: () => history.push(`/manage/campaign/edit/${slug}/${uuid}/pitch/details`)
 						},
 						{
