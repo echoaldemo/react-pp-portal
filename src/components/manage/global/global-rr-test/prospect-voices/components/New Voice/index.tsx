@@ -113,7 +113,7 @@ const NewVoice = (props: any) => {
 	async function fetchVoices() {
 		let voices = await getVoices()
 		let voiceData = voices.data || []
-		let parseVoices = voiceData.map((key: any) => {
+		let parseVoices: any = voiceData.map((key: any) => {
 			return {
 				uuid: key.uuid,
 				fname: key.first_name,
