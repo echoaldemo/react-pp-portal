@@ -51,6 +51,42 @@ interface IState {
 	openSuccess: boolean
 }
 
+const mock = [
+	{
+		uuid: 'a279ae2c-7866-11e7-83d7-02420a000608',
+		name: 'test segment',
+		company: null,
+		slug: 'test-segment',
+		active: true,
+		type: 'failures',
+		xml: '<failures>\n  <prospect-audio namespace="prospect" key="failure-1">I don\'t have time for this!</prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-2">\n        Sorry, getting on the elevator. I will call back, I promise.\n    </prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-3">You guys suck, stop calling me!</prospect-audio>\n</failures>',
+		variables: {
+			'3': '0',
+			fff: 'asd'
+		}
+	},
+	{
+		uuid: '26e9c358-7993-11e8-81e9-0242ac110016',
+		name: 'test segment1',
+		company: null,
+		slug: 'test',
+		active: false,
+		type: 'failures',
+		xml: '<failures>\n  <prospect-audio namespace="prospect" key="failure-1">I don\'t have time for this!</prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-2">\n        Sorry, getting on the elevator. I will call back, I promise.\n    </prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-3">You guys suck, stop calling me!</prospect-audio>\n</failures>',
+		variables: {}
+	},
+	{
+		uuid: '26e9c358-7993-11e8-81e9-0242ac110018',
+		name: 'test segment1',
+		company: null,
+		slug: 'test',
+		active: false,
+		type: 'failures',
+		xml: '<failures>\n  <prospect-audio namespace="prospect" key="failure-1">I don\'t have time for this!</prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-2">\n        Sorry, getting on the elevator. I will call back, I promise.\n    </prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-3">You guys suck, stop calling me!</prospect-audio>\n</failures>',
+		variables: {}
+	},
+]
+
 export default class GRapidResponseSegments extends Component<IProps, IState> {
 	constructor(props: any) {
 		super(props)
@@ -71,35 +107,33 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
 		}
 	}
 
-	componentDidMount() {
-		this.setState({
-			loading: true
-		})
 
-		get(`/pitch/global/rapid-response/segments/`).then((res: any) => {
-			this.setState({
-				globalSegment: res.data,
-				innerLoading: false,
-				loading: false,
-				paginateList: res.data,
-				filterlist: res.data
-			})
-		})
+	componentDidMount() {
+		this.fetchData()
 	}
 
 	fetchData = () => {
 		this.setState({
 			loading: true
 		})
-		get(`/pitch/global/rapid-response/segments/`).then((res: any) => {
+		// get(`/pitch/global/rapid-response/segments/`).then((res: any) => {
+		// 	this.setState({
+		// 		globalSegment: res.data,
+		// 		innerLoading: false,
+		// 		loading: false,
+		// 		paginateList: res.data,
+		// 		filterlist: res.data
+		// 	})
+		// })
+		setTimeout(() => {
 			this.setState({
-				globalSegment: res.data,
+				globalSegment: mock,
 				innerLoading: false,
 				loading: false,
-				paginateList: res.data,
-				filterlist: res.data
+				paginateList: mock,
+				filterlist: mock
 			})
-		})
+		}, 1000)
 	}
 
 	paginate = (from: number, to: number) => {
@@ -345,11 +379,14 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
                 </Typography>
 
 								<HeaderButton
-									openFunction={() =>
-										this.state.loading === true
-											? () => null
-											: this.openNewSegment
-									}
+									openFunction={() => {
+										if (this.state.loading === true) {
+											return null
+										}
+										else {
+											this.openNewSegment()
+										}
+									}}
 									buttonText="New Segment"
 								/>
 							</div>
