@@ -1,4 +1,4 @@
-const options = [
+const options: any = [
   {
     name: "Agent Performance",
     id: "ap",

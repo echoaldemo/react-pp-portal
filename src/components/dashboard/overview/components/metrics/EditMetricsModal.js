@@ -4,7 +4,7 @@ import Tab from "@material-ui/core/Tab";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import Checkbox from "@material-ui/core/Checkbox";
-import { SaveButton } from "../../../../common-components/buttons";
+import { SaveButton } from "common-components";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
@@ -18,7 +18,7 @@ const theme = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   navBar: {
     display: "flex",
     justifyContent: "center",
@@ -166,7 +166,7 @@ export default function EditMetrics() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const handleSelect = name => {
+  const handleSelect = (name) => {
     var temp = [...selected];
     if (selected.indexOf(name) === -1) {
       temp.push(name);
@@ -202,7 +202,7 @@ export default function EditMetrics() {
   };
 
   //component
-  const CheckBoxLabel = props => {
+  const CheckBoxLabel = (props) => {
     return (
       <>
         <MuiThemeProvider theme={theme}>
@@ -345,7 +345,7 @@ export default function EditMetrics() {
           defaultValue={textAreaVal}
           value={textAreaVal}
           style={{ width: "100%" }}
-          onChange={e => {
+          onChange={(e) => {
             setTextAreaVal(e.target.value);
           }}
         />
@@ -359,7 +359,7 @@ export default function EditMetrics() {
             justifyContent: "center"
           }}
         >
-            <SaveButton style={{ margin: "10px" }}>Save</SaveButton>
+          <SaveButton style={{ margin: "10px" }}>Save</SaveButton>
         </Grid>
       </Grid>
     </React.Fragment>

@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import styled from "styled-components";
 
-import Modal from "../../../../common-components/Modal";
+import { Modal } from "common-components";
 
 import NodeChart from "../../../components/node-component";
 
