@@ -1,6 +1,5 @@
 import React from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/styles";
 import { Typography } from "@material-ui/core";
 import styled from "styled-components";
 
@@ -20,10 +19,7 @@ const TimeText = styled(Typography)`
 
 const theme = createMuiTheme({});
 
-const useStyles = makeStyles({});
-
-const TimeLine = props => {
-	let classes = useStyles();
+const TimeLine = () => {
 	return (
 		<MuiThemeProvider theme={theme}>
 			<TimeContainer>

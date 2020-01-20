@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Tooltip, Paper, Typography } from "@material-ui/core";
+import { Tooltip, Typography } from "@material-ui/core";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { makeStyles, withStyles } from "@material-ui/styles";
+import { withStyles } from "@material-ui/styles";
 import styled from "styled-components";
 
 const theme = createMuiTheme({});
 
-const useStyles = makeStyles({});
 
 const HtmlTooltip = withStyles(theme => ({
 	tooltip: {
@@ -57,9 +56,19 @@ const Option = styled(Typography)`
 	margin: 0 0 0 9px !important;
 `;
 
-const TimeCard = props => {
-	let classes = useStyles();
-	const [dimension, setDimension] = useState(null);
+interface Props {
+	mode: string
+	lateStart: number
+	startHours: number
+	breakHours: number
+	endHours: number
+	bgColor: any
+	title: any
+	sub: any
+}
+
+const TimeCard = (props: Props) => {
+	//const [dimension, setDimension] = useState(null);
 
 	useEffect(() => {
 		updateWindowsDimension();
@@ -67,7 +76,7 @@ const TimeCard = props => {
 	}, []);
 
 	function updateWindowsDimension() {
-		setDimension({ width: window.innerWidth, height: window.innerHeight });
+		//setDimension({ width: window.innerWidth, height: window.innerHeight });
 	}
 
 	function getLateStart() {
@@ -75,28 +84,28 @@ const TimeCard = props => {
 	}
 
 	function calculatedStyle() {
-		let fullWidth = "602";
-		let startWidth = "264";
-		let midWidth = "68";
-		let endWidth = "264";
+		let fullWidth = 602;
+		let startWidth = 264;
+		let midWidth = 68;
+		let endWidth = 264;
 
-		let sWidth = `${
+		let sWidth: any = `${
 			props.mode === "small"
 				? startWidth * (props.startHours / 6.5)
 				: fullWidth * (props.startHours / 6.5)
-		}`;
+			}`;
 
 		let smWidth = `${
 			props.mode === "small"
 				? midWidth * (1 / props.breakHours)
 				: midWidth
-		}px`;
+			}px`;
 
 		let seWidth = `${
 			props.mode === "small"
 				? endWidth * (props.endHours / 6.5)
 				: fullWidth * (props.endHours / 6.5)
-		}`;
+			}`;
 
 		console.log("Late Start: ", props.lateStart);
 
@@ -106,7 +115,7 @@ const TimeCard = props => {
 					props.lateStart > 0 && props.mode !== "small"
 						? sWidth - ((props.lateStart / 180) * 264 + 14)
 						: sWidth
-				}px`,
+					}px`,
 				width: `${sWidth}px`,
 				backgroundColor: props.bgColor,
 				margin: `${props.lateStart && getLateStart()}`
@@ -120,7 +129,7 @@ const TimeCard = props => {
 					props.lateStart > 0 && props.mode === "small"
 						? sWidth + 3
 						: sWidth
-				}px`,
+					}px`,
 				width: `${seWidth}px`,
 				backgroundColor: props.bgColor
 			}
@@ -167,13 +176,9 @@ const TimeCard = props => {
 						<Title>{props.title && props.title[0]}</Title>
 
 						{props.sub &&
-							props.sub.map(option => {
-								return (
-									<>
-										<Option>{option}</Option>
-									</>
-								);
-							})}
+							props.sub.map((option: any, i: number) => (
+								<Option key={i}>{option}</Option>
+							))}
 					</Begin>
 					<Break style={calculatedStyle()[1]} />
 					<End style={calculatedStyle()[2]}>
