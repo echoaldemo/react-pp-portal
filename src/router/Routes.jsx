@@ -33,6 +33,7 @@ import {
 import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
 import GlobalSegments from "components/manage/global/global-segments/GlobalSegments";
 import GlobalRapidResponse from "components/manage/global/global-rapid-response";
+import RRSegments from "components/manage/global/global-segments/rr-segment-variable";
 import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
@@ -136,6 +137,10 @@ export default function Routes() {
           path="/manage/phrase-book/global/edit/:uuid"
           component={EditGlobalPhraseBook}
         />
+        <PrivateRoute
+          path="/manage/edit-segment-variables/company/global/segment/:id"
+          component={RRSegments}
+        />
         {/* Global Pitch routes end */}
         <PrivateRoute
           path="/manage/team/edit/:uuid/"
@@ -151,6 +156,7 @@ export default function Routes() {
           path="/manage/sms/edit/:cid/:type"
           component={SMSEdit}
         />
+        =======
         <PrivateRoute
           exact
           path="/manage/audio/audio-resources"
@@ -160,7 +166,6 @@ export default function Routes() {
           path={`/dashboard/all/:slug/overview`}
           component={Overview}
         />
-
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>
