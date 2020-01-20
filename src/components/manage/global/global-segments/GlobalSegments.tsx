@@ -6,8 +6,7 @@ import {
   Snackbar,
   IconButton,
   MenuItem,
-  Typography,
-  Dialog
+  Typography
 } from "@material-ui/core";
 
 //Header
@@ -28,7 +27,6 @@ import XMLDialog from "./components/Form";
 import { Clear } from "@material-ui/icons";
 import CodeIcon from "@material-ui/icons/Code";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { defaultCipherList } from "constants";
 
 interface Props {}
 interface State {
@@ -65,9 +63,7 @@ const GlobalSegments: React.FC<Props> = () => {
   });
 
   useEffect(() => {
-    get(
-      `http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`
-    ).then((res: any) => {
+    get(`/identity/location/list`).then((res: any) => {
       setState({
         ...state,
         globalSegment: res.data,
