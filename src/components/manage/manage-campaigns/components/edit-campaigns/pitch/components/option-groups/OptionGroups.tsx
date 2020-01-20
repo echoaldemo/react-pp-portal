@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { TableNoResult, SaveButton, TableLoader, Modal, InputField, LoadingModal } from 'common-components';
 import { Add } from '@material-ui/icons';
 import { IdentityContext } from 'contexts/IdentityProvider';
-import Content from './Content';
+import Content from './components/Content';
 export default function OptionGroups() {
 	const { state, dispatch } = useContext(IdentityContext);
 
@@ -53,27 +53,35 @@ const CreateModal = ({ createModal, setCreateModal }: any) => {
 			}}
 			title={<b>Create New Group</b>}
 		>
-			<CreateOptionForm />
+			<CreateGroupForm handleModalClose={setCreateModal} />
 		</Modal>
 	);
 };
 
-const CreateOptionForm = () => {
+const CreateGroupForm = ({ handleModalClose }: any) => {
 	const [ name, setName ] = useState('');
 	const [ errName, setErrName ] = useState(false);
 	const [ createLoading, setCreateLoading ] = useState(false);
-	const { dispatch, setLoading } = useContext(IdentityContext);
+	const { dispatch, setLoading, state, setTab } = useContext(IdentityContext);
 
 	const addNewOptionGroup = () => {
 		setCreateLoading(true);
 		setTimeout(() => {
+			const { option_groups } = state;
+
+			let newArr = [ ...option_groups, { name: name } ];
+			let newTab = newArr.length - 1;
+
 			dispatch({
 				type: 'CREATE_OPTION_GROUPS',
 				payload: {
-					option_group: [ { name: name } ]
+					option_group: newArr
 				}
 			});
+
 			setCreateLoading(false);
+			handleModalClose(false);
+			setTab(newTab);
 		}, 500);
 	};
 
@@ -115,3 +123,5 @@ const CreateOptionForm = () => {
 		</React.Fragment>
 	);
 };
+
+export { CreateGroupForm };

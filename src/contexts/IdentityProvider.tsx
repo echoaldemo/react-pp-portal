@@ -12,12 +12,45 @@ const initialState = {
 	deleteLoading: false,
 	openDeleteModal: false,
 	panels: [],
-	pitch: {
-		name: 'xx'
-	},
+	pitch: { name: 'Sample Pitch' },
 	option_groups: [
 		{
-			name: 'asdasd'
+			name: 'Interest',
+			options: [
+				{
+					description: 'Engineering',
+					value: 24
+				},
+				{
+					description: 'Health Science',
+					value: 32
+				},
+				{
+					description: 'PPT',
+					value: 24
+				},
+				{
+					description: 'Trade and Careers',
+					value: 24
+				},
+				{
+					description: 'Engineering II',
+					value: 24
+				}
+			]
+		},
+		{
+			name: 'ED. Level',
+			options: [
+				{
+					description: 'Beauty',
+					value: 24
+				},
+				{
+					description: 'Health Science',
+					value: 32
+				}
+			]
 		}
 	]
 };
@@ -40,7 +73,8 @@ const IdentityContext = React.createContext<any>(initialState);
 
 const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
-
+	const [ tab, setTab ] = useState(0);
+	const [ openModal, setOpenModal ] = useState(false);
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
 	};
@@ -80,6 +114,9 @@ const IdentityProvider = ({ children, match, history }: any) => {
 
 			case 'CREATE_OPTION_GROUPS':
 				return { ...state, option_groups: action.payload.option_group };
+
+			case 'CREATE_OPTION':
+				return { ...state, option_groups: action.payload.option };
 			default:
 				return null;
 		}
@@ -91,7 +128,11 @@ const IdentityProvider = ({ children, match, history }: any) => {
 				state,
 				dispatch,
 				handleSaveCampaignDetails,
-				setLoading
+				setLoading,
+				setTab,
+				tab,
+				openModal,
+				setOpenModal
 			}}
 		>
 			{children}
