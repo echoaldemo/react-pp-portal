@@ -12,8 +12,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import styled from "styled-components";
 
-import { ButtonWithIcon } from "../../../../../common-components/buttons";
-import MenuMore from "../../../../../common-components/campaign-menu-select/CampaignMenuSelect";
+import { ButtonWithIcon, CampaignMenuSelect } from "common-components";
 
 const HOContainer = styled.div`
   display: flex;
@@ -94,7 +93,7 @@ const HeadOption = (props) => {
           </ButtonWithIcon>
         </div>
         <div>
-          <MenuMore
+          <CampaignMenuSelect
             title="Chart menu"
             options={[
               {

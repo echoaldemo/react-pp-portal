@@ -1,6 +1,5 @@
 import React from "react";
-import HeaderLink from "../../../common-components/HeaderLink/HeaderLink";
-import CampaignMenuSelect from "../../../common-components/campaign-menu-select/CampaignMenuSelect";
+import { HeaderLink, CampaignMenuSelect } from "common-components";
 import { options, otherOptions } from "./metrics/options";
 import styled from "styled-components";
 

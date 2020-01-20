@@ -1,7 +1,7 @@
-import React from 'react'
-import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 
-import Gateway from 'components/gateway'
+import Gateway from "components/gateway";
 import {
   Realms,
   Campaigns,
@@ -16,28 +16,30 @@ import {
   SMSLandingPage,
   Dashboard,
   SMSEdit
-} from 'components'
-import { PublicRoute, GatewayRoute, PrivateRoute } from './'
-import DidPool from 'components/manage/manage-did-pool'
-import EditDidPool from 'components/manage/manage-did-pool/components/settings/DidPoolsSettings'
-import Signin from 'auth/component'
-import ManageDIDs from 'components/manage/did/did-landing'
-import ManageLocation from 'components/manage/manage-locations/ManageLocation'
-import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
-import GlobalPhraseBooks from '../components/manage/global/global-phrase-books/GlobalPhraseBooks'
-import EditGlobalPhraseBook from 'components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook'
+} from "components";
+import { PublicRoute, GatewayRoute, PrivateRoute } from "./";
+import DidPool from "components/manage/manage-did-pool";
+import EditDidPool from "components/manage/manage-did-pool/components/settings/DidPoolsSettings";
+import Signin from "auth/component";
+import ManageDIDs from "components/manage/did/did-landing";
+import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
+import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
+import EditGlobalPhraseBook from "components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook";
 import {
   GlobalOptionGroup,
   EditOptionGroup
-} from 'components/manage/global/global-option-group/'
-import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
-import GlobalSegments from 'components/manage/global/global-segments/GlobalSegments'
-import GlobalRapidResponse from 'components/manage/global/global-rapid-response'
-import GlobalRRSettingsDashboard from 'components/manage/global/global-rapid-response/edit-tests'
-import GlobalRRSegments from 'components/manage/global/global-rapid-response-segments'
-import GlobalRRSegmentsVarialble from 'components/manage/global/global-rapid-response-segments/rr-segment-variable'
+} from "components/manage/global/global-option-group/";
+import TeamSettings from "components/manage/manage-locations/teams/settings/TeamSettings";
+import GlobalSegments from "components/manage/global/global-segments/GlobalSegments";
+import GlobalRapidResponse from "components/manage/global/global-rapid-response";
+import RRSegments from "components/manage/global/global-segments/rr-segment-variable";
+import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
+import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
+import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
 //audio
-import AudioResources from 'components/audio/audio-resources'
+import AudioResources from "components/audio/audio-resources";
+import Overview from "components/dashboard/overview/Overview";
 
 export default function Routes() {
   return (
@@ -135,6 +137,10 @@ export default function Routes() {
           path="/manage/phrase-book/global/edit/:uuid"
           component={EditGlobalPhraseBook}
         />
+        <PrivateRoute
+          path="/manage/edit-segment-variables/company/global/segment/:id"
+          component={RRSegments}
+        />
         {/* Global Pitch routes end */}
         <PrivateRoute
           path="/manage/team/edit/:uuid/"
@@ -150,14 +156,19 @@ export default function Routes() {
           path="/manage/sms/edit/:cid/:type"
           component={SMSEdit}
         />
+        =======
         <PrivateRoute
           exact
           path="/manage/audio/audio-resources"
           component={AudioResources}
         />
+        <PrivateRoute
+          path={`/dashboard/all/:slug/overview`}
+          component={Overview}
+        />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
-  )
+  );
 }
