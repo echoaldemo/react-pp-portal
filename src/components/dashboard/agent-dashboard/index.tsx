@@ -79,43 +79,48 @@ const ApplyButton = styled.button`
 //     take_time: "0:19:21"
 //   }
 // ];
-const data2 = [
-	{
-		server: 'PP26',
-		station: 'slg_s3',
-		rep: 'aarandela',
-		wait_time: '0:00:14',
-		transferred: 'No'
-	},
-	{
-		server: 'PP22',
-		station: 'slg_s108',
-		rep: 'jfmanalang',
-		wait_time: '0:00:12',
-		transferred: 'No'
-	},
-	{
-		server: 'PP24',
-		station: 'pp_s916',
-		rep: 'ammarcellana',
-		wait_time: '0:00:12',
-		transferred: 'No'
-	}
-]
+// const data2 = [
+// 	{
+// 		server: 'PP26',
+// 		station: 'slg_s3',
+// 		rep: 'aarandela',
+// 		wait_time: '0:00:14',
+// 		transferred: 'No'
+// 	},
+// 	{
+// 		server: 'PP22',
+// 		station: 'slg_s108',
+// 		rep: 'jfmanalang',
+// 		wait_time: '0:00:12',
+// 		transferred: 'No'
+// 	},
+// 	{
+// 		server: 'PP24',
+// 		station: 'pp_s916',
+// 		rep: 'ammarcellana',
+// 		wait_time: '0:00:12',
+// 		transferred: 'No'
+// 	}
+// ]
 function AgentDashboard({ history }: any) {
 	const [selectedDate, setSelectedDate] = useState(
 		new Date('2019-11-15T21:11:54')
 	)
 	const [activeData, setActiveData] = useState('')
 	const [openMonitor, setOpenMonitor] = useState(false)
-	const [agents, setAgents] = useState(data)
-	const [paginateList, setPaginateList] = useState(data)
+	const [agents, setAgents] = useState<any>([])
+	const [paginateList, setPaginateList] = useState<any>({})
 	const [callInfo, setCallInfo] = useState<any>({
 		agentName: '',
 		agentImage: '',
 		listening: true,
 		whisper: false
 	})
+
+	React.useEffect(() => {
+		setAgents(data)
+		setPaginateList(data)
+	}, [])
 
 	const handleDateChange = (date: Date) => {
 		setSelectedDate(date)

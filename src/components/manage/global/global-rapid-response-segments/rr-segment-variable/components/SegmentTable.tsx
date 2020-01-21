@@ -12,7 +12,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
-import { withRouter } from 'react-router-dom'
 import { Typography, Menu, MenuItem } from '@material-ui/core'
 import SettingsIcon from '@material-ui/icons/Settings'
 // import DeleteSegment from "./DeleteSegment";
@@ -53,7 +52,7 @@ function SegmentTable({
 
 	useEffect(() => {
 		console.log(userData)
-	}, [])
+	}, []) // eslint-disable-line
 
 	const openDelete1 = () => {
 		openDelete(activeData)

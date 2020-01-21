@@ -5,7 +5,7 @@ import { Add } from '@material-ui/icons'
 import { HeaderLink, HeaderButton, SearchBar, TableNoResult, TableLoader, SaveButton, Pagination, SuccessModal, LoadingModal } from 'common-components'
 import { store, StateProvider } from 'contexts/OptionGroupContext'
 import SEO from 'utils/seo'
-import { get, remove, post, cancel } from 'utils/api'
+import { get, remove, post, cancel } from 'utils/api' //eslint-disable-line
 import { menu, uuidv4 } from './utils/const-var'
 import './style/style.scss'
 import GroupTable from './components/GroupTable'
@@ -17,7 +17,7 @@ const OptionGroup = ({ history }: any) => {
 
 	useEffect(() => {
 		fetchData()
-	}, [])
+	}, []) // eslint-disable-line
 
 	const fetchData = () => {
 		setLoading(true)

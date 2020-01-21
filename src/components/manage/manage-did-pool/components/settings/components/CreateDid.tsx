@@ -104,7 +104,7 @@ const Create = (props: any) => {
 	}
 
 	function validNumber(number: any) {
-		return number.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g)
+		return number.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g) // eslint-disable-line
 			? true
 			: false
 	}

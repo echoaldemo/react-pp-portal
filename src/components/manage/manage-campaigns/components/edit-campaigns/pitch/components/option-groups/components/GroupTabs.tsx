@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { PanelTabs, Panel, Modal, InputField, SaveButton, LoadingModal } from 'common-components';
+import React, { useContext } from 'react';
+import { PanelTabs, Panel, Modal } from 'common-components';
 import { IdentityContext } from 'contexts/IdentityProvider';
 import { Settings, Add } from '@material-ui/icons/';
 import OptionTable from './OptionTable';

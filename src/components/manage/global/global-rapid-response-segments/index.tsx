@@ -7,7 +7,6 @@ import {
 	IconButton,
 	MenuItem,
 	Typography,
-	Dialog
 } from '@material-ui/core'
 
 //Header
@@ -23,7 +22,7 @@ import {
 	TableNoResult
 } from 'common-components'
 import SegmentTable from './components/SegmentTable'
-import { get, patch, post, remove, cancel } from 'utils/api'
+import { get, patch, post, remove, cancel } from 'utils/api' // eslint-disable-line
 import XMLDialog from './components/Form'
 import { Clear } from '@material-ui/icons'
 import CodeIcon from '@material-ui/icons/Code'

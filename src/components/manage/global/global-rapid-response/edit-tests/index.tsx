@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './components/Header'
 import MenuTabs from './components/Tabs'
-import { get, patch } from 'utils/api'
+import { get, patch } from 'utils/api' // eslint-disable-line
 import { Paper } from '@material-ui/core'
 
 interface Props {

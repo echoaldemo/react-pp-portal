@@ -16,9 +16,9 @@ type ContextProps = {
 const AppContext = React.createContext<Partial<ContextProps>>({});
 
 function CampaignsContextProvider({ children }: any) {
-	const [ data, setData ] = useState(mockData.campaigns);
-	const [ paginateList, setPaginateList ] = useState(mockData.campaigns);
-	const [ loading, setLoading ] = useState(false);
+	const [data, setData] = useState(mockData.campaigns);
+	const [paginateList, setPaginateList] = useState(mockData.campaigns);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -29,7 +29,7 @@ function CampaignsContextProvider({ children }: any) {
 		// getAllData()
 	}, []);
 
-	function getAllData() {
+	function getAllData() { // eslint-disable-line
 		setLoading(true);
 		get('/identity/campaign/list/').then((res: any) => {
 			setData(res.data);
