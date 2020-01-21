@@ -26,7 +26,7 @@ const MetricCards = ({ data }: any) => {
           <SalesModal
             title={metric.title}
             open={open}
-            onClose={(e: any) => setOpen(false)}
+            onClose={() => setOpen(false)}
           />
           <Grid
             container
