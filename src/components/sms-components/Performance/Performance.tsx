@@ -1,67 +1,90 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from "react";
 
-import { Paper, Grid, Typography } from '@material-ui/core'
+import { Paper, Grid, Typography } from "@material-ui/core";
 
-import { withStyles } from '@material-ui/styles'
-import styles from './Styles/Performance'
+import { withStyles } from "@material-ui/styles";
+import { styles } from "./Styles/Performance";
 
-import Activeness from './Activeness'
-import Field from './Field'
-import { PeopleOutline, LocalPhone, Shuffle, Message } from '@material-ui/icons'
+import Activeness from "./Activeness";
+import Field from "./Field";
+import {
+  PeopleOutline,
+  LocalPhone,
+  Shuffle,
+  Message
+} from "@material-ui/icons";
 
-class Performance extends Component {
-  constructor(props) {
-    super(props)
+interface State {
+  latestDate: any;
+  totalActiveLeads: any;
+  totalLiveCalls: any;
+  totalOutBoundCalls: any;
+  totalLongTransfers: any;
+  totalTransfers: any;
+  totalSMSReceived: any;
+  totalSMSSent: any;
+}
+interface Props {
+  campaigns: any;
+  classes: any;
+}
+
+class Performance extends Component<Props, State> {
+  constructor(props: any) {
+    super(props);
     this.state = {
-      latestDate: 'Friday, August 30, 2019, 9:00:00 AM',
-      totalActiveLeads: ' - ',
-      totalLiveCalls: ' - ',
-      totalOutBoundCalls: ' - ',
-      totalLongTransfers: ' - ',
-      totalTransfers: ' - ',
-      totalSMSReceived: ' - ',
-      totalSMSSent: ' - '
-    }
+      latestDate: "Friday, August 30, 2019, 9:00:00 AM",
+      totalActiveLeads: " - ",
+      totalLiveCalls: " - ",
+      totalOutBoundCalls: " - ",
+      totalLongTransfers: " - ",
+      totalTransfers: " - ",
+      totalSMSReceived: " - ",
+      totalSMSSent: " - "
+    };
   }
 
-  sum = (arrayData, field) => {
-    if (arrayData.length === 0) return { [field]: 0 }
-    return arrayData.reduce((a, b) => {
-      return { [field]: Number(a[field]) + Number(b[field]) }
-    })
-  }
+  sum = (arrayData: any, field: any) => {
+    if (arrayData.length === 0) return { [field]: 0 };
+    return arrayData.reduce((a: any, b: any) => {
+      return { [field]: Number(a[field]) + Number(b[field]) };
+    });
+  };
 
-  componentDidUpdate({ campaigns }) {
+  componentDidUpdate({ campaigns }: any) {
     if (
-      campaigns.map(c => JSON.stringify(c)).join() !==
-      this.props.campaigns.map(c => JSON.stringify(c)).join()
+      campaigns.map((c: any) => JSON.stringify(c)).join() !==
+      this.props.campaigns.map((c: any) => JSON.stringify(c)).join()
     ) {
       this.setState({
-        totalActiveLeads: this.sum(this.props.campaigns, 'activeLeads')[
-          'activeLeads'
+        totalActiveLeads: this.sum(this.props.campaigns, "activeLeads")[
+          "activeLeads"
         ].toFixed(3),
-        totalLiveCalls: this.sum(this.props.campaigns, 'liveCalls')[
-          'liveCalls'
+        totalLiveCalls: this.sum(this.props.campaigns, "liveCalls")[
+          "liveCalls"
         ].toFixed(3),
-        totalOutBoundCalls: this.sum(this.props.campaigns, 'outboundCalls')[
-          'outboundCalls'
+        totalOutBoundCalls: this.sum(this.props.campaigns, "outboundCalls")[
+          "outboundCalls"
         ].toFixed(3),
-        totalLongTransfers: this.sum(this.props.campaigns, 'longTransfer')[
-          'longTransfer'
+        totalLongTransfers: this.sum(this.props.campaigns, "longTransfer")[
+          "longTransfer"
         ],
         totalTransfers: (
-          this.sum(this.props.campaigns, 'transfers')['transfers'] / 100
+          this.sum(this.props.campaigns, "transfers")["transfers"] / 100
         ).toFixed(3),
-        totalSMSReceived: this.sum(this.props.campaigns, 'smsReceived')[
-          'smsReceived'
+        totalSMSReceived: this.sum(this.props.campaigns, "smsReceived")[
+          "smsReceived"
         ],
-        totalSMSSent: this.sum(this.props.campaigns, 'smsSent')[
-          'smsSent'
+        totalSMSSent: this.sum(this.props.campaigns, "smsSent")[
+          "smsSent"
         ].toFixed(3),
-        latestDate: this.props.campaigns.sort(
-          (a, b) => new Date(a.date) - new Date(b.date)
-        )[0]
-      })
+        latestDate: this.props.campaigns.sort((a: any, b: any) => {
+          let DateA: any = new Date(a.date);
+          let DateB: any = new Date(b.date);
+
+          return DateA - DateB;
+        })[0]
+      });
     }
   }
 
@@ -75,15 +98,15 @@ class Performance extends Component {
         latestDate,
         totalSMSReceived,
         totalSMSSent
-      } = this.state,
-      { classes } = this.props
+      }: any = this.state,
+      { classes }: any = this.props;
 
     return (
       <Fragment>
         <div className={classes.header}>
           <div className={classes.headerWrap}>
             <Typography data-cy-performance className={classes.title}>
-              SMS Dashboard{' '}
+              SMS Dashboard{" "}
             </Typography>
           </div>
         </div>
@@ -150,8 +173,8 @@ class Performance extends Component {
           </Grid>
         </Paper>
       </Fragment>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(Performance)
+export default withStyles(styles)(Performance);
