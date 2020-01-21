@@ -1,4 +1,8 @@
-const camapaign = [
+interface Obj {
+  [index: string]: any;
+}
+
+const campaign: Array<Obj> = [
   {
     title: "Sales / Billable hours",
     percentage: 12.22,
@@ -36,7 +40,7 @@ const camapaign = [
     status: "increase"
   }
 ];
-const dialer = [
+const dialer: Array<Obj> = [
   {
     title: "Sales / Billable hours",
     percentage: 12.22,
@@ -62,7 +66,7 @@ const dialer = [
     status: "increase"
   }
 ];
-const agent = [
+const agent: Array<Obj> = [
   {
     title: "Sales / Billable hours",
     percentage: 12.22,
@@ -77,4 +81,4 @@ const agent = [
   }
 ];
 
-export { camapaign, dialer, agent };
+export { campaign, dialer, agent };

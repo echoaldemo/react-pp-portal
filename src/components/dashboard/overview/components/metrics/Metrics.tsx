@@ -4,12 +4,12 @@ import MetricCards from "./MetricCards";
 import { FiMap } from "react-icons/fi";
 import { PhoneInTalkRounded, Person } from "@material-ui/icons";
 import { FaChartBar } from "react-icons/fa";
-import { camapaign, dialer, agent } from "./mockData";
+import { campaign, dialer, agent } from "./mockData";
 import EditMetrics from "./EditMetricsModal";
 import { Modal, MetricContainer } from "common-components";
 
 const Metrics = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleEdit = () => {
     setOpen(true);
   };
@@ -23,7 +23,7 @@ const Metrics = () => {
             header="Campaign Metrics"
             editFn={handleEdit}
           >
-            <MetricCards data={camapaign} />
+            <MetricCards data={campaign} />
           </MetricContainer>
         </Grid>
         <Grid item xs={12} md={6}>
