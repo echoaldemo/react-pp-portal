@@ -30,7 +30,7 @@ const tabnames = [
 
 export default function PitchSection({ history }) {
 	const { state } = useContext(IdentityContext);
-	const [ tabValue, setValue ] = useState(6);
+	const [ tabValue, setValue ] = useState(0);
 
 	function handleChange(event, newValue) {
 		setValue(newValue);

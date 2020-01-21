@@ -6,8 +6,10 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 const EditGroupForm = () => {
 	const { state, tab } = useContext(IdentityContext);
 
-	const [ groupName, setGroupName ] = useState(state.option_groups[tab].name);
+	const initialState = state.option_groups[tab].name;
 
+	const [ groupName, setGroupName ] = useState(initialState);
+	const [ err, setErr ] = useState(false);
 	return (
 		<div className="panel-header">
 			<Grid container>
@@ -18,17 +20,30 @@ const EditGroupForm = () => {
 						margin="normal"
 						value={groupName}
 						onChange={(e: any) => {
+							if (e.target.value.length > 0) {
+								setErr(false);
+							}
+							else {
+								setErr(true);
+							}
 							setGroupName(e.target.value);
 						}}
+						error={err}
+						helperText={err ? 'Group name is required' : ' '}
 						required
 						autoFocus
-						style={{
-							marginTop: -5
+						onBlur={(e: any) => {
+							if (e.target.value.length > 0) {
+								setErr(false);
+							}
+							else {
+								setErr(true);
+							}
 						}}
 					/>
 				</Grid>
 				<Grid item xs={4} className="grid-normal">
-					<SaveButton>SAVE</SaveButton>
+					<SaveButton disabled={groupName == initialState || err}>SAVE</SaveButton>
 					<CustomButton
 						handleClick={() => {
 							return null;

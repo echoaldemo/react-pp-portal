@@ -75,7 +75,7 @@ const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
 	const [ tab, setTab ] = useState(0);
 	const [ openModal, setOpenModal ] = useState(false);
-	const [ editGroup, setEditGroup ] = useState(true);
+	const [ editGroup, setEditGroup ] = useState(false);
 
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
