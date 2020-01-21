@@ -1,36 +1,20 @@
-/* eslint-disable */
-import React, { useContext, useState } from "react";
-import {
-	TableNoResult,
-	SaveButton,
-	TableLoader,
-	Modal,
-	InputField,
-	LoadingModal
-} from "common-components";
-import { Add } from "@material-ui/icons";
-import { IdentityContext } from "contexts/IdentityProvider";
-import Content from "./components/Content";
+import React, { useContext, useState } from 'react';
+import { TableNoResult, SaveButton, TableLoader, Modal, InputField, LoadingModal } from 'common-components';
+import { Add } from '@material-ui/icons';
+import { IdentityContext } from 'contexts/IdentityProvider';
+import Content from './components/Content';
 export default function OptionGroups() {
 	const { state } = useContext(IdentityContext);
 
 	return (
 		<div className="c-default">
-			{state.option_groups.length > 0 ? (
-				state.loading ? (
-					<TableLoader />
-				) : (
-						<Content />
-					)
-			) : (
-					<NoResult />
-				)}
+			{state.option_groups.length > 0 ? state.loading ? <TableLoader /> : <Content /> : <NoResult />}
 		</div>
 	);
 }
 
 const NoResult = () => {
-	const [createModal, setCreateModal] = useState(false);
+	const [ createModal, setCreateModal ] = useState(false);
 	return (
 		<React.Fragment>
 			<TableNoResult
@@ -47,7 +31,7 @@ const NoResult = () => {
 					>
 						<Add />
 						New Option
-          </SaveButton>
+					</SaveButton>
 				}
 			/>
 			<CreateModal createModal={createModal} setCreateModal={setCreateModal} />
@@ -70,21 +54,21 @@ const CreateModal = ({ createModal, setCreateModal }: any) => {
 };
 
 const CreateGroupForm = ({ handleModalClose }: any) => {
-	const [name, setName] = useState("");
-	const [errName, setErrName] = useState(false);
-	const [createLoading, setCreateLoading] = useState(false);
-	const { dispatch, setLoading, state, setTab } = useContext(IdentityContext);
+	const [ name, setName ] = useState('');
+	const [ errName ] = useState(false);
+	const [ createLoading, setCreateLoading ] = useState(false);
+	const { dispatch, state, setTab } = useContext(IdentityContext);
 
 	const addNewOptionGroup = () => {
 		setCreateLoading(true);
 		setTimeout(() => {
 			const { option_groups } = state;
 
-			let newArr = [...option_groups, { name: name }];
+			let newArr = [ ...option_groups, { name: name } ];
 			let newTab = newArr.length - 1;
 
 			dispatch({
-				type: "CREATE_OPTION_GROUPS",
+				type: 'CREATE_OPTION_GROUPS',
 				payload: {
 					option_group: newArr
 				}
@@ -99,7 +83,7 @@ const CreateGroupForm = ({ handleModalClose }: any) => {
 	return (
 		<React.Fragment>
 			<form
-				onSubmit={e => {
+				onSubmit={(e) => {
 					e.preventDefault();
 					addNewOptionGroup();
 				}}
@@ -126,7 +110,7 @@ const CreateGroupForm = ({ handleModalClose }: any) => {
 			</form>
 			<LoadingModal
 				open={createLoading}
-				text={"One moment. We’re Create a new option group"}
+				text={'One moment. We’re Create a new option group'}
 				cancelFn={() => {
 					return null;
 				}}

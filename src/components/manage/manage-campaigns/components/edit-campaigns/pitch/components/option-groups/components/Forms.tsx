@@ -106,43 +106,41 @@ const CreatOptionForm = () => {
 	};
 
 	return (
-		<React.Fragment>
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					addNewOption();
-				}}
-				className="option-group-form-container"
-			>
-				<div className="field">
-					<InputField
-						label="Description"
-						fullWidth
-						margin="normal"
-						value={formState.description}
-						onChange={(e: any) => {
-							setFormState({ ...formState, description: e.target.value });
-						}}
-						required
-						autoFocus
-					/>
-					<br />
-					<InputField
-						label="Value"
-						fullWidth
-						margin="normal"
-						value={formState.value}
-						onChange={(e: any) => {
-							setFormState({ ...formState, value: e.target.value });
-						}}
-					/>
-				</div>
+		<form
+			onSubmit={(e) => {
+				e.preventDefault();
+				addNewOption();
+			}}
+			className="option-group-form-container"
+		>
+			<div className="field">
+				<InputField
+					label="Description"
+					fullWidth
+					margin="normal"
+					value={formState.description}
+					onChange={(e: any) => {
+						setFormState({ ...formState, description: e.target.value });
+					}}
+					required
+					autoFocus
+				/>
+				<br />
+				<InputField
+					label="Value"
+					fullWidth
+					margin="normal"
+					value={formState.value}
+					onChange={(e: any) => {
+						setFormState({ ...formState, value: e.target.value });
+					}}
+				/>
+			</div>
 
-				<div>
-					<SaveButton type="submit">Create Option</SaveButton>
-				</div>
-			</form>
-		</React.Fragment>
+			<div>
+				<SaveButton type="submit">Create Option</SaveButton>
+			</div>
+		</form>
 	);
 };
 

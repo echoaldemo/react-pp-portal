@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 // import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from '@material-ui/styles';
 
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { DialerHeader, DialerTable } from "./components";
+import { DialerHeader, DialerTable } from './components';
 
 const LDContainer = styled.div``;
 
@@ -15,15 +15,15 @@ const LDContainer = styled.div``;
 const useStyles = makeStyles({});
 
 const LiveDialer = (props: any) => {
-  let classes = useStyles();
-  return (
-    //<MuiThemeProvider theme={theme}>
-    <LDContainer>
-      <DialerHeader {...props} />
-      <DialerTable />
-    </LDContainer>
-    //</MuiThemeProvider>
-  );
+	let classes = useStyles(); // eslint-disable-line
+	return (
+		//<MuiThemeProvider theme={theme}>
+		<LDContainer>
+			<DialerHeader {...props} />
+			<DialerTable />
+		</LDContainer>
+		//</MuiThemeProvider>
+	);
 };
 
 export default LiveDialer;

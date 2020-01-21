@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // eslint-disable-line
 // import BackButton from "../../common-components/back-button";
 // import HeaderContainer from "../../common-components/HeaderContainer/HeaderContainer";
 // import HeaderLink from "../../common-components/HeaderLink/HeaderLink";
@@ -14,8 +14,8 @@ import { data, data2 } from "./mockData";
 function DialerQueue(props: any) {
   const [queue, setQueue] = useState(data);
   const [connected, setConnected] = useState(data2);
-  const [searchData, setSearchData] = useState({
-    queue: data,
+  const [searchData, setSearchData] = useState({ // eslint-disable-line
+    queue: data, 
     connected: data2
   });
 

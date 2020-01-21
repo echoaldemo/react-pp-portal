@@ -12,7 +12,7 @@ const initialState = {
 	deleteLoading: false,
 	openDeleteModal: false,
 	panels: [],
-	pitch: { name: 'Sample Pitch' },
+	pitch: { name: 'Sample Pitch', panel: 'Standard', active_version: 1 },
 	option_groups: []
 };
 
@@ -32,12 +32,11 @@ const initialState = {
 
 const IdentityContext = React.createContext<any>(initialState);
 
-const IdentityProvider = ({ children, match, history }: any) => {
-	const { uuid } = match.params;  // eslint-disable-line
-	const [tab, setTab] = useState(0);
-	const [openModal, setOpenModal] = useState(false);
-	const [editGroup, setEditGroup] = useState(false);
-
+const IdentityProvider = ({ children }: any) => {
+	const [ tab, setTab ] = useState(0);
+	const [ openModal, setOpenModal ] = useState(false);
+	const [ editGroup, setEditGroup ] = useState(false);
+	const [ openCreatePanelModal, setOpenCreatePanelModal ] = useState(false);
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
 	};
@@ -57,7 +56,7 @@ const IdentityProvider = ({ children, match, history }: any) => {
 		}, 1000);
 	}, []);
 
-	const [state, dispatch] = useReducer((state: any, action: any) => {
+	const [ state, dispatch ] = useReducer((state: any, action: any) => {
 		switch (action.type) {
 			case 'LOADING':
 				return { ...state, loading: action.payload.loading };
@@ -98,7 +97,10 @@ const IdentityProvider = ({ children, match, history }: any) => {
 				openModal,
 				setOpenModal,
 				editGroup,
-				setEditGroup
+				setEditGroup,
+				// filterRealm,
+				openCreatePanelModal,
+				setOpenCreatePanelModal
 			}}
 		>
 			{children}

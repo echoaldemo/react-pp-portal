@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react"; // eslint-disable-line
 
 import {
   Paper,
@@ -145,14 +145,14 @@ function activeData(data: any) {
 
 const Table = (props: any) => {
   let classes = useStyles();
-  const [filters, setFilters] = useState(filter);
-  const [sortBy, setSortBy] = useState("Performance");
-  const [activeStatus, setActiveStatus] = useState("All");
+  const [filters, setFilters] = useState(filter); // eslint-disable-line
+  const [sortBy, setSortBy] = useState("Performance"); // eslint-disable-line
+  const [activeStatus, setActiveStatus] = useState("All"); // eslint-disable-line
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [openDialing, setOpenDialing] = useState(false);
   const [liveDialer, setLiveDialer] = useState(mock);
-  const [paginateList, setPaginateList] = useState(mock);
+  const [paginateList, setPaginateList] = useState(mock); // eslint-disable-line
   useEffect(() => {
     let withFunction = filters.map(key => {
       return {
