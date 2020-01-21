@@ -1,4 +1,4 @@
-const data = [
+const data: any = [
   {
     server: "PP26",
     station: "slg_s3",

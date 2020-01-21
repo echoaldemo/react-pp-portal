@@ -14,7 +14,7 @@ const LDContainer = styled.div``;
 
 const useStyles = makeStyles({});
 
-const LiveDialer = props => {
+const LiveDialer = (props: any) => {
   let classes = useStyles();
   return (
     //<MuiThemeProvider theme={theme}>
