@@ -13,46 +13,7 @@ const initialState = {
 	openDeleteModal: false,
 	panels: [],
 	pitch: { name: 'Sample Pitch' },
-	option_groups: [
-		{
-			name: 'Interest',
-			options: [
-				{
-					description: 'Engineering',
-					value: 24
-				},
-				{
-					description: 'Health Science',
-					value: 32
-				},
-				{
-					description: 'PPT',
-					value: 24
-				},
-				{
-					description: 'Trade and Careers',
-					value: 24
-				},
-				{
-					description: 'Engineering II',
-					value: 24
-				}
-			]
-		},
-		{
-			name: 'ED. Level',
-			options: [
-				{
-					description: 'Beauty',
-					value: 24
-				},
-				{
-					description: 'Health Science',
-					value: 32
-				}
-			]
-		}
-	]
+	option_groups: []
 };
 
 const filterRealm = (data: Array<object>, initialRealms: any) => {
