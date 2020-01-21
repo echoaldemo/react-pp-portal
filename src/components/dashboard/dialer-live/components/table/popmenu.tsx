@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Menu, MenuItem } from "@material-ui/core";
 
-export default props => {
+export default (props: any) => {
   return (
     <Menu
       id="menu-appbar"

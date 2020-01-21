@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 // import BackButton from "../../common-components/back-button";
 // import HeaderContainer from "../../common-components/HeaderContainer/HeaderContainer";
 // import HeaderLink from "../../common-components/HeaderLink/HeaderLink";
-import TableWithSearch from "../../common-components/table-with-search";
+import { TableWithSearch } from "../dialer-live/components";
 
 import ChevDown from "@material-ui/icons/ChevronLeft";
 import { Grid } from "@material-ui/core";
 // import { get } from "../../../utils/api";
-import { PauseComponent } from "../components/";
+import { PauseComponent } from "../components";
 import LiveDialer from "../dialer-live";
 import { data, data2 } from "./mockData";
 // import Pagination from "../../common-components/pagination/PaginationV2";
-function DialerQueue(props) {
+function DialerQueue(props: any) {
   const [queue, setQueue] = useState(data);
   const [connected, setConnected] = useState(data2);
   const [searchData, setSearchData] = useState({
@@ -25,7 +25,7 @@ function DialerQueue(props) {
   //   ).then(res => console.log(res));
   // }, [searchData]);
 
-  const paginateSet = (data, setFunc) => {
+  const paginateSet = (data: any, setFunc: any) => {
     setFunc(data);
   };
 

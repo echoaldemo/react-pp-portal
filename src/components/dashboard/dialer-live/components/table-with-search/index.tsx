@@ -18,8 +18,8 @@ function TableWithSearch({
   paginateSet,
   setFunc,
   searchData
-}) {
-  const paginate = (from, to) => {
+}: any) {
+  const paginate = (from: any, to: any) => {
     paginateSet(paginateList.slice(from, to), setFunc);
   };
 
@@ -35,8 +35,8 @@ function TableWithSearch({
           <AsyncTable
             headers={headers}
             tableData={data}
-            render={(samples, { row, cell }) =>
-              samples.map((sample, i) => (
+            render={(samples: any, { row, cell }: any) =>
+              samples.map((sample: any, i: number) => (
                 <TableRow className={row} key={i}>
                   {Object.keys(sample).map((Key, a) =>
                     typeof sample[Key] === "boolean" ? (
@@ -73,8 +73,7 @@ function TableWithSearch({
           <Pagination
             paginateFn={paginate}
             totalItems={paginateList.length}
-            paginateList={paginateList}
-            itemsPerPage={7}
+            itemsPerPage={6}
           />
         )}
       </Paper>

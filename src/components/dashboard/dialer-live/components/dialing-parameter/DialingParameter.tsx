@@ -112,7 +112,7 @@ const SelectField = styled(TextField)`
   }
 `;
 
-const DialingParameter = ({ header, closeFn }) => {
+const DialingParameter = ({ header, closeFn }: any) => {
   const [dialInterval, setDialInterval] = useState("");
   const [ratio, setRatio] = useState("");
   const [threshold, setThreshold] = useState("");
@@ -178,7 +178,7 @@ const DialingParameter = ({ header, closeFn }) => {
                         </InputAdornment>
                       )
                     }
-                  : null
+                  : undefined
               }
             />
           ))}
