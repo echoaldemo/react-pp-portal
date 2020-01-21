@@ -65,16 +65,23 @@ export default function PitchSection({ history }) {
 					})}
 				</Tabs>
 
-				{tabPanels.map((item, i) => {
-					return (
-						<TabPanel key={i} value={tabValue} index={i}>
-							{item}
-						</TabPanel>
-					);
-				})}
-			</div>
-		);
-	};
+        {tabPanels.map((item, i) => {
+          if (i === 4) {
+            return (
+              <TabPanel key={i} value={tabValue} index={i}>
+                <XML />
+              </TabPanel>
+            );
+          } else
+            return (
+              <TabPanel key={i} value={tabValue} index={i}>
+                {item}
+              </TabPanel>
+            );
+        })}
+      </div>
+    );
+  };
 
 	return (
 		<div>
