@@ -5,25 +5,15 @@ import {
   Divider,
   Snackbar,
   IconButton,
-  Menu,
   MenuItem,
-  Grid,
   Typography,
   Dialog
 } from "@material-ui/core";
-import { GroupOutlined } from "@material-ui/icons";
 import XMLDialog from "./components/Forms";
-
-import { Clear } from "@material-ui/icons";
 import DNDCards from '../cards/DNDCards';
-import CodeIcon from "@material-ui/icons/Code";
-import EyeIcon from "@material-ui/icons/PanoramaFishEye";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { GroupOutlined, Clear, Code, PanoramaFishEye, Delete} from "@material-ui/icons";
 import {DeleteModal, LoadingModal, SuccessModal, TableLoader} from "common-components";
-
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
-const muiBaseTheme = createMuiTheme();
 
 const theme = {
   overrides: {
@@ -392,7 +382,7 @@ export default class RRSegments extends Component {
                                     paddingBottom: 0
                                   }}
                                 >
-                                  <CodeIcon />{" "}
+                                  <Code />{" "}
                                   <Typography style={{ marginLeft: 40 }}>
                                     XML
                                   </Typography>
@@ -406,7 +396,7 @@ export default class RRSegments extends Component {
                                     paddingBottom: 0
                                   }}
                                 >
-                                  <EyeIcon />{" "}
+                                  <PanoramaFishEye />
                                   <Typography style={{ marginLeft: 40 }}>
                                     Variables
                                   </Typography>
@@ -422,7 +412,7 @@ export default class RRSegments extends Component {
                                     paddingBottom: 0
                                   }}
                                 >
-                                  <DeleteIcon />{" "}
+                                  <Delete />
                                   <Typography style={{ marginLeft: 40 }}>
                                     Delete
                                   </Typography>
