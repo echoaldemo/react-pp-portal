@@ -8,8 +8,8 @@ const EditGroupForm = () => {
 
 	const initialState = state.option_groups[tab].name;
 
-	const [ groupName, setGroupName ] = useState(initialState);
-	const [ err, setErr ] = useState(false);
+	const [groupName, setGroupName] = useState(initialState);
+	const [err, setErr] = useState(false);
 	return (
 		<div className="panel-header">
 			<Grid container>
@@ -43,7 +43,7 @@ const EditGroupForm = () => {
 					/>
 				</Grid>
 				<Grid item xs={4} className="grid-normal">
-					<SaveButton disabled={groupName == initialState || err}>SAVE</SaveButton>
+					<SaveButton disabled={groupName === initialState || err}>SAVE</SaveButton>
 					<CustomButton
 						handleClick={() => {
 							return null;
@@ -88,7 +88,7 @@ const CreatOptionForm = () => {
 		description: '',
 		value: ''
 	};
-	const [ formState, setFormState ] = useState(initialState);
+	const [formState, setFormState] = useState(initialState);
 
 	const addNewOption = () => {
 		const { option_groups } = state;
@@ -96,10 +96,10 @@ const CreatOptionForm = () => {
 
 		setOpenModal(false);
 		if (oldOptions) {
-			option_groups[tab].options = [ { ...formState }, ...oldOptions ];
+			option_groups[tab].options = [{ ...formState }, ...oldOptions];
 		}
 		else {
-			option_groups[tab].options = [ { ...formState } ];
+			option_groups[tab].options = [{ ...formState }];
 		}
 
 		console.log(state);

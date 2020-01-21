@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import { useStyles } from "./style";
-import { Call, Add } from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 import { Button } from "@material-ui/core";
 
 interface ChangeServerProps {

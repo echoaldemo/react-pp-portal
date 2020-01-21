@@ -1,42 +1,35 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react'
 
-import { Paper, Grid, Typography } from "@material-ui/core";
+import { Paper, Grid, Typography } from '@material-ui/core'
 
-import { withStyles } from "@material-ui/styles";
-import styles from "./Styles/Performance";
+import { withStyles } from '@material-ui/styles'
+import styles from './Styles/Performance'
 
-import Activeness from "./Activeness";
-import Field from "./Field";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Tooltip from "@material-ui/core/Tooltip";
-import {
-  PeopleOutline,
-  LocalPhone,
-  Shuffle,
-  Message
-} from "@material-ui/icons";
+import Activeness from './Activeness'
+import Field from './Field'
+import { PeopleOutline, LocalPhone, Shuffle, Message } from '@material-ui/icons'
 
 class Performance extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      latestDate: "Friday, August 30, 2019, 9:00:00 AM",
-      totalActiveLeads: " - ",
-      totalLiveCalls: " - ",
-      totalOutBoundCalls: " - ",
-      totalLongTransfers: " - ",
-      totalTransfers: " - ",
-      totalSMSReceived: " - ",
-      totalSMSSent: " - "
-    };
+      latestDate: 'Friday, August 30, 2019, 9:00:00 AM',
+      totalActiveLeads: ' - ',
+      totalLiveCalls: ' - ',
+      totalOutBoundCalls: ' - ',
+      totalLongTransfers: ' - ',
+      totalTransfers: ' - ',
+      totalSMSReceived: ' - ',
+      totalSMSSent: ' - '
+    }
   }
 
   sum = (arrayData, field) => {
-    if (arrayData.length === 0) return { [field]: 0 };
+    if (arrayData.length === 0) return { [field]: 0 }
     return arrayData.reduce((a, b) => {
-      return { [field]: Number(a[field]) + Number(b[field]) };
-    });
-  };
+      return { [field]: Number(a[field]) + Number(b[field]) }
+    })
+  }
 
   componentDidUpdate({ campaigns }) {
     if (
@@ -44,31 +37,31 @@ class Performance extends Component {
       this.props.campaigns.map(c => JSON.stringify(c)).join()
     ) {
       this.setState({
-        totalActiveLeads: this.sum(this.props.campaigns, "activeLeads")[
-          "activeLeads"
+        totalActiveLeads: this.sum(this.props.campaigns, 'activeLeads')[
+          'activeLeads'
         ].toFixed(3),
-        totalLiveCalls: this.sum(this.props.campaigns, "liveCalls")[
-          "liveCalls"
+        totalLiveCalls: this.sum(this.props.campaigns, 'liveCalls')[
+          'liveCalls'
         ].toFixed(3),
-        totalOutBoundCalls: this.sum(this.props.campaigns, "outboundCalls")[
-          "outboundCalls"
+        totalOutBoundCalls: this.sum(this.props.campaigns, 'outboundCalls')[
+          'outboundCalls'
         ].toFixed(3),
-        totalLongTransfers: this.sum(this.props.campaigns, "longTransfer")[
-          "longTransfer"
+        totalLongTransfers: this.sum(this.props.campaigns, 'longTransfer')[
+          'longTransfer'
         ],
         totalTransfers: (
-          this.sum(this.props.campaigns, "transfers")["transfers"] / 100
+          this.sum(this.props.campaigns, 'transfers')['transfers'] / 100
         ).toFixed(3),
-        totalSMSReceived: this.sum(this.props.campaigns, "smsReceived")[
-          "smsReceived"
+        totalSMSReceived: this.sum(this.props.campaigns, 'smsReceived')[
+          'smsReceived'
         ],
-        totalSMSSent: this.sum(this.props.campaigns, "smsSent")[
-          "smsSent"
+        totalSMSSent: this.sum(this.props.campaigns, 'smsSent')[
+          'smsSent'
         ].toFixed(3),
         latestDate: this.props.campaigns.sort(
           (a, b) => new Date(a.date) - new Date(b.date)
         )[0]
-      });
+      })
     }
   }
 
@@ -83,14 +76,14 @@ class Performance extends Component {
         totalSMSReceived,
         totalSMSSent
       } = this.state,
-      { classes } = this.props;
+      { classes } = this.props
 
     return (
       <Fragment>
         <div className={classes.header}>
           <div className={classes.headerWrap}>
             <Typography data-cy-performance className={classes.title}>
-              SMS Dashboard{" "}
+              SMS Dashboard{' '}
             </Typography>
           </div>
         </div>
@@ -157,8 +150,8 @@ class Performance extends Component {
           </Grid>
         </Paper>
       </Fragment>
-    );
+    )
   }
 }
 
-export default withStyles(styles)(Performance);
+export default withStyles(styles)(Performance)

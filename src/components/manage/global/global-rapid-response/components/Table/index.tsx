@@ -4,7 +4,6 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Tooltip, TableRow, TableCell } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { FileCopyOutlined as Icon } from '@material-ui/icons'
-import { mdiContentCopy } from '@mdi/js'
 
 import { AsyncTable, ActiveCell, LiveCell, EditButton } from 'common-components'
 const LightTooltip = withStyles(theme => ({

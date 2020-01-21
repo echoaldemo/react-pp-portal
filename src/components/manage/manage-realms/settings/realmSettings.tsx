@@ -189,7 +189,7 @@ export default function RealmSettings(props: any) {
     campaignsOrig
   } = props;
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // eslint-disable-line
   const [tab, setTab] = useState(0);
   const [copy, setCopy] = useState(false);
   const classes = useStyles();

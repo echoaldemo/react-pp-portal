@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useState } from 'react';
-import { get, remove, patch } from 'utils/api';
+import { get, remove, patch } from 'utils/api'; // eslint-disable-line
 import mockData from './mockData.json';
 import { setTimeout } from 'timers';
 
@@ -16,27 +16,27 @@ const initialState = {
 	option_groups: []
 };
 
-const filterRealm = (data: Array<object>, initialRealms: any) => {
-	let newArr: any = [];
+// const filterRealm = (data: Array<object>, initialRealms: any) => {
+// 	let newArr: any = [];
 
-	initialRealms.map((item: any) => {
-		const value = data.find((realm: any) => {
-			return realm.uuid == item;
-		});
+// 	initialRealms.map((item: any) => {
+// 		const value = data.find((realm: any) => {
+// 			return realm.uuid == item;
+// 		});
 
-		newArr.push(value);
-	});
+// 		newArr.push(value);
+// 	});
 
-	return newArr;
-};
+// 	return newArr;
+// };
 
 const IdentityContext = React.createContext<any>(initialState);
 
 const IdentityProvider = ({ children, match, history }: any) => {
-	const { uuid } = match.params;
-	const [ tab, setTab ] = useState(0);
-	const [ openModal, setOpenModal ] = useState(false);
-	const [ editGroup, setEditGroup ] = useState(false);
+	const { uuid } = match.params;  // eslint-disable-line
+	const [tab, setTab] = useState(0);
+	const [openModal, setOpenModal] = useState(false);
+	const [editGroup, setEditGroup] = useState(false);
 
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
@@ -57,7 +57,7 @@ const IdentityProvider = ({ children, match, history }: any) => {
 		}, 1000);
 	}, []);
 
-	const [ state, dispatch ] = useReducer((state: any, action: any) => {
+	const [state, dispatch] = useReducer((state: any, action: any) => {
 		switch (action.type) {
 			case 'LOADING':
 				return { ...state, loading: action.payload.loading };

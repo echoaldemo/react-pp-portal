@@ -23,18 +23,8 @@ import {
 import DidTable from './components/DidTable'
 import styles from './DidPoolsSettings.styles'
 import BuyDid from './buy-did-number/BuyDid'
-import styled from 'styled-components'
 import DidPurchase from './did-purchase/DidPurchase'
 import Successful from './did-purchase/successful'
-import { style } from '@material-ui/system'
-
-const CustomDialog = styled(Dialog)`
-  .MuiDialog-paperScrollPaper {
-    display: flex;
-    max-height: none;
-    flex-direction: column;
-  }
-`
 
 const dids = [
 	{

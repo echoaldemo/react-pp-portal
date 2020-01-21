@@ -67,6 +67,7 @@ const LocationTable: React.FC<Props> = ({ classes, uuid, history }) => {
 		fetchDID()
 		fetchVoiceProvider()
 		fetchCompany()
+		// eslint-disable-next-line
 	}, [])
 
 	const fetchDID = () => {

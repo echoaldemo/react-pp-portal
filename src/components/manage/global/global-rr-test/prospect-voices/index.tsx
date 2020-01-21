@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react'
 import { Snackbar } from '@material-ui/core'
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import { makeStyles } from "@material-ui/styles";
 import { TableRow, TableCell } from "@material-ui/core";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import { IoIosSettings } from "react-icons/io";
@@ -14,7 +13,6 @@ import {
 } from "common-components";
 const theme = createMuiTheme({});
 
-const useStyles = makeStyles({});
 
 const Name = styled.div`
 	display: flex;
@@ -23,11 +21,10 @@ const Name = styled.div`
 `;
 
 const SMSTable = (props: any) => {
-	let classes = useStyles();
 	const [arrow, setArrow] = useState("down");
 	const [openPop, setOpenPop] = useState(false);
 	const [popRef, setPopRef] = useState(null);
-	const [tbdata, setTbData] = useState([]);
+	const [tbdata, setTbData] = useState([]); // eslint-disable-line
 	const [colorControl, setColorControl] = useState("");
 	const [paginateList, setPaginateList] = useState([]);
 	const [activeCell, setActiveCell] = useState([]);
@@ -55,16 +52,16 @@ const SMSTable = (props: any) => {
 						}}
 					/>
 				) : (
-					<KeyboardArrowUp
-						style={{
-							fontSize: "20px",
-							color: "#444851"
-						}}
-						onClick={e => {
-							setArrow("down");
-						}}
-					/>
-				)}
+						<KeyboardArrowUp
+							style={{
+								fontSize: "20px",
+								color: "#444851"
+							}}
+							onClick={e => {
+								setArrow("down");
+							}}
+						/>
+					)}
 			</Name>
 		);
 	}
@@ -128,12 +125,12 @@ const SMSTable = (props: any) => {
 													{val}
 												</TableCell>
 											) : (
-												<>
-													<PausedCell key={`cell-${i}`} className={userCell}>
-														{val === "Start" ? true : false}
-													</PausedCell>
-												</>
-											)}
+													<>
+														<PausedCell key={`cell-${i}`} className={userCell}>
+															{val === "Start" ? true : false}
+														</PausedCell>
+													</>
+												)}
 										</>
 									);
 								})}

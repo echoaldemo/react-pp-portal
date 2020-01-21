@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Grid, Dialog, TextField } from '@material-ui/core'
+import { Grid, TextField } from '@material-ui/core'
 
 import { Autocomplete } from '@material-ui/lab'
 
