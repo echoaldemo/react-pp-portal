@@ -88,7 +88,7 @@ const Filter = (props: any) => {
 			>
 				{props.filterData.map((key: any) => (
 					<MenuItem key={key.name} value={key.name} data-cy="select-list">
-						<p>{key.name}</p>
+						{key.name}
 					</MenuItem>
 				))}
 			</InputField>
