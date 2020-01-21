@@ -1,9 +1,8 @@
-import styled from "styled-components";
-import { TextField } from "@material-ui/core";
+import styled from 'styled-components';
+import { TextField } from '@material-ui/core';
 
 export const SelectField = styled(TextField)`
   .MuiInputLabel-shrink {
-    // color: #1194f6 !important;
     color: #999999 !important;
     font-size: 18px;
     font-weight: 800;
@@ -14,7 +13,6 @@ export const SelectField = styled(TextField)`
   }
   .MuiFormLabel-root.Mui-focused {
     color: #1194f6 !important;
-   
   }
   .Mui-error {
     color: #f44336 !important;

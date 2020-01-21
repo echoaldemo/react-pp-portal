@@ -3,75 +3,12 @@ import { PanelTabs, Panel, Modal, InputField, SaveButton, LoadingModal } from 'c
 import { IdentityContext } from 'contexts/IdentityProvider';
 import { Settings, Add } from '@material-ui/icons/';
 import OptionTable from './OptionTable';
+import { Collapse } from '@material-ui/core';
+import { EditGroupForm, CreatOptionForm } from './Forms';
 interface IGroup {
 	tab: any;
 	setTab: any;
 }
-
-const CreatOptionForm = () => {
-	const { dispatch, state, tab, setOpenModal } = useContext(IdentityContext);
-
-	const initialState = {
-		description: '',
-		value: ''
-	};
-	const [ formState, setFormState ] = useState(initialState);
-
-	const addNewOption = () => {
-		const { option_groups } = state;
-		const oldOptions = option_groups[tab].options;
-
-		setOpenModal(false);
-		if (oldOptions) {
-			option_groups[tab].options = [ { ...formState }, ...oldOptions ];
-		}
-		else {
-			option_groups[tab].options = [ { ...formState } ];
-		}
-
-		console.log(state);
-	};
-
-	return (
-		<React.Fragment>
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					addNewOption();
-				}}
-				className="option-group-form-container"
-			>
-				<div className="field">
-					<InputField
-						label="Description"
-						fullWidth
-						margin="normal"
-						value={formState.description}
-						onChange={(e: any) => {
-							setFormState({ ...formState, description: e.target.value });
-						}}
-						required
-						autoFocus
-					/>
-					<br />
-					<InputField
-						label="Value"
-						fullWidth
-						margin="normal"
-						value={formState.value}
-						onChange={(e: any) => {
-							setFormState({ ...formState, value: e.target.value });
-						}}
-					/>
-				</div>
-
-				<div>
-					<SaveButton type="submit">Create Option</SaveButton>
-				</div>
-			</form>
-		</React.Fragment>
-	);
-};
 
 const GroupTabs: React.FC<IGroup> = ({ tab, setTab }) => {
 	const { state } = useContext(IdentityContext);
@@ -125,38 +62,71 @@ const PanelContents = ({ tab }: any) => {
 	});
 };
 
-const PanelHeader = ({ item }: any) => {
+const EditText = ({ text }: any) => {
+	const { editGroup, setEditGroup } = useContext(IdentityContext);
+
+	return (
+		<span
+			className="panel-edit-text"
+			onClick={() => {
+				setEditGroup(!editGroup);
+			}}
+		>
+			<Settings style={{ fontSize: 14, marginRight: 5 }} />
+			<u>{editGroup ? 'Close' : `Edit ${text}`}</u>
+		</span>
+	);
+};
+
+const GroupPanelHeader = ({ item }: any) => {
+	return (
+		<div className="panel-header">
+			<div>
+				<span className="panel-title">{item.name}</span>
+			</div>
+			<div>
+				<EditText text={item.name} />
+			</div>
+		</div>
+	);
+};
+
+const OptionsHeader = ({ item }: any) => {
 	const { setOpenModal } = useContext(IdentityContext);
 
 	return (
-		<React.Fragment>
-			<div className="panel-header">
-				<div>
-					<span className="panel-title">{item.name}</span>
-				</div>
-				<div>
-					<span className="panel-edit-text">
-						<Settings style={{ fontSize: 14, marginRight: 5 }} />
+		<div className="panel-header">
+			<div>
+				<span className="panel-title-2">Options</span>
+			</div>
+			<div>
+				<span
+					className="panel-edit-text-2"
+					onClick={() => {
+						setOpenModal(true);
+					}}
+				>
+					{renderAddButton(item.options)}
+				</span>
+			</div>
+		</div>
+	);
+};
+const EditGroup = () => {
+	const { editGroup } = useContext(IdentityContext);
+	return (
+		<Collapse in={editGroup}>
+			<EditGroupForm />
+		</Collapse>
+	);
+};
 
-						<u>Edit {item.name}</u>
-					</span>
-				</div>
-			</div>
-			<div className="panel-header">
-				<div>
-					<span className="panel-title-2">Options</span>
-				</div>
-				<div>
-					<span
-						className="panel-edit-text-2"
-						onClick={() => {
-							setOpenModal(true);
-						}}
-					>
-						{renderAddButton(item.options)}
-					</span>
-				</div>
-			</div>
+const PanelHeader = (props: any) => {
+	return (
+		<React.Fragment>
+			<GroupPanelHeader {...props} />
+			<EditGroup />
+			<OptionsHeader {...props} />
 		</React.Fragment>
 	);
 };
