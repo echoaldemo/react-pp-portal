@@ -5,7 +5,7 @@ import { Menu, MenuItem, Snackbar } from '@material-ui/core'
 import { Settings, DeleteOutline, Close } from '@material-ui/icons'
 import AddOption from './AddOption'
 import EditOption from './EditOption'
-import { remove, cancel } from 'utils/api'
+import { remove, cancel } from 'utils/api' //eslint-disable-line
 import { editReset } from '../../utils/const-var'
 
 const Modals = ({ history }: any) => {

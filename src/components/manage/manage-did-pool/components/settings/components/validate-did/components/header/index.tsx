@@ -95,7 +95,7 @@ export default (props: any) => {
 			}
 		})
 
-		tblData.map((key: any) => {
+		tblData.forEach((key: any) => {
 			let keyData: any = Object.values(key).map(val => {
 				return val
 			})

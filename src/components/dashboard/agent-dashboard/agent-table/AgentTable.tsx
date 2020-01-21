@@ -12,7 +12,6 @@ import {
 	Settings,
 	KeyboardArrowDown
 } from '@material-ui/icons'
-import { mdiContentCopy } from '@mdi/js'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'

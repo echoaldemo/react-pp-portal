@@ -25,7 +25,7 @@ const Table = (props: any) => {
 
 	useEffect(() => {
 		fetchInvalid()
-	}, [props])
+	}, [props]) // eslint-disable-line
 
 	async function fetchFullData(inv: any) {
 		let resp = await getSpecificDid(companySlug, campaignSlug, poolId, inv.uuid)

@@ -271,7 +271,7 @@ const materialTheme = createMuiTheme({
 export default function EditDIDModal(props: any) {
 	const classes = useStyles()
 	const [did, setDID] = React.useState<any>(null)
-	const [loading, setLoading] = React.useState(true)
+	const [loading, setLoading] = React.useState(true) // eslint-disable-line
 	const [didPools, setPools] = React.useState<any>(null)
 	const [campaign, setCampaign] = React.useState<any>(null)
 	const [company, setCompany] = React.useState<any>(null)
@@ -309,7 +309,7 @@ export default function EditDIDModal(props: any) {
 				)
 			}
 		}
-	}, [props])
+	}, [props]) // eslint-disable-line
 	// React.useEffect(prevProps => {
 	//   if (prevProps !== props) {
 	//     if (props.editData !== null) {

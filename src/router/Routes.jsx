@@ -174,7 +174,7 @@ export default function Routes() {
         <PrivateRoute
           path={`/dashboard/agent-dashboard/rep`}
           component={AgentDetails}
-        />{" "}
+        />
         <PrivateRoute
           path={`/dashboard/all/:slug/dialer-queue`}
           component={DialerQueue}

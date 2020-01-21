@@ -7,8 +7,6 @@ import { styles } from "./Styles/Performance";
 
 import Activeness from "./Activeness";
 import Field from "./Field";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Tooltip from "@material-ui/core/Tooltip";
 import {
   PeopleOutline,
   LocalPhone,
