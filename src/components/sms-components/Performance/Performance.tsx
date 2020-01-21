@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 import { Paper, Grid, Typography } from "@material-ui/core";
 
 import { withStyles } from "@material-ui/styles";
-import styles from "./Styles/Performance";
+import { styles } from "./Styles/Performance";
 
 import Activeness from "./Activeness";
 import Field from "./Field";
@@ -16,8 +16,23 @@ import {
   Message
 } from "@material-ui/icons";
 
-class Performance extends Component {
-  constructor(props) {
+interface State {
+  latestDate: any;
+  totalActiveLeads: any;
+  totalLiveCalls: any;
+  totalOutBoundCalls: any;
+  totalLongTransfers: any;
+  totalTransfers: any;
+  totalSMSReceived: any;
+  totalSMSSent: any;
+}
+interface Props {
+  campaigns: any;
+  classes: any;
+}
+
+class Performance extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       latestDate: "Friday, August 30, 2019, 9:00:00 AM",
@@ -31,17 +46,17 @@ class Performance extends Component {
     };
   }
 
-  sum = (arrayData, field) => {
+  sum = (arrayData: any, field: any) => {
     if (arrayData.length === 0) return { [field]: 0 };
-    return arrayData.reduce((a, b) => {
+    return arrayData.reduce((a: any, b: any) => {
       return { [field]: Number(a[field]) + Number(b[field]) };
     });
   };
 
-  componentDidUpdate({ campaigns }) {
+  componentDidUpdate({ campaigns }: any) {
     if (
-      campaigns.map(c => JSON.stringify(c)).join() !==
-      this.props.campaigns.map(c => JSON.stringify(c)).join()
+      campaigns.map((c: any) => JSON.stringify(c)).join() !==
+      this.props.campaigns.map((c: any) => JSON.stringify(c)).join()
     ) {
       this.setState({
         totalActiveLeads: this.sum(this.props.campaigns, "activeLeads")[
@@ -65,9 +80,12 @@ class Performance extends Component {
         totalSMSSent: this.sum(this.props.campaigns, "smsSent")[
           "smsSent"
         ].toFixed(3),
-        latestDate: this.props.campaigns.sort(
-          (a, b) => new Date(a.date) - new Date(b.date)
-        )[0]
+        latestDate: this.props.campaigns.sort((a: any, b: any) => {
+          let DateA: any = new Date(a.date);
+          let DateB: any = new Date(b.date);
+
+          return DateA - DateB;
+        })[0]
       });
     }
   }
@@ -82,8 +100,8 @@ class Performance extends Component {
         latestDate,
         totalSMSReceived,
         totalSMSSent
-      } = this.state,
-      { classes } = this.props;
+      }: any = this.state,
+      { classes }: any = this.props;
 
     return (
       <Fragment>

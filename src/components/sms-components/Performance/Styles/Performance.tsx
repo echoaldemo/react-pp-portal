@@ -1,4 +1,4 @@
-export default {
+export const styles: any = {
   header: {
     height: "auto",
     margin: "27px auto",

@@ -1,4 +1,4 @@
-export default {
+export const styles: any = {
   withBorderLeft: {
     borderLeft: "solid 1px #eeeeee",
     display: "inline-block",
@@ -22,7 +22,7 @@ export default {
     width: 40,
     height: 40,
     fontSize: 40,
-    fontWeight: "bolder",
+    fontWeight: 600,
     color: "#f89523"
   },
   value: {
