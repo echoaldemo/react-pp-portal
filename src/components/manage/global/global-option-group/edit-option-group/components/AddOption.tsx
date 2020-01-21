@@ -3,37 +3,59 @@ import { SaveButton } from 'common-components'
 import { InputField } from '../../utils/const-var'
 import { store } from 'contexts/EditOptionGroupContext'
 import { post } from 'utils/api'
+import { uuidv4 } from '../../utils/const-var'
 
 const AddOption = () => {
 	const { state, dispatch } = useContext(store)
 
 	const handleAdd = () => {
 		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: true } } })
-		post(`/pitch/global/gui/field-option-group/${state.edit.uuid}/options/`, {
-			description: state.edit.description,
-			value: state.edit.value
-		})
-			.then((res: any) => {
-				dispatch({
-					type: 'EDIT', payload: {
-						edit: { ...state.edit, load: false, done: true, open: false, name: state.edit.description }
-					}
-				})
-				dispatch({
-					type: 'GROUP', payload: {
-						group: { ...state.group, options: [...state.group.options, res.data] }
-					}
-				})
-			})
-			.catch((err: any) => {
-				try {
-					if (err.response.data) {
-						dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, snackErr: err.response.data.value[0] } } })
-					}
-				} catch {
-					console.log(err)
+		// post(`/pitch/global/gui/field-option-group/${state.edit.uuid}/options/`, {
+		// 	description: state.edit.description,
+		// 	value: state.edit.value
+		// })
+		// 	.then((res: any) => {
+		// 		dispatch({
+		// 			type: 'EDIT', payload: {
+		// 				edit: { ...state.edit, load: false, done: true, open: false, name: state.edit.description }
+		// 			}
+		// 		})
+		// 		dispatch({
+		// 			type: 'GROUP', payload: {
+		// 				group: { ...state.group, options: [...state.group.options, res.data] }
+		// 			}
+		// 		})
+		// 	})
+		// 	.catch((err: any) => {
+		// 		try {
+		// 			if (err.response.data) {
+		// 				dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, snackErr: err.response.data.value[0] } } })
+		// 			}
+		// 		} catch {
+		// 			console.log(err)
+		// 		}
+		// 	})
+		//mock
+		setTimeout(() => {
+			dispatch({
+				type: 'EDIT', payload: {
+					edit: { ...state.edit, load: false, done: true, open: false, name: state.edit.description }
 				}
 			})
+			dispatch({
+				type: 'GROUP', payload: {
+					group: {
+						...state.group, options: [
+							...state.group.options, {
+								uuid: uuidv4(),
+								description: state.edit.description,
+								value: state.edit.value
+							}
+						]
+					}
+				}
+			})
+		}, 1000)
 	}
 
 	const handleChange = (e: any) => {

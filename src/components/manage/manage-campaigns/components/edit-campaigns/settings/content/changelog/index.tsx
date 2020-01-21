@@ -6,20 +6,13 @@ import { Modal } from 'common-components';
 import ChangeLogTable from './components/change-log-table';
 import ModalDetails from './components/modal-details';
 import { getChangeLogData } from '../../../Functions';
-const ChangeLog = ({ match, history }: any) => {
-	const { slug } = match.params;
+import mock_data from './mock_data.json';
 
-	const [ data, setData ] = useState([]);
-	const [ origData, setOrigData ] = useState([]);
+const ChangeLog = () => {
+	const [ data, setData ] = useState(mock_data.data);
+	const [ origData, setOrigData ] = useState(mock_data.data);
 	const [ activeData, setActiveData ] = useState([]);
 	const [ openModal, setOpenModal ] = useState(false);
-
-	useEffect(() => {
-		getChangeLogData(slug).then((result) => {
-			setData(result.data);
-			setOrigData(result.data);
-		});
-	}, []);
 
 	const handleFilterUpdate = (data: any) => {
 		setData(data);
@@ -33,8 +26,10 @@ const ChangeLog = ({ match, history }: any) => {
 	const handleCloseModal = () => {
 		setOpenModal(false);
 	};
+
 	return (
 		<div>
+			{console.log(mock_data, 'MD')}
 			<LogsFilter
 				data={data}
 				originalData={origData}

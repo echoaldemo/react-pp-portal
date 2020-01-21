@@ -25,6 +25,7 @@ import ManageDIDs from 'components/manage/did/did-landing'
 import ManageLocation from 'components/manage/manage-locations/ManageLocation'
 import LocationSettings from 'components/manage/manage-locations/settings/LocationSettings'
 import GlobalPhraseBooks from '../components/manage/global/global-phrase-books/GlobalPhraseBooks'
+import EditGlobalPhraseBook from 'components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook'
 import {
   GlobalOptionGroup,
   EditOptionGroup
@@ -32,10 +33,15 @@ import {
 import TeamSettings from 'components/manage/manage-locations/teams/settings/TeamSettings'
 import GlobalSegments from 'components/manage/global/global-segments/GlobalSegments'
 import GlobalRapidResponse from 'components/manage/global/global-rapid-response'
+import RRSegments from 'components/manage/global/global-segments/rr-segment-variable'
 import GlobalRRSettingsDashboard from 'components/manage/global/global-rapid-response/edit-tests'
+import GlobalRRSegments from 'components/manage/global/global-rapid-response-segments'
+import GlobalRRSegmentsVarialble from 'components/manage/global/global-rapid-response-segments/rr-segment-variable'
 //audio
 import AudioResources from 'components/audio/audio-resources'
-
+import Overview from 'components/dashboard/overview/Overview'
+import AgentDashboard from 'components/dashboard/agent-dashboard'
+import AgentDetails from 'components/dashboard/campaign-dashboard/AgentDetails'
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -116,8 +122,25 @@ export default function Routes() {
           component={GlobalRRSettingsDashboard}
         />
         <PrivateRoute
+          exact
+          path={`/manage/global-rapid-response/segments`}
+          component={GlobalRRSegments}
+        />
+        <PrivateRoute
+          path={`/manage/edit-segment-variables/company/global-rapid-response/segment/:uuid`}
+          component={GlobalRRSegmentsVarialble}
+        />
+        <PrivateRoute
           path="/manage/global-pitch-segments"
           component={GlobalSegments}
+        />
+        <PrivateRoute
+          path="/manage/phrase-book/global/edit/:uuid"
+          component={EditGlobalPhraseBook}
+        />
+        <PrivateRoute
+          path="/manage/edit-segment-variables/company/global/segment/:id"
+          component={RRSegments}
         />
         {/* Global Pitch routes end */}
         <PrivateRoute
@@ -138,6 +161,18 @@ export default function Routes() {
           exact
           path="/manage/audio/audio-resources"
           component={AudioResources}
+        />
+        <PrivateRoute
+          path={`/dashboard/all/:slug/overview`}
+          component={Overview}
+        />
+        <PrivateRoute
+          path={`/dashboard/all/:slug/agent-dashboard`}
+          component={AgentDashboard}
+        />
+        <PrivateRoute
+          path={`/dashboard/agent-dashboard/rep`}
+          component={AgentDetails}
         />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />

@@ -13,12 +13,65 @@ const Modals = ({ history }: any) => {
 
 	const handleDeleteGroup = () => {
 		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: true } } })
-		remove(`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}/`)
-			.then(() =>
-				dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: false, done2: true, delete: false } } })
-			)
-			.catch((err: any) => console.log(err));
+		// remove(`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}/`)
+		// 	.then(() =>
+		// 		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: false, done2: true, delete: false } } })
+		// 	)
+		// 	.catch((err: any) => console.log(err));
+		//mock
+		setTimeout(() => {
+			dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: false, done2: true, delete: false } } })
+		}, 1000)
 	};
+
+	const handleDeleteOption = () => {
+		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: true } } })
+		// remove(
+		// 	`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}%2Foptions/${state.current.uuid}/`
+		// ).then(() => {
+		// 	dispatch({
+		// 		type: 'EDIT', payload: {
+		// 			edit: {
+		// 				...state.edit, load: false,
+		// 				done3: true,
+		// 				delete2: false
+		// 			}
+		// 		}
+		// 	})
+		// 	dispatch({
+		// 		type: 'GROUP', payload: {
+		// 			group: {
+		// 				...state.group,
+		// 				options: state.group.options.filter(
+		// 					(op: any) => op.uuid !== state.current.uuid
+		// 				)
+		// 			}
+		// 		}
+		// 	})
+		// })
+		//mock
+		setTimeout(() => {
+			dispatch({
+				type: 'EDIT', payload: {
+					edit: {
+						...state.edit, load: false,
+						done3: true,
+						delete2: false
+					}
+				}
+			})
+			dispatch({
+				type: 'GROUP', payload: {
+					group: {
+						...state.group,
+						options: state.group.options.filter(
+							(op: any) => op.uuid !== state.current.uuid
+						)
+					}
+				}
+			})
+		}, 1000)
+	}
 
 	const handleCancel = () => {
 		cancel();
@@ -107,32 +160,7 @@ const Modals = ({ history }: any) => {
 			msg="option"
 			name={state.current.description}
 			closeFn={handleClose}
-			delFn={() => {
-				dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: true } } })
-				remove(
-					`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}%2Foptions/${state.current.uuid}/`
-				).then(() => {
-					dispatch({
-						type: 'EDIT', payload: {
-							edit: {
-								...state.edit, load: false,
-								done3: true,
-								delete2: false
-							}
-						}
-					})
-					dispatch({
-						type: 'GROUP', payload: {
-							group: {
-								...state.group,
-								options: state.group.options.filter(
-									(op: any) => op.uuid !== state.current.uuid
-								)
-							}
-						}
-					})
-				});
-			}}
+			delFn={handleDeleteOption}
 		/>
 		<Menu
 			anchorEl={state.anchorEl}

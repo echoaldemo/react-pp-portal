@@ -29,7 +29,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   useEffect(() => {
     let mock: any = [];
     for (let i = 0; i < 20; i++) {
-      mock.push({ name: `Demo ${i}`, uuid: `${i}` });
+      mock.push({ name: `Demo ${i}`, uuid: `${i}`, slug: `slug-${i}` });
     }
     setCampaigns(mock);
     setTimeout(() => {
@@ -62,7 +62,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
               inputProps={{ "aria-label": "naked" }}
               autoFocus
               value={searchText}
-              onChange={e => setSearchText(e.target.value)}
+              onChange={(e) => setSearchText(e.target.value)}
             />
           </span>
         ) : (
@@ -98,7 +98,11 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
           </span>
         ) : (
           <Collapse in={!hide}>
-            <Content campaigns={campaigns} searchText={searchText} />
+            <Content
+              campaigns={campaigns}
+              searchText={searchText}
+              history={history}
+            />
           </Collapse>
         )}
       </Card>

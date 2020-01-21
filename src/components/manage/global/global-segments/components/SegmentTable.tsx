@@ -1,6 +1,5 @@
 import { AsyncTable, ActiveCell, UnderlineCell } from "common-components";
 import { FileCopyOutlined as Icon } from "@material-ui/icons";
-import { mdiContentCopy } from "@mdi/js";
 import CodeIcon from "@material-ui/icons/Code";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ViewIcon from "@material-ui/icons/Visibility";
@@ -194,7 +193,7 @@ function SegmentTable({
               style={{
                 color: "#777777",
                 width: 250,
-                paddingTop: 0,
+                paddingTop: 10,
                 paddingBottom: 0
               }}
             >

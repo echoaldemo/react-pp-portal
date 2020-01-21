@@ -1,19 +1,33 @@
-import React, { useState } from 'react';
-import { TableLoader, DeleteModal } from 'common-components';
-import EditForm from './EditForm';
+import React, { useContext, useEffect } from "react";
+import { TableLoader, DeleteModal } from "common-components";
+import EditForm from "./EditForm";
+import { IdentityContext } from "contexts/IdentityProvider";
 
-export default function Info(props) {
-	const { loading, deleteCompany, campaignDetails , openDeleteModal, setOpenDeleteModal} = props;
-	
-	const handleCloseDeleteModal = () => {
-		setOpenDeleteModal(false);
-	};
-	
-	return (
-		<div>
-			{loading ? <TableLoader /> : <EditForm {...props}  />}
-			
-			<DeleteModal
+export default function Info() {
+  const { state, openModal, setOpenModal } = useContext(IdentityContext);
+
+  return (
+    <React.Fragment>
+      {state.loading ? <TableLoader /> : <EditForm />}
+      <DeleteModal
+        open={openModal}
+        header="Delete Campaign"
+        name={state.campaignDetails.name}
+        msg="campaign"
+        closeFn={() => {
+          setOpenModal(false);
+        }}
+        delFn={() => {
+          // deleteCompany();
+          return null;
+        }}
+      />
+    </React.Fragment>
+  );
+}
+
+{
+  /* <DeleteModal
 				open={openDeleteModal}
 				header="Delete Campaign"
 				name={campaignDetails.name}
@@ -22,10 +36,5 @@ export default function Info(props) {
 				delFn={() => {
 					deleteCompany();
 				}}
-			/>
-		</div>
-	);
-
-
-
+			/> */
 }

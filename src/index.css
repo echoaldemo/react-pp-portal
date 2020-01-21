@@ -91,7 +91,9 @@ code {
 .mh-normal {
 	min-height: 629px;
 }
-
+.mt-normal {
+	margin-top: 15px;
+}
 .MuiTabs-indicator {
 	background-color: #f89523 !important;
 	height: 3px !important;
@@ -116,4 +118,115 @@ code {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.section-title {
+	font-size: 18px;
+	font-weight: bold !important;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #444851;
+	padding: 26px 30px 0;
+}
+.tab-text {
+	font-size: 14px !important;
+	font-weight: bold !important;
+	font-stretch: normal !important;
+	font-style: normal !important;
+	line-height: normal !important;
+	letter-spacing: normal !important;
+	color: #7c8a97 !important;
+}
+.tabs-container {
+	border-bottom: solid 1px #f1f1f1 !important;
+	margin-left: 15px;
+	margin-right: 15px;
+	padding-top: 15px;
+}
+.form-required-label {
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #999999;
+}
+.container-2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #fafafa;
+}
+.text-normal {
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #777777;
+}
+.panel-container {
+	border: solid 1px #eeeeee;
+}
+.panel-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px;
+	color: #444851;
+	border-radius: 3px;
+	border-bottom: solid 1px #eee;
+}
+.panel-title {
+	font-size: 18px;
+	font-weight: 900;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #444851;
+}
+
+.panel-title-2 {
+	font-size: 18px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #444851;
+}
+.panel-edit-text {
+	display: flex;
+	align-items: center;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: right;
+	color: #444851;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.panel-edit-text-2 {
+	display: flex;
+	align-items: center;
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #1194f6 !important;
+	cursor: pointer;
 }
