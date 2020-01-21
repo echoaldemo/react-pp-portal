@@ -1,35 +1,34 @@
 import React, { useContext, useState } from 'react';
+import { IdentityContext } from 'contexts/IdentityProvider';
 import { CustomButton, Modal } from 'common-components';
 import { Add } from '@material-ui/icons';
-import GroupTabs from './GroupTabs';
-import { IdentityContext } from 'contexts/IdentityProvider';
-import { CreateGroupForm } from '../OptionGroups';
-
+import { CreateNewPanelForm } from './Forms';
+import PanelFieldTabs from './PanelFieldTabs';
 const Content = () => {
-	const { state, tab, setTab } = useContext(IdentityContext);
-	const [ newGroupModal, setNewGroupModal ] = useState(false);
+	const { openCreatePanelModal, setOpenCreatePanelModal } = useContext(IdentityContext);
 
 	return (
 		<div className="p-normal">
-			<ContentHeader setNewGroupModal={setNewGroupModal} />
+			<ContentHeader />
 			<div className="mt-normal">
-				<GroupTabs tab={tab} setTab={setTab} />
+				<PanelFieldTabs />
 			</div>
-
 			<Modal
-				open={newGroupModal}
-				title={<b>Create New Group</b>}
+				open={openCreatePanelModal}
+				title={<b>Create New Panel</b>}
 				onClose={() => {
-					setNewGroupModal(false);
+					setOpenCreatePanelModal(false);
 				}}
 			>
-				<CreateGroupForm handleModalClose={setNewGroupModal} />
+				<CreateNewPanelForm />
 			</Modal>
 		</div>
 	);
 };
 
-const ContentHeader = ({ setNewGroupModal }: any) => {
+const ContentHeader = () => {
+	const { setOpenCreatePanelModal } = useContext(IdentityContext);
+
 	return (
 		<div className="container-2 p-normal">
 			<div className="text-normal">
@@ -40,7 +39,7 @@ const ContentHeader = ({ setNewGroupModal }: any) => {
 			<div>
 				<CustomButton
 					handleClick={() => {
-						setNewGroupModal(true);
+						setOpenCreatePanelModal(true);
 					}}
 				>
 					<Add />
