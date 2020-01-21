@@ -6,8 +6,7 @@ import {
   InputAdornment,
   Grid,
   createMuiTheme,
-  Checkbox,
-  Typography
+  Checkbox
 } from "@material-ui/core";
 import { MuiThemeProvider, makeStyles } from "@material-ui/core/styles";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
@@ -19,8 +18,7 @@ const theme = createMuiTheme({
     }
   }
 });
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   navBar: {
     display: "flex",
     justifyContent: "center",
@@ -46,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#f4a429",
     color: "#fff",
     fontFamily: "Roboto",
-    fontSize: "14px",
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: 500,
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: "normal",
@@ -71,8 +69,8 @@ const useStyles = makeStyles(theme => ({
   },
   notActive: {
     fontFamily: "Roboto",
-    fontSize: "14px",
-    fontWeight: "500",
+    fontSize: 14,
+    fontWeight: 500,
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: "normal",
@@ -96,7 +94,7 @@ const useStyles = makeStyles(theme => ({
   },
   SelectText: {
     fontFamily: "Roboto",
-    fontSize: "16px",
+    fontSize: 16,
     fontHeight: "normal",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -144,7 +142,7 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: "normal",
     color: "#444851"
   }
-}));
+});
 
 const Center = styled.div`
   display: flex;
@@ -262,7 +260,7 @@ const LabelText = styled.label`
   color: #999999 !important;
 `;
 
-const DialingParameter = ({ header, closeFn }) => {
+const DialingParameter = ({ header, closeFn }: any) => {
   const classes = useStyles();
   const [dialModule, setDialModule] = useState("");
   const [dialInterval, setDialInterval] = useState("");
@@ -270,7 +268,7 @@ const DialingParameter = ({ header, closeFn }) => {
   const [conference, setConference] = useState("");
   const [softAudio, setSoftAudio] = useState(false);
   const [damper, setDamper] = useState(false);
-  const CheckBoxLabel = props => {
+  const CheckBoxLabel = (props: any) => {
     return (
       <>
         <MuiThemeProvider theme={theme}>
@@ -361,7 +359,7 @@ const DialingParameter = ({ header, closeFn }) => {
               adornment: true,
               setFn: setDamper
             }
-          ].map(item =>
+          ].map((item: any) =>
             item.title !== "Soft Audio" ? (
               <SelectField
                 onChange={e => item.setFn(e.target.value)}
@@ -380,7 +378,7 @@ const DialingParameter = ({ header, closeFn }) => {
                           </InputAdornment>
                         )
                       }
-                    : null
+                    : undefined
                 }
               />
             ) : (

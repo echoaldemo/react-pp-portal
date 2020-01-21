@@ -1,63 +1,25 @@
 import React from "react";
-
-import { Typography } from "@material-ui/core";
-
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import { IoIosSettings } from "react-icons/io";
-
 import { MdFileDownload } from "react-icons/md";
-
-import { makeStyles } from "@material-ui/styles";
-
-import styled from "styled-components";
-
 import { ButtonWithIcon, CampaignMenuSelect } from "common-components";
+import {
+  theme,
+  LegendContainer,
+  LegendText,
+  Box,
+  HOContainer
+} from "../../../styles/HeadOptions.style";
 
-const HOContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 27px;
-`;
+interface Obj {
+  [index: string]: any;
+}
 
-const LegendContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  height: 34px;
-`;
-
-const Box = styled.div`
-  width: 14px;
-  height: 14px;
-`;
-
-const LegendText = styled(Typography)`
-  font-size: 12px !important;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: #50555a;
-  padding-right: 11px;
-`;
-
-const theme = createMuiTheme({});
-
-const useStyles = makeStyles({});
-
-const HeadOption = (props) => {
-  let classes = useStyles();
-
-  function renderLegend(legend) {
+const HeadOption = () => {
+  const renderLegend = (legend: Obj[]) => {
     return (
       <>
-        {legend.map((leg) => (
+        {legend.map((leg: Obj) => (
           <LegendContainer
             style={{
               backgroundColor: "#fafafa",
@@ -76,7 +38,7 @@ const HeadOption = (props) => {
         ))}
       </>
     );
-  }
+  };
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -86,9 +48,17 @@ const HeadOption = (props) => {
             { title: "Sales", color: "#6698c7" },
             { title: "Other indicator", color: "#44bd94" }
           ])}
-          <ButtonWithIcon icon={<IoIosSettings />}>Edit metrics</ButtonWithIcon>
+          <ButtonWithIcon
+            icon={<IoIosSettings />}
+            handleClick={() => console.log("")}
+          >
+            Edit metrics
+          </ButtonWithIcon>
           <span style={{ marginRight: "25px" }} />
-          <ButtonWithIcon icon={<MdFileDownload />}>
+          <ButtonWithIcon
+            icon={<MdFileDownload />}
+            handleClick={() => console.log("")}
+          >
             Download CSV
           </ButtonWithIcon>
         </div>
@@ -103,7 +73,6 @@ const HeadOption = (props) => {
                 url: "#"
               }
             ]}
-            otherOptions={null}
           />
         </div>
       </HOContainer>

@@ -6,9 +6,7 @@ import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import { KeyboardArrowDown } from "@material-ui/icons";
 
-import SelectField from "../../../../common-components/input-field/InputField";
-
-import { CustomText } from "../../../../common-components/custom-components";
+import { InputField } from "common-components";
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -72,33 +70,33 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({});
 
-const Filter = props => {
+const Filter = (props: any) => {
   let classes = useStyles();
   const [value, setValue] = useState("");
 
-  function handleChange(value) {
+  function handleChange(value: any) {
     setValue(value);
     props.result(props.tag, value);
   }
 
   return (
     <MuiThemeProvider theme={theme}>
-      <SelectField
+      <InputField
         style={{ width: "300px", marginRight: "51px" }}
         select
         SelectProps={{
           IconComponent: () => <KeyboardArrowDown />,
-          onChange: e => handleChange(e.target.value)
+          onChange: (e: any) => handleChange(e.target.value)
         }}
         label={props.tag}
         value={value ? value : props.filterData[0].name}
       >
-        {props.filterData.map(key => (
+        {props.filterData.map((key: any) => (
           <MenuItem key={key.name} value={key.name} data-cy="select-list">
-            <CustomText>{key.name}</CustomText>
+            <p>{key.name}</p>
           </MenuItem>
         ))}
-      </SelectField>
+      </InputField>
     </MuiThemeProvider>
   );
 };

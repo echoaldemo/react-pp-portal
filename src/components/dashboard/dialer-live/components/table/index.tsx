@@ -14,10 +14,7 @@ import { Settings } from "@material-ui/icons";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 import { makeStyles } from "@material-ui/styles";
-
-import SearchBar from "../../../../common-components/search-bar/SearchBar";
-import AsyncTable from "../../../../common-components/async-table/AsyncTable";
-import Pagination from "../../../../common-components/pagination/PaginationV2";
+import { SearchBar, AsyncTable, Pagination } from "common-components";
 import { DialerFilter } from "../";
 import PopupMenu from "./popmenu";
 
@@ -142,11 +139,11 @@ const headers = [
   " "
 ];
 
-function activeData(data) {
+function activeData(data: any) {
   console.log("Active Data: ", data);
 }
 
-const Table = props => {
+const Table = (props: any) => {
   let classes = useStyles();
   const [filters, setFilters] = useState(filter);
   const [sortBy, setSortBy] = useState("Performance");
@@ -167,7 +164,7 @@ const Table = props => {
     setFilters(withFunction);
   }, []);
 
-  function selection(type, data) {
+  function selection(type: any, data: any) {
     if (type.match(/Sort/)) {
       setSortBy(data);
     } else {
@@ -175,7 +172,7 @@ const Table = props => {
     }
   }
 
-  function settingHandler(e) {
+  function settingHandler(e: any) {
     setAnchorEl(e.currentTarget);
     setOpen(true);
   }
@@ -201,7 +198,7 @@ const Table = props => {
     );
   }
 
-  const paginate = (from, to) => {
+  const paginate = (from: any, to: any) => {
     setLiveDialer(paginateList.slice(from, to));
   };
 
@@ -211,12 +208,12 @@ const Table = props => {
         <AsyncTable
           headers={headers}
           tableData={liveDialer}
-          render={(data, { row, cell, overflow }) =>
-            data.map((key, i) => {
+          render={(data: any, { row, cell, overflow }: any) =>
+            data.map((key: any, i: number) => {
               delete key.uuid;
               return (
                 <TableRow className={row} key={i}>
-                  {Object.values(key).map((info, a) => {
+                  {Object.values(key).map((info: any, a: number) => {
                     return (
                       <TableCell className={cell} key={a}>
                         {Object.values(key)
@@ -260,8 +257,7 @@ const Table = props => {
           <Pagination
             paginateFn={paginate}
             totalItems={paginateList.length}
-            paginateList={paginateList}
-            itemsPerPage={8}
+            itemsPerPage={6}
           />
         )}
       </>
@@ -279,7 +275,7 @@ const Table = props => {
           toggleDial={() => setOpenDialing(!openDialing)}
         />
         <FilterActual>
-          {filters.map((key, i) => (
+          {filters.map((key: any, i: number) => (
             <DialerFilter
               key={i}
               tag={key.tag}
