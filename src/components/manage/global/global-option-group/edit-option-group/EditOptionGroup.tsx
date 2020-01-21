@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { BackButton, TableLoader, TableNoResult, SaveButton, Modal, AsyncTable } from 'common-components'
+import { BackButton, TableLoader, TableNoResult, SaveButton, AsyncTable } from 'common-components'
 import { store, StateProvider } from 'contexts/EditOptionGroupContext'
 import Header from './components/Header'
 import NewOptionHeader from './components/NewOptionHeader'
@@ -7,7 +7,7 @@ import Modals from './components/Modals'
 import { TableRow, TableCell, Button } from '@material-ui/core'
 import { Add, Settings } from '@material-ui/icons'
 import SEO from 'utils/seo'
-import { get, patch } from 'utils/api'
+import { get, patch } from 'utils/api' // eslint-disable-line
 import '../style/style.scss'
 
 const EditComponent = ({ match, history }: any) => {
@@ -15,7 +15,7 @@ const EditComponent = ({ match, history }: any) => {
 
 	useEffect(() => {
 		getData()
-	}, [])
+	}, []) // eslint-disable-line
 
 	const handleSaveName = (name: any) => {
 		// patch(`/pitch/global/gui/field-option-group/${match.params.uuid}/`, {

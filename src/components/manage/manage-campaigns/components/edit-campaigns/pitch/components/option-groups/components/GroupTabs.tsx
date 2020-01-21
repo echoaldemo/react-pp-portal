@@ -13,7 +13,7 @@ interface IGroup {
 
 const GroupTabs: React.FC<IGroup> = ({ tab, setTab }) => {
 	const { state } = useContext(IdentityContext);
-	const theme = useTheme();
+	const theme = useTheme(); // eslint-disable-line
 
 	return (
 		<div>

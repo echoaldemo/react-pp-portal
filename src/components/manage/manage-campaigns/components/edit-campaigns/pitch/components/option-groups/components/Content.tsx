@@ -6,8 +6,8 @@ import { IdentityContext } from 'contexts/IdentityProvider';
 import { CreateGroupForm } from '../OptionGroups';
 
 const Content = () => {
-	const { state, tab, setTab } = useContext(IdentityContext);
-	const [ newGroupModal, setNewGroupModal ] = useState(false);
+	const { tab, setTab } = useContext(IdentityContext);
+	const [newGroupModal, setNewGroupModal] = useState(false);
 
 	return (
 		<div className="p-normal">

@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
 import React, { useState } from 'react'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -18,7 +17,7 @@ import MenuList from '@material-ui/core/MenuList'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
-import { Face as FaceIcon, Notifications } from '@material-ui/icons'
+import { Face as FaceIcon } from '@material-ui/icons'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 // import logout from '../../../auth/controllers/logout'
@@ -28,167 +27,167 @@ import logo from 'assets/images/pp_logo_white_font.png'
 import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from './style'
 
 interface HeadMenuProps {
-  location: Obj
-  logout: Function
-  getData: Function
+	location: Obj
+	logout: Function
+	getData: Function
 }
 
 interface Obj {
-  [index: string]: any
+	[index: string]: any
 }
 
 const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
-  const classes = useStyles()
-  const [open, setOpen] = useState<boolean>(false)
-  const [wholeName, setWholeName] = useState<string>('Loading...')
-  const [name, setName] = useState<string>('')
+	const classes = useStyles()
+	const [open, setOpen] = useState<boolean>(false)
+	const [wholeName, setWholeName] = useState<string>('Loading...')
+	const [name, setName] = useState<string>('')
 
-  React.useEffect(() => {
-    result()
-  }, [])
+	React.useEffect(() => {
+		result()
+	}, []) // eslint-disable-line
 
-  const result = async () => {
-    const res = await getData()
-    if (res) {
-      setWholeName(`${res.first_name} ${res.last_name}`)
-      setName(res.first_name)
-    }
-  }
+	const result = async () => {
+		const res = await getData()
+		if (res) {
+			setWholeName(`${res.first_name} ${res.last_name}`)
+			setName(res.first_name)
+		}
+	}
 
-  const drawerOpen = () => {
-    setOpen(true)
-  }
-  const handleDrawerClose = () => {
-    setOpen(!open)
-  }
+	const drawerOpen = () => {
+		setOpen(true)
+	}
+	const handleDrawerClose = () => {
+		setOpen(!open)
+	}
 
-  const [_open, _setOpen] = React.useState(false)
-  const anchorRef = React.useRef<any>(null)
+	const [_open, _setOpen] = React.useState(false)
+	const anchorRef = React.useRef<any>(null)
 
-  function handleToggle() {
-    _setOpen(prevOpen => !prevOpen)
-  }
+	function handleToggle() {
+		_setOpen(prevOpen => !prevOpen)
+	}
 
-  const handleClose = (event: any) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return
-    }
+	const handleClose = (event: any) => {
+		if (anchorRef.current && anchorRef.current.contains(event.target)) {
+			return
+		}
 
-    _setOpen(false)
-  }
+		_setOpen(false)
+	}
 
-  function jsUcfirst(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  }
+	function jsUcfirst(string: string) {
+		return string.charAt(0).toUpperCase() + string.slice(1)
+	}
 
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={clsx(classes.appBar)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton edge="start" color="inherit" onClick={drawerOpen}>
-            <MenuIcon />
-          </IconButton>
-          <Img src={logo} alt="logo" />
-          {name ? (
-            <WelcomeName>
-              {jsUcfirst(name)}, welcome to your dashboard!
+	return (
+		<div className={classes.root}>
+			<CssBaseline />
+			<AppBar position="fixed" className={clsx(classes.appBar)}>
+				<Toolbar className={classes.toolbar}>
+					<IconButton edge="start" color="inherit" onClick={drawerOpen}>
+						<MenuIcon />
+					</IconButton>
+					<Img src={logo} alt="logo" />
+					{name ? (
+						<WelcomeName>
+							{jsUcfirst(name)}, welcome to your dashboard!
             </WelcomeName>
-          ) : null}
-          <NotifIcon />
-          <AccountCircleIcon fontSize="large" />
-          <Typography>{wholeName}</Typography>
-          <IconButton
-            ref={anchorRef}
-            onClick={handleToggle}
-            style={{
-              color: 'white'
-            }}
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-          <Popper
-            open={_open}
-            anchorEl={anchorRef.current}
-            placement={'bottom'}
-            transition
-            disablePortal
-          >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                in={_open}
-                {...TransitionProps}
-                style={{
-                  transformOrigin:
-                    placement === 'bottom' ? 'center top' : 'center bottom'
-                }}
-              >
-                <Paper id="menu-list-grow">
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList>
-                      <StyledLink to="/change-password">
-                        <MenuItem onClick={handleClose}>
-                          <ListItemIcon>
-                            <FaceIcon />
-                          </ListItemIcon>
-                          <ListItemText>
-                            <Typography
-                              style={{
-                                fontSize: '15px'
-                              }}
-                            >
-                              Change Password
+					) : null}
+					<NotifIcon />
+					<AccountCircleIcon fontSize="large" />
+					<Typography>{wholeName}</Typography>
+					<IconButton
+						ref={anchorRef}
+						onClick={handleToggle}
+						style={{
+							color: 'white'
+						}}
+					>
+						<ExpandMoreIcon />
+					</IconButton>
+					<Popper
+						open={_open}
+						anchorEl={anchorRef.current}
+						placement={'bottom'}
+						transition
+						disablePortal
+					>
+						{({ TransitionProps, placement }) => (
+							<Grow
+								in={_open}
+								{...TransitionProps}
+								style={{
+									transformOrigin:
+										placement === 'bottom' ? 'center top' : 'center bottom'
+								}}
+							>
+								<Paper id="menu-list-grow">
+									<ClickAwayListener onClickAway={handleClose}>
+										<MenuList>
+											<StyledLink to="/change-password">
+												<MenuItem onClick={handleClose}>
+													<ListItemIcon>
+														<FaceIcon />
+													</ListItemIcon>
+													<ListItemText>
+														<Typography
+															style={{
+																fontSize: '15px'
+															}}
+														>
+															Change Password
                             </Typography>
-                          </ListItemText>
-                        </MenuItem>
-                      </StyledLink>
-                      <MenuItem
-                        onClick={() => {
-                          logout()
-                        }}
-                      >
-                        <ListItemIcon>
-                          <PowerSettingsNewIcon />
-                        </ListItemIcon>
-                        <ListItemText>
-                          <Typography
-                            style={{
-                              fontSize: '15px'
-                            }}
-                          >
-                            Logout
+													</ListItemText>
+												</MenuItem>
+											</StyledLink>
+											<MenuItem
+												onClick={() => {
+													logout()
+												}}
+											>
+												<ListItemIcon>
+													<PowerSettingsNewIcon />
+												</ListItemIcon>
+												<ListItemText>
+													<Typography
+														style={{
+															fontSize: '15px'
+														}}
+													>
+														Logout
                           </Typography>
-                        </ListItemText>
-                      </MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </Toolbar>
-      </AppBar>
+												</ListItemText>
+											</MenuItem>
+										</MenuList>
+									</ClickAwayListener>
+								</Paper>
+							</Grow>
+						)}
+					</Popper>
+				</Toolbar>
+			</AppBar>
 
-      {(location.pathname.includes('/manage') ||
-        location.pathname.includes('/change')) && (
-        <SideNav handleDrawerClose={handleDrawerClose} open={open} />
-      )}
+			{(location.pathname.includes('/manage') ||
+				location.pathname.includes('/change')) && (
+					<SideNav handleDrawerClose={handleDrawerClose} open={open} />
+				)}
 
-      {location.pathname.includes('/dashboard') && (
-        <DashboardSidenav handleDrawerClose={handleDrawerClose} open={open} />
-      )}
-    </div>
-  )
+			{location.pathname.includes('/dashboard') && (
+				<DashboardSidenav handleDrawerClose={handleDrawerClose} open={open} />
+			)}
+		</div>
+	)
 }
 
 HeadMenu.defaultProps = {
-  location: { pathname: '/manage/user' },
-  getData: () => {
-    return { first_name: 'StoryBook', last_name: 'User' }
-  },
-  logout: () => {
-    alert('Logout')
-  }
+	location: { pathname: '/manage/user' },
+	getData: () => {
+		return { first_name: 'StoryBook', last_name: 'User' }
+	},
+	logout: () => {
+		alert('Logout')
+	}
 } as Partial<HeadMenuProps>
 
 export { HeadMenu }

@@ -4,7 +4,7 @@ import { Add } from '@material-ui/icons';
 import { IdentityContext } from 'contexts/IdentityProvider';
 import Content from './components/Content';
 export default function OptionGroups() {
-	const { state, dispatch } = useContext(IdentityContext);
+	const { state } = useContext(IdentityContext);
 
 	return (
 		<div className="c-default">
@@ -55,9 +55,9 @@ const CreateModal = ({ createModal, setCreateModal }: any) => {
 
 const CreateGroupForm = ({ handleModalClose }: any) => {
 	const [ name, setName ] = useState('');
-	const [ errName, setErrName ] = useState(false);
+	const [ errName ] = useState(false);
 	const [ createLoading, setCreateLoading ] = useState(false);
-	const { dispatch, setLoading, state, setTab } = useContext(IdentityContext);
+	const { dispatch, state, setTab } = useContext(IdentityContext);
 
 	const addNewOptionGroup = () => {
 		setCreateLoading(true);

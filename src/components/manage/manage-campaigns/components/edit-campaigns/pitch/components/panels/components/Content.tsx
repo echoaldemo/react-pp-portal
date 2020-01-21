@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react'; // eslint-disable-line
 import { IdentityContext } from 'contexts/IdentityProvider';
 import { CustomButton, Modal } from 'common-components';
 import { Add } from '@material-ui/icons';

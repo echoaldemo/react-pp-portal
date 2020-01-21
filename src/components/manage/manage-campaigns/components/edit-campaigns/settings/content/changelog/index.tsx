@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 
 import LogsFilter from './logs-filter';
 import { Modal } from 'common-components';
 
 import ChangeLogTable from './components/change-log-table';
 import ModalDetails from './components/modal-details';
-import { getChangeLogData } from '../../../Functions';
 import mock_data from './mock_data.json';
 
 const ChangeLog = () => {
-	const [ data, setData ] = useState(mock_data.data);
-	const [ origData, setOrigData ] = useState(mock_data.data);
-	const [ activeData, setActiveData ] = useState([]);
-	const [ openModal, setOpenModal ] = useState(false);
+	const [data, setData] = useState(mock_data.data);
+	const [origData, setOrigData] = useState(mock_data.data); // eslint-disable-line
+	const [activeData, setActiveData] = useState([]);
+	const [openModal, setOpenModal] = useState(false);
 
 	const handleFilterUpdate = (data: any) => {
 		setData(data);

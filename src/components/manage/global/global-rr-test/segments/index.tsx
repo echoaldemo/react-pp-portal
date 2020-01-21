@@ -55,7 +55,7 @@ const Segments: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 		fetchDatas()
-	}, [props.testId])
+	}, [props.testId]) // eslint-disable-line
 
 	async function fetchDatas() {
 		if (props.router.match.params.test_uuid) {

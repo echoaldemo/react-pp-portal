@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+/* eslint-disable */
+import React, { Component } from 'react'
 import {
   withStyles,
   IconButton,
   Collapse,
   Grid,
   Typography
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import AddIcon from "@material-ui/icons/Add";
-import { SearchBar } from "common-components";
+} from '@material-ui/core'
+import SearchIcon from '@material-ui/icons/Search'
+import AddIcon from '@material-ui/icons/Add'
+import { SearchBar } from 'common-components'
 
-import styled from "styled-components";
+import styled from 'styled-components'
 
 const AddCamp = styled.button`
   cursor: pointer;
@@ -21,64 +22,64 @@ const AddCamp = styled.button`
   background: inherit;
   display: flex;
   align-items: center;
-`;
+`
 
 const styles = {
   cardHeader: {
-    borderBottom: "solid 1px #eee",
+    borderBottom: 'solid 1px #eee',
     padding: 15,
-    background: "#FFF",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
+    background: '#FFF',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   cardTitle: {
     fontSize: 17,
-    fontWeight: "600",
-    color: "#666"
+    fontWeight: '600',
+    color: '#666'
   },
   searchWrapper: {
-    display: "flex",
-    border: "solid 1px #eee",
+    display: 'flex',
+    border: 'solid 1px #eee',
     height: 50
   },
   searchContainer: {
-    width: "88%"
+    width: '88%'
   },
   cancelContainer: {
     marginTop: 30
   },
   cancelText: {
     fontWeight: 600,
-    textDecoration: "underline",
-    color: "#888",
+    textDecoration: 'underline',
+    color: '#888',
     fontSize: 15,
-    cursor: "pointer"
+    cursor: 'pointer'
   }
-};
+}
 class CHeader extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       searchData: [],
       showSearch: false
-    };
+    }
   }
 
   componentDidMount() {
     this.setState({
       searchData: this.props.searchData
-    });
+    })
   }
   handleShowSearch = () => {
-    this.setState({ showSearch: true });
-  };
+    this.setState({ showSearch: true })
+  }
   handleCloseSearch = () => {
-    this.setState({ showSearch: false });
-  };
+    this.setState({ showSearch: false })
+  }
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     return (
       <>
         <div
@@ -94,7 +95,7 @@ class CHeader extends Component {
                 {this.props.selectAllFunc ? (
                   <AddCamp
                     onClick={() => {
-                      this.props.selectAllFunc();
+                      this.props.selectAllFunc()
                     }}
                   >
                     <Grid container>
@@ -116,22 +117,22 @@ class CHeader extends Component {
               <IconButton
                 style={{ padding: 0, margin: 0 }}
                 onClick={() => {
-                  this.handleShowSearch();
+                  this.handleShowSearch()
                 }}
               >
-                <SearchIcon style={{ color: "#666" }} />
+                <SearchIcon style={{ color: '#666' }} />
               </IconButton>
             )}
           </div>
         </div>
-        <div style={{ width: "100%" }}>
+        <div style={{ width: '100%' }}>
           <Collapse
             in={this.state.showSearch}
             timeout={1000}
             unmountOnExit
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
           >
-            <div style={{ width: "100%" }}>
+            <div style={{ width: '100%' }}>
               <Grid container>
                 <Grid item xs={10} style={{ paddingRight: 30 }}>
                   <SearchBar
@@ -145,7 +146,7 @@ class CHeader extends Component {
                   <div style={{ marginTop: 30 }}>
                     <a
                       onClick={() => {
-                        this.handleCloseSearch();
+                        this.handleCloseSearch()
                       }}
                     >
                       <span className={classes.cancelText}>Cancel</span>
@@ -157,7 +158,7 @@ class CHeader extends Component {
           </Collapse>
         </div>
       </>
-    );
+    )
   }
 }
-export default withStyles(styles)(CHeader);
+export default withStyles(styles)(CHeader)

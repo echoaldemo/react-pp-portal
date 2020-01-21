@@ -11,7 +11,6 @@ import {
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { LightTooltip } from '../globalConstsVar';
-import { mdiContentCopy } from '@mdi/js';
 
 import { Add, FileCopyOutlined as Icon } from '@material-ui/icons';
 import { TableCell, TableRow } from '@material-ui/core';
@@ -23,7 +22,7 @@ interface Props {
 }
 
 const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateModal }) => {
-	const [ copy, setCopy ] = useState(false);
+	const [copy, setCopy] = useState(false);
 
 	return (
 		<div>
@@ -31,7 +30,7 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 				<TableLoader />
 			) : data.length !== 0 ? (
 				<AsyncTable
-					headers={[ 'Name', 'Slug', 'UUID', 'Status', '' ]}
+					headers={['Name', 'Slug', 'UUID', 'Status', '']}
 					tableData={data}
 					render={(campaigns: any, { row, cell, uuid, icon }: any) => {
 						return campaigns.map((campaign: any) => (
@@ -63,10 +62,10 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 												/>
 											</LightTooltip>
 										) : (
-											<LightTooltip title="Copy UUID" placement="top">
-												<Icon className={icon} rotate={360} />
-											</LightTooltip>
-										)}
+												<LightTooltip title="Copy UUID" placement="top">
+													<Icon className={icon} rotate={360} />
+												</LightTooltip>
+											)}
 									</CopyToClipboard>
 								</TableCell>
 								<ActiveCell className={cell} style={{ color: '#777777' }}>
@@ -91,8 +90,8 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 					}}
 				/>
 			) : (
-				renderNoData(setOpenCreateModal)
-			)}
+						renderNoData(setOpenCreateModal)
+					)}
 		</div>
 	);
 };

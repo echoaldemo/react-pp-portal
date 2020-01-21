@@ -2,14 +2,14 @@ import React, { useEffect, useContext } from 'react'
 import { InputField } from '../../utils/const-var'
 import { SaveButton } from 'common-components'
 import { store } from 'contexts/EditOptionGroupContext'
-import { patch } from 'utils/api'
+import { patch } from 'utils/api' // eslint-disable-line
 
 const EditOption = () => {
-	const { state, dispatch } = useContext(store)
+	const { state, dispatch } = useContext(store) // eslint-disable-line
 
 	useEffect(() => {
 		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, editData: state.current } } })
-	}, [])
+	}, []) // eslint-disable-line
 
 	const handleEdit = () => {
 		if (state.current.value === state.edit.editData.value) {

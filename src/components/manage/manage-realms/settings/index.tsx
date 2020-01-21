@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 /*COMPONENTS*/
 import { TableLoader, BackButton, StatusLabel } from "common-components";
 import {
-  MockRealm,
   MockCampaigns,
   MockRealmData
 } from "../components/contsVar";

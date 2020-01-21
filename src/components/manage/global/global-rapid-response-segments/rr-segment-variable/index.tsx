@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 // import NewSegment from "./components/NewSegment";
 import {
@@ -21,7 +22,7 @@ import {
 } from 'common-components'
 
 import SegmentTable from './components/SegmentTable'
-import { get, patch, cancel } from 'utils/api'
+import { get, patch, cancel } from 'utils/api' // eslint-disable-line
 import { Clear } from '@material-ui/icons'
 import VariableModal from './components/VariableModal'
 import BackIcon from '@material-ui/icons/ChevronLeft'
