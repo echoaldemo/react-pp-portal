@@ -230,3 +230,13 @@ code {
 	color: #1194f6 !important;
 	cursor: pointer;
 }
+.grid-normal {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+.grid-display-left {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
