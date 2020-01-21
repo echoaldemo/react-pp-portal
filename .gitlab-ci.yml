@@ -17,10 +17,6 @@ buildJekyll:  # A job to build the static website - replace it with your build m
   script:
     - npm install
     - CI=false npm run-script build
-    - persist_to_workspace:
-          root: ~/
-          paths:
-            - project/build
    # - npm run-script build
 
 deploys3:
@@ -45,8 +41,6 @@ deploysprod:
   before_script:
     - pip install awscli # Install the SDK
   script:
-    - attach_workspace:
-          at: ~/
     - aws s3 sync build s3://${BUCKET_NAME}  # Replace example-bucket with your bucket
   when: manual
 clean_s3:
