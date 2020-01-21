@@ -1,6 +1,6 @@
 import React from "react";
 import { HeaderLink, CampaignMenuSelect } from "common-components";
-import { options, otherOptions } from "./metrics/options";
+import { options } from "./metrics/options";
 import styled from "styled-components";
 
 const Cont = styled.div`
@@ -10,15 +10,16 @@ const Cont = styled.div`
   margin-top: 20px;
 `;
 
-const HeaderMenu = ({ menu, title }) => {
+interface Props {
+  menu: any[];
+  title: string;
+}
+
+const HeaderMenu = ({ menu, title }: Props) => {
   return (
     <Cont>
       <HeaderLink menu={menu} title={title} />
-      <CampaignMenuSelect
-        title="Campaign menu"
-        options={options}
-        otherOptions={otherOptions}
-      />
+      <CampaignMenuSelect title="Campaign menu" options={options} />
     </Cont>
   );
 };
