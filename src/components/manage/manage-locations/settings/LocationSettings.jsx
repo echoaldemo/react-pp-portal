@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import {
   Paper,
   Grid,
@@ -13,7 +13,7 @@ import {
   Collapse,
   Switch,
   Dialog
-} from '@material-ui/core'
+} from "@material-ui/core";
 /*COMPONENTS*/
 import {
   HeaderButton,
@@ -22,20 +22,20 @@ import {
   TableLoader,
   BackButton,
   StatusLabel
-} from 'common-components'
-import Search from '../common-components/Search'
-import Toast from '../common-components/Toast'
-import Teams from '../teams/Teams'
-import NewTeam from './addNewTeam'
+} from "common-components";
+import Search from "../common-components/Search";
+import Toast from "../common-components/Toast";
+import Teams from "../teams/Teams";
+import NewTeam from "./addNewTeam";
 
 // import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
-import { get, patch, post, cancel } from '../../../../utils/api' // eslint-disable-line
-
-import styles from './LocationSettings.styles.js'
+import { get, patch, post, cancel } from "../../../../utils/api"; // eslint-disable-line
+import { LocationEditData, TeamsData } from "../mockData";
+import styles from "./LocationSettings.styles.js";
 
 class LocationSettings extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       active: false,
@@ -43,26 +43,40 @@ class LocationSettings extends Component {
       locationsTeams: [],
       locationLeader: [],
       originalData: {
-        name: '',
-        leader: '',
-        active: ''
+        name: "",
+        leader: "",
+        active: ""
       },
       updateData: {
-        name: '',
-        leader: '',
-        active: ''
+        name: "",
+        leader: "",
+        active: ""
       },
       openNewTeam: false,
       openToast: false,
       leader: [],
       load: false,
       success: false,
-      nameMsg: '',
+      nameMsg: "",
       dataLoaded: true
-    }
+    };
   }
 
   async componentDidMount() {
+    this.setState({
+      location: LocationEditData,
+      originalData: {
+        name: LocationEditData.name,
+        leader: LocationEditData.leader,
+        active: LocationEditData.active
+      },
+      updateData: {
+        name: LocationEditData.name,
+        leader: LocationEditData.leader,
+        active: LocationEditData.active
+      },
+      locationsTeams: TeamsData
+    });
     //   await get(`/identity/location/${this.props.match.params.uuid}/`).then(
     //     result => {
     //       this.setState({
@@ -94,17 +108,6 @@ class LocationSettings extends Component {
     //     locationsTeams: result.data
     //   });
     // });
-    await get(
-      ` http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`,
-      {
-        location: this.props.match.params.uuid
-      }
-    ).then(result => {
-      this.setState({
-        locationsTeams: result.data
-      })
-    })
-
     //   await getGroups(
     //     `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
     //   ).then(result => {
@@ -123,7 +126,7 @@ class LocationSettings extends Component {
     //     locationsTeams: result.data
     //   });
     // });
-  }
+  };
 
   fetchLocations = () => {
     // get(`/identity/location/${this.props.match.params.uuid}`).then(result => {
@@ -146,7 +149,7 @@ class LocationSettings extends Component {
     //     });
     //   });
     // });
-  }
+  };
 
   selectedVoice = val => {
     // var temp = this.state.updateData;
@@ -157,7 +160,7 @@ class LocationSettings extends Component {
     //     updateData: temp
     //   });
     // });
-  }
+  };
 
   updateLocation = () => {
     // patch(
@@ -167,32 +170,32 @@ class LocationSettings extends Component {
     //   this.handleOpenToast();
     //   this.fetchLocations();
     // });
-  }
+  };
 
   hancleCloseNewTeam = () => {
     this.setState({
       openNewTeam: false
-    })
-  }
+    });
+  };
   handleOpenNewTeam = () => {
     this.setState({
       success: false,
       openNewTeam: true
-    })
-  }
+    });
+  };
   handleCloseToast = () => {
     this.setState({
       openToast: false
-    })
-  }
+    });
+  };
   handleOpenToast = () => {
     this.setState({
       openToast: true
-    })
-  }
+    });
+  };
   setDownshift = downshift => {
-    this.downshift = downshift
-  }
+    this.downshift = downshift;
+  };
 
   addNewTeam = (name, leader) => {
     // this.setState({
@@ -207,28 +210,28 @@ class LocationSettings extends Component {
     //   this.setState({ load: false, nameMsg: name, success: true });
     //   this.fetchLocationsTeams();
     // });
-  }
+  };
 
   handleCancel = () => {
     // cancel();
     // this.setState({ load: false });
-  }
+  };
   handleCloseSuccess = () => {
-    this.setState({ open: false, success: false })
-  }
+    this.setState({ open: false, success: false });
+  };
   handleOpenSuccess = () => {
-    this.setState({ open: true, success: false })
-  }
+    this.setState({ open: true, success: false });
+  };
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     var edit =
       JSON.stringify(this.state.originalData) ===
       JSON.stringify(this.state.updateData)
         ? false
         : this.state.updateData.name.length === 0
         ? false
-        : true
+        : true;
     if (this.state.dataLoaded) {
       return (
         <div>
@@ -239,7 +242,7 @@ class LocationSettings extends Component {
             <StatusLabel status={false} />
           </div>
           <Paper square={true} className={classes.paper}>
-            <div style={{ width: '508px' }}>
+            <div style={{ width: "508px" }}>
               <Grid container>
                 <Grid
                   item
@@ -269,11 +272,11 @@ class LocationSettings extends Component {
                       id="name"
                       value={`${this.state.updateData.name}`}
                       onChange={event => {
-                        var temp = this.state.updateData
-                        temp.name = event.target.value
+                        var temp = this.state.updateData;
+                        temp.name = event.target.value;
                         this.setState({
                           updateData: temp
-                        })
+                        });
                       }}
                     />
                   </FormControl>
@@ -339,7 +342,7 @@ class LocationSettings extends Component {
                       id="uuid"
                       value={
                         this.state.locationLeader.length === 0
-                          ? 'None'
+                          ? "None"
                           : `${this.state.locationLeader.first_name} ${this.state.locationLeader.last_name} | ${this.state.locationLeader.username}`
                       }
                       disabled={true}
@@ -371,7 +374,7 @@ class LocationSettings extends Component {
                       nameMsg
                       id="input"
                       value={
-                        this.state.updateData.active ? 'Active' : 'Inactive'
+                        this.state.updateData.active ? "Active" : "Inactive"
                       }
                       endAdornment={
                         <InputAdornment position="end">
@@ -384,11 +387,11 @@ class LocationSettings extends Component {
                             color="primary"
                             checked={this.state.updateData.active}
                             onChange={e => {
-                              var temp = this.state.updateData
-                              temp.active = !this.state.updateData.active
+                              var temp = this.state.updateData;
+                              temp.active = !this.state.updateData.active;
                               this.setState({
                                 updateData: temp
-                              })
+                              });
                             }}
                           />
                         </InputAdornment>
@@ -440,7 +443,7 @@ class LocationSettings extends Component {
                         margin: 8
                       }}
                       shrink="false"
-                      value={' '}
+                      value={" "}
                       id="del"
                       endAdornment={
                         <InputAdornment position="end">
@@ -448,13 +451,13 @@ class LocationSettings extends Component {
                             variant="contained"
                             classes={{ root: classes.delBtn }}
                             onClick={() => {
-                              var temp = this.state.updateData
-                              temp.leader = null
+                              var temp = this.state.updateData;
+                              temp.leader = null;
                               this.setState({
                                 locationLeader: [],
                                 updateData: temp
-                              })
-                              this.downshift.clearSelection()
+                              });
+                              // this.downshift.clearSelection();
                             }}
                           >
                             Remove
@@ -469,18 +472,18 @@ class LocationSettings extends Component {
                   in={edit}
                   classes={{ wrapper: classes.collapseWrapper }}
                   style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    width: '100%',
-                    transition: 'all 1s ease'
+                    display: "flex",
+                    justifyContent: "center",
+                    width: "100%",
+                    transition: "all 1s ease"
                   }}
                 >
                   <span
                     style={{
-                      width: '50%',
-                      margin: '0 auto',
-                      display: 'flex',
-                      justifyContent: 'space-between'
+                      width: "50%",
+                      margin: "0 auto",
+                      display: "flex",
+                      justifyContent: "space-between"
                     }}
                   >
                     <button
@@ -493,7 +496,7 @@ class LocationSettings extends Component {
                           : `${classes.button} ${classes.disabled}`
                       }
                       onClick={() => {
-                        this.updateLocation()
+                        this.updateLocation();
                       }}
                     >
                       SAVE
@@ -501,7 +504,7 @@ class LocationSettings extends Component {
                     <button
                       className={`${classes.button} ${classes.cancel}`}
                       onClick={e => {
-                        this.fetchLocations()
+                        this.fetchLocations();
                       }}
                     >
                       CANCEL
@@ -511,20 +514,25 @@ class LocationSettings extends Component {
               </Grid>
             </div>
           </Paper>
-          <div style={{ marginTop: 50 }}>
+          <div
+            style={{
+              marginTop: 50,
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
             <Typography variant="h5">Location teams</Typography>
-            <div style={{ marginLeft: 'auto' }}>
-              <HeaderButton
-                buttonText="New team"
-                openFunction={this.handleOpenNewTeam}
-              />
-            </div>
+
+            <HeaderButton
+              buttonText="New team"
+              openFunction={this.handleOpenNewTeam}
+            />
           </div>
-          <Paper style={{ height: 'auto', marginTop: '2%' }}>
+          <Paper style={{ height: "auto", marginTop: "2%" }}>
             <Teams
               userData={this.state.locationsTeams}
               innerLoading={false}
-              headers={['Team name', 'Slug', 'UUID', '']}
+              headers={["Team name", "Slug", "UUID", ""]}
             />
           </Paper>
           <NewTeam
@@ -538,32 +546,32 @@ class LocationSettings extends Component {
           />
           <Dialog open={this.state.load}>
             <LoadingModal
-              text={'One moment. We’re adding the campaign…'}
+              text={"One moment. We’re adding the campaign…"}
               cancelFn={this.handleCancel}
             />
           </Dialog>
           <Dialog open={this.state.success}>
             <SuccessModal
               text={`You have created the “${this.state.nameMsg}” team `}
-              btnText={'ADD CAMPAIGN'}
+              btnText={"ADD CAMPAIGN"}
               closeFn={this.handleCloseSuccess}
               btnFn={this.handleOpenNewTeam}
             />
           </Dialog>
           <Toast
-            toastType={'check'}
+            toastType={"check"}
             open={this.state.openToast}
             handleClose={this.handleCloseToast}
-            message={'Saved changes'}
-            vertical={'top'}
-            horizontal={'right'}
+            message={"Saved changes"}
+            vertical={"top"}
+            horizontal={"right"}
           />
         </div>
-      )
+      );
     } else {
-      return <TableLoader />
+      return <TableLoader />;
     }
   }
 }
 
-export default withStyles(styles)(LocationSettings)
+export default withStyles(styles)(LocationSettings);

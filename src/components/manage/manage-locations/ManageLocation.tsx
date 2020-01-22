@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 //material-ui imports
 import LocationTable from "./LocationTable";
 import Paper from "@material-ui/core/Paper";
@@ -12,7 +13,7 @@ import {
   FilterToolBar
 } from "common-components";
 import { get } from "utils/api";
-
+import { LocationData } from "./mockData";
 function ManageLocation(props: any) {
   const [state, setState] = useState({
     loading: true,
@@ -41,17 +42,27 @@ function ManageLocation(props: any) {
     setState(state => {
       return { ...state, loading: true };
     });
-    get("http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list", {
-      order_by: "-datetime_modified"
-    }).then((res: any) =>
-      setState({
+    setTimeout(() => {
+      return setState({
         ...state,
-        userData: res.data,
-        filterlist: res.data,
-        paginateList: res.data,
+        userData: LocationData,
+        filterlist: LocationData,
+        paginateList: LocationData,
         loading: false
-      })
-    );
+      });
+    }, 1000);
+
+    // get("/identity/location/list", {
+    //   order_by: "-datetime_modified"
+    // }).then((res: any) =>
+    //   setState({
+    //     ...state,
+    //     userData: res.data,
+    //     filterlist: res.data,
+    //     paginateList: res.data,
+    //     loading: false
+    //   })
+    // );
     // get(
     //   `http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`
     // ).then(res => {
@@ -83,28 +94,37 @@ function ManageLocation(props: any) {
 
   const FilterApplyButton = (params: any) => {
     setState({ ...state, loading: true });
-    var parameter = {
-      ...(params.sortby !== " " && { order_by: params.sortby }),
-      ...(params.active !== " " && { active: params.active }),
-      ...(params.company !== " " && { company: params.company }),
-      ...(params.realm !== " " && { realms: params.realm }),
-      ...(params.campaign !== " " && { campaigns: params.campaign }),
-      ...(params.roles !== " " && { groups: params.roles }),
-      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
-    };
+    // var parameter = {
+    //   ...(params.sortby !== " " && { order_by: params.sortby }),
+    //   ...(params.active !== " " && { active: params.active }),
+    //   ...(params.company !== " " && { company: params.company }),
+    //   ...(params.realm !== " " && { realms: params.realm }),
+    //   ...(params.campaign !== " " && { campaigns: params.campaign }),
+    //   ...(params.roles !== " " && { groups: params.roles }),
+    //   ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    // };
 
-    get(
-      "http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list",
-      parameter
-    ).then((res: any) => {
-      setState({
+    // get(
+    //   "http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list",
+    //   parameter
+    // ).then((res: any) => {
+    //   setState({
+    //     ...state,
+    //     userData: res.data,
+    //     filterlist: res.data,
+    //     paginateList: res.data,
+    //     loading: false
+    //   });
+    // });
+    setTimeout(() => {
+      return setState({
         ...state,
-        userData: res.data,
-        filterlist: res.data,
-        paginateList: res.data,
+        userData: LocationData,
+        filterlist: LocationData,
+        paginateList: LocationData,
         loading: false
       });
-    });
+    }, 1000);
   };
 
   const paginate = (from: any, to: any) => {
