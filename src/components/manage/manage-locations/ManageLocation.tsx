@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 //material-ui imports
 import LocationTable from "./LocationTable";
 import Paper from "@material-ui/core/Paper";
@@ -12,7 +11,7 @@ import {
   Pagination,
   FilterToolBar
 } from "common-components";
-import { get } from "utils/api";
+// import { get } from "utils/api";
 import { LocationData } from "./mockData";
 function ManageLocation(props: any) {
   const [state, setState] = useState({
