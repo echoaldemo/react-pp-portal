@@ -16,9 +16,6 @@ let availableData: any = []
 
 // end mock data
 
-interface Props {
-	router: any
-}
 
 const ProspectVoices = (props: any) => {
 	const [open, setOpen] = useState(false)
@@ -33,7 +30,6 @@ const ProspectVoices = (props: any) => {
 	const [voicesData, setVoicesData] = useState([])
 
 	useEffect(() => {
-		console.log('PROPS', props)
 		async function fetchDatas() {
 			setLoading(true)
 			let active_voices: any = await getRRTest(props.router.match.params.test_uuid)
@@ -92,9 +88,10 @@ const ProspectVoices = (props: any) => {
 
 	function renderActiveData(data: any) {
 		return data
-			? data.map((key: any) => {
+			? data.map((key: any, i: number) => {
 				return (
 					<PColumn
+						key={i}
 						// notifyEdit={(value: any) => setIsEdit(value)}
 						voiceFn={removeItem}
 						data={key}

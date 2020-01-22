@@ -135,7 +135,7 @@ const AgentTable = ({ history, agents, activeData, OpenMonitorFunc }: Props) => 
 				id="simple-menu"
 				anchorEl={anchorEl}
 				open={Boolean(anchorEl)}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
 				transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 				onClose={handleClose}
 				style={{ marginTop: 45 }}

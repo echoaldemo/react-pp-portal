@@ -30,8 +30,8 @@ const TimeLine = () => {
 					"3:00 PM",
 					"6:00 PM",
 					"9:00 PM"
-				].map(time => {
-					return <TimeText>{time}</TimeText>;
+				].map((time, i) => {
+					return <TimeText key={i}>{time}</TimeText>;
 				})}
 			</TimeContainer>
 		</MuiThemeProvider>
