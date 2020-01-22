@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { PanelTabs, Panel, Modal } from 'common-components';
+import { PanelTabs, Panel, Modal, EditText } from 'common-components';
 import { IdentityContext } from 'contexts/IdentityProvider';
-import { Settings, Add } from '@material-ui/icons/';
+import { Add } from '@material-ui/icons/';
 import OptionTable from './OptionTable';
 import { Collapse } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
@@ -65,30 +65,21 @@ const PanelContents = ({ tab }: any) => {
 	});
 };
 
-const EditText = ({ text }: any) => {
-	const { editGroup, setEditGroup } = useContext(IdentityContext);
-
-	return (
-		<span
-			className="panel-edit-text"
-			onClick={() => {
-				setEditGroup(!editGroup);
-			}}
-		>
-			<Settings style={{ fontSize: 14, marginRight: 5 }} />
-			<u>{editGroup ? 'Close' : `Edit ${text}`}</u>
-		</span>
-	);
-};
-
 const GroupPanelHeader = ({ item }: any) => {
+	const { editGroup, setEditGroup } = useContext(IdentityContext);
 	return (
 		<div className="panel-header">
 			<div>
 				<span className="panel-title">{item.name}</span>
 			</div>
 			<div>
-				<EditText text={item.name} />
+				<EditText
+					text={item.name}
+					onClick={() => {
+						setEditGroup(!editGroup);
+					}}
+					open={editGroup}
+				/>
 			</div>
 		</div>
 	);

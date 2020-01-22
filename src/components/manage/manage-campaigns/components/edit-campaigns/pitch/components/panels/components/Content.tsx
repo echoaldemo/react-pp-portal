@@ -43,7 +43,7 @@ const ContentHeader = () => {
 					}}
 				>
 					<Add />
-					New Group
+					New Panel
 				</CustomButton>
 			</div>
 		</div>
