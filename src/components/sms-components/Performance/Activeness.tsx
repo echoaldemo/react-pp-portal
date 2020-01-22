@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/styles";
 import { styles } from "./Styles/Activeness";
 import TimeAgo from "react-simple-timeago";
@@ -19,10 +18,6 @@ function Activeness(props: any) {
 
 Activeness.defaultProps = {
   date: new Date()
-};
-
-Activeness.propTypes = {
-  date: PropTypes.any.isRequired
 };
 
 export default withStyles(styles)(Activeness);
