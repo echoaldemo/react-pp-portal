@@ -1,11 +1,14 @@
 import React from 'react';
-// import { CustomButton } from 'common-components';
-// import { Link } from 'react-router-dom';
-import image from 'assets/images/404_image.svg';
+import './index.css';
+import text404 from 'assets/images/404_text.svg';
 const PageNotFound = () => {
 	return (
-		<div style={{ backgroundImage: `url(${image})` }}>
-			<h1>asdfasd</h1>
+		<div className="container" style={{ height: '100vh' }}>
+			<div className="text-container">
+				<img src={text404} className="text-image" />
+				<h1>PAGE NOT FOUND</h1>
+				<span />
+			</div>
 		</div>
 	);
 };
