@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import XMLDialog from "./components/Forms";
 import DNDCards from '../cards/DNDCards';
-import { GroupOutlined, Clear, Code, PanoramaFishEye, Delete} from "@material-ui/icons";
+import { Clear, Code, PanoramaFishEye, Delete} from "@material-ui/icons";
 import {DeleteModal, LoadingModal, SuccessModal, TableLoader} from "common-components";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
@@ -401,7 +401,7 @@ export default class RRSegments extends Component<IProps, IState> {
                                     paddingBottom: 0
                                   }}
                                 >
-                                  <Code />{" "}
+                                  <Code />
                                   <Typography style={{ marginLeft: 40 }}>
                                     XML
                                   </Typography>
@@ -490,7 +490,7 @@ export default class RRSegments extends Component<IProps, IState> {
                       >
                         <div style={{ textAlign: "center" }}>
                           <h4 style={{ color: "#7c8a97", fontSize: "18px" }}>
-                            No Rapid Response Segments have been created
+                            {"No Rapid Response Segments have been created"}
                           </h4>
                         </div>
                       </div>
