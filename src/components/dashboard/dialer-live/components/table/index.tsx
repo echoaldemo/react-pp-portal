@@ -162,7 +162,7 @@ const Table = (props: any) => {
     });
 
     setFilters(withFunction);
-  }, []);
+  }, []);  // eslint-disable-line
 
   function selection(type: any, data: any) {
     if (type.match(/Sort/)) {

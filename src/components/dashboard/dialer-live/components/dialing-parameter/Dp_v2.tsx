@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Close } from "@material-ui/icons";
@@ -262,8 +263,8 @@ const LabelText = styled.label`
 
 const DialingParameter = ({ header, closeFn }: any) => {
   const classes = useStyles();
-  const [dialModule, setDialModule] = useState("");
-  const [dialInterval, setDialInterval] = useState("");
+  const [dialModule, setDialModule] = useState("");  
+  const [dialInterval, setDialInterval] = useState("");  
   const [originTimeout, setOriginTimeout] = useState("");
   const [conference, setConference] = useState("");
   const [softAudio, setSoftAudio] = useState(false);
