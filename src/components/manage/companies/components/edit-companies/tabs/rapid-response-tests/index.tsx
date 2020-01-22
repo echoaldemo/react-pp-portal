@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
-import { TableLoader } from 'common-components';
-import DNDCards from '../cards/DNDCards';
+import { TableLoader } from "common-components";
+import DNDCards from "../cards/DNDCards";
 
-import { styles } from './styles';
+import { styles } from "./styles";
 
 //MOCK DATA
-import { global, company } from './Mock';
+import { global, company } from "./Mock";
 
 // import { get } from "../../../../utils/api";
 
@@ -26,17 +26,17 @@ interface IState {
 const defaultState = {
   loadingState: false,
   activeTestData: [
-		{ uuid: 1, name: 'Programs' },
-		{ uuid: 2, name: 'Portal' },
-		{ uuid: 3, name: 'First-names-sentence' },
-		{ uuid: 4, name: 'First-names-questions' }
-	],
+    { uuid: 1, name: "Programs" },
+    { uuid: 2, name: "Portal" },
+    { uuid: 3, name: "First-names-sentence" },
+    { uuid: 4, name: "First-names-questions" }
+  ],
   globalTestData: global,
   companyTestData: company,
   activeData: []
 };
 class RRTest extends Component<IProps, IState> {
-	constructor(props: IProps) {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -45,34 +45,34 @@ class RRTest extends Component<IProps, IState> {
   }
 
   // componentDidMount() {
-    // this.getAllData();
+  // this.getAllData();
   // }
 
   // getAllData = () => {
-    // this.setState({ loadingState: true });
-    // get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
-    //   .then(res => {
-    //     this.setState({ companyTestData: res.data });
-    //   })
-    //   .then(() => {
-    //     get(`/pitch/global/rapid-response/tests/`).then(globalRes => {
-    //       this.setState({
-    //         globalTestData: globalRes.data,
-    //         loadingState: false
-    //       });
-    //     });
-    //   })
-    //   .catch(err => {
-    //     alert("Failed to load data");
-    //   });
+  // this.setState({ loadingState: true });
+  // get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
+  //   .then(res => {
+  //     this.setState({ companyTestData: res.data });
+  //   })
+  //   .then(() => {
+  //     get(`/pitch/global/rapid-response/tests/`).then(globalRes => {
+  //       this.setState({
+  //         globalTestData: globalRes.data,
+  //         loadingState: false
+  //       });
+  //     });
+  //   })
+  //   .catch(err => {
+  //     alert("Failed to load data");
+  //   });
   // };
 
-  setActiveData = (data:any) => {
+  setActiveData = (data: any) => {
     this.setState({
       activeData: data
     });
   };
-  saveActiveSegment = (data:any) => {
+  saveActiveSegment = (data: any) => {
     //API request here for updating activeSegments
     this.setState({ activeTestData: data });
   };
@@ -83,7 +83,7 @@ class RRTest extends Component<IProps, IState> {
         {this.state.loadingState ? (
           <>
             <div style={{ height: 600 }}>
-              <TableLoader/>
+              <TableLoader />
             </div>
           </>
         ) : (
