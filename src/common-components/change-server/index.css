@@ -1,0 +1,14 @@
+.input-field {
+	border: solid 1px #444851 !important;
+	padding: 5px 10px 5px 15px !important;
+	border-radius: 3px;
+}
+.container-text {
+	font-size: 16px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #777777;
+}
