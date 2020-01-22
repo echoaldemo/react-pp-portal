@@ -215,7 +215,6 @@ export default function EditMetrics() {
 			) : (
 					<TextareaAutosize
 						rows={22}
-						defaultValue={textAreaVal}
 						value={textAreaVal}
 						style={{ width: '100%' }}
 						onChange={e => {
