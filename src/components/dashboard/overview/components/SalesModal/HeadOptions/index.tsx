@@ -19,8 +19,9 @@ const HeadOption = () => {
 	const renderLegend = (legend: Obj[]) => {
 		return (
 			<>
-				{legend.map((leg: Obj) => (
+				{legend.map((leg: Obj, i: number) => (
 					<LegendContainer
+						key={i}
 						style={{
 							backgroundColor: '#fafafa',
 							marginRight: '20px'
