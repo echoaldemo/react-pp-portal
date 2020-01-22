@@ -128,9 +128,10 @@ const Segments: React.FC<Props> = (props) => {
 	}
 
 	function renderActiveSegments() {
-		return acs.map((ac: any) => {
+		return acs.map((ac: any, i: number) => {
 			return (
 				<SColumn
+					key={i}
 					type="active"
 					data={ac}
 					removeItem={removeItem}
@@ -142,9 +143,9 @@ const Segments: React.FC<Props> = (props) => {
 	}
 
 	function renderAvailableSegments() {
-		return avs.map((av: any) => {
+		return avs.map((av: any, i: number) => {
 			return (
-				<SColumn data={av} draggableId={av.uuid || 1} index={avs.indexOf(av)} />
+				<SColumn key={i} data={av} draggableId={av.uuid || 1} index={avs.indexOf(av)} />
 			)
 		})
 	}
