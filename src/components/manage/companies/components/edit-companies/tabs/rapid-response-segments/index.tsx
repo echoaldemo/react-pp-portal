@@ -30,23 +30,23 @@ interface IProps {
 }
 
 interface IState {
-  loading: any;
-  company: any;
-  segments: any;
-  filterList: any;
-  innerLoading: any;
-  open: any;
-  data: any;
+  loading: boolean;
+  company: Array<Object>;
+  segments: Array<Object>;
+  filterList: Array<Object>;
+  innerLoading: boolean;
+  open: boolean;
+  data: Array<Object> | string;
   dataXML: any;
-  error: null,
-  openSnackBar: any;
-  segmentData: any;
-  globalSegments: any;
+  error: boolean | null,
+  openSnackBar: boolean;
+  segmentData: Array<Object>;
+  globalSegments: Array<Object>;
   activeData: any;
-  openDelete: any;
-  openLoading: any;
-  openSuccess: any;
-  activeSegments: any;
+  openDelete: boolean;
+  openLoading: boolean;
+  openSuccess: boolean;
+  activeSegments: Array<Object>;
 }
 
 
