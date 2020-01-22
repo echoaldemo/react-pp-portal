@@ -13,7 +13,8 @@ const initialState = {
 	openDeleteModal: false,
 	panels: [],
 	pitch: { name: 'Sample Pitch', panel: 'Standard', active_version: 1 },
-	option_groups: []
+	option_groups: [],
+	panel_tab: 0
 };
 
 // const filterRealm = (data: Array<object>, initialRealms: any) => {
@@ -37,6 +38,8 @@ const IdentityProvider = ({ children }: any) => {
 	const [ openModal, setOpenModal ] = useState(false);
 	const [ editGroup, setEditGroup ] = useState(false);
 	const [ openCreatePanelModal, setOpenCreatePanelModal ] = useState(false);
+	const [ editPanel, setEditPanel ] = useState(false);
+	const [ newFieldModal, setNewFieldModal ] = useState(false);
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
 	};
@@ -58,6 +61,8 @@ const IdentityProvider = ({ children }: any) => {
 
 	const [ state, dispatch ] = useReducer((state: any, action: any) => {
 		switch (action.type) {
+			case 'SET_PANEL_TAB':
+				return { ...state, panel_tab: action.payload.panel_tab };
 			case 'LOADING':
 				return { ...state, loading: action.payload.loading };
 
@@ -100,7 +105,11 @@ const IdentityProvider = ({ children }: any) => {
 				setEditGroup,
 				// filterRealm,
 				openCreatePanelModal,
-				setOpenCreatePanelModal
+				setOpenCreatePanelModal,
+				editPanel,
+				setEditPanel,
+				newFieldModal,
+				setNewFieldModal
 			}}
 		>
 			{children}
