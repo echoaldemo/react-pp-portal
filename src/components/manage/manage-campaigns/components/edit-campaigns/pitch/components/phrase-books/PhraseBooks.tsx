@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import DNDCards from "../cards/DNDCards";
 import { company, global } from "./Mock";
 import { TableLoader } from "common-components";
@@ -43,7 +43,7 @@ const PhraseBooks: React.FC<IProps> = props => {
   const [state1, setState1] = useState<IState>(defaultState);
   const classes = phrase();
   const { state } = useContext(IdentityContext);
-  const getAllData = () => {
+  const getAllData = useCallback(() => {
     try {
       setState1({ ...state1, loadingState: true });
       /* getGlobalPhraseBook()
@@ -91,11 +91,11 @@ const PhraseBooks: React.FC<IProps> = props => {
       }
       /* end mock */
     } catch (err) {}
-  };
+  }, [state1]);
 
   useEffect(() => {
     getAllData();
-  }, []);
+  }, [getAllData]);
 
   const openCreateModal = () => {
     setState1({ ...state1, openModal: true });
