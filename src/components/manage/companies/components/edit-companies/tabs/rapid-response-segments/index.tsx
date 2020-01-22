@@ -136,13 +136,13 @@ export default class RRSegments extends Component<IProps, IState> {
         this.setState({
           error: null
         });
-        var submitdata = {
-          name: data.name,
-          active: data.active,
-          type: data.type,
-          xml: data.xml,
-          variables: data.variables
-        };
+        // var submitdata = { 
+        //   name: data.name,
+        //   active: data.active,
+        //   type: data.type,
+        //   xml: data.xml,
+        //   variables: data.variables
+        // };
         if (label === "edit") {
           // patch(
           //   `/pitch/company/${this.props.company.slug}/rapid-response/segments/${data.uuid}/`,

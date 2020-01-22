@@ -60,7 +60,7 @@ interface IState {
 	activeData: Array<Object>;
 }
 
-class DNDCards extends PureComponent<IProps, IState> {
+class DNDCards2 extends PureComponent<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
 
@@ -701,4 +701,4 @@ class DNDCards extends PureComponent<IProps, IState> {
 		);
 	}
 }
-export default withStyles(style)(DNDCards);
+export default withStyles(style)(DNDCards2);
