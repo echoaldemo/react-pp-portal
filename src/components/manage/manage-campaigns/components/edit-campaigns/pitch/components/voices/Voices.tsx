@@ -47,8 +47,8 @@ const availableData: any = [
 const ProspectVoices = (props: any) => {
 	const [ open, setOpen ] = useState(false);
 	const [ pure_act_data, setPureActData ] = useState([]);
-	const [ pure_avl_data, setPureAvlData ] = useState(availableData);
-	const [ act_data, setActData ] = useState([]);
+	const [ pure_avl_data, setPureAvlData ] = useState([]);
+	const [ act_data, setActData ] = useState(activeData);
 	const [ avl_data, setAvlData ] = useState(availableData);
 	const [ is_edit, setIsEdit ] = useState(false);
 	const [ updateError, setUpdateError ] = useState(false);
@@ -106,7 +106,7 @@ const ProspectVoices = (props: any) => {
 
 	function removeItem(voice: any) {
 		setIsEdit(true);
-		setAvlData([ ...avl_data, voice ]);
+		setAvlData([...avl_data, voice ]);
 		let newAvailableData = act_data.filter((key:any) => key !== voice);
 		setActData(newAvailableData);
 	}
