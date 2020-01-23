@@ -1,6 +1,6 @@
 // Reusable component for making tables
 
-import React from "react";
+import React from 'react'
 import {
   Table,
   TableHead,
@@ -9,27 +9,27 @@ import {
   TableCell,
   Checkbox,
   MuiThemeProvider
-} from "@material-ui/core";
+} from '@material-ui/core'
 
-import { useStyles, theme } from "./styles";
+import { useStyles, theme } from './styles'
 
 interface Props {
-  headers: any;
-  tableData: any;
-  render: Function;
-  customHeight?: number | string;
-  withBorder?: boolean;
+  headers: any
+  tableData: any
+  render: Function
+  customHeight?: number | string
+  withBorder?: boolean
 }
 interface CheckProps {
-  clickFn: Function;
-  state: boolean;
-  label: string;
+  clickFn: Function
+  state: boolean
+  label: string
 }
 interface HeaderProps {
-  clickFn: Function;
-  state: boolean;
-  title: string;
-  check: boolean;
+  clickFn: Function
+  state: boolean
+  title: string
+  check: boolean
 }
 
 const AsyncTable: React.FC<Props> = ({
@@ -39,15 +39,15 @@ const AsyncTable: React.FC<Props> = ({
   customHeight,
   withBorder
 }) => {
-  const classes: any = useStyles();
+  const classes: any = useStyles()
   const CheckBoxLabel = ({ clickFn, state, label }: CheckProps) => {
     return (
       <>
         <MuiThemeProvider theme={theme}>
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "0fr 1fr"
+              display: 'grid',
+              gridTemplateColumns: '0fr 1fr'
             }}
           >
             <Checkbox
@@ -55,7 +55,7 @@ const AsyncTable: React.FC<Props> = ({
               color="primary"
               checked={state}
               style={{
-                padding: "0 20px 0 7px"
+                padding: '0 20px 0 7px'
               }}
             />
             <p onClick={() => clickFn()} className={classes.overflowClass}>
@@ -64,8 +64,8 @@ const AsyncTable: React.FC<Props> = ({
           </div>
         </MuiThemeProvider>
       </>
-    );
-  };
+    )
+  }
 
   const renderHeaders: Function = () => {
     return (
@@ -91,18 +91,18 @@ const AsyncTable: React.FC<Props> = ({
           </TableRow>
         </TableHead>
       )
-    );
-  };
+    )
+  }
 
   const cellAdjust: Function = () => {
     return (
       <colgroup>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((e) => (
-          <col key={e} style={{ width: "7.69230769231%" }} />
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(e => (
+          <col key={e} style={{ width: '7.69230769231%' }} />
         ))}
       </colgroup>
-    );
-  };
+    )
+  }
 
   const renderTableBody: Function = () => {
     return (
@@ -118,15 +118,15 @@ const AsyncTable: React.FC<Props> = ({
           overflow: classes.overflowClass
         })}
       </TableBody>
-    );
-  };
+    )
+  }
 
   return (
-    <div className={classes.rootClass} style={{ minHeight: customHeight }}>
+    <div className={classes.root} style={{ minHeight: customHeight }}>
       <Table
         className={classes.table}
         style={
-          withBorder ? { border: ".5px solid #eeeeee" } : { border: "none" }
+          withBorder ? { border: '.5px solid #eeeeee' } : { border: 'none' }
         }
       >
         {cellAdjust()}
@@ -134,16 +134,16 @@ const AsyncTable: React.FC<Props> = ({
         {renderTableBody()}
       </Table>
     </div>
-  );
-};
+  )
+}
 
 AsyncTable.defaultProps = {
   headers: [],
   tableData: [],
   render: () => null,
   classes: [],
-  customHeight: "initial",
+  customHeight: 500,
   withBorder: false
-} as Partial<Props>;
+} as Partial<Props>
 
-export { AsyncTable };
+export { AsyncTable }

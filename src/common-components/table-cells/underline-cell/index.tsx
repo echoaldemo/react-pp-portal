@@ -11,19 +11,22 @@ const Cell = styled(TableCell)`
   }
 `;
 interface Props {
-  children: any;
+	children: any;
+	className?: any;
+	onClick?: any;
+	style?: any
 }
 
 const UnderlineCell: React.FC<Props> = ({ children, ...props }) => {
-  return (
-    <Cell {...props}>
-      <p>{children}</p>
-    </Cell>
-  );
+	return (
+		<Cell {...props}>
+			<p>{children}</p>
+		</Cell>
+	);
 };
 
 UnderlineCell.defaultProps = {
-  children: "Sample Child"
+	children: "Sample Child"
 } as Partial<Props>;
 
 export default UnderlineCell;

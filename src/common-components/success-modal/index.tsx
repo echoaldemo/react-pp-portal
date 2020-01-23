@@ -1,18 +1,18 @@
-import React from 'react'
-import { Dialog } from '@material-ui/core'
-import { Add } from '@material-ui/icons'
-import * as Styled from './style'
+import React from "react";
+import { Dialog } from "@material-ui/core";
+import { Add } from "@material-ui/icons";
+import * as Styled from "./style";
 
 interface Props {
-  open: boolean
-  qty?: boolean
-  subtitle?: string
-  text?: string
-  btnText?: string
-  closeFn: () => void
-  btnFn: () => void
-  user?: boolean
-  warning?: boolean
+  open: boolean;
+  qty?: number;
+  subtitle?: string;
+  text?: string | React.ReactNode;
+  btnText?: string;
+  closeFn: () => void;
+  btnFn?: () => void;
+  user?: boolean;
+  warning?: boolean;
 }
 
 const SuccessModal: React.FC<Props> = ({
@@ -72,7 +72,7 @@ const SuccessModal: React.FC<Props> = ({
             <Styled.BtnCont>
               <Styled.CloseBtn onClick={closeFn}>
                 <Styled.CloseText>
-                  {warning ? 'Cancel' : 'Close'}
+                  {warning ? "Cancel" : "Close"}
                 </Styled.CloseText>
               </Styled.CloseBtn>
               {btnFn || btnText ? (
@@ -85,17 +85,16 @@ const SuccessModal: React.FC<Props> = ({
         </Styled.Center>
       )}
     </Dialog>
-  )
-}
+  );
+};
 
 SuccessModal.defaultProps = {
   open: false,
-  qty: false,
-  subtitle: '',
-  text: '',
-  btnText: '',
+  subtitle: "",
+  text: "",
+  btnText: "",
   user: false,
   warning: false
-} as Partial<Props>
+} as Partial<Props>;
 
-export { SuccessModal }
+export { SuccessModal };

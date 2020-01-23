@@ -44,7 +44,7 @@ deploysprod:
   before_script:
     - pip install awscli # Install the SDK
   script:
-    - aws s3 cp --recursive ./build s3://${BUCKET_NAME}/ --recursive # Replace example-bucket with your bucket
+    - aws s3 sync build s3://${BUCKET_NAME}  # Replace example-bucket with your bucket
   when: manual
 clean_s3:
   image: "python:latest"

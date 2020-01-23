@@ -1,8 +1,14 @@
-import "./App.css";
-import TestMainView from "./views/test-main-view/TestMainView";
+import React from "react";
+import { Routes } from "./router";
+import { CampaignsContextProvider } from "contexts/CampaignContext";
+function App() {
+  return (
+    <div>
+      <CampaignsContextProvider>
+        <Routes />
+      </CampaignsContextProvider>
+    </div>
+  );
+}
 
-/* function App() {
-  // Here you will use context api/router etc.
-} */
-
-export default TestMainView;
+export default App;

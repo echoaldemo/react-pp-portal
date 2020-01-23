@@ -4,7 +4,7 @@ import { Button, AddIcon } from './styles'
 interface Props {
   style?: React.CSSProperties
   openFunction: () => void
-  noIcon: boolean
+  noIcon?: boolean
   buttonText: string
 }
 

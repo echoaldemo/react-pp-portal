@@ -24,7 +24,7 @@ interface Props {
   userData: any[];
   headers: string[];
   pathnameData?: any;
-  link?: string;
+  link?: boolean;
   settings?: any;
   setActiveDataMethod?: any;
   loading?: boolean;
@@ -100,8 +100,7 @@ const SearchBar: React.FC<Props> = ({
           }
         });
       });
-
-      filtered.push([...filteredData]);
+      filtered.push(Array.from(new Set(filteredData)));
 
       if (classicSearch) {
         classicSearch(filtered[0]);
@@ -200,6 +199,7 @@ const SearchBar: React.FC<Props> = ({
                 backgroundColor: "white",
                 zIndex: 1
               }}
+              elevation={0}
             >
               No results - Try searching for{" "}
               {headers === undefined ? "other fields" : `${headers}`}

@@ -8,7 +8,7 @@ import { backStyles as styles } from "../styles";
 interface Props {
   text: string;
   to: string;
-  backFn: () => void;
+  backFn?: () => void;
   classes: {
     goBack: string;
     back: string;
@@ -40,8 +40,7 @@ const BackButtonComp: React.FC<Props> = ({ classes, backFn, text, to }) => {
 
 BackButtonComp.defaultProps = {
   text: "Back",
-  to: "/",
-  backFn: () => null
+  to: "/"
 } as Partial<Props>;
 
 export default withStyles(styles)(BackButtonComp);
