@@ -37,6 +37,7 @@ import RRSegments from "components/manage/global/global-segments/rr-segment-vari
 import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
+import RouterSettings from "components/manage/manage-campaigns/components/edit-campaigns/data-posting/components/EditRoute/EditRoute";
 //audio
 import AudioResources from "components/audio/audio-resources";
 import Overview from "components/dashboard/overview/Overview";
@@ -74,6 +75,10 @@ export default function Routes() {
         <PrivateRoute
           path="/manage/campaign/edit/:slug/:uuid/dataposting"
           component={DataPosting}
+        />
+        <PrivateRoute
+          path={`/manage/edit/router/:campaign_uuid/:router_uuid`}
+          component={RouterSettings}
         />
         {/* end of manage/campaign routes */}
         {/* manage/companies */}
