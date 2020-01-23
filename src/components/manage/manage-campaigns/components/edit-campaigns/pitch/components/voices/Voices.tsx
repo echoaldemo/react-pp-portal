@@ -11,7 +11,23 @@ import { getVoices, updateVoices, getRRTest } from 'components/manage/global/glo
 import { cancel } from 'utils/api';
 
 // mock data
-const availableData:any = [
+const activeData: any = [
+	{
+		uuid: '79041608-5c29-11e7-9756-02420aff000e',
+		last_login: '2017-07-20T17:19:26.063777Z',
+		username: 'compManager',
+		first_name: 'CompManager',
+		last_name: 'CompManager',
+		is_active: true,
+		date_joined: '2017-06-28T17:44:45.180722Z',
+		email: null,
+		password_update_required: false,
+		password_last_update: '2017-06-28T17:45:11.216414Z',
+		hire_date: null
+	}
+];
+
+const availableData: any = [
 	{
 		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
 		last_login: '2018-07-23T20:50:32.797472Z',
@@ -64,7 +80,6 @@ const ProspectVoices = (props: any) => {
 		// setPureActData(avl_data)
 		// setActData(avl_data)
 		// setLoading(false)
-
 	}
 
 	async function fetchVoices(voices_data = [], active_voices = []) {
@@ -92,7 +107,7 @@ const ProspectVoices = (props: any) => {
 	function removeItem(voice: any) {
 		setIsEdit(true);
 		setAvlData([ ...avl_data, voice ]);
-		let newAvailableData = act_data.filter((key) => key !== voice);
+		let newAvailableData = act_data.filter((key:any) => key !== voice);
 		setActData(newAvailableData);
 	}
 
@@ -106,6 +121,7 @@ const ProspectVoices = (props: any) => {
 							voiceFn={removeItem}
 							data={key}
 							add={false}
+							newRecord={false}
 						/>
 					);
 				})
@@ -115,7 +131,7 @@ const ProspectVoices = (props: any) => {
 	function renderAvailableData(data: any) {
 		return data.map((key: any) => {
 			return (
-				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true} />}</React.Fragment>
+				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true}/>}</React.Fragment>
 			);
 		});
 	}
@@ -224,6 +240,7 @@ const ProspectVoices = (props: any) => {
 						saveChangeItem={saveChangeItem}
 						loading={loading}
 						title="Active rep voices"
+						newRecord={false}
 					>
 						{renderActiveData(act_data)}
 					</CContainer>

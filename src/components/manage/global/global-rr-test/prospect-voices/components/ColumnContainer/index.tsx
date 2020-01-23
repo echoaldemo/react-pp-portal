@@ -70,6 +70,7 @@ interface Props {
 	data: any
 	voiceFn: Function
 	add: boolean
+	newRecord?: boolean
 }
 
 export default (props: Props) => {
@@ -176,9 +177,18 @@ export default (props: Props) => {
 				>
 					{!props.add ? (
 						<>
-							<Option>{recordNewVoiceBtn()}</Option>
-							<Option>{removeVoiceBtn(props.data)}</Option>
-						</>
+							{props.newRecord !== undefined ? 
+								<>
+									<Option>{}</Option>
+									<Option>{removeVoiceBtn(props.data)}</Option>
+								</>
+								:
+								<>
+									<Option>{recordNewVoiceBtn()}</Option>
+									<Option>{removeVoiceBtn(props.data)}</Option>
+								</>
+								}
+							</>
 					) : (
 							<Option />
 						)}

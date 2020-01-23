@@ -67,6 +67,7 @@ interface Props {
 	type?: any
 	loading: boolean
 	children: React.ReactNode
+	newRecord?: boolean
 }
 
 const ProspectContainer = ({ title, onEdit, cancelEdit, saveChangeItem, type, loading, children }: Props) => {

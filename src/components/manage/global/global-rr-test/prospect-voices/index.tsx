@@ -219,6 +219,7 @@ const ProspectVoices = (props: any) => {
 						saveChangeItem={saveChangeItem}
 						loading={loading}
 						title="Active rep voices"
+						newRecord={true}
 					>
 						{renderActiveData(act_data)}
 					</CContainer>
