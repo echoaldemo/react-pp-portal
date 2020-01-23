@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { TableNoResult, SaveButton, TableLoader } from 'common-components';
+import { TableLoader } from 'common-components';
 import DNDCards from '../cards/DNDCards';
-import { Add } from '@material-ui/icons';
 import { global, company } from './Mock';
 import { styles } from './styles';
 
@@ -53,24 +52,24 @@ const Segments = () => {
 		</div>
 	);
 };
-const NoResult = () => {
-	return (
-		<TableNoResult
-			headerText="Segment Variables"
-			mainMessage="No segment variable have been created"
-			subMessage="Would you like to creat one? Just hit the “New Segment” button."
-			renderButton={
-				<SaveButton
-					onClick={() => {
-						alert('Clicked');
-					}}
-				>
-					<Add />
-					New Segment
-				</SaveButton>
-			}
-		/>
-	);
-};
+// const NoResult = () => {
+// 	return (
+// 		<TableNoResult
+// 			headerText="Segment Variables"
+// 			mainMessage="No segment variable have been created"
+// 			subMessage="Would you like to creat one? Just hit the “New Segment” button."
+// 			renderButton={
+// 				<SaveButton
+// 					onClick={() => {
+// 						alert('Clicked');
+// 					}}
+// 				>
+// 					<Add />
+// 					New Segment
+// 				</SaveButton>
+// 			}
+// 		/>
+// 	);
+// };
 
 export default Segments;

@@ -5,7 +5,7 @@ const PageNotFound = () => {
 	return (
 		<div className="container" style={{ height: '100vh' }}>
 			<div className="text-container">
-				<img src={text404} className="text-image" />
+				<img src={text404} className="text-image" alt="text-404" />
 				<h1>PAGE NOT FOUND</h1>
 				<span />
 			</div>
