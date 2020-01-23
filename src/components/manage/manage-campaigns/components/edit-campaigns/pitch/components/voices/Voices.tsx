@@ -187,20 +187,27 @@ const ProspectVoices = (props: any) => {
 	}
 
 	async function saveChangeItem() {
-		let voices = act_data.map((key: any) => key.uuid);
-		let test = props.router.match.params.test_uuid;
-		let response = await updateVoices(test, voices);
+		//mock
+		setUpdateError(true);
+		setPureActData(act_data);
+		setPureAvlData(avl_data);
+		setIsEdit(false)
+		//mock
 
-		if (response.status < 300) {
-			setUpdateError(false);
-			// setPureActData(act_data);
-			// setPureAvlData(avl_data);
-			setIsEdit(false);
-		}
-		else {
-			setUpdateError(true);
-			setErrorMessage('Cannot update voices.');
-		}
+		// let voices = act_data.map((key: any) => key.uuid);
+		// let test = props.router.match.params.test_uuid;
+		// let response = await updateVoices(test, voices);
+
+		// if (response.status < 300) {
+		// 	setUpdateError(false);
+		// 	// setPureActData(act_data);
+		// 	// setPureAvlData(avl_data);
+		// 	setIsEdit(false);
+		// }
+		// else {
+		// 	setUpdateError(true);
+		// 	setErrorMessage('Cannot update voices.');
+		// }
 	}
 
 	function routeToProspect(data: any) {
