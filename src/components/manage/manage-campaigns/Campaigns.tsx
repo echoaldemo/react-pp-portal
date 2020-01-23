@@ -12,7 +12,7 @@ const Campaigns = ({ history }: any) => {
 
 	return (
 		<AppContext.Consumer>
-			{({ data, FilterApplyButton, loading, paginateList, paginate }: any) => {
+			{({ data, FilterApplyButton, loading, paginateList, paginate, setLoading }: any) => {
 				return (
 					<div>
 						<SEO title="Manage Campaigns" />
@@ -42,6 +42,7 @@ const Campaigns = ({ history }: any) => {
 
 							<CampaignTable
 								loading={loading}
+								setLoading={setLoading}
 								data={paginateList}
 								history={history}
 								setOpenCreateModal={setOpenCreateModal}

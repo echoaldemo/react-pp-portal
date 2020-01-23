@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import mockData from './mockData.json';
 import { get } from 'utils/api';
 
@@ -16,26 +16,27 @@ type ContextProps = {
 const AppContext = React.createContext<Partial<ContextProps>>({});
 
 function CampaignsContextProvider({ children }: any) {
-	const [data, setData] = useState(mockData.campaigns);
-	const [paginateList, setPaginateList] = useState(mockData.campaigns);
-	const [loading, setLoading] = useState(false);
+	const [ data, setData ] = useState(mockData.campaigns);
+	const [ paginateList, setPaginateList ] = useState(mockData.campaigns);
+	const [ loading, setLoading ] = useState(false);
 
-	useEffect(() => {
-		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-		}, 1000);
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	setTimeout(() => {
+	// 		setLoading(false);
+	// 	}, 1000);
 
-		// getAllData()
-	}, []);
+	// 	// getAllData()
+	// }, []);
 
-	function getAllData() { // eslint-disable-line
-		setLoading(true);
-		get('/identity/campaign/list/').then((res: any) => {
-			setData(res.data);
-			setLoading(false);
-		});
-	}
+	// function getAllData() {
+	// 	// eslint-disable-line
+	// 	setLoading(true);
+	// 	get('/identity/campaign/list/').then((res: any) => {
+	// 		setData(res.data);
+	// 		setLoading(false);
+	// 	});
+	// }
 
 	function FilterApplyButton(params: any) {
 		var parameter = {
