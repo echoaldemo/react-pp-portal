@@ -16,7 +16,7 @@ const DataPosting = ({ history, match }: any) => {
       setPaginateList(routes);
       setLoading(false);
     }, 1000);
-  }, [routes]);
+  }, []);
 
   const paginate = (from: number, to: number) => {
     setRoutes(paginateList.slice(from, to));
