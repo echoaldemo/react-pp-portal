@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/*eslint-disable */
+import React, { useState, useEffect } from 'react';
 import {
 	TableNoResult,
 	SaveButton,
@@ -19,10 +20,18 @@ interface Props {
 	loading: any;
 	history: any;
 	setOpenCreateModal: any;
+	setLoading: any;
 }
 
-const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateModal }) => {
-	const [copy, setCopy] = useState(false);
+const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, setOpenCreateModal }) => {
+	const [ copy, setCopy ] = useState(false);
+
+	useEffect(() => {
+		setLoading(true);
+		setTimeout(() => {
+			setLoading(false);
+		}, 1000);
+	}, []);
 
 	return (
 		<div>
@@ -30,11 +39,11 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 				<TableLoader />
 			) : data.length !== 0 ? (
 				<AsyncTable
-					headers={['Name', 'Slug', 'UUID', 'Status', '']}
+					headers={[ 'Name', 'Slug', 'UUID', 'Status', '' ]}
 					tableData={data}
 					render={(campaigns: any, { row, cell, uuid, icon }: any) => {
-						return campaigns.map((campaign: any) => (
-							<TableRow className={row} key={campaign.uuid} id="demo-body">
+						return campaigns.map((campaign: any, i: number) => (
+							<TableRow className={row} key={i} id="demo-body">
 								<UnderlineCell
 									className={cell}
 									onClick={() =>
@@ -62,10 +71,10 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 												/>
 											</LightTooltip>
 										) : (
-												<LightTooltip title="Copy UUID" placement="top">
-													<Icon className={icon} rotate={360} />
-												</LightTooltip>
-											)}
+											<LightTooltip title="Copy UUID" placement="top">
+												<Icon className={icon} rotate={360} />
+											</LightTooltip>
+										)}
 									</CopyToClipboard>
 								</TableCell>
 								<ActiveCell className={cell} style={{ color: '#777777' }}>
@@ -90,8 +99,8 @@ const CampaignTable: React.FC<Props> = ({ data, loading, history, setOpenCreateM
 					}}
 				/>
 			) : (
-						renderNoData(setOpenCreateModal)
-					)}
+				renderNoData(setOpenCreateModal)
+			)}
 		</div>
 	);
 };
