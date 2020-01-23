@@ -18,6 +18,9 @@ buildJekyll:  # A job to build the static website - replace it with your build m
     - npm install
     - CI=false npm run-script build
    # - npm run-script build
+  artifacts:
+    paths:
+      - build/  # This is what we want to publish, replace with your `dist` directory
 
 deploys3:
   image: "python:latest"  # We use python because there is a well-working AWS Sdk
