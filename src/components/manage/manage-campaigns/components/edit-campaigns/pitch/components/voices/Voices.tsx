@@ -1,13 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Snackbar } from '@material-ui/core';
-
 import { CContainer } from 'components/manage/global/global-rr-test/components';
-
 import { PHeader, PColumn, NewVoice } from 'components/manage/global/global-rr-test/prospect-voices/components';
-
 import { getVoices, updateVoices, getRRTest } from 'components/manage/global/global-rr-test/utils/ProspectVoices';
-
 import { cancel } from 'utils/api';
 
 // mock data
