@@ -40,6 +40,8 @@ import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-res
 import RouterSettings from "components/manage/manage-campaigns/components/edit-campaigns/data-posting/components/EditRoute/EditRoute";
 //audio
 import AudioResources from "components/audio/audio-resources";
+import PitchVoice from "components/audio/voice/pitch";
+
 import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
 import AgentDetails from "components/dashboard/campaign-dashboard/AgentDetails";
@@ -168,6 +170,7 @@ export default function Routes() {
           path="/manage/audio/audio-resources"
           component={AudioResources}
         />
+        <PrivateRoute exact path="/manage/audio/pitch" component={PitchVoice} />
         <PrivateRoute
           path={`/dashboard/all/:slug/overview`}
           component={Overview}
