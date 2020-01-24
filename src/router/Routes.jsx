@@ -44,6 +44,7 @@ import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
 import AgentDetails from "components/dashboard/campaign-dashboard/AgentDetails";
 import DialerQueue from "components/dashboard/dialer-queue";
+import ChangePassword from "auth/change-password/ChangePassword";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -183,6 +184,11 @@ export default function Routes() {
         <PrivateRoute
           path={`/dashboard/all/:slug/dialer-queue`}
           component={DialerQueue}
+        />
+        <PrivateRoute
+          exact
+          path={`/change-password`}
+          component={ChangePassword}
         />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
