@@ -1,13 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Snackbar } from '@material-ui/core';
-
 import { CContainer } from 'components/manage/global/global-rr-test/components';
-
 import { PHeader, PColumn, NewVoice } from 'components/manage/global/global-rr-test/prospect-voices/components';
-
 import { getVoices, updateVoices, getRRTest } from 'components/manage/global/global-rr-test/utils/ProspectVoices';
-
 import { cancel } from 'utils/api';
 
 // mock data
@@ -23,7 +19,36 @@ const activeData: any = [
 		email: null,
 		password_update_required: false,
 		password_last_update: '2017-06-28T17:45:11.216414Z',
-		hire_date: null
+		hire_date: null,
+		
+	},
+	{
+		uuid: '79041608-5c29-11e7-9756-02420aff000e1',
+		last_login: '2017-07-20T17:19:26.063777Z',
+		username: 'gregDoermann',
+		first_name: 'Greg',
+		last_name: 'Doermann',
+		is_active: true,
+		date_joined: '2017-06-28T17:44:45.180722Z',
+		email: null,
+		password_update_required: false,
+		password_last_update: '2017-06-28T17:45:11.216414Z',
+		hire_date: null,
+		
+	},
+	{
+		uuid: '79041608-5c29-11e7-9756-02420aff000e12',
+		last_login: '2017-07-20T17:19:26.063777Z',
+		username: 'testVoice',
+		first_name: 'Test',
+		last_name: 'Voice',
+		is_active: true,
+		date_joined: '2017-06-28T17:44:45.180722Z',
+		email: null,
+		password_update_required: false,
+		password_last_update: '2017-06-28T17:45:11.216414Z',
+		hire_date: null,
+		
 	}
 ];
 
@@ -34,6 +59,58 @@ const availableData: any = [
 		username: 'awhite',
 		first_name: 'a',
 		last_name: 'white',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'amyAuto',
+		first_name: 'Amy',
+		last_name: 'Auto',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'alexBalagna',
+		first_name: 'Alex',
+		last_name: 'Balagna',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'adamOrchard',
+		first_name: 'Adam',
+		last_name: 'Orchard',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'brianPreston',
+		first_name: 'Brian',
+		last_name: 'Preston',
 		is_active: true,
 		date_joined: '2017-07-19T14:55:53.913298Z',
 		email: 'testingforaudio@testing.com',
