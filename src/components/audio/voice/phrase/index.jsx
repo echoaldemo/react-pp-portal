@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import clsx from "clsx";
 import {
   withWidth,
   withStyles,
@@ -18,21 +19,23 @@ import DropdownDesktop from "../../common-components/dropdown/Desktop";
 import Tabs from "../../common-components/tabs/Mobile";
 import TabsDesktop from "../../common-components/tabs/Desktop";
 import useStyles from "./styles";
-import Filter from "./pitch_audio/Filter";
-import Search from "./pitch_audio/Search";
-import Table from "./pitch_audio/Table";
+import Filter from "./phrase_audio/Filter";
+import Search from "./phrase_audio/Search";
+import Table from "./phrase_audio/Table";
 
 import Toast from "../../common-components/toast";
+import MainAddNewAudio from "../../common-components/add-new-voice/MainAddNewVoice";
+import Loader from "../../common-components/loader";
 
-import { TableLoader, HeaderLink } from "common-components";
-
+//CARDS
 import UnrecordedCard from "../../common-components/cards/Unrecorded";
 import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
 
 import { get, patch, post } from "../../utils/api";
+import { TableLoader, HeaderLink } from "common-components";
 
-class Pitch extends Component {
+class Phrase extends Component {
   constructor() {
     super();
 
@@ -40,14 +43,13 @@ class Pitch extends Component {
       loader: false,
       user: 1,
       links: [
-        { name: "pitch audio", link: "/pitch" },
         { name: "phrase audio", link: "/phrase" },
+        { name: "pitch audio", link: "/pitch" },
         { name: "prospect audio", link: "/prospect" }
       ],
       state: "DATA_LOADED",
       campaigns: [],
       versions: [],
-      selected: "",
       tabSelected: 0,
       unrecorded: [],
       rerecord: [],
@@ -65,47 +67,52 @@ class Pitch extends Component {
       searchDialogUnrecord: "",
       openAddNew: false,
       showTable: false,
-      audioFile: "",
-      recordedName: "",
-      fileName: "",
       voices: [],
       user_data: [],
-      selectedCampaign: [],
-      selectedVersion: "",
-      token: "",
-      audio: [],
-      fetchedUnrecorded: false,
-      fetchedRerecord: false,
-      fetchedRecorded: false,
-      isAudioLoading: false,
+      checkIfGlobal: false,
+      companySlug: "",
+      campaignList: [],
+      unrecordedList: [],
+      unrecordedSelected: "",
+      voiceSelected: "",
       campaignSelected: "",
       versionSelected: "",
+      audioToBeUploaded: "",
       openToast: false,
       toastType: "",
       message: "",
       vertical: "top",
       horizontal: "right",
-      campaignList: [],
-      unrecordedList: [],
-      unrecordedSelected: "",
-      error: false,
+      token: "",
+      fetchedUnrecorded: false,
+      fetchedRerecord: false,
+      fetchedRecorded: false,
       file: null,
+      audioFile: "",
+      fileName: "",
+      recordedName: "",
       addNewVoiceModal: false,
       uploadLoading: false,
-      user_group: 1,
+      mainFileName: "",
+      mainFile: "",
+      mainUploadLoading: false,
+      isAudioLoading: false,
+      audio: [],
       profile: [],
       user_uuid: "",
-      hasMic: null,
+      groups: [],
+      manage_user: [],
+      selectedVersion: "",
+      user_group: 10,
+      //modal fix
       currentMode: null,
-      isAudioLoadingRerec: false,
-      addNewVoiceModal_Desktop: true
+      isAudioLoadingRerec: false
     };
   }
 
   componentDidMount() {
-    document.title = "Pitch Audio";
+    document.title = "Phrase Audio";
     var tokenLogin = localStorage.getItem("ngStorage-ppToken");
-    console.log(tokenLogin);
     if (localStorage.getItem("error")) {
       this.setState({
         openToast: true,
@@ -117,7 +124,9 @@ class Pitch extends Component {
       localStorage.removeItem("error");
     }
     this.setState({ token: tokenLogin });
-    get(`/identity/user/profile/`).then(profileData => {
+
+    //view data
+    get("/identity/user/profile/").then(profileData => {
       this.setState({
         state: "DATA_LOADED",
         profile: profileData.data,
@@ -126,6 +135,7 @@ class Pitch extends Component {
       });
       if (profileData.data.groups[0] === 10) {
         this.recorderCamp(profileData.data.uuid, tokenLogin);
+        this.recorderSelectCampaign(profileData.data.uuid);
       } else {
         get("/identity/user/manage/list/?groups=10&limit=100").then(
           voiceData => {
@@ -137,44 +147,95 @@ class Pitch extends Component {
         );
       }
     });
+
+    get(`/identity/group/list/`).then(res => {
+      this.setState({
+        state: "DATA_LOADED",
+        groups: res.data
+      });
+    });
+
+    get(`/identity/user/profile/`).then(res => {
+      this.setState({
+        state: "DATA_LOADED",
+        manage_user: res
+      });
+    });
   }
 
-  recorderCamp = async uuid => {
+  recorderCamp = (uuid, token) => {
     this.setState({
       searchVoice: uuid
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/profile/`).then(user => {
-      user_data = user.data.campaigns;
+
+    let campaigns = [];
+
+    const global = {
+      uuid: "global1111",
+      name: "Global (Globally Required Phrases)",
+      company: "global",
+      slug: "global"
+    };
+    campaigns.push(global);
+
+    get(`/identity/user/profile/`).then(user => {
       this.setState({
         state: "DATA_LOADED",
         user_data: user.data
       });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then(campaign => {
-        campaigns = campaign.data.filter(camp => {
-          return user_data.indexOf(camp.uuid) > -1;
+
+      get(`/identity/campaign/list/`).then(campaign => {
+        user.data.campaigns.map(camps => {
+          campaign.data.map(res => {
+            if (res.uuid === camps) {
+              campaigns.push(res);
+            }
+            return null;
+          });
+          return null;
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
         this.setState({
           campaigns
         });
-      } else {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
-          vertical: "top",
-          horizontal: "right"
+      });
+    });
+  };
+
+  recorderSelectCampaign = uuid => {
+    this.setState({
+      voiceSelected: uuid
+    });
+
+    let campaigns = [];
+
+    const global = {
+      uuid: "global1111",
+      name: "Global (Globally Required Phrases)",
+      company: "global",
+      slug: "global"
+    };
+    campaigns.push(global);
+
+    get(`/identity/user/profile/`).then(user => {
+      this.setState({
+        state: "DATA_LOADED",
+        user_data: user.data
+      });
+
+      get(`/identity/campaign/list/`).then(campaign => {
+        user.data.campaigns.map(camps => {
+          campaign.data.map(res => {
+            if (res.uuid === camps) {
+              campaigns.push(res);
+            }
+            return null;
+          });
+          return null;
         });
-      }
+        this.setState({
+          campaigns
+        });
+      });
     });
   };
 
@@ -184,57 +245,144 @@ class Pitch extends Component {
     });
   };
 
+  //tabs (unrecorded, rerecord, recorded) function
   tabSelected = val => {
     this.setState({
       tabSelected: val
     });
   };
 
-  selectCampaign = (value, uuid) => {
+  //voice selected
+  selectVoice = val => {
     this.setState({
-      selectedCampaign: value
+      voiceSelected: val
     });
 
-    get(`/identity/company/${uuid}/`).then(res => {
-      get(`/pitch/company/${res.data.slug}/campaign/${value}/`)
-        .then(versions => {
-          if (versions.data.versions.length > 0) {
-            this.setState({
-              versions: versions.data.versions.reverse()
-            });
-          } else {
-            this.setState({
-              openToast: true,
-              toastType: "caution",
-              message: `There are no pitch versions available for this campaign.`,
-              vertical: "top",
-              horizontal: "right"
-            });
-          }
-        })
-        .catch(err => {
+    let campaigns = [];
+    const global = {
+      uuid: "global1111",
+      name: "Global (Globally required phrases)",
+      company: "global",
+      slug: "global"
+    };
+    campaigns.push(global);
+
+    get(`/identity/user/manage/${val}/`).then(user => {
+      this.setState({
+        state: "DATA_LOADED",
+        user_data: user.data
+      });
+
+      get(`/identity/campaign/list/`).then(campaign => {
+        user.data.campaigns.map(camps => {
+          campaign.data.map(res => {
+            if (res.uuid === camps) {
+              campaigns.push(res);
+            }
+            return null;
+          });
+          return null;
+        });
+
+        this.setState({
+          campaigns
+        });
+        return null;
+      });
+    });
+  };
+
+  // selecting campaign function
+  selectCampaign = (value, uuid) => {
+    this.setState({
+      selectedCampaign: value,
+      versions: []
+    });
+
+    if (uuid === "global") {
+      //global for phrasebook
+      get(`/pitch/global/phrases/`).then(global => {
+        //if choose global checkIfGlobal will be true
+        this.setState({
+          versions: global.data,
+          checkIfGlobal: true
+        });
+      });
+    } else {
+      get(`/identity/company/${uuid}/`).then(res => {
+        this.setState({
+          companySlug: res.data.slug
+        });
+
+        get(`/pitch/company/${res.data.slug}/phrases/`).then(camp => {
           this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `There are no pitch versions available for this campaign.`,
-            vertical: "top",
-            horizontal: "right"
+            versions: camp.data,
+            checkIfGlobal: false
           });
         });
+      });
+    }
+  };
+
+  selectVoiceCampaign = (value, uuid) => {
+    this.setState({
+      campaignSelected: value
     });
+
+    if (uuid === "global") {
+      //global for phrasebook
+      get(`/pitch/global/phrases/`).then(global => {
+        this.setState({
+          versions: global.data,
+          checkIfGlobal: true
+        });
+      });
+    } else {
+      // campaign
+      get(`/identity/company/${uuid}/`).then(res => {
+        this.setState({
+          companySlug: res.data.slug
+        });
+
+        get(`/pitch/company/${res.data.slug}/phrases/`).then(book => {
+          this.setState({
+            versions: book.data,
+            checkIfGlobal: false
+          });
+        });
+      });
+    }
   };
 
   selectVersion = value => {
     this.setState({
       selectedVersion: value
     });
-    get(
-      `/pitch/audio/version/${value}/voice/${this.state.user_data.uuid}/unrecorded/`
-    ).then(pitchunrecorded => {
-      this.setState({
-        unrecordedList: pitchunrecorded.data
-      });
+  };
+
+  //selecting phrasebook
+  selectPhraseBook = value => {
+    this.setState({
+      versionSelected: value
     });
+
+    if (this.state.checkIfGlobal === true) {
+      get(
+        `/pitch/global/audio/phrase-book/${value}/voice/${this.state.user_data.uuid}/unrecorded/`
+      ).then(unrec => {
+        this.setState({
+          unrecordedList: unrec.data
+        });
+      });
+    } else {
+      get(
+        `/pitch/company/${this.state.campaignSelected}/audio/phrase-book/${value}/voice/${this.state.user_data.uuid}/unrecorded/`
+      ).then(unrec => {
+        this.setState({
+          unrecordedList: unrec.data
+        });
+      });
+    }
   };
 
   selectUnrecorded = value => {
@@ -243,46 +391,97 @@ class Pitch extends Component {
     });
   };
 
-  filterData = pitch_version => {
+  filterData = () => {
+    var data1, data2, data3;
     this.setState({
+      loader: true,
       showTable: false,
-      loader: true
+      display: [],
+      displayRerecord: [],
+      fetchedRecorded: false,
+      fetchedRerecord: false,
+      fetchedUnrecorded: false
     });
-    const data1 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/unrecorded/`
-    ).then(unrecorded => {
-      this.setState({
-        display: unrecorded.data,
-        fetchedUnrecorded: unrecorded.status === 200 ? true : false
+    // end
+
+    //global phrase
+    if (this.state.checkIfGlobal === true) {
+      data1 = get(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/unrecorded/`
+      ).then(unrecorded => {
+        this.setState({
+          display: unrecorded.data,
+          fetchedUnrecorded: unrecorded.status === 200 ? true : false
+        });
       });
-    });
-    const data2 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/rerecord/`
-    ).then(rerecord => {
-      this.setState({
-        displayRerecord: rerecord.data,
-        fetchedRerecord: rerecord.status === 200 ? true : false
+      data2 = get(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/rerecord/`
+      ).then(rerecord => {
+        this.setState({
+          displayRerecord: rerecord.data,
+          fetchedRecorded: rerecord.status === 200 ? true : false
+        });
       });
-    });
-    const data3 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/recorded/`
-    ).then(recorded => {
-      this.setState({
-        displayRecorded: recorded.data,
-        fetchedRecorded: recorded.status === 200 ? true : false
+      data3 = get(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/recorded/`
+      ).then(recorded => {
+        this.setState({
+          displayRecorded: recorded.data,
+          fetchedRecorded: recorded.status === 200 ? true : false
+        });
       });
-    });
+    } else {
+      data1 = get(
+        `/pitch/company/${this.state.selectedCampaign}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/unrecorded/`
+      ).then(unrecorded => {
+        this.setState({
+          display: unrecorded.data,
+          fetchedUnrecorded: unrecorded.status === 200 ? true : false
+        });
+      });
+      data2 = get(
+        `/pitch/company/${this.state.selectedCampaign}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/rerecord/`
+      ).then(rerecord => {
+        this.setState({
+          displayRerecord: rerecord.data,
+          fetchedRecorded: rerecord.status === 200 ? true : false
+        });
+      });
+      data3 = get(
+        `/pitch/company/${this.state.selectedCampaign}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/recorded/`
+      ).then(recorded => {
+        this.setState({
+          displayRecorded: recorded.data,
+          fetchedRecorded: recorded.status === 200 ? true : false
+        });
+      });
+    }
     Promise.all([data1, data2, data3]).then(() => {
       this.setState({
-        showTable: true,
-        loader: false
+        loader: false,
+        showTable: true
       });
     });
+  };
+
+  // end fetching unrecorded, rerecord, recorded  ------
+
+  refreshData = () => {
+    this.setState({
+      display: [],
+      displayRerecord: [],
+      displayRecorded: [],
+      fetchedRecorded: false,
+      fetchedUnrecorded: false,
+      fetchedRerecord: false
+    });
+    this.filterData();
   };
 
   resetFilters = val => {
     this.setState({
       display: [],
+      filtered: false,
       showTable: val
     });
   };
@@ -293,45 +492,43 @@ class Pitch extends Component {
     });
   };
 
-  selectedVoice = async val => {
+  selectedVoice = val => {
     this.setState({
-      campaigns: [],
-      versions: [],
-      voiceSelected: val,
       searchVoice: val
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/manage/${val}/`).then(user => {
-      user_data = user.data.campaigns;
+
+    let campaigns = [];
+
+    const global = {
+      uuid: "global1111",
+      name: "Global (Globally Required Phrases)",
+      company: "global",
+      slug: "global"
+    };
+    campaigns.push(global);
+
+    get(`/identity/user/manage/${val}/`).then(user => {
       this.setState({
         state: "DATA_LOADED",
         user_data: user.data
       });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then(campaign => {
-        campaigns = campaign.data.filter(camp => {
-          return user_data.indexOf(camp.uuid) > -1;
+      // if (this.state.user_group === 10) {
+      // }
+
+      get(`/identity/campaign/list/`).then(campaign => {
+        user.data.campaigns.map(camps => {
+          campaign.data.map(res => {
+            if (res.uuid === camps) {
+              campaigns.push(res);
+            }
+            return null;
+          });
+          return null;
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
         this.setState({
           campaigns
         });
-      } else {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
-          vertical: "top",
-          horizontal: "right"
-        });
-      }
+      });
     });
   };
 
@@ -346,21 +543,21 @@ class Pitch extends Component {
 
   // for uploading audio
   handleAudio = e => {
-    if (e.target.files && e.target.value) {
-      this.setState({ audioFile: e.target.value });
-      let files = e.target.files;
-      var uploadFile = new FormData();
-      uploadFile.append("file", files[0]);
-      this.setState({
-        fileName: files[0].name,
-        file: uploadFile
-      });
-    }
+    this.setState({
+      audioFile: e.target.value
+    });
+
+    let files = e.target.files;
+    var uploadFile = new FormData();
+    uploadFile.append("file", files[0]);
+    this.setState({
+      fileName: files[0].name,
+      file: uploadFile
+    });
   };
 
   removeAudio = () => {
     this.setState({
-      file: "",
       audioFile: "",
       fileName: ""
     });
@@ -378,150 +575,13 @@ class Pitch extends Component {
       return null;
     });
   };
-  // end for uploading audio
 
-  addToRerecord = (version, voice, val) => {
-    this.setState({
-      loader: true,
-      display: [],
-      displayRerecord: [],
-      displayRecorded: [],
-      fetchedUnrecorded: false,
-      fetchedRerecord: false,
-      fetchedRecorded: false
-    });
-
-    if (this.state.checkIfGlobal === true) {
-      patch(
-        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
-        { rerecord: true }
-      ).then(audio => {
-        this.filterData();
-      });
-    } else {
-      patch(`/pitch/audio/version/${version}/voice/${voice}/${val.key}/`, {
-        rerecord: true
-      }).then(res => {
-        if (res.status === 201 || res.status === 200) {
-          this.setState({
-            openToast: true,
-            toastType: "check",
-            message: `Successfully added to rerecord`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false,
-            loader: false
-          });
-        } else {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `Error uploading file`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        }
-        this.filterData(version);
-      });
-    }
-  };
-
-  // main audio adding
-  openAddNewDialog() {
-    this.setState({
-      openAddNew: true
-    });
-  }
-
-  closeAddNewDialog() {
-    this.setState({
-      openAddNew: false,
-      voiceSelected: "",
-      campaignSelected: "",
-      versionSelected: "",
-      selectedCampaign: "",
-      selectedVersion: "",
-      unrecordedSelected: "",
-      versions: [],
-      unrecordedList: []
-    });
-  }
-
-  savingAudio = () => {
-    this.setState(
-      prevState => ({
-        openAddNew: !prevState.openAddNew
-      }),
-      () => this.showSuccessBar()
-    );
-  };
-
-  showSuccessBar = () => {
-    this.setState({
-      openToast: true,
-      toastType: "check",
-      message: `Successfully uploaded`,
-      vertical: "top",
-      horizontal: "right",
-      campaignSelected: "",
-      versionSelected: "",
-      unrecordedSelected: ""
-    });
-  };
-
-  handleCloseToast = () => {
-    this.setState({
-      openToast: false
-    });
-  };
-
-  getUpdatedRecorded = val => {
-    this.setState({
-      recorded: val
-    });
-
-    this.state.unrecorded.map((data, id) => {
-      if (val.name === data.name) {
-        this.state.unrecorded.splice(id, 1);
-      }
-      return null;
-    });
-  };
-
-  playAudio = (version, voice, key) => {
-    get(`/pitch/audio/version/${version}/voice/${voice}/${key}/`).then(res => {
-      this.setState({
-        audio: res.data,
-        isAudioLoading: false,
-        isAudioLoadingRerec: false
-      });
-    });
-  };
-
-  stopLoading = () => {
-    this.setState({ isAudioLoading: false });
-  };
-
-  showLoader = type => {
-    if (type === "recorded") {
-      this.setState({ isAudioLoading: true });
-    } else {
-      this.setState({ isAudioLoadingRerec: true });
-    }
-  };
-
-  removeAudioPlayed = () => {
-    this.setState({ audio: [] });
-  };
-
+  // table audio upload
   uploadAudio = (
     voice,
-    version,
+    phrasebook,
     slug,
-    key,
+    phrase,
     file,
     modification,
     fadein,
@@ -540,11 +600,141 @@ class Pitch extends Component {
       this.setState({
         uploadLoading: true
       });
-      post(
-        `/pitch/audio/version/${version}/voice/${voice}/${key}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
-        file
-      )
-        .then(res => {
+
+      if (this.state.checkIfGlobal) {
+        post(
+          `/pitch/global/audio/phrase-book/${phrasebook}/voice/${voice}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+          file
+        )
+          .then(res => {
+            this.setState({
+              display: [],
+              displayRerecord: [],
+              displayRecorded: [],
+              fetchedRecorded: false,
+              fetchedUnrecorded: false,
+              fetchedRerecord: false,
+              audio: [],
+              file: null,
+              audioFile: "",
+              fileName: "",
+              uploadLoading: false,
+              addNewVoiceModal: false
+            });
+            this.filterData();
+
+            // checks if status response was 201.
+            if (res.status === 201 || res.status === 200) {
+              this.setState({
+                openToast: true,
+                toastType: "check",
+                message: `Successfully uploaded`,
+                vertical: "top",
+                horizontal: "right",
+                addNewVoiceModal: false,
+                uploadLoading: false
+              });
+            } else {
+              this.setState({
+                openToast: true,
+                toastType: "caution",
+                message: `Error uploading file`,
+                vertical: "top",
+                horizontal: "right",
+                addNewVoiceModal: false,
+                uploadLoading: false
+              });
+            }
+          })
+          // if there is no response we will show a failed upload message
+          .catch(err => {
+            this.setState({
+              openToast: true,
+              toastType: "caution",
+              message: `Error uploading file`,
+              vertical: "top",
+              horizontal: "right",
+              addNewVoiceModal: false,
+              uploadLoading: false
+            });
+          });
+      } else {
+        post(
+          `/pitch/company/${this.state.companySlug}/audio/phrase-book/${phrasebook}/voice/${voice}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+          file
+        )
+          .then(res => {
+            this.setState({
+              display: [],
+              displayRerecord: [],
+              displayRecorded: [],
+              fetchedRecorded: false,
+              fetchedUnrecorded: false,
+              fetchedRerecord: false,
+              audio: [],
+              file: null,
+              audioFile: "",
+              fileName: "",
+              uploadLoading: false,
+              addNewVoiceModal: false
+            });
+            this.filterData();
+
+            // checks if status response was 201.
+            if (res.status === 201 || res.status === 200) {
+              this.setState({
+                openToast: true,
+                toastType: "check",
+                message: `Successfully uploaded`,
+                vertical: "top",
+                horizontal: "right",
+                addNewVoiceModal: false,
+                uploadLoading: false
+              });
+            } else {
+              this.setState({
+                openToast: true,
+                toastType: "caution",
+                message: `Failed to upload file`,
+                vertical: "top",
+                horizontal: "right",
+                addNewVoiceModal: false,
+                uploadLoading: false
+              });
+            }
+          })
+          // if there is no response we will show a failed upload message
+          .catch(err => {
+            this.setState({
+              openToast: true,
+              toastType: "caution",
+              message: `Error uploading file`,
+              vertical: "top",
+              horizontal: "right",
+              addNewVoiceModal: false,
+              uploadLoading: false
+            });
+          });
+      }
+    }
+  };
+
+  //ANCHOR UPLOAD SESSION
+
+  uploadSession = session => {
+    let requests;
+    this.setState({
+      uploadLoading: true
+    });
+    if (this.state.checkIfGlobal) {
+      requests = session.map(audio => {
+        return post(
+          `/pitch/global/audio/phrase-book/${audio.phrasebook}/voice/${audio.voice}/phrase/${audio.phrase}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
+          audio.file
+        );
+      });
+      Promise.all(requests)
+        .then(() => {
           this.setState({
             display: [],
             displayRerecord: [],
@@ -553,35 +743,22 @@ class Pitch extends Component {
             fetchedUnrecorded: false,
             fetchedRerecord: false,
             audio: [],
-            fileName: "",
             file: null,
+            audioFile: "",
+            fileName: "",
             uploadLoading: false,
-            openAddNew: false
+            addNewVoiceModal: false
           });
-          this.filterData(version);
-
-          // checks if status response was 201.
-          if (res.status === 201 || res.status === 200) {
-            this.setState({
-              openToast: true,
-              toastType: "check",
-              message: `Successfully uploaded`,
-              vertical: "top",
-              horizontal: "right",
-              addNewVoiceModal: false,
-              uploadLoading: false
-            });
-          } else {
-            this.setState({
-              openToast: true,
-              toastType: "caution",
-              message: `Failed to upload file`,
-              vertical: "top",
-              horizontal: "right",
-              addNewVoiceModal: false,
-              uploadLoading: false
-            });
-          }
+          this.filterData();
+          this.setState({
+            openToast: true,
+            toastType: "check",
+            message: `Successfully uploaded`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
         })
         // if there is no response we will show a failed upload message
         .catch(err => {
@@ -592,41 +769,99 @@ class Pitch extends Component {
             vertical: "top",
             horizontal: "right",
             addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        });
+    } else {
+      requests = session.map(audio => {
+        return post(
+          `/pitch/company/${this.state.companySlug}/audio/phrase-book/${audio.phrasebook}/voice/${audio.voice}/phrase/${audio.phrase}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
+          audio.file
+        );
+      });
+      Promise.all(requests)
+        .then(() => {
+          this.setState({
+            display: [],
+            displayRerecord: [],
+            displayRecorded: [],
+            fetchedRecorded: false,
+            fetchedUnrecorded: false,
+            fetchedRerecord: false,
+            audio: [],
+            file: null,
+            audioFile: "",
+            fileName: "",
             uploadLoading: false,
-            openAddNew: false
+            addNewVoiceModal: false
+          });
+          this.filterData();
+          this.setState({
+            openToast: true,
+            toastType: "check",
+            message: `Successfully uploaded`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        })
+        // if there is no response we will show a failed upload message
+        .catch(err => {
+          this.setState({
+            openToast: true,
+            toastType: "caution",
+            message: `Error uploading file`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
           });
         });
     }
   };
 
-  //ANCHOR UPLOAD SESSION START
+  openAddNewVoiceModal = (bool, currentMode) => {
+    if (bool === false) {
+      this.setState({
+        addNewVoiceModal: false,
+        audioFile: "",
+        fileName: "",
+        file: ""
+      });
+    } else {
+      this.setState({
+        currentMode,
+        addNewVoiceModal: true,
+        anchorEl: null
+      });
+    }
+  };
 
-  uploadSession = session => {
+  handleCloseToast = () => {
     this.setState({
-      uploadLoading: true
+      openToast: false
     });
-    const requests = session.map(audio => {
-      return post(
-        `/pitch/audio/version/${audio.version}/voice/${audio.voice}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
-        audio.file
-      );
+  };
+
+  //Transfer data to Rerecord
+  addToRerecord = (version, voice, val) => {
+    this.setState({
+      loader: true,
+      display: [],
+      displayRerecord: [],
+      displayRecorded: [],
+      fetchedUnrecorded: false,
+      fetchedRerecord: false,
+      fetchedRecorded: false
     });
-    Promise.all(requests)
-      .then(() => {
-        this.setState({
-          display: [],
-          displayRerecord: [],
-          displayRecorded: [],
-          fetchedRecorded: false,
-          fetchedUnrecorded: false,
-          fetchedRerecord: false,
-          audio: [],
-          fileName: "",
-          file: null,
-          uploadLoading: false,
-          openAddNew: false
-        });
-        this.filterData(this.state.selectedVersion);
+
+    if (this.state.checkIfGlobal === true) {
+      patch(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
+        { rerecord: true }
+      ).then(audio => {
+        this.filterData();
         this.setState({
           openToast: true,
           toastType: "check",
@@ -636,20 +871,355 @@ class Pitch extends Component {
           addNewVoiceModal: false,
           uploadLoading: false
         });
-      })
-      // if there is no response we will show a failed upload message
-      .catch(err => {
+      });
+    } else {
+      patch(
+        `/pitch/company/${this.state.companySlug}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
+        { rerecord: true }
+      ).then(res => {
+        // checks if status response was 201.
+        if (res.status === "201" || res.status === "200") {
+          this.setState({
+            openToast: true,
+            toastType: "check",
+            message: `Successfully uploaded`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        } else {
+          this.setState({
+            openToast: true,
+            toastType: "caution",
+            message: `Error uploading file`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        }
+
+        this.filterData();
+      });
+    }
+  };
+
+  //transfer data back to recorded
+  addToRecorded = val => {
+    this.setState({
+      loader: true,
+      display: [],
+      displayRerecord: [],
+      displayRecorded: [],
+      fetchedUnrecorded: false,
+      fetchedRerecord: false,
+      fetchedRecorded: false
+    });
+
+    if (this.state.checkIfGlobal === true) {
+      patch(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
+        { rerecord: false }
+      ).then(audio => {
+        this.filterData();
         this.setState({
           openToast: true,
-          toastType: "caution",
-          message: `Error uploading file`,
+          toastType: "check",
+          message: `Undo successful`,
           vertical: "top",
           horizontal: "right",
           addNewVoiceModal: false,
-          uploadLoading: false,
-          openAddNew: false
+          uploadLoading: false
         });
       });
+    } else {
+      patch(
+        `/pitch/company/${this.state.companySlug}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
+        { rerecord: false }
+      ).then(audio => {
+        this.filterData();
+        this.setState({
+          openToast: true,
+          toastType: "check",
+          message: `Undo successful`,
+          vertical: "top",
+          horizontal: "right",
+          addNewVoiceModal: false,
+          uploadLoading: false
+        });
+      });
+    }
+  };
+
+  // main audio upload
+  openAddNewDialog() {
+    this.setState({
+      openAddNew: true
+    });
+  }
+
+  closeAddNewDialog() {
+    this.setState({
+      openAddNew: false,
+      voiceSelected: "",
+      campaignSelected: "",
+      versionSelected: "",
+      unrecordedSelected: ""
+    });
+  }
+
+  changeAudioToBeUploaded = e => {
+    this.setState({
+      audioToBeUploaded: e.target.value
+    });
+
+    let files = e.target.files;
+    var uploadFile = new FormData();
+
+    uploadFile.append("file", files[0]);
+    this.setState({
+      mainFileName: files[0].name,
+      mainFile: uploadFile
+    });
+  };
+
+  mainUploadAudio = (
+    voice,
+    phrasebook,
+    slug,
+    phrase,
+    file,
+    modification,
+    fadein,
+    fadeout,
+    convert
+  ) => {
+    if (file == null) {
+      this.setState({
+        openToast: true,
+        toastType: "caution",
+        message: `Please select audio file`,
+        vertical: "top",
+        horizontal: "right"
+      });
+    } else if ((phrasebook && slug && phrase) === "") {
+      this.setState({
+        openToast: true,
+        toastType: "caution",
+        message: `Please complete the form first`,
+        vertical: "top",
+        horizontal: "right"
+      });
+    } else {
+      this.setState({
+        mainUploadLoading: true
+      });
+
+      if (slug === "global") {
+        post(
+          `/pitch/global/audio/phrase-book/${phrasebook}/voice/${voice}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+          file
+        )
+          .then(res => {
+            this.setState({
+              display: [],
+              displayRerecord: [],
+              fetchedUnrecorded: false,
+              fetchedRerecord: false,
+              voiceSelected: "",
+              campaignSelected: "",
+              versionSelected: "",
+              unrecordedSelected: "",
+              searchVoice: voice,
+              selectedCampaign: slug,
+              selectedVersion: phrasebook,
+              file: null,
+              openAddNew: false,
+              mainUploadLoading: false
+            });
+            this.filterData();
+
+            // checks if status response was 201.
+            if (res.status === 201 || res.status === 200) {
+              this.setState({
+                openToast: true,
+                toastType: "check",
+                message: `Successfully uploaded`,
+                vertical: "top",
+                horizontal: "right",
+                openAddNew: false,
+                mainUploadLoading: false
+              });
+            } else {
+              this.setState({
+                openToast: true,
+                toastType: "caution",
+                message: `Error uploading file`,
+                vertical: "top",
+                horizontal: "right",
+                openAddNew: false,
+                mainUploadLoading: false
+              });
+            }
+          })
+
+          // if there is no response we will show a failed upload message
+          .catch(err => {
+            this.setState({
+              openToast: true,
+              toastType: "caution",
+              message: `Error uploading file`,
+              vertical: "top",
+              horizontal: "right",
+              openAddNew: false,
+              mainUploadLoading: false
+            });
+          });
+      } else {
+        post(
+          `/pitch/company/${slug}/audio/phrase-book/${phrasebook}/voice/${voice}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+          file
+        )
+          .then(res => {
+            this.setState({
+              display: [],
+              displayRerecord: [],
+              fetchedUnrecorded: false,
+              fetchedRerecord: false,
+              voiceSelected: "",
+              campaignSelected: "",
+              versionSelected: "",
+              unrecordedSelected: "",
+              searchVoice: voice,
+              selectedCampaign: slug,
+              selectedVersion: phrasebook,
+              file: null,
+              mainUploadLoading: false,
+              openAddNew: false
+            });
+            this.filterData();
+
+            // checks if status response was 201.
+            if (res.status === 201 || res.status === 200) {
+              this.setState({
+                openToast: true,
+                toastType: "check",
+                message: `Successfully uploaded`,
+                vertical: "top",
+                horizontal: "right",
+                openAddNew: false,
+                mainUploadLoading: false
+              });
+            } else {
+              this.setState({
+                openToast: true,
+                toastType: "caution",
+                message: `Failed to upload file`,
+                vertical: "top",
+                horizontal: "right",
+                openAddNew: false,
+                mainUploadLoading: false
+              });
+            }
+          })
+
+          // if there is no response we will show a failed upload message
+          .catch(err => {
+            this.setState({
+              openToast: true,
+              toastType: "caution",
+              message: `Error uploading file`,
+              vertical: "top",
+              horizontal: "right",
+              openAddNew: false,
+              mainUploadLoading: false
+            });
+          });
+      }
+    }
+  };
+
+  savedAudio = () => {
+    this.setState(
+      prevState => ({
+        openAddNew: !prevState.openAddNew
+      }),
+      () => this.showSuccessBar()
+    );
+  };
+
+  showSuccessBar = () => {
+    this.setState({
+      openToast: true,
+      toastType: "check",
+      message: `Successfully uploaded`,
+      vertical: "top",
+      horizontal: "right",
+      voiceSelected: "",
+      campaignSelected: "",
+      versionSelected: "",
+      unrecordedSelected: ""
+    });
+  };
+
+  handleCloseToast = () => {
+    this.setState({
+      openToast: false
+    });
+  };
+
+  getUpdatedRecorded = val => {
+    this.setState({
+      recorded: val
+    });
+  };
+
+  playAudio = (version, voice, key, uuid) => {
+    if (this.state.checkIfGlobal === true) {
+      get(
+        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${uuid}/file/`
+      ).then(res => {
+        this.setState({ audio: res.data, isAudioLoading: false });
+      });
+    } else {
+      get(
+        `/pitch/company/${this.state.companySlug}/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${uuid}/file/`
+      ).then(res => {
+        this.setState({
+          audio: res.data,
+          isAudioLoading: false,
+          isAudioLoadingRerec: false
+        });
+      });
+    }
+  };
+
+  stopLoading = () => {
+    this.setState({ isAudioLoading: false });
+  };
+  showLoader = type => {
+    if (type === "recorded") {
+      this.setState({ isAudioLoading: true });
+    } else {
+      this.setState({ isAudioLoadingRerec: true });
+    }
+  };
+  removeAudioPlayed = () => {
+    this.setState({ audio: [] });
+  };
+
+  handleUnrecordedSelected = val => {
+    this.setState({ unrecordedSelected: val });
+  };
+  showToastSession = (type, message) => {
+    this.setState({
+      openToast: true,
+      toastType: type,
+      message: message,
+      vertical: "top",
+      horizontal: "right"
+    });
   };
 
   rerecordAudio = (version, voice, key) => {
@@ -705,128 +1275,9 @@ class Pitch extends Component {
       });
   };
 
-  //Update a specific pitch audio
-  undoPitchAudio = (version, voice, key) => {
-    this.setState({
-      loader: true,
-      display: [],
-      displayRecorded: [],
-      displayRerecord: [],
-      fetchedRecorded: false,
-      fetchedUnrecorded: false,
-      fetchedRerecord: false
-    });
-    patch(
-      `/pitch/audio/version/${this.state.selectedVersion}/voice/${this.state.searchVoice}/${key}/`,
-      { rerecord: false }
-    )
-      .then(res => {
-        //added
-        this.filterData(this.state.selectedVersion);
-
-        // checks if status response was 201.
-        if (res.status === 201 || res.status === 200) {
-          this.setState({
-            openToast: true,
-            toastType: "check",
-            message: `Undo successful`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        } else {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `Request failed`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        }
-      })
-      // if there is no response we will show a failed upload message
-      .catch(err => {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `Request failed`,
-          vertical: "top",
-          horizontal: "right",
-          addNewVoiceModal: false,
-          uploadLoading: false
-        });
-      });
-  };
-
-  closeModal = () => {
-    this.setState(
-      prevState => ({
-        addNewVoiceModal: !prevState.addNewVoiceModal
-      }),
-      () => this.successfulUpload()
-    );
-  };
-
-  openAddNewVoiceModal = (bool, currentMode) => {
-    if (bool === false) {
-      this.setState({
-        addNewVoiceModal: false
-      });
-    } else {
-      this.setState({
-        currentMode,
-        addNewVoiceModal: true,
-        anchorEl: null
-      });
-    }
-  };
-
-  handleCloseToast = () => {
-    this.setState({
-      openToast: false
-    });
-  };
-
-  refreshData = version => {
-    this.setState({
-      display: [],
-      displayRerecord: [],
-      displayRecorded: [],
-      fetchedRecorded: false,
-      fetchedUnrecorded: false,
-      fetchedRerecord: false
-    });
-    this.filterData(version);
-  };
-  detectMic = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        // Code for success
-        this.setState({ hasMic: true });
-      })
-      .catch(err => {
-        this.setState({ hasMic: false });
-      });
-  };
-  handleUnrecordedSelected = val => {
-    this.setState({ unrecordedSelected: val });
-  };
-  showToastSession = (type, message) => {
-    this.setState({
-      openToast: true,
-      toastType: type,
-      message: message,
-      vertical: "top",
-      horizontal: "right"
-    });
-  };
-
   render() {
     const { classes, width } = this.props;
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -842,8 +1293,8 @@ class Pitch extends Component {
                     item
                     xs={12}
                     sm={3}
-                    md={3}
-                    lg={3}
+                    md={5}
+                    lg={5}
                     className={classes.desktopCon}
                   >
                     {localStorage.getItem("type") !== "10" && (
@@ -858,14 +1309,11 @@ class Pitch extends Component {
                       />
                     )}
                   </Grid>
-                  {/* HEADER - DESKTOP VERSION END */}
-
-                  {/* HEADER - MOBILE VERSION START */}
                   <Grid container className={classes.mobileConDropdown}>
-                    <Grid item xs={8} sm={8}>
+                    <Grid item xs={7} sm={8}>
                       <DropdownDesktop groupID={this.state.user_group} />
                     </Grid>
-                    <Grid item xs={4} sm={4}>
+                    <Grid item xs={5} sm={4}>
                       <Dropdown
                         links={this.state.links}
                         refreshData={this.refreshData}
@@ -879,22 +1327,23 @@ class Pitch extends Component {
                   {/* HEADER - MOBILE VERSION START */}
 
                   {/* TABS - DESKTOP VERSION START */}
+
                   <Grid
                     item
                     xs={12}
                     sm={9}
-                    md={9}
+                    md={7}
                     lg={7}
                     className={classes.desktopCon}
                   >
                     <TabsDesktop
                       tabSelected={this.tabSelected}
                       reset={this.resetFilters}
-                      defaultValue={0}
+                      defaultValue={1}
                     />
                   </Grid>
-                  {/* TABS - DESKTOP VERSION END */}
 
+                  {/* TABS - DESKTOP VERSION END */}
                   {/* TABS - MOBILE VERSION START */}
                   <Grid item xs={12} sm={12} className={classes.mobileCon}>
                     <Tabs
@@ -902,6 +1351,7 @@ class Pitch extends Component {
                       reset={this.resetFilters}
                     />
                   </Grid>
+
                   {/* TABS - MOBILE VERSION END */}
                 </Grid>
 
@@ -952,7 +1402,6 @@ class Pitch extends Component {
                         </Grid>
                       ) : null}
                     </Paper>
-
                     <Paper
                       className={classes.tableWrapper}
                       style={
@@ -994,6 +1443,7 @@ class Pitch extends Component {
                                   ? this.state.addNewVoiceModal
                                   : false
                               }
+                              typeOfAudio="phrase"
                               uploadLoading={this.state.uploadLoading}
                               refreshData={this.refreshData}
                               //toast
@@ -1005,7 +1455,7 @@ class Pitch extends Component {
                           {/* ANCHOR Rerecord */}
                           <Grid item sm={12} xs={12} md={4} lg={4}>
                             <RerecordCard
-                              addToRecorded={this.undoPitchAudio}
+                              addToRecorded={this.addToRecorded}
                               rerecord={this.state.displayRerecord}
                               tblName={"Rerecord"}
                               rows={this.state.rerecord}
@@ -1033,14 +1483,14 @@ class Pitch extends Component {
                                   : false
                               }
                               uploadLoading={this.state.uploadLoading}
-                              //undoAudio={this.undoPitchAudio}
                               rerecordAudio={this.rerecordAudio}
                               //playing audio
                               preview={this.state.audio}
                               showLoader={this.showLoader}
                               playAudio={this.playAudio}
                               isLoading={this.state.isAudioLoadingRerec}
-                              typeOfAudio="pitch"
+                              //debugging
+                              typeOfAudio="phrase"
                               //toast
                               showToast={this.showToastSession}
                               //upload session
@@ -1074,7 +1524,6 @@ class Pitch extends Component {
                               removeAudio={this.removeAudioPlayed}
                               refreshData={this.refreshData}
                               uploadLoading={this.state.uploadLoading}
-                              undoPitchAudio={this.undoPitchAudio}
                               handleAudio={this.handleAudio}
                               getRecordedName={this.getRecordedName}
                               fileName={this.state.fileName}
@@ -1090,15 +1539,15 @@ class Pitch extends Component {
                               variant="h3"
                               className={classes.headerTitle}
                             >
-                              {this.toTitleCase("pitch audio recordings")}
+                              {this.toTitleCase("phrase audio recordings")}
                             </Typography>
                           </div>
                           {this.state.user_uuid ? (
                             <div className={classes.emptyPitch}>
-                              <b> No pitch selected </b>
+                              <b> No phrase selected </b>
                               <br />
                               Select voice, campaign and pitch version to view
-                              pitch audio
+                              phrase audio
                             </div>
                           ) : (
                             <div className={classes.emptyPitch}>
@@ -1113,7 +1562,7 @@ class Pitch extends Component {
 
                   {/* Main Content - MOBILE VERSION START*/}
                   <Grid item xs={12} className={classes.mobileCon}>
-                    <Paper className={classes.filterWrapper}>
+                    <Paper className={fixedHeightPaper}>
                       {width === "xs" || width === "sm" ? (
                         /* Search and FilterToolbar */
                         <Grid container className={classes.header}>
@@ -1130,7 +1579,6 @@ class Pitch extends Component {
                               />
                             )}
                           </Grid>
-
                           <Grid
                             item
                             xs={12}
@@ -1151,7 +1599,8 @@ class Pitch extends Component {
                               selectVersion={this.selectVersion}
                               selectedCampaign={this.state.selectedCampaign}
                               selectedVersion={this.state.selectedVersion}
-                              refreshData={this.refreshData}
+                              checkIfGlobal={this.state.checkIfGlobal}
+                              user_group={this.state.user_group}
                             />
                           </Grid>
                         </Grid>
@@ -1160,6 +1609,7 @@ class Pitch extends Component {
 
                     <Divider />
 
+                    {/* Phrase Audio Recordings Title*/}
                     <Paper
                       className={classes.tableWrapper}
                       style={
@@ -1190,7 +1640,7 @@ class Pitch extends Component {
                                 fileName={this.state.fileName}
                                 user_id={this.state.user}
                                 file={this.state.file}
-                                upload={this.uploadAudio}
+                                uploadAudio={this.uploadAudio}
                                 version={this.state.selectedVersion}
                                 voice={this.state.searchVoice}
                                 audio={this.state.audio}
@@ -1208,6 +1658,7 @@ class Pitch extends Component {
                             <React.Fragment>
                               <Table
                                 tblName={"Rerecord"}
+                                addToRecorded={this.addToRecorded}
                                 rows={this.state.rerecord}
                                 columns={this.state.rerecordTblName}
                                 openAddNewVoiceModal={this.openAddNewVoiceModal}
@@ -1234,13 +1685,12 @@ class Pitch extends Component {
                                     : false
                                 }
                                 uploadLoading={this.state.uploadLoading}
-                                undoPitchAudio={this.undoPitchAudio}
                                 rerecordAudio={this.rerecordAudio}
                                 //playing audio
+                                preview={this.state.audio}
                                 showLoader={this.showLoader}
                                 playAudio={this.playAudio}
                                 isLoading={this.state.isAudioLoading}
-                                //upload session
                               />
                             </React.Fragment>
                           ) : this.state.tabSelected === 2 ? (
@@ -1269,7 +1719,6 @@ class Pitch extends Component {
                                 refreshData={this.refreshData}
                                 rerecordAudio={this.rerecordAudio}
                                 uploadLoading={this.state.uploadLoading}
-                                undoPitchAudio={this.undoPitchAudio}
                                 handleAudio={this.handleAudio}
                                 getRecordedName={this.getRecordedName}
                                 fileName={this.state.fileName}
@@ -1286,15 +1735,15 @@ class Pitch extends Component {
                               variant="h3"
                               className={classes.headerTitle}
                             >
-                              {this.toTitleCase("pitch audio recordings")}
+                              {this.toTitleCase("phrase audio recordings")}
                             </Typography>
                           </div>
                           {this.state.user_uuid ? (
                             <div className={classes.emptyPitch}>
-                              <b> No pitch selected </b>
+                              <b> No phrase selected </b>
                               <br />
                               Select voice, campaign and pitch version to view
-                              pitch audio
+                              phrase audio
                             </div>
                           ) : (
                             <div className={classes.emptyPitch}>
@@ -1327,45 +1776,41 @@ class Pitch extends Component {
             </Tooltip>
           )}
         </div>
-        {/* Dialogs */}
 
         {/* <MainAddNewAudio
-          addNewVoiceModal={this.props.addNewVoiceModal}
-          openAddNewVoiceModal={this.props.openAddNewVoiceModal}
-          label1="Select Campaign"
-          label2="Select Pitch Version"
+          label1="Select Global or Campaign"
+          label2="Select Phrase Book"
           onClose={() => this.closeAddNewDialog()}
           voices={this.state.voices}
           campaigns={this.state.campaigns}
           versions={this.state.versions}
           audio={this.state.unrecordedList}
-          selectVoice={this.selectedVoice}
-          selectCampaign={this.selectCampaign}
-          selectVersion={this.selectVersion}
+          selectVoice={this.selectVoice}
+          selectCampaign={this.selectVoiceCampaign}
+          selectVersion={this.selectPhraseBook}
           selectUnrecorded={this.selectUnrecorded}
-          voiceSelected={this.state.searchVoice}
-          campaignSelected={this.state.selectedCampaign}
-          versionSelected={this.state.selectedVersion}
+          voiceSelected={this.state.voiceSelected}
+          campaignSelected={this.state.campaignSelected}
+          versionSelected={this.state.versionSelected}
           unrecordedSelected={this.state.unrecordedSelected}
-          mainFile={this.state.file}
-          mainFileName={this.state.fileName}
+          mainFile={this.state.mainFile}
+          mainFileName={this.state.mainFileName}
           audioToBeUploaded={this.state.audioToBeUploaded}
-          changeAudioToBeUploaded={this.handleAudio}
-          // recorded={this.state.recorded}
+          changeAudioToBeUploaded={this.changeAudioToBeUploaded}
           getUpdatedRecorded={this.getUpdatedRecorded}
           getRecordedName={this.getRecordedName}
-          mainUploadAudio={this.uploadAudio}
-          loading={this.state.uploadLoading}
-          hasMic={this.state.hasMic}
+          mainUploadAudio={this.mainUploadAudio}
+          loading={this.state.mainUploadLoading}
           user_group={this.state.user_group}
           handleUnrecordedSelected={this.handleUnrecordedSelected}
           selectedVoice={this.state.searchVoice}
           token={this.state.token}
           open={this.state.openAddNew}
-          typeOfAudio="pitch"
+          openAddNew={this.state.openAddNew}
+          typeOfAudio="phrase"
+          phrase={"forPhrase"}
           showToast={this.showToastSession}
         /> */}
-
         <Toast
           open={this.state.openToast}
           handleClose={this.handleCloseToast}
@@ -1379,4 +1824,4 @@ class Pitch extends Component {
   }
 }
 
-export default withWidth()(withStyles(useStyles)(Pitch));
+export default withWidth()(withStyles(useStyles)(Phrase));
