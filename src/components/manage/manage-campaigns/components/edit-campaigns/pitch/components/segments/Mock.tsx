@@ -34,7 +34,7 @@ export const global: any = [
 		test_type: 0,
 		final_disposition_regex: '1',
 		final_revenue: 1.0,
-		segments: [ '26e9c358-7993-11e8-81e9-0242ac110016', 'fee3637a-3957-11e9-ae74-0242ac110005' ],
+		segments: ['26e9c358-7993-11e8-81e9-0242ac110016', 'fee3637a-3957-11e9-ae74-0242ac110005'],
 		variables: {},
 		voices: [
 			'790321608-5c29-11e7-9756-02420aff000e',
@@ -82,7 +82,7 @@ export const global: any = [
 		test_type: 0,
 		final_disposition_regex: '',
 		final_revenue: 2.0,
-		segments: [ 'a279ae2c-7866-11e7-83d7-02420a000608' ],
+		segments: ['a279ae2c-7866-11e7-83d7-02420a000608'],
 		variables: {},
 		voices: [],
 		tts_voice: null
@@ -172,9 +172,9 @@ export const global: any = [
 		test_type: 0,
 		final_disposition_regex: '',
 		final_revenue: 1.0,
-		segments: [ 'a279ae2c-7866-11e7-83d7-02420a000608' ],
+		segments: ['a279ae2c-7866-11e7-83d7-02420a000608'],
 		variables: {},
-		voices: [ '346516de-5aa6-11e7-88db-02420aff0012' ],
+		voices: ['346516de-5aa6-11e7-88db-02420aff0012'],
 		tts_voice: null
 	},
 	{
@@ -187,9 +187,9 @@ export const global: any = [
 		test_type: 0,
 		final_disposition_regex: '',
 		final_revenue: null,
-		segments: [ 'a279ae2c-7866-11e7-83d7-02420a000608' ],
+		segments: ['a279ae2c-7866-11e7-83d7-02420a000608'],
 		variables: {},
-		voices: [ '5cfc5e92-6c92-11e7-94dc-02420aff0015' ],
+		voices: ['5cfc5e92-6c92-11e7-94dc-02420aff0015'],
 		tts_voice: null
 	}
 ];

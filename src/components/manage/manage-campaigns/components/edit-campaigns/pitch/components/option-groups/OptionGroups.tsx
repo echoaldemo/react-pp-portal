@@ -14,7 +14,7 @@ export default function OptionGroups() {
 }
 
 const NoResult = () => {
-	const [ createModal, setCreateModal ] = useState(false);
+	const [createModal, setCreateModal] = useState(false);
 	return (
 		<React.Fragment>
 			<TableNoResult
@@ -54,9 +54,9 @@ const CreateModal = ({ createModal, setCreateModal }: any) => {
 };
 
 const CreateGroupForm = ({ handleModalClose }: any) => {
-	const [ name, setName ] = useState('');
-	const [ errName ] = useState(false);
-	const [ createLoading, setCreateLoading ] = useState(false);
+	const [name, setName] = useState('');
+	const [errName] = useState(false);
+	const [createLoading, setCreateLoading] = useState(false);
 	const { dispatch, state, setTab } = useContext(IdentityContext);
 
 	const addNewOptionGroup = () => {
@@ -64,7 +64,7 @@ const CreateGroupForm = ({ handleModalClose }: any) => {
 		setTimeout(() => {
 			const { option_groups } = state;
 
-			let newArr = [ ...option_groups, { name: name } ];
+			let newArr = [...option_groups, { name: name }];
 			let newTab = newArr.length - 1;
 
 			dispatch({

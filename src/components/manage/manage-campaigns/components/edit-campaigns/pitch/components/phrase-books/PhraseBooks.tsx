@@ -15,7 +15,7 @@ const defaultState = {
 		{ uuid: 3, name: 'First-names-sentence' },
 		{ uuid: 4, name: 'First-names-questions' }
 	],
-	globalPhraseBooksData: [ { uuid: 1, name: 'State' }, { uuid: 2, name: 'Firstname' }, { uuid: 3, name: 'Sample' } ],
+	globalPhraseBooksData: [{ uuid: 1, name: 'State' }, { uuid: 2, name: 'Firstname' }, { uuid: 3, name: 'Sample' }],
 	phraseBooksData: [],
 	loadingText: 'Loading active phrase books',
 	openModal: false,
@@ -38,7 +38,7 @@ interface IState {
 }
 
 const PhraseBooks: React.FC<IProps> = (props) => {
-	const [ state1, setState1 ] = useState<IState>(defaultState);
+	const [state1, setState1] = useState<IState>(defaultState);
 	const classes = phrase();
 	const { state } = useContext(IdentityContext);
 	const getAllData = () => {
@@ -89,7 +89,7 @@ const PhraseBooks: React.FC<IProps> = (props) => {
 				}, 1000);
 			}
 			/* end mock */
-		} catch (err) {}
+		} catch (err) { }
 	};
 
 	useEffect(() => {
@@ -120,32 +120,32 @@ const PhraseBooks: React.FC<IProps> = (props) => {
 				{state1.loadingState ? (
 					<TableLoader />
 				) : (
-					<div className={classes.container}>
-						<DNDCards
-							card1Title="Active phrase books"
-							card2Title="Global phrase books"
-							card3Title="Company phrase books"
-							card1Data={state1.activePhraseBookData}
-							card2Data={state1.globalPhraseBooksData}
-							card3Data={state1.phraseBooksData}
-							setActiveData={setActiveData}
-							addButton3={true}
-							addFunction3={openCreateModal}
-							saveActiveSegment={saveActiveSegment}
-						/>
-
-						{props.company !== null && (
-							<CreatePhraseBook
-								open={state1.openModal}
-								refresh={getAllData}
-								companySlug={state.campaignDetails.company}
-								onClose={closeCreateModal}
-								openModal={openCreateModal}
-								addFunction={addNewPhraseBook} //temporary for adding new phrase
+						<div className={classes.container}>
+							<DNDCards
+								card1Title="Active phrase books"
+								card2Title="Global phrase books"
+								card3Title="Company phrase books"
+								card1Data={state1.activePhraseBookData}
+								card2Data={state1.globalPhraseBooksData}
+								card3Data={state1.phraseBooksData}
+								setActiveData={setActiveData}
+								addButton3={true}
+								addFunction3={openCreateModal}
+								saveActiveSegment={saveActiveSegment}
 							/>
-						)}
-					</div>
-				)}
+
+							{props.company !== null && (
+								<CreatePhraseBook
+									open={state1.openModal}
+									refresh={getAllData}
+									companySlug={state.campaignDetails.company}
+									onClose={closeCreateModal}
+									openModal={openCreateModal}
+									addFunction={addNewPhraseBook} //temporary for adding new phrase
+								/>
+							)}
+						</div>
+					)}
 			</React.Fragment>
 		</div>
 	);

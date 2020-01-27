@@ -31,7 +31,7 @@ const IdentityContext = React.createContext<any>(initialState);
 const IdentityProvider = ({ children, match, history }: any) => {
 	const { uuid } = match.params;
 
-	const [ state, setState ] = useState(initialState);
+	const [state, setState] = useState(initialState);
 
 	useEffect(() => {
 		// fetchAllData();

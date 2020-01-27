@@ -5,10 +5,10 @@ export default function GatewayRoute(props: any) {
 
 	let { component: Component, ...rest } = props;
 
-	return <Route 
-				{...rest} 
-				component={(componentProps: any) => {
-					return isAuth() ? <Component {...componentProps}/> : <Redirect to="/" />
-				}}
-		   />;
+	return <Route
+		{...rest}
+		component={(componentProps: any) => {
+			return isAuth() ? <Component {...componentProps} /> : <Redirect to="/" />
+		}}
+	/>;
 }

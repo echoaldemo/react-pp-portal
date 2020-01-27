@@ -20,7 +20,7 @@ const activeData: any = [
 		password_update_required: false,
 		password_last_update: '2017-06-28T17:45:11.216414Z',
 		hire_date: null,
-		
+
 	},
 	{
 		uuid: '79041608-5c29-11e7-9756-02420aff000e1',
@@ -34,7 +34,7 @@ const activeData: any = [
 		password_update_required: false,
 		password_last_update: '2017-06-28T17:45:11.216414Z',
 		hire_date: null,
-		
+
 	},
 	{
 		uuid: '79041608-5c29-11e7-9756-02420aff000e12',
@@ -48,7 +48,7 @@ const activeData: any = [
 		password_update_required: false,
 		password_last_update: '2017-06-28T17:45:11.216414Z',
 		hire_date: null,
-		
+
 	}
 ];
 
@@ -122,16 +122,16 @@ const availableData: any = [
 // end mock data
 
 const ProspectVoices = (props: any) => {
-	const [ open, setOpen ] = useState(false);
-	const [ pure_act_data, setPureActData ] = useState([]);
-	const [ pure_avl_data, setPureAvlData ] = useState([]);
-	const [ act_data, setActData ] = useState(activeData);
-	const [ avl_data, setAvlData ] = useState(availableData);
-	const [ is_edit, setIsEdit ] = useState(false);
-	const [ updateError, setUpdateError ] = useState(false);
-	const [ errorMessage, setErrorMessage ] = useState('');
-	const [ loading, setLoading ] = useState(false);
-	const [ voicesData, setVoicesData ] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [pure_act_data, setPureActData] = useState([]);
+	const [pure_avl_data, setPureAvlData] = useState([]);
+	const [act_data, setActData] = useState(activeData);
+	const [avl_data, setAvlData] = useState(availableData);
+	const [is_edit, setIsEdit] = useState(false);
+	const [updateError, setUpdateError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [voicesData, setVoicesData] = useState([]);
 
 	// useEffect(() => {
 	// 	async function fetchDatas() {
@@ -183,32 +183,32 @@ const ProspectVoices = (props: any) => {
 
 	function removeItem(voice: any) {
 		setIsEdit(true);
-		setAvlData([...avl_data, voice ]);
-		let newAvailableData = act_data.filter((key:any) => key !== voice);
+		setAvlData([...avl_data, voice]);
+		let newAvailableData = act_data.filter((key: any) => key !== voice);
 		setActData(newAvailableData);
 	}
 
 	function renderActiveData(data: any) {
 		return data
 			? data.map((key: any, i: number) => {
-					return (
-						<PColumn
-							key={i}
-							// notifyEdit={(value: any) => setIsEdit(value)}
-							voiceFn={removeItem}
-							data={key}
-							add={false}
-							newRecord={false}
-						/>
-					);
-				})
+				return (
+					<PColumn
+						key={i}
+						// notifyEdit={(value: any) => setIsEdit(value)}
+						voiceFn={removeItem}
+						data={key}
+						add={false}
+						newRecord={false}
+					/>
+				);
+			})
 			: null;
 	}
 
 	function renderAvailableData(data: any) {
 		return data.map((key: any) => {
 			return (
-				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true}/>}</React.Fragment>
+				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true} />}</React.Fragment>
 			);
 		});
 	}
@@ -227,7 +227,7 @@ const ProspectVoices = (props: any) => {
 		if (voice) {
 			setIsEdit(true);
 			let old_act = act_data;
-			let new_act: any = [ ...old_act, voice ];
+			let new_act: any = [...old_act, voice];
 			setActData(new_act);
 			let newAvailableData = avl_data.filter((key: any) => key !== voice);
 			setAvlData(newAvailableData);
