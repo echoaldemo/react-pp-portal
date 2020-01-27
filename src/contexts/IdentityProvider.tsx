@@ -18,17 +18,17 @@ const initialState = {
 };
 
 // const filterRealm = (data: Array<object>, initialRealms: any) => {
-// 	let newArr: any = [];
+//   let newArr: any = [];
 
-// 	initialRealms.map((item: any) => {
-// 		const value = data.find((realm: any) => {
-// 			return realm.uuid == item;
-// 		});
+//   initialRealms.map((item: any) => {
+//     const value = data.find((realm: any) => {
+//       return realm.uuid == item;
+//     });
 
-// 		newArr.push(value);
-// 	});
+//     newArr.push(value);
+//   });
 
-// 	return newArr;
+//   return newArr;
 // };
 
 const IdentityContext = React.createContext<any>(initialState);

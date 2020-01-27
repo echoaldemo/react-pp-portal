@@ -38,10 +38,10 @@ const IdentityProvider = ({ children, match, history }: any) => {
 		setState({ ...state, loading: true });
 
 		// setTimeout(() => {
-		// 	setState({
-		// 		...state,
+		//   setState({
+		//     ...state,
 
-		// 	});
+		//   });
 		// }, 1000);
 	}, []);
 
