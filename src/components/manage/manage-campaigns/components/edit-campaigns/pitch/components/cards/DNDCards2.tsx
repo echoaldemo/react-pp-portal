@@ -120,7 +120,7 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 	move = (source: any, destination: any, droppableSource: any, droppableDestination: any) => {
 		const sourceClone = Array.from(source);
 		const destClone = Array.from(destination);
-		const [ removed ] = sourceClone.splice(droppableSource.index, 1);
+		const [removed] = sourceClone.splice(droppableSource.index, 1);
 
 		destClone.splice(droppableDestination.index, 0, removed);
 
@@ -231,9 +231,9 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 	};
 
 	DeactivateSegment = () => {
-		var card1DataArr = [ ...this.state.card1Data ];
-		var card2DataArr = [ ...this.state.card2Data ];
-		var card3DataArr = [ ...this.state.card3Data ];
+		var card1DataArr = [...this.state.card1Data];
+		var card2DataArr = [...this.state.card2Data];
+		var card3DataArr = [...this.state.card3Data];
 
 		if (this.state.card2DataOrig.includes(this.state.activeData)) {
 			card2DataArr.push(this.state.activeData);
@@ -267,7 +267,7 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 										<CardHeader
 											title={`${this.props.card1Title}`}
 											searchData={this.state.card1Data}
-											searchHeaders={[ 'name' ]}
+											searchHeaders={['name']}
 											addButton={this.props.addButton1}
 											addFunction={this.props.addFunction1}
 										/>
@@ -333,10 +333,10 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																		<TableRow
 																			className={classes.row}
 
-																			// style={this.getItemStyle(
-																			//   snapshot.isDragging,
-																			//   provided.draggableProps.style
-																			// )}
+																		// style={this.getItemStyle(
+																		//   snapshot.isDragging,
+																		//   provided.draggableProps.style
+																		// )}
 																		>
 																			<TableCell
 																				className={classes.cell}
@@ -397,36 +397,6 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																							{this.state.card2DataOrig.includes(
 																								this.state.activeData
 																							) ? (
-																								<MenuItem
-																									style={{
-																										color:
-																											'#777777',
-																										width: 250,
-																										paddingTop: 0,
-																										paddingBottom: 0
-																									}}
-																									onClick={
-																										this
-																											.DeactivateSegment
-																									}
-																								>
-																									<RemoveIcon />
-																									<Typography
-																										style={{
-																											marginLeft: 40
-																										}}
-																									>
-																										Deactivate
-																									</Typography>
-																								</MenuItem>
-																							) : this.props
-																								.card3Popover !==
-																							undefined ? (
-																								<React.Fragment>
-																									{
-																										this.props
-																											.card3Popover
-																									}
 																									<MenuItem
 																										style={{
 																											color:
@@ -447,33 +417,63 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																											}}
 																										>
 																											Deactivate
-																										</Typography>
-																									</MenuItem>
-																								</React.Fragment>
-																							) : (
-																								<MenuItem
-																									style={{
-																										color:
-																											'#777777',
-																										width: 250,
-																										paddingTop: 0,
-																										paddingBottom: 0
-																									}}
-																									onClick={
-																										this
-																											.DeactivateSegment
-																									}
-																								>
-																									<RemoveIcon />
-																									<Typography
-																										style={{
-																											marginLeft: 40
-																										}}
-																									>
-																										Deactivate
 																									</Typography>
-																								</MenuItem>
-																							)}
+																									</MenuItem>
+																								) : this.props
+																									.card3Popover !==
+																									undefined ? (
+																										<React.Fragment>
+																											{
+																												this.props
+																													.card3Popover
+																											}
+																											<MenuItem
+																												style={{
+																													color:
+																														'#777777',
+																													width: 250,
+																													paddingTop: 0,
+																													paddingBottom: 0
+																												}}
+																												onClick={
+																													this
+																														.DeactivateSegment
+																												}
+																											>
+																												<RemoveIcon />
+																												<Typography
+																													style={{
+																														marginLeft: 40
+																													}}
+																												>
+																													Deactivate
+																										</Typography>
+																											</MenuItem>
+																										</React.Fragment>
+																									) : (
+																										<MenuItem
+																											style={{
+																												color:
+																													'#777777',
+																												width: 250,
+																												paddingTop: 0,
+																												paddingBottom: 0
+																											}}
+																											onClick={
+																												this
+																													.DeactivateSegment
+																											}
+																										>
+																											<RemoveIcon />
+																											<Typography
+																												style={{
+																													marginLeft: 40
+																												}}
+																											>
+																												Deactivate
+																									</Typography>
+																										</MenuItem>
+																									)}
 																						</Menu>
 																					</Grid>
 																				</Grid>
@@ -483,8 +483,8 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																</Draggable>
 															))
 														) : (
-															<CardNoResult text="No Result" />
-														)}
+																<CardNoResult text="No Result" />
+															)}
 													</TableBody>
 												</Table>
 											</div>
@@ -504,7 +504,7 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 										<CardHeader
 											title={`${this.props.card2Title}`}
 											searchData={this.state.card2Data}
-											searchHeaders={[ 'name' ]}
+											searchHeaders={['name']}
 											addButton={this.props.addButton2}
 											addFunction={this.props.addFunction2}
 										/>
@@ -524,10 +524,10 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																		innerRef={provided.innerRef}
 																		{...provided.draggableProps}
 																		{...provided.dragHandleProps}
-																		// style={this.getItemStyle(
-																		//   snapshot.isDragging,
-																		//   provided.draggableProps.style
-																		// )}
+																	// style={this.getItemStyle(
+																	//   snapshot.isDragging,
+																	//   provided.draggableProps.style
+																	// )}
 																	>
 																		<TableCell className={classes.cell}>
 																			<Grid container spacing={3}>
@@ -564,8 +564,8 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 															</Draggable>
 														))
 													) : (
-														<CardNoResult text="No Result" />
-													)}
+															<CardNoResult text="No Result" />
+														)}
 												</TableBody>
 											</Table>
 										</CardBody>
@@ -584,7 +584,7 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 										<CardHeader
 											title={`${this.props.card3Title}`}
 											searchData={this.state.card3Data}
-											searchHeaders={[ 'name' ]}
+											searchHeaders={['name']}
 											addButton={this.props.addButton3}
 											addFunction={this.props.addFunction3}
 										/>
@@ -646,37 +646,37 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 																					</Grid>
 																				</Grid>
 																				{this.props.card3Popover !==
-																				undefined ? (
-																					<Grid
-																						item
-																						style={{
-																							width: 10
-																						}}
-																					>
-																						<SettingsIcon
-																							aria-controls="simple-menu"
-																							onClick={(event) =>
-																								this.handleClickOpen(
-																									event,
-																									data
-																								)}
-																							style={{ fontSize: 19 }}
-																						/>
-
-																						<Menu
-																							onClose={this.handClose}
-																							anchorEl={
-																								this.state.anchorEl
-																							}
-																							style={{ marginTop: 40 }}
-																							id="simple-menu"
-																							keepMounted
-																							open={this.state.open}
+																					undefined ? (
+																						<Grid
+																							item
+																							style={{
+																								width: 10
+																							}}
 																						>
-																							{this.props.card3Popover}
-																						</Menu>
-																					</Grid>
-																				) : null}
+																							<SettingsIcon
+																								aria-controls="simple-menu"
+																								onClick={(event) =>
+																									this.handleClickOpen(
+																										event,
+																										data
+																									)}
+																								style={{ fontSize: 19 }}
+																							/>
+
+																							<Menu
+																								onClose={this.handClose}
+																								anchorEl={
+																									this.state.anchorEl
+																								}
+																								style={{ marginTop: 40 }}
+																								id="simple-menu"
+																								keepMounted
+																								open={this.state.open}
+																							>
+																								{this.props.card3Popover}
+																							</Menu>
+																						</Grid>
+																					) : null}
 																			</Grid>
 																		</TableCell>
 																	</TableRow>
@@ -684,8 +684,8 @@ class DNDCards2 extends PureComponent<IProps, IState> {
 															</Draggable>
 														))
 													) : (
-														<CardNoResult text="No Result" />
-													)}
+															<CardNoResult text="No Result" />
+														)}
 												</TableBody>
 											</Table>
 										</CardBody>

@@ -13,8 +13,8 @@ export default function Panels() {
 			{state.panels.length > 0 ? (
 				<React.Fragment>{state.loading ? <TableLoader /> : <Content />}</React.Fragment>
 			) : (
-				<NoResult />
-			)}
+					<NoResult />
+				)}
 			<CreateNewPanelModal />
 		</div>
 	);

@@ -1,9 +1,5 @@
 import React, { PureComponent } from "react";
-import CustomCard from "../../../../common-components/card";
-import CardHeader from "../../../../common-components/card/cardheader";
-import CardBody from "../../../../common-components/card/cardbody";
-import CardNoResult from "../../../../common-components/card/noresult";
-import AsyncTable from "../../../../common-components/async-table/AsyncTable";
+import { CustomCard, CardHeader, CardBody, CardNoResult, AsyncTable } from "common-components/card";
 import TableRow from "@material-ui/core/TableRow";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TableCell from "@material-ui/core/TableCell";

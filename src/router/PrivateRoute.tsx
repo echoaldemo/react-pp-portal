@@ -16,8 +16,8 @@ function PrivateRoute(props: any) {
 				<Component {...componentProps} />
 			</Manage>
 		) : (
-			<Redirect push to="/" />
-		);
+				<Redirect push to="/" />
+			);
 	}
 
 	return (

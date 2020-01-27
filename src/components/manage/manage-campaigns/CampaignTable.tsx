@@ -24,7 +24,7 @@ interface Props {
 }
 
 const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, setOpenCreateModal }) => {
-	const [ copy, setCopy ] = useState(false);
+	const [copy, setCopy] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
@@ -39,7 +39,7 @@ const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, se
 				<TableLoader />
 			) : data.length !== 0 ? (
 				<AsyncTable
-					headers={[ 'Name', 'Slug', 'UUID', 'Status', '' ]}
+					headers={['Name', 'Slug', 'UUID', 'Status', '']}
 					tableData={data}
 					render={(campaigns: any, { row, cell, uuid, icon }: any) => {
 						return campaigns.map((campaign: any, i: number) => (
@@ -71,10 +71,10 @@ const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, se
 												/>
 											</LightTooltip>
 										) : (
-											<LightTooltip title="Copy UUID" placement="top">
-												<Icon className={icon} rotate={360} />
-											</LightTooltip>
-										)}
+												<LightTooltip title="Copy UUID" placement="top">
+													<Icon className={icon} rotate={360} />
+												</LightTooltip>
+											)}
 									</CopyToClipboard>
 								</TableCell>
 								<ActiveCell className={cell} style={{ color: '#777777' }}>
@@ -99,8 +99,8 @@ const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, se
 					}}
 				/>
 			) : (
-				renderNoData(setOpenCreateModal)
-			)}
+						renderNoData(setOpenCreateModal)
+					)}
 		</div>
 	);
 };

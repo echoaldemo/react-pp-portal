@@ -38,12 +38,17 @@ import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-res
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
 import RouterSettings from "components/manage/manage-campaigns/components/edit-campaigns/data-posting/components/EditRoute/EditRoute";
+
 //audio
 import AudioResources from "components/audio/audio-resources";
+import PitchVoice from "components/audio/voice/pitch";
+import PhraseVoice from "components/audio/voice/phrase";
+
 import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
 import AgentDetails from "components/dashboard/campaign-dashboard/AgentDetails";
 import DialerQueue from "components/dashboard/dialer-queue";
+import ChangePassword from "auth/change-password/ChangePassword";
 export default function Routes() {
   return (
     <BrowserRouter>
@@ -168,6 +173,8 @@ export default function Routes() {
           path="/manage/audio/audio-resources"
           component={AudioResources}
         />
+        <PrivateRoute exact path="/manage/audio/pitch" component={PitchVoice} />
+        <PrivateRoute exact path="/manage/audio/phrase" component={PhraseVoice} />
         <PrivateRoute
           path={`/dashboard/all/:slug/overview`}
           component={Overview}
@@ -183,6 +190,11 @@ export default function Routes() {
         <PrivateRoute
           path={`/dashboard/all/:slug/dialer-queue`}
           component={DialerQueue}
+        />
+        <PrivateRoute
+          exact
+          path={`/change-password`}
+          component={ChangePassword}
         />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
