@@ -104,16 +104,18 @@ class AddNewVoice_Desktop extends Component {
         if (e.keyCode === 32) {
           if (copiedThis.state.recordedAudio !== null) {
             if (copiedThis.state.play === false) {
+              copiedThis.setState({ play: true });
               document.getElementById("recorded-audio").play();
             } else {
+              copiedThis.setState({ play: false });
               document.getElementById("recorded-audio").pause();
             }
-            copiedThis.setState({ play: !copiedThis.state.play });
           }
         } else if (e.keyCode === 82 && copiedThis.state.hasMic) {
           copiedThis.startRecording();
         } else if (e.keyCode === 83 && copiedThis.state.hasMic) {
           copiedThis.stopRecording();
+          copiedThis.setState({ play: false });
         } else if (e.keyCode === 37) {
           copiedThis.prevBtn.click();
         } else if (e.keyCode === 39) {
@@ -233,6 +235,17 @@ class AddNewVoice_Desktop extends Component {
       this.setState({ record: false });
     }
   };
+
+  play = () => {
+    if (this.state.play === false) {
+      document.getElementById("recorded-audio").play();
+    } else {
+      document.getElementById("recorded-audio").pause();
+    }
+    this.setState({
+      play: !this.state.play
+    })
+  }
 
   onStop = recordedBlob => {
     this.setState({
@@ -780,7 +793,7 @@ class AddNewVoice_Desktop extends Component {
                     >
                       <IconButton
                         className={classes.btnBox}
-                        onClick={() => this.setState({ play: true })}
+                        onClick={() => this.play()}
                         disabled={
                           this.state.recordedAudio === null ? true : false
                         }
