@@ -36,11 +36,11 @@ import Collapse from "@material-ui/core/Collapse";
 import Remove from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import RecordAudio from "../record-audio";
-import Toast from "../toast/toast";
+import Toast from "../toast";
 import Loader from "../loader";
 import axios from "axios";
 import UploadStatus from "./UploadStatus";
-import NothingToUpload from "../table-component/NothingtoUpload";
+import NothingToUpload from "../table-components/NothingtoUpload";
 import { get, remove, post } from "../../../../utils/api";
 
 
