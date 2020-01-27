@@ -31,15 +31,15 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import TableRow from "@material-ui/core/TableRow";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 import Collapse from "@material-ui/core/Collapse";
 import Remove from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
-import RecordAudio from "../record-audio";
+import RecordAudio from "../record-audio";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 import Toast from "../toast";
 import Loader from "../loader";
 import axios from "axios";
-import UploadStatus from "./UploadStatus";
+import UploadStatus from "../upload/UploadStatus";
 import NothingToUpload from "../table-components/NothingtoUpload";
 import { get, remove, post } from "../../../../utils/api";
 

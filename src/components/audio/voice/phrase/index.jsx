@@ -1777,7 +1777,7 @@ class Phrase extends Component {
           )}
         </div>
 
-        {/* <MainAddNewAudio
+        <MainAddNewAudio
           label1="Select Global or Campaign"
           label2="Select Phrase Book"
           onClose={() => this.closeAddNewDialog()}
@@ -1810,7 +1810,7 @@ class Phrase extends Component {
           typeOfAudio="phrase"
           phrase={"forPhrase"}
           showToast={this.showToastSession}
-        /> */}
+        />
         <Toast
           open={this.state.openToast}
           handleClose={this.handleCloseToast}
