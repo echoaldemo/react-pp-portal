@@ -57,7 +57,7 @@ function SignInForm(props: PropType) {
 					}}
 				>
 					<FormControl
-						style={{ width: "100%", marginTop: "10px" }}
+						style={{ width: "100%", marginTop: "10px", marginBottom: 40 }}
 						error={state.formError.username}
 					>
 						<InputLabel
@@ -251,17 +251,20 @@ function SignInForm(props: PropType) {
 						backgroundColor: "#607c98",
 						color: "#fff",
 						width: "96%",
-						marginTop: "20px",
-						borderRadius: "2px",
+						marginTop: "30px",
+						borderRadius: "3px",
 						position: "relative",
 						marginLeft: "auto",
-						marginRight: "auto"
+						marginRight: "auto",
+						marginBottom: 30,
+						height: 40,
+						boxShadow: 'none'
 					}}
 					type="submit"
 					data-cy="submit"
 				>
 					Sign In
-        </Button>
+        		</Button>
 			</form>
 		</>
 	);

@@ -64,23 +64,23 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
 						alignItems: "center",
 						flexDirection: "column",
 						width: "350px",
-						marginTop: "64px"
+						marginTop: "120px"
 					}}
 				>
 					{/* {this.state.loading && <SignInLoader />} */}
-					<img alt=" " src={Logo} style={{ width: "251px", height: "57px" }} />
 					<Card
 						style={{
-							paddingTop: "20px",
+							paddingTop: "45px",
 							display: "flex",
 							alignItems: "center",
 							flexDirection: "column",
 							marginTop: "15px",
-							width: "100%",
-							height: "230px",
-							borderRadius: "0px"
+							width: 400,
+							height: "auto",
+							borderRadius: "4px",
 						}}
 					>
+						<img alt=" " src={Logo} style={{ width: "251px", height: "57px", marginBottom: 30 }} />
 						<SignInForm
 							handleLoadingLogin={handleLoadingLogin}
 							handleSnackbar={handleSnackbar}
