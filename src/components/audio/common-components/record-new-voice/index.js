@@ -103,17 +103,20 @@ class AddNewVoice_Desktop extends Component {
       if (copiedThis.props.addNewVoiceModal) {
         if (e.keyCode === 32) {
           if (copiedThis.state.recordedAudio !== null) {
+            document.getElementById("upload-section").click();
             if (copiedThis.state.play === false) {
+              document.getElementById("play").click();
               document.getElementById("recorded-audio").play();
             } else {
+              document.getElementById("play").click();
               document.getElementById("recorded-audio").pause();
             }
-            copiedThis.setState({ play: !copiedThis.state.play });
           }
         } else if (e.keyCode === 82 && copiedThis.state.hasMic) {
           copiedThis.startRecording();
         } else if (e.keyCode === 83 && copiedThis.state.hasMic) {
           copiedThis.stopRecording();
+          copiedThis.setState({ play: false });
         } else if (e.keyCode === 37) {
           copiedThis.prevBtn.click();
         } else if (e.keyCode === 39) {
@@ -233,6 +236,16 @@ class AddNewVoice_Desktop extends Component {
       this.setState({ record: false });
     }
   };
+
+  play = () => {
+    if (this.state.play === false) {
+      document.getElementById("recorded-audio").play();
+      this.setState({ play: true });
+    } else {
+      document.getElementById("recorded-audio").pause();
+      this.setState({ play: false });
+    }
+  }
 
   onStop = recordedBlob => {
     this.setState({
@@ -552,7 +565,7 @@ class AddNewVoice_Desktop extends Component {
 
               {/* UPLOAD OPTIONS START */}
 
-              <div className={classes.uploadOptions}>
+              <div className={classes.uploadOptions} id="upload-section">
                 <Grid
                   container
                   direction="row"
@@ -780,7 +793,8 @@ class AddNewVoice_Desktop extends Component {
                     >
                       <IconButton
                         className={classes.btnBox}
-                        onClick={() => this.setState({ play: true })}
+                        id="play"
+                        onClick={() => this.play()}
                         disabled={
                           this.state.recordedAudio === null ? true : false
                         }

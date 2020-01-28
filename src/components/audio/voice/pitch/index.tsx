@@ -123,7 +123,6 @@ class Pitch extends Component<{}, State> {
       versions: [],
       selected: "",
       tabSelected: 0,
-
       unrecorded: [],
       rerecord: [],
       recorded: [],

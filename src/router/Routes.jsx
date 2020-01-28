@@ -38,9 +38,11 @@ import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-res
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
 import RouterSettings from "components/manage/manage-campaigns/components/edit-campaigns/data-posting/components/EditRoute/EditRoute";
+
 //audio
 import AudioResources from "components/audio/audio-resources";
 import PitchVoice from "components/audio/voice/pitch";
+import PhraseVoice from "components/audio/voice/phrase";
 
 import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
@@ -172,6 +174,7 @@ export default function Routes() {
           component={AudioResources}
         />
         <PrivateRoute exact path="/manage/audio/pitch" component={PitchVoice} />
+        <PrivateRoute exact path="/manage/audio/phrase" component={PhraseVoice} />
         <PrivateRoute
           path={`/dashboard/all/:slug/overview`}
           component={Overview}
