@@ -334,7 +334,7 @@ class Phrase extends Component {
 
 		const global = {
 			uuid: 'global1111',
-			name: 'Global (Globally Required Phrases)',
+			name: 'Global (Globally1 Required Phrases)',
 			company: 'global',
 			slug: 'global'
 		};
@@ -372,7 +372,7 @@ class Phrase extends Component {
 
 		const global = {
 			uuid: 'global1111',
-			name: 'Global (Globally Required Phrases)',
+			name: 'Global (Globally2 Required Phrases)',
 			company: 'global',
 			slug: 'global'
 		};
@@ -423,7 +423,7 @@ class Phrase extends Component {
 		let campaigns = [];
 		const global = {
 			uuid: 'global1111',
-			name: 'Global (Globally required phrases)',
+			name: 'Global (Globally3 required phrases)',
 			company: 'global',
 			slug: 'global'
 		};
@@ -769,7 +769,9 @@ class Phrase extends Component {
 		if (this.state.checkIfGlobal === true) {
       this.setState({
         display: [{"uuid": "785123b8-0523-11ea-8e22-0242ac11000f", "name": "echo-phrase", "slug": "echo-phrase", "phrase": "Jerecho echo echo", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}, {"uuid": "5b7836d2-0523-11ea-acda-0242ac110005", "name": "test-me", "slug": "test-me", "phrase": "hi my name is Echo Jerecho", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}],
-        fetchedUnrecorded: true
+        fetchedUnrecorded: true,
+				loader: false,
+				showTable: true
       });
 
 
@@ -789,7 +791,7 @@ class Phrase extends Component {
 			).then((rerecord) => {
 				this.setState({
 					displayRerecord: rerecord.data,
-					fetchedRecorded: rerecord.status === 200 ? true : false
+					fetchedRerecorded: rerecord.status === 200 ? true : false
 				});
 			});
 			data3 = get(
@@ -886,31 +888,37 @@ class Phrase extends Component {
 			company: 'global',
 			slug: 'global'
 		};
-		campaigns.push(global);
+    campaigns.push(global);
+    
+    this.setState({
+      state: 'DATA_LOADED',
+      campaigns: campaigns
+    })
 
-		get(`/identity/user/manage/${val}/`).then((user) => {
-			this.setState({
-				state: 'DATA_LOADED',
-				user_data: user.data
-			});
-			// if (this.state.user_group === 10) {
-			// }
+		// get(`/identity/user/manage/${val}/`).then((user) => {
+		// 	this.setState({
+		// 		state: 'DATA_LOADED',
+		// 		user_data: user.data
+		// 	});
+		// 	// if (this.state.user_group === 10) {
+		// 	// }
 
-			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps) => {
-					campaign.data.map((res) => {
-						if (res.uuid === camps) {
-							campaigns.push(res);
-						}
-						return null;
-					});
-					return null;
-				});
-				this.setState({
-					campaigns
-				});
-			});
-		});
+		// 	get(`/identity/campaign/list/`).then((campaign) => {
+		// 		user.data.campaigns.map((camps) => {
+		// 			campaign.data.map((res) => {
+		// 				if (res.uuid === camps) {
+		// 					campaigns.push(res);
+		// 				}
+		// 				return null;
+		// 			});
+		// 			return null;
+    //     });
+    //     console.log(campaigns);
+		// 		this.setState({
+		// 			campaigns
+		// 		});
+		// 	});
+		// });
 	};
 
 	deleteAudio = (val) => {
