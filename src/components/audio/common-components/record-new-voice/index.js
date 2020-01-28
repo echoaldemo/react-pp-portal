@@ -103,11 +103,12 @@ class AddNewVoice_Desktop extends Component {
       if (copiedThis.props.addNewVoiceModal) {
         if (e.keyCode === 32) {
           if (copiedThis.state.recordedAudio !== null) {
+            document.getElementById("upload-section").click();
             if (copiedThis.state.play === false) {
-              copiedThis.setState({ play: true });
+              document.getElementById("play").click();
               document.getElementById("recorded-audio").play();
             } else {
-              copiedThis.setState({ play: false });
+              document.getElementById("play").click();
               document.getElementById("recorded-audio").pause();
             }
           }
@@ -239,12 +240,11 @@ class AddNewVoice_Desktop extends Component {
   play = () => {
     if (this.state.play === false) {
       document.getElementById("recorded-audio").play();
+      this.setState({ play: true });
     } else {
       document.getElementById("recorded-audio").pause();
+      this.setState({ play: false });
     }
-    this.setState({
-      play: !this.state.play
-    })
   }
 
   onStop = recordedBlob => {
@@ -565,7 +565,7 @@ class AddNewVoice_Desktop extends Component {
 
               {/* UPLOAD OPTIONS START */}
 
-              <div className={classes.uploadOptions}>
+              <div className={classes.uploadOptions} id="upload-section">
                 <Grid
                   container
                   direction="row"
@@ -793,6 +793,7 @@ class AddNewVoice_Desktop extends Component {
                     >
                       <IconButton
                         className={classes.btnBox}
+                        id="play"
                         onClick={() => this.play()}
                         disabled={
                           this.state.recordedAudio === null ? true : false
