@@ -560,16 +560,15 @@ class MainAddNewAudio extends Component {
   };
 
   detectMic = () => {
-    this.setState({ hasMic: true });
-    // navigator.mediaDevices
-    //   .getUserMedia({ audio: true })
-    //   .then(stream => {
-    //     // Code for success
-    //     this.setState({ hasMic: true });
-    //   })
-    //   .catch(err => {
-    //     this.setState({ hasMic: false });
-    //   });
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(stream => {
+        // Code for success
+        this.setState({ hasMic: true });
+      })
+      .catch(err => {
+        this.setState({ hasMic: false });
+      });
   };
 
   toggleSessionUpload = newValue => {
