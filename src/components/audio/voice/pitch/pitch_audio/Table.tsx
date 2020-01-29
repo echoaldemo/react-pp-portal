@@ -24,8 +24,70 @@ import LoaderNoDataFound from "../../../common-components/table-components/Table
 import useStyles from "../../../common-components/styles/tableStyles";
 import TableDataAction from "./table-component/TableDataAction";
 
-class CustomPaginationActionsTable extends Component {
-  constructor(props) {
+interface IState {
+  page: number;
+  rowsPerPage: number;
+  addNewVoiceModal: boolean;
+  deleteAudioModal: boolean;
+  rerecordAudioModal: boolean;
+  anchorEl: any;
+  open: boolean;
+  searchPhrase: any;
+  unrecordedName: any;
+  id: any;
+  data: any;
+  audioName: any;
+  dialog: any;
+  isLoading: any;
+  key: any;
+  selectedIndex: any;
+  backDisabled: boolean;
+  hasMic: any;
+  recordAudio?: any;
+  openToast?: any;
+  toastType?: any;
+  message?: any;
+  vertical?: any;
+  horizontal?: any;
+}
+interface IProps {
+  isLoading?: boolean;
+  removeAudio?: any;
+  undoPitchAudio?: any;
+  voice?: any;
+  version?: any;
+  getRecordedName?: any;
+  tblName?: any;
+  searchKey?: any;
+  searchPhrase?: any;
+  audio?: any;
+  showLoader?: any;
+  playAudio?: any;
+  openAddNewVoiceModal?: any;
+  fetched?: any;
+  file?: any;
+  handleChange?: any;
+  rerecordAudio?: any;
+  addNewVoiceModal?: any;
+  uploadLoading?: any;
+  setRecordedName?: any;
+  undoAudioOpen?: any;
+  upload?: any;
+  deleteAudio?: any;
+  audio_key?: any;
+  rows?: any;
+  columns?: any;
+  displayData?: any;
+  filtered?: any;
+  user_id?: any;
+  refreshData?: any;
+  handleAudio?: any;
+  fileName?: any;
+  addToRerecord?: any;
+}
+
+class CustomPaginationActionsTable extends Component<IProps, IState> {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -59,7 +121,7 @@ class CustomPaginationActionsTable extends Component {
     );
   };
 
-  openAddNewVoiceModal = bool => {
+  openAddNewVoiceModal = (bool: any) => {
     if (bool === false) {
       this.setState({
         addNewVoiceModal: false
@@ -72,14 +134,15 @@ class CustomPaginationActionsTable extends Component {
       this.props.getRecordedName(this.state.unrecordedName);
     }
   };
-  handleChangeRowsPerPage = event => {
+
+  handleChangeRowsPerPage = (event: any) => {
     this.setState({
       rowsPerPage: +event.target.value,
       page: 0
     });
   };
 
-  handleChangePage = e => {
+  handleChangePage = (e: any) => {
     if (e.currentTarget.getAttribute("aria-label") === "next page") {
       this.setState({
         page: this.state.page + 1
@@ -109,13 +172,13 @@ class CustomPaginationActionsTable extends Component {
     this.setState({ rerecordAudioModal: false });
   };
 
-  handleClick = event => {
+  handleClick = (event: any) => {
     this.setState({
       anchorEl: event.currentTarget
     });
   };
 
-  handleClickWithName = (event, value, key, index) => {
+  handleClickWithName = (event: any, value: any, key: any, index: any) => {
     this.setState({
       anchorEl: event.currentTarget,
       unrecordedName: value,
@@ -146,19 +209,20 @@ class CustomPaginationActionsTable extends Component {
       open: false
     });
   };
-  handleClickRecord = (event, val, data) => {
+  handleClickRecord = (event: any, val: any, data: any) => {
     this.setState({
       anchorEl: event.currentTarget,
       id: val,
       data: data
     });
   };
-  setAudioDetails = (name, dialog) => {
+  setAudioDetails = (name: any, dialog: any) => {
     this.setState({
       audioName: name,
       dialog: dialog
     });
   };
+
   recordAudioDialog = () => {
     this.setState({
       recordAudio: true,
@@ -186,10 +250,10 @@ class CustomPaginationActionsTable extends Component {
       openToast: false
     });
   };
-  setNewAudioDetails = (key, audioName, dialog) => {
+  setNewAudioDetails = (key: any, audioName: any, dialog: any) => {
     this.setState({ key, audioName, dialog });
   };
-  handleBackButton = index => {
+  handleBackButton = (index: any) => {
     if (index === 0) {
       this.setState({ backDisabled: true });
     } else {
@@ -217,7 +281,7 @@ class CustomPaginationActionsTable extends Component {
       audio,
       removeAudio,
       fileName
-    } = this.props;
+    }: any = this.props;
 
     return (
       <Paper className={classes.root}>
@@ -230,7 +294,7 @@ class CustomPaginationActionsTable extends Component {
                   this.props.tblName === "Unrecorded"
                     ? {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
 
                         borderTop: "5px solid red"
@@ -238,14 +302,14 @@ class CustomPaginationActionsTable extends Component {
                     : this.props.tblName === "Rerecord"
                     ? {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
 
                         borderTop: "5px solid #f89523"
                       }
                     : {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
                         borderTop: "5px solid #a5c556"
                       }
@@ -283,11 +347,11 @@ class CustomPaginationActionsTable extends Component {
           </TableHead>
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {columns.map((column: any) => (
                 <TableCell
                   key={column}
                   style={{
-                    fontWeight: "700",
+                    fontWeight: 700,
                     color: "#444851",
                     textAlign: "center"
                   }}
@@ -306,7 +370,7 @@ class CustomPaginationActionsTable extends Component {
                   this.state.page * this.state.rowsPerPage +
                     this.state.rowsPerPage
                 )
-                .map((row, index) => {
+                .map((row: any, index: any) => {
                   if (this.props.searchPhrase !== "") {
                     if (
                       row.name
@@ -336,6 +400,7 @@ class CustomPaginationActionsTable extends Component {
                                     );
                                   }
                                 }
+
                                 if (this.props.audio.length !== 0) {
                                   if (this.props.audio.audio.key === row.key) {
                                     return (
@@ -456,11 +521,11 @@ class CustomPaginationActionsTable extends Component {
                             row={row}
                             selectedIndex={index}
                             rerecordAudioOpen={this.rerecordAudioOpen}
-                            undoAudioOpen={this.undoAudioOpen}
+                            undoAudioOpen={this.props.undoAudioOpen}
                             deleteAudioOpen={this.deleteAudioOpen}
-                            setRecordedName={this.setRecordedName}
-                            rerecordAudio={this.rerecordAudio}
-                            uploadLoading={this.state.uploadLoading}
+                            setRecordedName={this.props.setRecordedName}
+                            rerecordAudio={this.props.rerecordAudio}
+                            uploadLoading={this.props.uploadLoading}
                             version={this.props.version}
                             voice={this.props.voice}
                             audio_key={this.state.key}
@@ -595,6 +660,7 @@ class CustomPaginationActionsTable extends Component {
                         ) : (
                           <TableDataDialog dialog={row.text} />
                         )}
+
                         <TableDataAction
                           tblName={this.props.tblName}
                           handleClickWithName={this.handleClickWithName}
@@ -611,11 +677,11 @@ class CustomPaginationActionsTable extends Component {
                           row={row}
                           selectedIndex={index}
                           rerecordAudioOpen={this.rerecordAudioOpen}
-                          undoAudioOpen={this.undoAudioOpen}
+                          undoAudioOpen={this.props.undoAudioOpen}
                           deleteAudioOpen={this.deleteAudioOpen}
-                          setRecordedName={this.setRecordedName}
-                          rerecordAudio={this.rerecordAudio}
-                          uploadLoading={this.state.uploadLoading}
+                          setRecordedName={this.props.setRecordedName}
+                          rerecordAudio={this.props.rerecordAudio}
+                          uploadLoading={this.props.uploadLoading}
                           version={this.props.version}
                           voice={this.props.voice}
                           audio_key={this.state.key}
@@ -710,7 +776,7 @@ class CustomPaginationActionsTable extends Component {
           id={this.state.id}
           version={this.props.version}
           voice={this.props.voice}
-          audio_key={this.state.audio_key}
+          audio_key={this.state.key}
         />
         {/* <RecordAudio
           recordAudio={this.state.recordAudio}

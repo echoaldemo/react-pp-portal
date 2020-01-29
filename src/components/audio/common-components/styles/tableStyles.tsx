@@ -1,4 +1,4 @@
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   root: {
     width: "100%",
     overflowX: "auto",
