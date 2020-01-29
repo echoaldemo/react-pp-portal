@@ -31,18 +31,17 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+import TableRow from "@material-ui/core/TableRow";
 import Collapse from "@material-ui/core/Collapse";
 import Remove from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
-import RecordAudio from "../record-audio";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+import RecordAudio from "../record-audio";
 import Toast from "../toast";
 import Loader from "../loader";
 import axios from "axios";
 import UploadStatus from "../upload/UploadStatus";
 import NothingToUpload from "../table-components/NothingtoUpload";
 import { get, remove, post } from "../../../../utils/api";
-
 
 // for tabs
 function TabPanel(props) {
@@ -561,15 +560,16 @@ class MainAddNewAudio extends Component {
   };
 
   detectMic = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        // Code for success
-        this.setState({ hasMic: true });
-      })
-      .catch(err => {
-        this.setState({ hasMic: false });
-      });
+    this.setState({ hasMic: true });
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true })
+    //   .then(stream => {
+    //     // Code for success
+    //     this.setState({ hasMic: true });
+    //   })
+    //   .catch(err => {
+    //     this.setState({ hasMic: false });
+    //   });
   };
 
   toggleSessionUpload = newValue => {
@@ -956,62 +956,272 @@ class MainAddNewAudio extends Component {
           {loading ? (
             <Loader />
           ) : (
-              <React.Fragment>
-                <DialogTitle className={classes.dialogTitle}>
-                  <div className={classes.flex} style={{ color: "#fff" }}>
-                    <Tabs
-                      value={this.state.value}
-                      variant="fullWidth"
-                      aria-label="full width tabs example"
-                      classes={{
-                        indicator: classes.indicator
-                      }}
-                      fullWidth={true}
-                    >
-                      <Tab
-                        label="Add New Audio"
-                        {...a11yProps(0)}
-                        onClick={() => {
-                          this.toggleSessionUpload(0);
-                        }}
-                        className={classes.tab}
-                      />
-                      <Tab
-                        label="Session Upload"
-                        {...a11yProps(1)}
-                        onClick={() => {
-                          this.toggleSessionUpload(1);
-                        }}
-                        className={classes.tab}
-                      />
-                    </Tabs>
-                    <IconButton
-                      id="close-add-new"
-                      className={classes.clearBtn}
-                      onClick={onClose}
-                    >
-                      <Clear />
-                    </IconButton>
-                  </div>
-                </DialogTitle>
-
-                <DialogContent
-                  style={{
-                    padding: 0,
-                    borderBottom: "1px solid #e0e0e0"
-                  }}
-                >
-                  <TabPanel
+            <React.Fragment>
+              <DialogTitle className={classes.dialogTitle}>
+                <div className={classes.flex} style={{ color: "#fff" }}>
+                  <Tabs
                     value={this.state.value}
-                    index={0}
-                    style={{ padding: 30 }}
+                    variant="fullWidth"
+                    aria-label="full width tabs example"
+                    classes={{
+                      indicator: classes.indicator
+                    }}
+                    fullWidth={true}
                   >
-                    {/* Add New Audio */}
-                    <Grid container spacing={2}>
-                      {this.props.user_group === 10 ? (
-                        <React.Fragment>
-                          {/* VOICE USER */}
-                          <Grid item xs={12} sm={4} style={{ marginTop: "20px" }}>
+                    <Tab
+                      label="Add New Audio"
+                      {...a11yProps(0)}
+                      onClick={() => {
+                        this.toggleSessionUpload(0);
+                      }}
+                      className={classes.tab}
+                    />
+                    <Tab
+                      label="Session Upload"
+                      {...a11yProps(1)}
+                      onClick={() => {
+                        this.toggleSessionUpload(1);
+                      }}
+                      className={classes.tab}
+                    />
+                  </Tabs>
+                  <IconButton
+                    id="close-add-new"
+                    className={classes.clearBtn}
+                    onClick={onClose}
+                  >
+                    <Clear />
+                  </IconButton>
+                </div>
+              </DialogTitle>
+
+              <DialogContent
+                style={{
+                  padding: 0,
+                  borderBottom: "1px solid #e0e0e0"
+                }}
+              >
+                <TabPanel
+                  value={this.state.value}
+                  index={0}
+                  style={{ padding: 30 }}
+                >
+                  {/* Add New Audio */}
+                  <Grid container spacing={2}>
+                    {this.props.user_group === 10 ? (
+                      <React.Fragment>
+                        {/* VOICE USER */}
+                        <Grid item xs={12} sm={4} style={{ marginTop: "20px" }}>
+                          <FormControl
+                            variant="outlined"
+                            className={classes.formControl}
+                          >
+                            <InputLabel
+                              className={classes.label}
+                              htmlFor="age-customized-select"
+                            >
+                              {this.props.label1}
+                            </InputLabel>
+                            <Select
+                              required
+                              value={this.props.campaignSelected}
+                              onChange={e => {
+                                this.props.selectCampaign(
+                                  e.target.value,
+                                  e.currentTarget.getAttribute("uuid"),
+                                  e.currentTarget.getAttribute("slug")
+                                );
+                              }}
+                              input={
+                                <BootstrapInput
+                                  // name="Select a voice"
+                                  id="age-customized-select"
+                                />
+                              }
+                              MenuProps={MenuProps}
+                            >
+                              {campaigns.map(res => (
+                                <MenuItem
+                                  key={res.uuid}
+                                  uuid={res.company}
+                                  value={res.slug}
+                                >
+                                  {res.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={4}
+                          className={classes.selectMargin}
+                        >
+                          <FormControl
+                            variant="outlined"
+                            className={classes.formControl}
+                          >
+                            <InputLabel
+                              className={classes.label}
+                              htmlFor="age-customized-select"
+                            >
+                              {this.props.label2}
+                            </InputLabel>
+                            <Select
+                              required
+                              disabled={
+                                this.props.campaignSelected !== "" &&
+                                versions.length !== 0
+                                  ? false
+                                  : true
+                              }
+                              value={this.props.versionSelected}
+                              onChange={e => {
+                                this.props.selectVersion(e.target.value);
+                              }}
+                              input={
+                                <BootstrapInput
+                                  // name="Select a voice"
+                                  id="age-customized-select"
+                                />
+                              }
+                              MenuProps={MenuProps}
+                            >
+                              {versions.map(res => (
+                                <MenuItem key={res.uuid} value={res.uuid}>
+                                  {res.name || res.version}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={4}
+                          className={classes.selectMargin}
+                        >
+                          <FormControl
+                            variant="outlined"
+                            className={classes.formControl}
+                          >
+                            <InputLabel
+                              className={classes.label}
+                              htmlFor="age-customized-select"
+                            >
+                              Select Recordings
+                            </InputLabel>
+                            <Select
+                              required
+                              disabled={
+                                this.props.versionSelected !== "" &&
+                                audio.length !== 0
+                                  ? false
+                                  : true
+                              }
+                              value={this.props.unrecordedSelected}
+                              onChange={e => {
+                                this.setNewAudioDetails(
+                                  e.target.value,
+                                  e.currentTarget.getAttribute("name"),
+                                  e.currentTarget.getAttribute("phrase"),
+                                  e.currentTarget.getAttribute("slug"),
+                                  e.currentTarget.getAttribute("phrasebook"),
+                                  parseInt(
+                                    e.currentTarget.getAttribute(
+                                      "selectedIndex"
+                                    )
+                                  )
+                                );
+                                this.handleBackButton(
+                                  parseInt(
+                                    e.currentTarget.getAttribute(
+                                      "selectedIndex"
+                                    )
+                                  )
+                                );
+                                this.props.selectUnrecorded(e.target.value);
+                              }}
+                              input={
+                                <BootstrapInput
+                                  // name="Select a voice"
+                                  id="age-customized-select"
+                                />
+                              }
+                              MenuProps={MenuProps}
+                            >
+                              {audio.map((res, index) => (
+                                <MenuItem
+                                  key={res.uuid || res.key}
+                                  value={res.uuid || res.key}
+                                  name={res.name}
+                                  phrase={res.phrase || res.text}
+                                  slug={res.slug || ""}
+                                  phrasebook={res.phrase_book || ""}
+                                  selectedIndex={index}
+                                >
+                                  {res.name}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        {/* NON-VOICE USER */}
+                        <Grid container spacing={2}>
+                          <Grid item sm={1}></Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={5}
+                            style={{ marginTop: "20px" }}
+                          >
+                            <FormControl
+                              variant="outlined"
+                              className={classes.formControl}
+                            >
+                              <InputLabel
+                                className={classes.label}
+                                htmlFor="age-customized-select"
+                              >
+                                Select a voice
+                              </InputLabel>
+                              <Select
+                                required
+                                value={this.props.voiceSelected}
+                                onChange={e => {
+                                  this.props.selectVoice(e.target.value);
+                                }}
+                                input={
+                                  <BootstrapInput
+                                    // name="Select a voice"
+                                    id="age-customized-select"
+                                  />
+                                }
+                                MenuProps={MenuProps}
+                              >
+                                {voices.map(res => (
+                                  <MenuItem
+                                    key={res.uuid}
+                                    value={res.uuid}
+                                    uuid={res.uuid}
+                                  >
+                                    {res.first_name} {res.last_name} |{" "}
+                                    {res.username}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </FormControl>
+                          </Grid>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={5}
+                            className={classes.selectMargin}
+                          >
                             <FormControl
                               variant="outlined"
                               className={classes.formControl}
@@ -1024,6 +1234,12 @@ class MainAddNewAudio extends Component {
                               </InputLabel>
                               <Select
                                 required
+                                disabled={
+                                  this.props.voiceSelected !== "" &&
+                                  campaigns.length !== 0
+                                    ? false
+                                    : true
+                                }
                                 value={this.props.campaignSelected}
                                 onChange={e => {
                                   this.props.selectCampaign(
@@ -1044,6 +1260,7 @@ class MainAddNewAudio extends Component {
                                   <MenuItem
                                     key={res.uuid}
                                     uuid={res.company}
+                                    // slug={res.slug}
                                     value={res.slug}
                                   >
                                     {res.name}
@@ -1052,11 +1269,13 @@ class MainAddNewAudio extends Component {
                               </Select>
                             </FormControl>
                           </Grid>
+                          <Grid item sm={1}></Grid>
+                          <Grid item sm={1}></Grid>
                           <Grid
                             item
                             xs={12}
-                            sm={4}
-                            className={classes.selectMargin}
+                            sm={5}
+                            className={classes.selectMargin2}
                           >
                             <FormControl
                               variant="outlined"
@@ -1072,7 +1291,7 @@ class MainAddNewAudio extends Component {
                                 required
                                 disabled={
                                   this.props.campaignSelected !== "" &&
-                                    versions.length !== 0
+                                  versions.length !== 0
                                     ? false
                                     : true
                                 }
@@ -1099,8 +1318,8 @@ class MainAddNewAudio extends Component {
                           <Grid
                             item
                             xs={12}
-                            sm={4}
-                            className={classes.selectMargin}
+                            sm={5}
+                            className={classes.selectMargin3}
                           >
                             <FormControl
                               variant="outlined"
@@ -1111,12 +1330,12 @@ class MainAddNewAudio extends Component {
                                 htmlFor="age-customized-select"
                               >
                                 Select Recordings
-                            </InputLabel>
+                              </InputLabel>
                               <Select
                                 required
                                 disabled={
                                   this.props.versionSelected !== "" &&
-                                    audio.length !== 0
+                                  audio.length !== 0
                                     ? false
                                     : true
                                 }
@@ -1167,663 +1386,444 @@ class MainAddNewAudio extends Component {
                               </Select>
                             </FormControl>
                           </Grid>
-                        </React.Fragment>
-                      ) : (
-                          <React.Fragment>
-                            {/* NON-VOICE USER */}
-                            <Grid container spacing={2}>
-                              <Grid item sm={1}></Grid>
-                              <Grid
-                                item
-                                xs={12}
-                                sm={5}
-                                style={{ marginTop: "20px" }}
-                              >
-                                <FormControl
-                                  variant="outlined"
-                                  className={classes.formControl}
-                                >
-                                  <InputLabel
-                                    className={classes.label}
-                                    htmlFor="age-customized-select"
-                                  >
-                                    Select a voice
-                              </InputLabel>
-                                  <Select
-                                    required
-                                    value={this.props.voiceSelected}
-                                    onChange={e => {
-                                      this.props.selectVoice(e.target.value);
-                                    }}
-                                    input={
-                                      <BootstrapInput
-                                        // name="Select a voice"
-                                        id="age-customized-select"
-                                      />
-                                    }
-                                    MenuProps={MenuProps}
-                                  >
-                                    {voices.map(res => (
-                                      <MenuItem
-                                        key={res.uuid}
-                                        value={res.uuid}
-                                        uuid={res.uuid}
-                                      >
-                                        {res.first_name} {res.last_name} |{" "}
-                                        {res.username}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                xs={12}
-                                sm={5}
-                                className={classes.selectMargin}
-                              >
-                                <FormControl
-                                  variant="outlined"
-                                  className={classes.formControl}
-                                >
-                                  <InputLabel
-                                    className={classes.label}
-                                    htmlFor="age-customized-select"
-                                  >
-                                    {this.props.label1}
-                                  </InputLabel>
-                                  <Select
-                                    required
-                                    disabled={
-                                      this.props.voiceSelected !== "" &&
-                                        campaigns.length !== 0
-                                        ? false
-                                        : true
-                                    }
-                                    value={this.props.campaignSelected}
-                                    onChange={e => {
-                                      this.props.selectCampaign(
-                                        e.target.value,
-                                        e.currentTarget.getAttribute("uuid"),
-                                        e.currentTarget.getAttribute("slug")
-                                      );
-                                    }}
-                                    input={
-                                      <BootstrapInput
-                                        // name="Select a voice"
-                                        id="age-customized-select"
-                                      />
-                                    }
-                                    MenuProps={MenuProps}
-                                  >
-                                    {campaigns.map(res => (
-                                      <MenuItem
-                                        key={res.uuid}
-                                        uuid={res.company}
-                                        // slug={res.slug}
-                                        value={res.slug}
-                                      >
-                                        {res.name}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid item sm={1}></Grid>
-                              <Grid item sm={1}></Grid>
-                              <Grid
-                                item
-                                xs={12}
-                                sm={5}
-                                className={classes.selectMargin2}
-                              >
-                                <FormControl
-                                  variant="outlined"
-                                  className={classes.formControl}
-                                >
-                                  <InputLabel
-                                    className={classes.label}
-                                    htmlFor="age-customized-select"
-                                  >
-                                    {this.props.label2}
-                                  </InputLabel>
-                                  <Select
-                                    required
-                                    disabled={
-                                      this.props.campaignSelected !== "" &&
-                                        versions.length !== 0
-                                        ? false
-                                        : true
-                                    }
-                                    value={this.props.versionSelected}
-                                    onChange={e => {
-                                      this.props.selectVersion(e.target.value);
-                                    }}
-                                    input={
-                                      <BootstrapInput
-                                        // name="Select a voice"
-                                        id="age-customized-select"
-                                      />
-                                    }
-                                    MenuProps={MenuProps}
-                                  >
-                                    {versions.map(res => (
-                                      <MenuItem key={res.uuid} value={res.uuid}>
-                                        {res.name || res.version}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid
-                                item
-                                xs={12}
-                                sm={5}
-                                className={classes.selectMargin3}
-                              >
-                                <FormControl
-                                  variant="outlined"
-                                  className={classes.formControl}
-                                >
-                                  <InputLabel
-                                    className={classes.label}
-                                    htmlFor="age-customized-select"
-                                  >
-                                    Select Recordings
-                              </InputLabel>
-                                  <Select
-                                    required
-                                    disabled={
-                                      this.props.versionSelected !== "" &&
-                                        audio.length !== 0
-                                        ? false
-                                        : true
-                                    }
-                                    value={this.props.unrecordedSelected}
-                                    onChange={e => {
-                                      this.setNewAudioDetails(
-                                        e.target.value,
-                                        e.currentTarget.getAttribute("name"),
-                                        e.currentTarget.getAttribute("phrase"),
-                                        e.currentTarget.getAttribute("slug"),
-                                        e.currentTarget.getAttribute("phrasebook"),
-                                        parseInt(
-                                          e.currentTarget.getAttribute(
-                                            "selectedIndex"
-                                          )
-                                        )
-                                      );
-                                      this.handleBackButton(
-                                        parseInt(
-                                          e.currentTarget.getAttribute(
-                                            "selectedIndex"
-                                          )
-                                        )
-                                      );
-                                      this.props.selectUnrecorded(e.target.value);
-                                    }}
-                                    input={
-                                      <BootstrapInput
-                                        // name="Select a voice"
-                                        id="age-customized-select"
-                                      />
-                                    }
-                                    MenuProps={MenuProps}
-                                  >
-                                    {audio.map((res, index) => (
-                                      <MenuItem
-                                        key={res.uuid || res.key}
-                                        value={res.uuid || res.key}
-                                        name={res.name}
-                                        phrase={res.phrase || res.text}
-                                        slug={res.slug || ""}
-                                        phrasebook={res.phrase_book || ""}
-                                        selectedIndex={index}
-                                      >
-                                        {res.name}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              </Grid>
-                              <Grid item sm={1}></Grid>
-                            </Grid>
-                          </React.Fragment>
-                        )}
-
-                      <Grid container spacing={1}>
-                        <Grid item xs={12} sm={6} style={{ marginTop: "15px" }}>
-                          {this.props.unrecordedSelected !== "" ? (
-                            <FormControlLabel
-                              control={
-                                <StyledSwitch
-                                  checked={this.state.checked}
-                                  onChange={() => {
-                                    this.switchAudio();
-                                    this.detectMic();
-                                  }}
-                                />
-                              }
-                              label={
-                                this.state.checked
-                                  ? "Record Audio"
-                                  : "Upload Audio"
-                              }
-                            />
-                          ) : null}
+                          <Grid item sm={1}></Grid>
                         </Grid>
-                      </Grid>
-                    </Grid>
+                      </React.Fragment>
+                    )}
 
-                    {this.state.checked ? (
-                      <Collapse in={this.state.checked}>
-                        {/* Record Audio */}
-
-                        {/* to know if a "VOICE USER" or not */}
-                        {this.props.user_group === 10 ? (
-                          (this.props.campaignSelected &&
-                            this.props.versionSelected &&
-                            this.props.unrecordedSelected) !== "" ? (
-                              <RecordAudio
-                                audioUpload={this.handleAudioFile}
-                                recordAudio={this.state.recordAudio}
-                                recordAudioDialog={this.recordAudioDialog}
-                                recordAudioClose={this.recordAudioClose}
-                                audioName={this.state.unrecordedName}
-                                dialog={this.state.unrecordedPhrase}
-                                hasMic={this.state.hasMic}
-                                audio={audio}
-                                nextIndex={this.nextIndex}
-                                prevIndex={this.prevIndex}
-                                setNewAudioDetails={this.setNewAudioDetails}
-                                handleBackButton={this.handleBackButton}
-                                index={parseInt(this.state.selectedIndex)}
-                                handleRecordedAudio={this.handleRecordedAudio}
-                                backButtonState={this.state.backDisabled}
-                                recordedAudio={this.state.recordedAudio}
-                                typeOfAudio={this.props.typeOfAudio}
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={6} style={{ marginTop: "15px" }}>
+                        {this.props.unrecordedSelected !== "" ? (
+                          <FormControlLabel
+                            control={
+                              <StyledSwitch
+                                checked={this.state.checked}
+                                onChange={() => {
+                                  this.switchAudio();
+                                  this.detectMic();
+                                }}
                               />
-                            ) : (
-                              //end of second if
-                              <React.Fragment>
-                                <center className={classes.recordOff}>
-                                  <Button
-                                    active={this.state.active}
-                                    className={`${classes.recordBtn} ${classes.recordBtnDisabled}`}
-                                  >
-                                    <MicOffIcon
-                                      className={`${classes.micStyle} ${classes.micOff} `}
-                                    />
-                                  </Button>
-                                  <Typography variant="subtitle1" gutterBottom>
-                                    Select recordings(s) first
-                              </Typography>
-                                </center>
-                              </React.Fragment>
-                            )
-                        ) : //end of first if
-                          (this.props.voiceSelected &&
-                            this.props.campaignSelected &&
-                            this.props.versionSelected &&
-                            this.props.unrecordedSelected) !== "" ? (
-                              <RecordAudio
-                                audioUpload={this.handleAudioFile}
-                                recordAudio={this.state.recordAudio}
-                                recordAudioDialog={this.recordAudioDialog}
-                                recordAudioClose={this.recordAudioClose}
-                                audioName={this.state.unrecordedName}
-                                dialog={this.state.unrecordedPhrase}
-                                hasMic={this.state.hasMic}
-                                audio={audio}
-                                nextIndex={this.nextIndex}
-                                prevIndex={this.prevIndex}
-                                setNewAudioDetails={this.setNewAudioDetails}
-                                handleBackButton={this.handleBackButton}
-                                index={parseInt(this.state.selectedIndex)}
-                                handleRecordedAudio={this.handleRecordedAudio}
-                                backButtonState={this.state.backDisabled}
-                                recordedAudio={this.state.recordedAudio}
-                                typeOfAudio={this.props.typeOfAudio}
-                              />
-                            ) : (
-                              <React.Fragment>
-                                <center>
-                                  <Button
-                                    active={this.state.active}
-                                    className={`${classes.recordBtn} ${classes.recordBtnDisabled}`}
-                                  >
-                                    <MicOffIcon
-                                      className={`${classes.micStyle} ${classes.micOff} `}
-                                    />
-                                  </Button>
-                                  <Typography variant="subtitle1" gutterBottom>
-                                    Select recording(s) first
-                            </Typography>
-                                </center>
-                              </React.Fragment>
-                            )}
-                      </Collapse>
-                    ) : (
-                        <React.Fragment>
-                          {/* Upload audio files here */}
-                          <Typography className={classes.phraseContent}>
-                            {this.state.unrecordedPhrase}
-                          </Typography>
-                          <input
-                            accept="audio/*"
-                            style={{ display: "none" }}
-                            id="raised-button-file"
-                            type="file"
-                            name="file"
-                            onChange={e => this.props.changeAudioToBeUploaded(e)}
-                            disabled={
-                              this.props.unrecordedSelected !== "" ? false : true
+                            }
+                            label={
+                              this.state.checked
+                                ? "Record Audio"
+                                : "Upload Audio"
                             }
                           />
-                          <label htmlFor="raised-button-file">
+                        ) : null}
+                      </Grid>
+                    </Grid>
+                  </Grid>
+
+                  {this.state.checked ? (
+                    <Collapse in={this.state.checked}>
+                      {/* Record Audio */}
+
+                      {/* to know if a "VOICE USER" or not */}
+                      {this.props.user_group === 10 ? (
+                        (this.props.campaignSelected &&
+                          this.props.versionSelected &&
+                          this.props.unrecordedSelected) !== "" ? (
+                          <RecordAudio
+                            audioUpload={this.handleAudioFile}
+                            recordAudio={this.state.recordAudio}
+                            recordAudioDialog={this.recordAudioDialog}
+                            recordAudioClose={this.recordAudioClose}
+                            audioName={this.state.unrecordedName}
+                            dialog={this.state.unrecordedPhrase}
+                            hasMic={this.state.hasMic}
+                            audio={audio}
+                            nextIndex={this.nextIndex}
+                            prevIndex={this.prevIndex}
+                            setNewAudioDetails={this.setNewAudioDetails}
+                            handleBackButton={this.handleBackButton}
+                            index={parseInt(this.state.selectedIndex)}
+                            handleRecordedAudio={this.handleRecordedAudio}
+                            backButtonState={this.state.backDisabled}
+                            recordedAudio={this.state.recordedAudio}
+                            typeOfAudio={this.props.typeOfAudio}
+                          />
+                        ) : (
+                          //end of second if
+                          <React.Fragment>
+                            <center className={classes.recordOff}>
+                              <Button
+                                active={this.state.active}
+                                className={`${classes.recordBtn} ${classes.recordBtnDisabled}`}
+                              >
+                                <MicOffIcon
+                                  className={`${classes.micStyle} ${classes.micOff} `}
+                                />
+                              </Button>
+                              <Typography variant="subtitle1" gutterBottom>
+                                Select recordings(s) first
+                              </Typography>
+                            </center>
+                          </React.Fragment>
+                        )
+                      ) : //end of first if
+                      (this.props.voiceSelected &&
+                          this.props.campaignSelected &&
+                          this.props.versionSelected &&
+                          this.props.unrecordedSelected) !== "" ? (
+                        <RecordAudio
+                          audioUpload={this.handleAudioFile}
+                          recordAudio={this.state.recordAudio}
+                          recordAudioDialog={this.recordAudioDialog}
+                          recordAudioClose={this.recordAudioClose}
+                          audioName={this.state.unrecordedName}
+                          dialog={this.state.unrecordedPhrase}
+                          hasMic={this.state.hasMic}
+                          audio={audio}
+                          nextIndex={this.nextIndex}
+                          prevIndex={this.prevIndex}
+                          setNewAudioDetails={this.setNewAudioDetails}
+                          handleBackButton={this.handleBackButton}
+                          index={parseInt(this.state.selectedIndex)}
+                          handleRecordedAudio={this.handleRecordedAudio}
+                          backButtonState={this.state.backDisabled}
+                          recordedAudio={this.state.recordedAudio}
+                          typeOfAudio={this.props.typeOfAudio}
+                        />
+                      ) : (
+                        <React.Fragment>
+                          <center>
                             <Button
-                              component="span"
-                              className={classes.uploadFileBtn}
-                              disabled={
-                                this.props.unrecordedSelected !== "" ? false : true
-                              }
+                              active={this.state.active}
+                              className={`${classes.recordBtn} ${classes.recordBtnDisabled}`}
                             >
-                              {this.props.mainFileName
-                                ? this.props.mainFileName
-                                : "No file chosen"}
-                              <div className={classes.flex}>
-                                <CloudUploadIcon className={classes.uploadIcon} />
-                                Choose File
-                          </div>
+                              <MicOffIcon
+                                className={`${classes.micStyle} ${classes.micOff} `}
+                              />
                             </Button>
-                          </label>
-                          <Divider />
-                          <br />
+                            <Typography variant="subtitle1" gutterBottom>
+                              Select recording(s) first
+                            </Typography>
+                          </center>
                         </React.Fragment>
                       )}
+                    </Collapse>
+                  ) : (
+                    <React.Fragment>
+                      {/* Upload audio files here */}
+                      <Typography className={classes.phraseContent}>
+                        {this.state.unrecordedPhrase}
+                      </Typography>
+                      <input
+                        accept="audio/*"
+                        style={{ display: "none" }}
+                        id="raised-button-file"
+                        type="file"
+                        name="file"
+                        onChange={e => this.props.changeAudioToBeUploaded(e)}
+                        disabled={
+                          this.props.unrecordedSelected !== "" ? false : true
+                        }
+                      />
+                      <label htmlFor="raised-button-file">
+                        <Button
+                          component="span"
+                          className={classes.uploadFileBtn}
+                          disabled={
+                            this.props.unrecordedSelected !== "" ? false : true
+                          }
+                        >
+                          {this.props.mainFileName
+                            ? this.props.mainFileName
+                            : "No file chosen"}
+                          <div className={classes.flex}>
+                            <CloudUploadIcon className={classes.uploadIcon} />
+                            Choose File
+                          </div>
+                        </Button>
+                      </label>
+                      <Divider />
+                      <br />
+                    </React.Fragment>
+                  )}
 
-                    <Grid container spacing={2}>
-                      <MuiThemeProvider theme={theme}>
-                        <Grid item container justify="center">
-                          <Grid item xs={12} md={6}>
-                            <FormControlLabel
-                              className={classes.checkbox}
-                              label="No Modification"
-                              control={
-                                <Checkbox
-                                  color="primary"
-                                  checked={this.state.modification}
-                                />
-                              }
-                              checked={this.state.modification}
-                              onChange={() => this.handleCheckbox("modification")}
-                            />
-                            <FormHelperText className={classes.checkText}>
-                              Disable any modifications to the audio file upon
-                              upload
+                  <Grid container spacing={2}>
+                    <MuiThemeProvider theme={theme}>
+                      <Grid item container justify="center">
+                        <Grid item xs={12} md={6}>
+                          <FormControlLabel
+                            className={classes.checkbox}
+                            label="No Modification"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                checked={this.state.modification}
+                              />
+                            }
+                            checked={this.state.modification}
+                            onChange={() => this.handleCheckbox("modification")}
+                          />
+                          <FormHelperText className={classes.checkText}>
+                            Disable any modifications to the audio file upon
+                            upload
                           </FormHelperText>
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <FormControlLabel
-                              className={classes.checkbox}
-                              label="Convert"
-                              control={
-                                <Checkbox
-                                  color="primary"
-                                  checked={this.state.convert}
-                                />
-                              }
-                              onChange={() => this.handleCheckbox("convert")}
-                            />
-                            <FormHelperText className={classes.checkText}>
-                              Enable converting the audio file to a different
-                              format
-                          </FormHelperText>
-                          </Grid>
                         </Grid>
+                        <Grid item xs={12} md={6}>
+                          <FormControlLabel
+                            className={classes.checkbox}
+                            label="Convert"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                checked={this.state.convert}
+                              />
+                            }
+                            onChange={() => this.handleCheckbox("convert")}
+                          />
+                          <FormHelperText className={classes.checkText}>
+                            Enable converting the audio file to a different
+                            format
+                          </FormHelperText>
+                        </Grid>
+                      </Grid>
 
-                        <Grid item container xs justify="center">
-                          <Grid item xs={12} md={6}>
-                            <FormControlLabel
-                              className={classes.checkbox}
-                              label="Fade In"
-                              control={
-                                <Checkbox
-                                  color="primary"
-                                  checked={this.state.fadein}
-                                />
-                              }
-                              onChange={() => this.handleCheckbox("fadein")}
-                            />
-                            <FormHelperText className={classes.checkText}>
-                              Enable fading in the recordings audio
+                      <Grid item container xs justify="center">
+                        <Grid item xs={12} md={6}>
+                          <FormControlLabel
+                            className={classes.checkbox}
+                            label="Fade In"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                checked={this.state.fadein}
+                              />
+                            }
+                            onChange={() => this.handleCheckbox("fadein")}
+                          />
+                          <FormHelperText className={classes.checkText}>
+                            Enable fading in the recordings audio
                           </FormHelperText>
-                          </Grid>
-                          <Grid item xs={12} md={6}>
-                            <FormControlLabel
-                              className={classes.checkbox}
-                              label="Fade Out"
-                              control={
-                                <Checkbox
-                                  color="primary"
-                                  checked={this.state.fadeout}
-                                />
-                              }
-                              onChange={() => this.handleCheckbox("fadeout")}
-                            />
-                            <FormHelperText className={classes.checkText}>
-                              Enable fading out the recordings audio
-                          </FormHelperText>
-                          </Grid>
                         </Grid>
-                      </MuiThemeProvider>
-                    </Grid>
-                    <br />
-                  </TabPanel>
-                  <TabPanel
-                    value={this.state.value}
-                    index={1}
-                    className={classes.resSession}
-                  >
-                    {/* Session Upload */}
-                    <div className={classes.scrollBar}>
-                      <Table stickyHeader>
-                        <TableHead>
-                          <TableRow className={classes.tableRow}>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Audio</TableCell>
-                            {!this.state.uploadSession ? (
-                              <TableCell align="center">Remove</TableCell>
-                            ) : (
-                                <TableCell align="center">
-                                  Uploading Status
-                            </TableCell>
-                              )}
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {this.state.session.length !== 0 ? (
-                            this.state.session.map((data, index) => {
-                              return (
-                                <TableRow key={"1"}>
-                                  <TableCell
-                                    component="th"
-                                    scope="row"
-                                    align="center"
-                                  >
-                                    {data.audioName}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    <audio
-                                      controls
-                                      preload="false"
-                                      className={classes.resPlayer}
-                                    >
-                                      <source src={data.audioUrl} />
-                                    </audio>
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    <Tooltip title="Remove" placement="right">
-                                      <IconButton
-                                        onClick={() => {
-                                          let arr = this.state.session;
-                                          arr.splice(index, 1);
-                                          this.setState({ session: arr });
-                                        }}
-                                      >
-                                        <Remove className={classes.resRemove} />
-                                      </IconButton>
-                                    </Tooltip>
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })
+                        <Grid item xs={12} md={6}>
+                          <FormControlLabel
+                            className={classes.checkbox}
+                            label="Fade Out"
+                            control={
+                              <Checkbox
+                                color="primary"
+                                checked={this.state.fadeout}
+                              />
+                            }
+                            onChange={() => this.handleCheckbox("fadeout")}
+                          />
+                          <FormHelperText className={classes.checkText}>
+                            Enable fading out the recordings audio
+                          </FormHelperText>
+                        </Grid>
+                      </Grid>
+                    </MuiThemeProvider>
+                  </Grid>
+                  <br />
+                </TabPanel>
+                <TabPanel
+                  value={this.state.value}
+                  index={1}
+                  className={classes.resSession}
+                >
+                  {/* Session Upload */}
+                  <div className={classes.scrollBar}>
+                    <Table stickyHeader>
+                      <TableHead>
+                        <TableRow className={classes.tableRow}>
+                          <TableCell align="center">Name</TableCell>
+                          <TableCell align="center">Audio</TableCell>
+                          {!this.state.uploadSession ? (
+                            <TableCell align="center">Remove</TableCell>
                           ) : (
-                              <NothingToUpload />
-                            )}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </TabPanel>
-                  {/* </SwipeableViews> */}
-                </DialogContent>
-                <Toast
-                  open={this.state.openToast}
-                  handleClose={this.handleCloseToast}
-                  toastType={this.state.toastType}
-                  message={this.state.message}
-                  vertical={this.state.vertical}
-                  horizontal={this.state.horizontal}
-                />
-                <DialogActions className={classes.btnCont}>
-                  {(() => {
-                    if (this.state.value === 0) {
-                      if (!this.state.checked) {
-                        return (
-                          <Button
-                            id="main-save-audio-btn"
-                            variant="contained"
-                            className={classes.saveBtn}
-                            // onClick={this.submitFile}
-                            onClick={() => {
-                              this.props.mainUploadAudio(
-                                this.props.voiceSelected,
-                                this.props.versionSelected,
-                                this.props.campaignSelected,
-                                this.props.unrecordedSelected,
-                                this.props.mainFile,
-                                this.state.modification,
-                                this.state.fadein,
-                                this.state.fadeout,
-                                this.state.convert
-                              );
-                            }}
-                          >
-                            Save Audio File
+                            <TableCell align="center">
+                              Uploading Status
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {this.state.session.length !== 0 ? (
+                          this.state.session.map((data, index) => {
+                            return (
+                              <TableRow key={"1"}>
+                                <TableCell
+                                  component="th"
+                                  scope="row"
+                                  align="center"
+                                >
+                                  {data.audioName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  <audio
+                                    controls
+                                    preload="false"
+                                    className={classes.resPlayer}
+                                  >
+                                    <source src={data.audioUrl} />
+                                  </audio>
+                                </TableCell>
+                                <TableCell align="center">
+                                  <Tooltip title="Remove" placement="right">
+                                    <IconButton
+                                      onClick={() => {
+                                        let arr = this.state.session;
+                                        arr.splice(index, 1);
+                                        this.setState({ session: arr });
+                                      }}
+                                    >
+                                      <Remove className={classes.resRemove} />
+                                    </IconButton>
+                                  </Tooltip>
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })
+                        ) : (
+                          <NothingToUpload />
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TabPanel>
+                {/* </SwipeableViews> */}
+              </DialogContent>
+              <Toast
+                open={this.state.openToast}
+                handleClose={this.handleCloseToast}
+                toastType={this.state.toastType}
+                message={this.state.message}
+                vertical={this.state.vertical}
+                horizontal={this.state.horizontal}
+              />
+              <DialogActions className={classes.btnCont}>
+                {(() => {
+                  if (this.state.value === 0) {
+                    if (!this.state.checked) {
+                      return (
+                        <Button
+                          id="main-save-audio-btn"
+                          variant="contained"
+                          className={classes.saveBtn}
+                          // onClick={this.submitFile}
+                          onClick={() => {
+                            this.props.mainUploadAudio(
+                              this.props.voiceSelected,
+                              this.props.versionSelected,
+                              this.props.campaignSelected,
+                              this.props.unrecordedSelected,
+                              this.props.mainFile,
+                              this.state.modification,
+                              this.state.fadein,
+                              this.state.fadeout,
+                              this.state.convert
+                            );
+                          }}
+                        >
+                          Save Audio File
                         </Button>
-                        );
-                      } else {
-                        return (
-                          <Button
-                            variant="contained"
-                            className={classes.saveBtn}
-                            disabled={this.state.recordedAudio.length === 0}
-                            onClick={() => {
-                              if (
-                                audio[this.state.selectedIndex + 1] !== undefined
-                              ) {
-                                this.handleSessionAdd(
-                                  this.state.recordedAudio.blob,
-                                  this.state.unrecordedName,
-                                  this.state.unrec_uuid,
-                                  this.state.recordedAudio.blobURL,
-                                  this.props.campaignSelected,
-                                  this.props.versionSelected,
-                                  audio[this.state.selectedIndex + 1].text ||
-                                  audio[this.state.selectedIndex + 1].phrase,
-                                  audio[this.state.selectedIndex + 1].name,
-                                  audio[this.state.selectedIndex + 1].key ||
-                                  audio[this.state.selectedIndex + 1].uuid
-                                );
-                              } else {
-                                this.handleSessionAdd(
-                                  this.state.recordedAudio.blob,
-                                  this.state.unrecordedName,
-                                  this.state.unrec_uuid,
-                                  this.state.recordedAudio.blobURL,
-                                  this.props.campaignSelected,
-                                  this.props.versionSelected
-                                );
-                              }
-                            }}
-                          >
-                            Add to session
-                        </Button>
-                        );
-                      }
+                      );
                     } else {
                       return (
                         <Button
                           variant="contained"
                           className={classes.saveBtn}
-                          disabled={this.state.session.length === 0}
+                          disabled={this.state.recordedAudio.length === 0}
                           onClick={() => {
-                            var Url = window.location.href.split("/");
-                            var audioUrl = Url[Url.length - 1];
-                            if (audioUrl === "phrase") {
-                              this.sessionUpload(
-                                this.props.selectedVoice ||
-                                this.props.voiceSelected,
+                            if (
+                              audio[this.state.selectedIndex + 1] !== undefined
+                            ) {
+                              this.handleSessionAdd(
+                                this.state.recordedAudio.blob,
+                                this.state.unrecordedName,
+                                this.state.unrec_uuid,
+                                this.state.recordedAudio.blobURL,
+                                this.props.campaignSelected,
                                 this.props.versionSelected,
-                                this.state.modification,
-                                this.state.fadein,
-                                this.state.fadeout,
-                                this.state.convert,
-                                this.state.session,
-                                // onClose,
-                                "phrase"
+                                audio[this.state.selectedIndex + 1].text ||
+                                  audio[this.state.selectedIndex + 1].phrase,
+                                audio[this.state.selectedIndex + 1].name,
+                                audio[this.state.selectedIndex + 1].key ||
+                                  audio[this.state.selectedIndex + 1].uuid
                               );
-                              this.setState({ uploadSession: true });
-                            } else if (audioUrl === "prospect") {
-                              this.sessionUpload(
-                                this.props.selectedVoice ||
-                                this.props.voiceSelected,
-                                this.props.versionSelected,
-                                this.state.modification,
-                                this.state.fadein,
-                                this.state.fadeout,
-                                this.state.convert,
-                                this.state.session,
-                                //  onClose,
-                                "prospect"
-                              );
-                              this.setState({ uploadSession: true });
                             } else {
-                              this.sessionUpload(
-                                this.props.selectedVoice ||
-                                this.props.voiceSelected,
-                                this.props.versionSelected,
-                                this.state.modification,
-                                this.state.fadein,
-                                this.state.fadeout,
-                                this.state.convert,
-                                this.state.session,
-                                // onClose,
-                                "pitch"
+                              this.handleSessionAdd(
+                                this.state.recordedAudio.blob,
+                                this.state.unrecordedName,
+                                this.state.unrec_uuid,
+                                this.state.recordedAudio.blobURL,
+                                this.props.campaignSelected,
+                                this.props.versionSelected
                               );
-                              this.setState({ uploadSession: true });
                             }
-                            // onClose()
                           }}
                         >
-                          Upload Session
-                      </Button>
+                          Add to session
+                        </Button>
                       );
                     }
-                  })()}
-                </DialogActions>
-              </React.Fragment>
-            )}
+                  } else {
+                    return (
+                      <Button
+                        variant="contained"
+                        className={classes.saveBtn}
+                        disabled={this.state.session.length === 0}
+                        onClick={() => {
+                          var Url = window.location.href.split("/");
+                          var audioUrl = Url[Url.length - 1];
+                          if (audioUrl === "phrase") {
+                            this.sessionUpload(
+                              this.props.selectedVoice ||
+                                this.props.voiceSelected,
+                              this.props.versionSelected,
+                              this.state.modification,
+                              this.state.fadein,
+                              this.state.fadeout,
+                              this.state.convert,
+                              this.state.session,
+                              // onClose,
+                              "phrase"
+                            );
+                            this.setState({ uploadSession: true });
+                          } else if (audioUrl === "prospect") {
+                            this.sessionUpload(
+                              this.props.selectedVoice ||
+                                this.props.voiceSelected,
+                              this.props.versionSelected,
+                              this.state.modification,
+                              this.state.fadein,
+                              this.state.fadeout,
+                              this.state.convert,
+                              this.state.session,
+                              //  onClose,
+                              "prospect"
+                            );
+                            this.setState({ uploadSession: true });
+                          } else {
+                            this.sessionUpload(
+                              this.props.selectedVoice ||
+                                this.props.voiceSelected,
+                              this.props.versionSelected,
+                              this.state.modification,
+                              this.state.fadein,
+                              this.state.fadeout,
+                              this.state.convert,
+                              this.state.session,
+                              // onClose,
+                              "pitch"
+                            );
+                            this.setState({ uploadSession: true });
+                          }
+                          // onClose()
+                        }}
+                      >
+                        Upload Session
+                      </Button>
+                    );
+                  }
+                })()}
+              </DialogActions>
+            </React.Fragment>
+          )}
         </Dialog>
         <UploadStatus
           open={this.state.uploadingDone}

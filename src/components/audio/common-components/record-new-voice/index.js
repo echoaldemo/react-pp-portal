@@ -90,14 +90,15 @@ class AddNewVoice_Desktop extends Component {
   }
 
   componentDidMount() {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        this.setState({ hasMic: true });
-      })
-      .catch(err => {
-        this.setState({ hasMic: false });
-      });
+    this.setState({ hasMic: true });
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true })
+    //   .then(stream => {
+    //     this.setState({ hasMic: true });
+    //   })
+    //   .catch(err => {
+    //     this.setState({ hasMic: false });
+    //   });
     const copiedThis = this;
     $(document).on("keydown", function(e) {
       if (copiedThis.props.addNewVoiceModal) {
@@ -245,7 +246,7 @@ class AddNewVoice_Desktop extends Component {
       document.getElementById("recorded-audio").pause();
       this.setState({ play: false });
     }
-  }
+  };
 
   onStop = recordedBlob => {
     this.setState({
