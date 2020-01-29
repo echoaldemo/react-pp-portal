@@ -55,13 +55,14 @@ const useStyles: any = (theme: any) => ({
     }
   }
 });
+
 interface IProps {
   version: any;
   voice: any;
   audio_key: any;
   rerecordAudioOpen: any;
   handleClose: any;
-  anchorEl: any;
+  anchorEl?: any;
   row: any;
   handleClickRecord: any;
   handleCloseDialog: any;
@@ -73,10 +74,17 @@ interface IProps {
   handleBackButton: any;
   setAudioDetails: any;
   handleClickWithName: any;
-  index: any;
+  index?: any;
   selectedIndex: any;
-  name: any;
+  name?: any;
   tblName: any;
+  recordAudioDialog: any;
+  handleClick: any;
+  undoAudioOpen: any;
+  deleteAudioOpen: any;
+  setRecordedName: any;
+  uploadLoading: any;
+  rerecordAudio: any;
 }
 class TableDataCell extends React.Component<IProps, {}> {
   render() {

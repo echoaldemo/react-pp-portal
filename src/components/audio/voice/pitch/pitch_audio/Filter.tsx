@@ -110,6 +110,14 @@ interface IProps {
   user: any;
   versions: any;
   selectedCampaign: any;
+  tab: any;
+  unrecorded: any;
+  rerecord: any;
+  recorded: any;
+  filterData: any;
+  filtered: any;
+  searched: any;
+  refreshData: any;
 }
 
 interface IState {
