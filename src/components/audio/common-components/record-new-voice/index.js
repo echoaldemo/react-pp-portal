@@ -90,15 +90,14 @@ class AddNewVoice_Desktop extends Component {
   }
 
   componentDidMount() {
-    this.setState({ hasMic: true });
-    // navigator.mediaDevices
-    //   .getUserMedia({ audio: true })
-    //   .then(stream => {
-    //     this.setState({ hasMic: true });
-    //   })
-    //   .catch(err => {
-    //     this.setState({ hasMic: false });
-    //   });
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(stream => {
+        this.setState({ hasMic: true });
+      })
+      .catch(err => {
+        this.setState({ hasMic: false });
+      });
     const copiedThis = this;
     $(document).on("keydown", function(e) {
       if (copiedThis.props.addNewVoiceModal) {

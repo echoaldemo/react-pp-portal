@@ -12,11 +12,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import UndoIcon from "@material-ui/icons/Undo";
 import EditDialog from "../dialog/edit";
 
-const StyledMenu = withStyles({
+const StyledMenu: any = withStyles({
   paper: {
     border: "1px solid #d3d4d5"
   }
-})(props => (
+})((props: any) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
@@ -32,7 +32,7 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles(theme => ({
+const StyledMenuItem: any = withStyles((theme: any) => ({
   root: {
     "&:focus": {
       backgroundColor: "#f4a429",
@@ -43,7 +43,7 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   resIcon: {
     "@media (max-width: 425px)": {
       fontSize: 18
@@ -56,9 +56,39 @@ const useStyles = theme => ({
   }
 });
 
-class TableDataCell extends React.Component {
+interface IProps {
+  version: any;
+  voice: any;
+  audio_key: any;
+  rerecordAudioOpen: any;
+  handleClose: any;
+  anchorEl?: any;
+  row: any;
+  handleClickRecord: any;
+  handleCloseDialog: any;
+  handleClickOpenDialog: any;
+  open: any;
+  undoPitchAudio: any;
+  openAddNewVoiceModal: any;
+  hasMic: any;
+  handleBackButton: any;
+  setAudioDetails: any;
+  handleClickWithName: any;
+  index?: any;
+  selectedIndex: any;
+  name?: any;
+  tblName: any;
+  recordAudioDialog: any;
+  handleClick: any;
+  undoAudioOpen: any;
+  deleteAudioOpen: any;
+  setRecordedName: any;
+  uploadLoading: any;
+  rerecordAudio: any;
+}
+class TableDataCell extends React.Component<IProps, {}> {
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <TableCell align="center">
         {this.props.tblName === "Unrecorded" ? (
@@ -159,6 +189,7 @@ class TableDataCell extends React.Component {
                   primary="Reupload Audio"
                 />
               </StyledMenuItem>
+
               <StyledMenuItem
                 onClick={() => {
                   this.props.undoPitchAudio(
@@ -166,6 +197,7 @@ class TableDataCell extends React.Component {
                     this.props.voice,
                     this.props.audio_key
                   );
+
                   this.props.handleClose();
                 }}
                 data-testid={"undo"}
