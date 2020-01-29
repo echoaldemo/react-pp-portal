@@ -1007,7 +1007,7 @@ class Prospect extends Component<{ location: any }, State> {
                   {/* HEADER - MOBILE VERSION START */}
                   <Grid container className={classes.mobileConDropdown}>
                     <Grid item xs={7} sm={8}>
-                      {/* <DropdownDesktop groupID={this.state.user_group} /> */}
+                      <DropdownDesktop />
                     </Grid>
                     <Grid item xs={5} sm={4}>
                       <Dropdown
