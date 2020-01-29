@@ -10,9 +10,9 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core";
 import FilterModal from "../../../common-components/filter-modal";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+const ITEM_HEIGHT: any = 48;
+const ITEM_PADDING_TOP: any = 8;
+const MenuProps: any = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -22,7 +22,7 @@ const MenuProps = {
   }
 };
 
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   formControl: {
     width: "100%",
     margin: theme.spacing(2)
@@ -102,18 +102,31 @@ const theme = createMuiTheme({
     }
   }
 });
+interface IProps {
+  selectedVersion: any;
+  selectVersion: any;
+  selectCampaign: any;
+  campaigns: any;
+  user: any;
+  versions: any;
+  selectedCampaign: any;
+}
 
-class Filter extends Component {
-  constructor() {
-    super();
+interface IState {
+  open: boolean;
+  filterModal: boolean;
+}
+class Filter extends Component<IProps, IState> {
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       open: false,
       filterModal: false
     };
   }
-  toTitleCase = str => {
-    return str.replace(/\w\S*/g, function(txt) {
+  toTitleCase = (str: any) => {
+    return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
@@ -124,6 +137,7 @@ class Filter extends Component {
       return false;
     }
   };
+
   disableCampaign = () => {
     if (this.props.user === 1) {
       if (this.props.campaigns.length === 0) {
@@ -133,7 +147,7 @@ class Filter extends Component {
       }
     }
   };
-  disableButton = res => {
+  disableButton = (res: any) => {
     if (res !== "") {
       return false;
     } else {
@@ -155,7 +169,7 @@ class Filter extends Component {
       filterData,
       filtered,
       refreshData
-    } = this.props;
+    }: any = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <Grid container>
@@ -164,25 +178,25 @@ class Filter extends Component {
               <InputLabel htmlFor="age-simple" className={classes.fontRes}>
                 Campaign
               </InputLabel>
+
               <Select
                 classes={{ select: classes.select }}
                 value={this.props.selectedCampaign}
                 onChange={e => {
                   this.props.selectCampaign(
-                    e.target.value,
-                    e.currentTarget.getAttribute("uuid")
+                    e.target.value
+                    // e.currentTarget.getAttribute("uuid")
                   );
                 }}
                 MenuProps={MenuProps}
                 disabled={this.disableCampaign()}
               >
-                {campaigns.map(campaign => {
+                {campaigns.map((campaign: any) => {
                   return (
                     <MenuItem
                       className={classes.listItem}
                       key={campaign.uuid}
                       id={"select"}
-                      uuid={campaign.company}
                       value={campaign.slug}
                     >
                       {campaign.name}
@@ -201,6 +215,7 @@ class Filter extends Component {
               <InputLabel htmlFor="age-simple" className={classes.fontRes}>
                 Pitch Version
               </InputLabel>
+
               <Select
                 classes={{ select: classes.select }}
                 value={this.props.selectedVersion}
@@ -211,7 +226,7 @@ class Filter extends Component {
                 MenuProps={MenuProps}
                 disabled={this.disablePitchVersion()}
               >
-                {versions.map(version => {
+                {versions.map((version: any) => {
                   return (
                     <MenuItem
                       className={classes.listItem}
