@@ -56,8 +56,8 @@ interface IProps {
   tblName: any;
   handleClickWithName: any;
   name: any;
-  uuid: any;
-  selecteInddex: any;
+  uuid?: any;
+  selecteInddex?: any;
   setAudioDetails: any;
   handleBackButton: any;
   detectMic: any;
@@ -73,6 +73,9 @@ interface IProps {
   handleClickOpenDialog: any;
   handleCloseDialog: any;
   rerecordAudioOpen: any;
+  recordAudioDialog: any;
+  handleClick: any;
+  deleteAudioOpen: any;
 }
 class TableDataCell extends React.Component<IProps, {}> {
   render() {
