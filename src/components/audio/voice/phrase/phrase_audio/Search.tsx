@@ -7,7 +7,7 @@ import Popper from "@material-ui/core/Popper";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const styles = {
+const styles: any = {
   input: {
     "&:after": {
       borderColor: "#1194f6"
@@ -15,8 +15,8 @@ const styles = {
   }
 };
 
-function renderInput(inputProps) {
-  const { InputProps, classes, ref, ...other } = inputProps;
+function renderInput(inputProps: any) {
+  const { InputProps, classes, ref, ...other }: any = inputProps;
   return (
     <TextField
       InputProps={{
@@ -28,7 +28,12 @@ function renderInput(inputProps) {
     />
   );
 }
-function getHighlightedText(fname, lname, user_name, higlight) {
+function getHighlightedText(
+  fname: any,
+  lname: any,
+  user_name: any,
+  higlight: any
+) {
   // Split text on higlight term, include term itself into parts, ignore case
   var parts = fname.split(new RegExp(`(${higlight})`, "gi"));
   var part2 = lname.split(new RegExp(`(${higlight})`, "gi"));
@@ -36,7 +41,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
   return (
     <React.Fragment>
       <span>
-        {parts.map(part =>
+        {parts.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -46,7 +51,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       </span>
       &nbsp;
       <span>
-        {part2.map(part =>
+        {part2.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -56,7 +61,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
       </span>
       &nbsp; | &nbsp;
       <span>
-        {username.map(part =>
+        {username.map((part: any) =>
           part.toLowerCase() === higlight.toLowerCase() ? (
             <b style={{ color: "#2b9ff7" }}>{part}</b>
           ) : (
@@ -67,7 +72,7 @@ function getHighlightedText(fname, lname, user_name, higlight) {
     </React.Fragment>
   );
 }
-function renderSuggestion(suggestionProps) {
+function renderSuggestion(suggestionProps: any) {
   const {
     suggestion,
     index,
@@ -93,14 +98,18 @@ function renderSuggestion(suggestionProps) {
     </MenuItem>
   );
 }
-class Search extends Component {
-  getSuggestions = (value, { showEmpty = false } = {}) => {
+interface IProps {
+  searchFunction: any;
+  voices: any;
+}
+class Search extends Component<IProps, {}> {
+  getSuggestions = (value: any, { showEmpty = false } = {}) => {
     const inputValue = deburr(value.trim()).toLowerCase();
     const inputLength = inputValue.length;
     let count = 0;
     return inputLength === 0 && !showEmpty
       ? []
-      : this.props.voices.filter(suggestion => {
+      : this.props.voices.filter((suggestion: any) => {
           const splitName = suggestion.first_name.split(" ");
           const splitLName = suggestion.last_name.split(" ");
           const keep =
@@ -118,8 +127,8 @@ class Search extends Component {
         });
   };
   render() {
-    let popperNode;
-    const { classes } = this.props;
+    let popperNode: any;
+    const { classes }: any = this.props;
     return (
       <div style={{ width: "100%" }}>
         <Downshift
@@ -153,9 +162,9 @@ class Search extends Component {
                   classes: { classes },
                   fullWidth: true,
                   InputProps: { onBlur, onFocus, onChange },
-                  InputLabelProps: getLabelProps({ shrink: true }),
+                  // InputLabelProps: getLabelProps({ shrink: true }),
                   inputProps,
-                  ref: node => {
+                  ref: (node: any) => {
                     popperNode = node;
                   }
                 })}
@@ -180,7 +189,7 @@ class Search extends Component {
                       }}
                     >
                       {this.getSuggestions(inputValue).map(
-                        (suggestion, index) =>
+                        (suggestion: any, index: any) =>
                           renderSuggestion({
                             suggestion,
                             index,

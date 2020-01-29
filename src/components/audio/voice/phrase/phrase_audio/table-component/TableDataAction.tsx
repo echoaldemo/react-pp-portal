@@ -13,7 +13,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import UndoIcon from "@material-ui/icons/Undo";
 import EditDialog from "../dialog/edit";
 
-const useStyles = {
+const useStyles: any = {
   resIcon: {
     "@media (max-width: 425px)": {
       fontSize: 18
@@ -21,11 +21,11 @@ const useStyles = {
   }
 };
 
-const StyledMenu = withStyles({
+const StyledMenu: any = withStyles({
   paper: {
     border: "1px solid #d3d4d5"
   }
-})(props => (
+})((props: any) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
@@ -52,9 +52,31 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-class TableDataCell extends React.Component {
+interface IProps {
+  tblName: any;
+  handleClickWithName: any;
+  name: any;
+  uuid: any;
+  selecteInddex: any;
+  setAudioDetails: any;
+  handleBackButton: any;
+  detectMic: any;
+  selectedIndex: any;
+  anchorEl: any;
+  handleClose: any;
+  openAddNewVoiceModal: any;
+  handleClickRecord: any;
+  row: any;
+  dialog: any;
+  undoAudioOpen: any;
+  open: any;
+  handleClickOpenDialog: any;
+  handleCloseDialog: any;
+  rerecordAudioOpen: any;
+}
+class TableDataCell extends React.Component<IProps, {}> {
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <TableCell align="center">
         {this.props.tblName === "Unrecorded" ? (
@@ -90,7 +112,7 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.openAddNewVoiceModal(null, 'UnrecTable');
+                  this.props.openAddNewVoiceModal(null, "UnrecTable");
                   this.props.handleClose();
                 }}
               >
@@ -145,7 +167,7 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.openAddNewVoiceModal(null, 'RerecTable');
+                  this.props.openAddNewVoiceModal(null, "RerecTable");
                   this.props.handleClose();
                 }}
               >

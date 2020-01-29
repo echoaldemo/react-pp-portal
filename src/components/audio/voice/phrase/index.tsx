@@ -34,10 +34,12 @@ import RecordedCard from '../../common-components/cards/Recorded';
 
 import { get, patch, post } from '../../utils/api';
 import { TableLoader, HeaderLink } from 'common-components';
+import { IProps,IState } from './interfacePhrase'
 
-class Phrase extends Component {
-	constructor() {
-		super();
+
+class Phrase extends Component<IProps,IState> {
+	constructor(props:any) {
+		super(props);
 
 		this.state = {
 			loader: false,
@@ -348,12 +350,12 @@ class Phrase extends Component {
 		});
 	}
 
-	recorderCamp = (uuid, token) => {
+	recorderCamp = (uuid:any, token:any) => {
 		this.setState({
 			searchVoice: uuid
 		});
 
-		let campaigns = [];
+		let campaigns:any = [];
 
 		const global = {
 			uuid: 'global1111',
@@ -370,8 +372,8 @@ class Phrase extends Component {
 			});
 
 			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps) => {
-					campaign.data.map((res) => {
+				user.data.campaigns.map((camps:any) => {
+					campaign.data.map((res:any) => {
 						if (res.uuid === camps) {
 							campaigns.push(res);
 						}
@@ -386,12 +388,12 @@ class Phrase extends Component {
 		});
 	};
 
-	recorderSelectCampaign = (uuid) => {
+	recorderSelectCampaign = (uuid:any) => {
 		this.setState({
 			voiceSelected: uuid
 		});
 
-		let campaigns = [];
+		let campaigns:any = [];
 
 		const global = {
 			uuid: 'global1111',
@@ -408,8 +410,8 @@ class Phrase extends Component {
 			});
 
 			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps) => {
-					campaign.data.map((res) => {
+				user.data.campaigns.map((camps:any) => {
+					campaign.data.map((res:any) => {
 						if (res.uuid === camps) {
 							campaigns.push(res);
 						}
@@ -424,26 +426,26 @@ class Phrase extends Component {
 		});
 	};
 
-	toTitleCase = (str) => {
-		return str.replace(/\w\S*/g, function(txt) {
+	toTitleCase = (str:any) => {
+		return str.replace(/\w\S*/g, function(txt:any) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
 	};
 
 	//tabs (unrecorded, rerecord, recorded) function
-	tabSelected = (val) => {
+	tabSelected = (val:any) => {
 		this.setState({
 			tabSelected: val
 		});
 	};
 
 	//voice selected
-	selectVoice = (val) => {
+	selectVoice = (val:any) => {
 		this.setState({
 			voiceSelected: val
 		});
 
-		let campaigns = [];
+		let campaigns:any = [];
 		const global = {
 			uuid: 'global1111',
 			name: 'Global (Globally3 required phrases)',
@@ -459,8 +461,8 @@ class Phrase extends Component {
 			});
 
 			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps) => {
-					campaign.data.map((res) => {
+				user.data.campaigns.map((camps:any) => {
+					campaign.data.map((res:any) => {
 						if (res.uuid === camps) {
 							campaigns.push(res);
 						}
@@ -478,7 +480,7 @@ class Phrase extends Component {
 	};
 
 	// selecting campaign function
-	selectCampaign = (value, uuid) => {
+	selectCampaign = (value:any, uuid:any) => {
 		this.setState({
 			selectedCampaign: value,
 			versions: []
@@ -602,7 +604,7 @@ class Phrase extends Component {
 		}
 	};
 
-	selectVoiceCampaign = (value, uuid) => {
+	selectVoiceCampaign = (value:any, uuid:any) => {
 		this.setState({
 			campaignSelected: value
 		});
@@ -726,14 +728,14 @@ class Phrase extends Component {
 		}
 	};
 
-	selectVersion = (value) => {
+	selectVersion = (value:any) => {
 		this.setState({
 			selectedVersion: value
 		});
 	};
 
 	//selecting phrasebook
-	selectPhraseBook = (value) => {
+	selectPhraseBook = (value: any) => {
 		this.setState({
 			versionSelected: value
 		});
@@ -799,7 +801,7 @@ class Phrase extends Component {
 		}
 	};
 
-	selectUnrecorded = (value) => {
+	selectUnrecorded = (value:any) => {
 		this.setState({
 			unrecordedSelected: value
 		});
@@ -943,7 +945,7 @@ class Phrase extends Component {
 		this.filterData();
 	};
 
-	resetFilters = (val) => {
+	resetFilters = (val: any) => {
 		this.setState({
 			display: [],
 			filtered: false,
@@ -951,13 +953,13 @@ class Phrase extends Component {
 		});
 	};
 
-	handleChange = (key, val) => {
+	handleChange = (key: any, val: any) => {
 		this.setState({
 			[key]: val
 		});
 	};
 
-	selectedVoice = (val) => {
+	selectedVoice = (val: any) => {
 		this.setState({
 			searchVoice: val
 		});
@@ -1003,8 +1005,8 @@ class Phrase extends Component {
 		// });
 	};
 
-	deleteAudio = (val) => {
-		this.state.recorded.map((data, id) => {
+	deleteAudio = (val: any) => {
+		this.state.recorded.map((data: any, id: any) => {
 			if (val === data.name) {
 				this.state.recorded.splice(id, 1);
 			}
@@ -1013,7 +1015,7 @@ class Phrase extends Component {
 	};
 
 	// for uploading audio
-	handleAudio = (e) => {
+	handleAudio = (e: any) => {
 		this.setState({
 			audioFile: e.target.value
 		});
@@ -1034,12 +1036,12 @@ class Phrase extends Component {
 		});
 	};
 
-	getRecordedName = (val) => {
+	getRecordedName = (val: any) => {
 		this.setState({
 			recordedName: val
 		});
 
-		this.state.unrecorded.map((data, id) => {
+		this.state.unrecorded.map((data: any, id: any) => {
 			if (val === data.name) {
 				this.state.unrecorded.splice(id, 1);
 			}
@@ -1048,7 +1050,7 @@ class Phrase extends Component {
 	};
 
 	// table audio upload
-	uploadAudio = (voice, phrasebook, slug, phrase, file, modification, fadein, fadeout, convert) => {
+	uploadAudio = (voice: any, phrasebook: any, slug: any, phrase: any, file: any, modification: any, fadein: any, fadeout: any, convert: any) => {
 		if (file == null) {
 			this.setState({
 				openToast: true,
@@ -1187,13 +1189,13 @@ class Phrase extends Component {
 
 	//ANCHOR UPLOAD SESSION
 
-	uploadSession = (session) => {
+	uploadSession = (session: any) => {
 		let requests;
 		this.setState({
 			uploadLoading: true
 		});
 		if (this.state.checkIfGlobal) {
-			requests = session.map((audio) => {
+			requests = session.map((audio: any) => {
 				return post(
 					`/pitch/global/audio/phrase-book/${audio.phrasebook}/voice/${audio.voice}/phrase/${audio.phrase}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
 					audio.file
@@ -1240,7 +1242,7 @@ class Phrase extends Component {
 				});
 		}
 		else {
-			requests = session.map((audio) => {
+			requests = session.map((audio: any) => {
 				return post(
 					`/pitch/company/${this.state
 						.companySlug}/audio/phrase-book/${audio.phrasebook}/voice/${audio.voice}/phrase/${audio.phrase}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
@@ -1289,7 +1291,7 @@ class Phrase extends Component {
 		}
 	};
 
-	openAddNewVoiceModal = (bool, currentMode) => {
+	openAddNewVoiceModal = (bool: any, currentMode: any) => {
 		if (bool === false) {
 			this.setState({
 				addNewVoiceModal: false,
@@ -1314,7 +1316,7 @@ class Phrase extends Component {
 	};
 
 	//Transfer data to Rerecord
-	addToRerecord = (version, voice, val) => {
+	addToRerecord = (version: any, voice: any, val: any) => {
 		this.setState({
 			loader: true,
 			display: [],
@@ -1348,7 +1350,7 @@ class Phrase extends Component {
 				`/pitch/company/${this.state.companySlug}/audio/phrase-book/${this.state.selectedVersion}/voice/${this
 					.state.user_data.uuid}/phrase/${val.uuid}/file/`,
 				{ rerecord: true }
-			).then((res) => {
+			).then((res: any) => {
 				// checks if status response was 201.
 				if (res.status === '201' || res.status === '200') {
 					this.setState({
@@ -1379,7 +1381,7 @@ class Phrase extends Component {
 	};
 
 	//transfer data back to recorded
-	addToRecorded = (val) => {
+	addToRecorded = (val: any) => {
 		this.setState({
 			loader: true,
 			display: [],
@@ -1445,7 +1447,7 @@ class Phrase extends Component {
 		});
 	}
 
-	changeAudioToBeUploaded = (e) => {
+	changeAudioToBeUploaded = (e: any) => {
 		this.setState({
 			audioToBeUploaded: e.target.value
 		});
@@ -1460,7 +1462,7 @@ class Phrase extends Component {
 		});
 	};
 
-	mainUploadAudio = (voice, phrasebook, slug, phrase, file, modification, fadein, fadeout, convert) => {
+	mainUploadAudio = (voice: any, phrasebook: any, slug: any, phrase: any, file: any, modification: any, fadein: any, fadeout: any, convert: any) => {
 		if (file == null) {
 			this.setState({
 				openToast: true,
@@ -1632,19 +1634,15 @@ class Phrase extends Component {
 		});
 	};
 
-	handleCloseToast = () => {
-		this.setState({
-			openToast: false
-		});
-	};
 
-	getUpdatedRecorded = (val) => {
+
+	getUpdatedRecorded = (val: any) => {
 		this.setState({
 			recorded: val
 		});
 	};
 
-	playAudio = (version, voice, key, uuid) => {
+	playAudio = (version: any, voice: any, key: any, uuid: any) => {
 		if (this.state.checkIfGlobal === true) {
 			get(
 				`/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data
@@ -1670,7 +1668,7 @@ class Phrase extends Component {
 	stopLoading = () => {
 		this.setState({ isAudioLoading: false });
 	};
-	showLoader = (type) => {
+	showLoader = (type: any) => {
 		if (type === 'recorded') {
 			this.setState({ isAudioLoading: true });
 		}
@@ -1682,10 +1680,10 @@ class Phrase extends Component {
 		this.setState({ audio: [] });
 	};
 
-	handleUnrecordedSelected = (val) => {
+	handleUnrecordedSelected = (val: any) => {
 		this.setState({ unrecordedSelected: val });
 	};
-	showToastSession = (type, message) => {
+	showToastSession = (type: any, message: any) => {
 		this.setState({
 			openToast: true,
 			toastType: type,
@@ -1695,7 +1693,7 @@ class Phrase extends Component {
 		});
 	};
 
-	rerecordAudio = (version, voice, key) => {
+	rerecordAudio = (version: any, voice: any, key: any) => {
 		this.setState({
 			display: [],
 			displayRecorded: [],
@@ -1709,7 +1707,7 @@ class Phrase extends Component {
 			rerecord: true
 		})
 			.then((res) => {
-				this.filterData(version);
+				this.filterData();
 
 				// checks if status response was 201.
 				if (res.status === 201 || res.status === 200) {
@@ -1750,7 +1748,7 @@ class Phrase extends Component {
 	};
 
 	render() {
-		const { classes, width } = this.props;
+		const { classes, width } : any= this.props;
 		const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 		return (
 			<React.Fragment>
@@ -1778,7 +1776,7 @@ class Phrase extends Component {
 									</Grid>
 									<Grid container className={classes.mobileConDropdown}>
 										<Grid item xs={7} sm={8}>
-											<DropdownDesktop groupID={this.state.user_group} />
+											{/* <DropdownDesktop groupID={this.state.user_group} /> */}
 										</Grid>
 										<Grid item xs={5} sm={4}>
 											<Dropdown
@@ -1841,7 +1839,7 @@ class Phrase extends Component {
 															rerecord={this.state.rerecord}
 															recorded={this.state.recorded}
 															filterData={this.filterData}
-															filtered={(val) => this.setState({ filtered: val })}
+															filtered={(val: any) => this.setState({ filtered: val })}
 															user={this.state.user}
 															searched={this.state.searchVoice}
 															selectCampaign={this.selectCampaign}
@@ -2042,7 +2040,7 @@ class Phrase extends Component {
 															rerecord={this.state.rerecord}
 															recorded={this.state.recorded}
 															filterData={this.filterData}
-															filtered={(val) => this.setState({ filtered: val })}
+															filtered={(val: any) => this.setState({ filtered: val })}
 															user={this.state.user}
 															searched={this.state.searchVoice}
 															selectCampaign={this.selectCampaign}
@@ -2218,7 +2216,6 @@ class Phrase extends Component {
 								color="secondary"
 								size="large"
 								aria-label="add"
-								float="right"
 								className={classes.addBtn}
 								onClick={() => {
 									this.openAddNewDialog();
