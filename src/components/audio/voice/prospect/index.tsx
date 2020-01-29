@@ -1,36 +1,36 @@
 import React, { Component } from "react";
 import {
-	withStyles,
-	CssBaseline,
-	Container,
-	Grid,
-	Paper,
-	Divider,
-	Fab,
-	Tooltip,
-	Typography
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+  withStyles,
+  CssBaseline,
+  Container,
+  Grid,
+  Paper,
+  Divider,
+  Fab,
+  Tooltip,
+  Typography
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
-import Dropdown from '../../common-components/dropdown/Mobile';
-import DropdownDesktop from '../../common-components/dropdown/Desktop';
-import Tabs from '../../common-components/tabs/Mobile';
-import TabsDesktop from '../../common-components/tabs/Desktop';
-import useStyles from './styles';
-import Filter from './prospect_audio/Filter';
-import Search from './prospect_audio/Search';
-import Table from './prospect_audio/Table';
-import Toast from '../../common-components/toast';
-import MainAddNewAudio from '../../common-components/add-new-voice/MainAddNewVoice';
+import Dropdown from "../../common-components/dropdown/Mobile";
+import DropdownDesktop from "../../common-components/dropdown/Desktop";
+import Tabs from "../../common-components/tabs/Mobile";
+import TabsDesktop from "../../common-components/tabs/Desktop";
+import useStyles from "./styles";
+import Filter from "./prospect_audio/Filter";
+import Search from "./prospect_audio/Search";
+import Table from "./prospect_audio/Table";
+import Toast from "../../common-components/toast";
+import MainAddNewAudio from "../../common-components/add-new-voice/MainAddNewVoice";
 // import Loader from '../../common-components/loader';
 
 //CARDS
-import UnrecordedCard from '../../common-components/cards/Unrecorded';
-import RerecordCard from '../../common-components/cards/Rerecord';
-import RecordedCard from '../../common-components/cards/Recorded';
+import UnrecordedCard from "../../common-components/cards/Unrecorded";
+import RerecordCard from "../../common-components/cards/Rerecord";
+import RecordedCard from "../../common-components/cards/Recorded";
 
-import { get, patch, post } from '../../utils/api';
-import { TableLoader, HeaderLink } from 'common-components';
+import { get, patch, post } from "../../utils/api";
+import { TableLoader, HeaderLink } from "common-components";
 
 //MOCK DATA
 import {
@@ -42,10 +42,76 @@ import {
   RerecordedVoicesProspectData,
   RecordVoicesProspectData
 } from "./prospectMockData";
-
-class Prospect extends Component {
-  constructor() {
-    super();
+interface State {
+  loader?: boolean;
+  user: number;
+  links: any;
+  state: string;
+  campaigns: any;
+  versions: any;
+  selected: any;
+  tabSelected: any;
+  audioToBeUploaded?: any;
+  unrecorded: any;
+  rerecord: any;
+  recorded: any;
+  unrecordedTblName: any;
+  rerecordTblName: any;
+  recordedTblName: any;
+  display: any;
+  displayRerecord: any;
+  displayRecorded: any;
+  filtered: boolean;
+  searchVoice: any;
+  searchDialogRecord: any;
+  searchDialogRerecord: any;
+  searchDialogUnrecord: any;
+  openAddNew: boolean;
+  showTable: boolean;
+  audioFile: any;
+  recordedName: any;
+  fileName: any;
+  voices: any;
+  user_data: any;
+  selectedCampaign: any;
+  selectedVersion: any;
+  token?: any;
+  audio: any;
+  fetchedUnrecorded: boolean;
+  fetchedRerecord: boolean;
+  fetchedRecorded: boolean;
+  isAudioLoading: boolean;
+  campaignSelected: any;
+  versionSelected: any;
+  openToast: boolean;
+  toastType: any;
+  message: any;
+  vertical: any;
+  horizontal: any;
+  campaignList: any;
+  unrecordedList: any;
+  unrecordedSelected: any;
+  error: boolean;
+  file: any;
+  addNewVoiceModal: boolean;
+  uploadLoading: boolean;
+  user_group: any;
+  profile: any;
+  user_uuid: any;
+  currentMode: any;
+  isAudioLoadingRerec: boolean;
+  addNewVoiceModal_Desktop?: boolean;
+  [x: number]: any;
+  voiceSelected?: any;
+  anchorEl?: any;
+  fetchedUploadAudio: any;
+  campaign_uuids: any;
+  prospect_campaigns: any;
+  defaultVoice: any;
+}
+class Prospect extends Component<{ location: any }, State> {
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       user: 1,
@@ -138,15 +204,14 @@ class Prospect extends Component {
     this.setState({ token: tokenLogin });
 
     setTimeout(() => {
-    this.setState({
-      state: "DATA_LOADED",
-      profile: prospectMockData,
-      user_uuid: prospectMockData.uuid,
-      user_group: prospectMockData.groups[0],
-      voices: manageListMockData.results
-    });
-  }, 1000);
-
+      this.setState({
+        state: "DATA_LOADED",
+        profile: prospectMockData,
+        user_uuid: prospectMockData.uuid,
+        user_group: prospectMockData.groups[0],
+        voices: manageListMockData.results
+      });
+    }, 1000);
 
     // UNCOMMENT FOR ACTUAL DATA
     // get("/identity/user/profile/").then(profileData => {
@@ -172,58 +237,58 @@ class Prospect extends Component {
     // });
   }
 
-  recorderCamp = async uuid => {
+  recorderCamp = async (uuid: any) => {
     this.setState({
       searchVoice: uuid
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/profile/`).then(user => {
-      user_data = user.data.campaigns;
-      this.setState({
-        state: "DATA_LOADED",
-        user_data: user.data
-      });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then(campaign => {
-        campaigns = campaign.data.filter(camp => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
-        this.setState({
-          campaigns
-        });
-      } else {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
-          vertical: "top",
-          horizontal: "right"
-        });
-      }
-    });
+    // let campaigns: any = [],
+    //   user_data: any = [];
+    // const data1 = await get(`/identity/user/profile/`).then(user => {
+    //   user_data = user.data.campaigns;
+    //   this.setState({
+    //     state: "DATA_LOADED",
+    //     user_data: user.data
+    //   });
+    // });
+    // const data2 = await get(`/identity/campaign/list/`)
+    //   .then(campaign => {
+    //     campaigns = campaign.data.filter(camp => {
+    //       return user_data.indexOf(camp.uuid) > -1;
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // Promise.all([data1, data2]).then(() => {
+    //   if (campaigns.length) {
+    //     this.setState({
+    //       campaigns
+    //     });
+    //   } else {
+    //     this.setState({
+    //       openToast: true,
+    //       toastType: "caution",
+    //       message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
+    //       vertical: "top",
+    //       horizontal: "right"
+    //     });
+    //   }
+    // });
   };
 
-  toTitleCase = str => {
-    return str.replace(/\w\S*/g, function(txt) {
+  toTitleCase = (str: any) => {
+    return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
 
-  tabSelected = val => {
+  tabSelected = (val: any) => {
     this.setState({
       tabSelected: val
     });
   };
 
-  selectCampaign = (value, uuid) => {
+  selectCampaign = (value: any, uuid: any) => {
     this.setState({
       error: false,
       selectedCampaign: value
@@ -263,7 +328,7 @@ class Prospect extends Component {
     // });
   };
 
-  selectVoiceCampaign = (value, uuid) => {
+  selectVoiceCampaign = (value: any, uuid: any) => {
     this.setState({
       campaignSelected: value
     });
@@ -284,14 +349,14 @@ class Prospect extends Component {
 
   // this function is used for main adding of audio
 
-  selectVersion = value => {
+  selectVersion = (value: any) => {
     this.setState({
       selectedVersion: value
     });
 
     this.setState({
       unrecordedList: UnrecordedVoicesProspectData
-    })
+    });
 
     // get(
     //   `/pitch/audio/version/${value}/prospect/${this.state.user_data.uuid}/unrecorded/`
@@ -302,13 +367,13 @@ class Prospect extends Component {
     // });
   };
 
-  selectUnrecorded = value => {
+  selectUnrecorded = (value: any) => {
     this.setState({
       unrecordedSelected: value
     });
   };
 
-  filterData = pitch_version => {
+  filterData = (pitch_version: any) => {
     this.setState({
       showTable: false,
       loader: true
@@ -323,7 +388,7 @@ class Prospect extends Component {
       fetchedRecorded: true,
       showTable: true,
       loader: false
-    })
+    });
 
     //UNCOMMENT FOR ACTUAL DATA
     // const data1 = get(
@@ -359,7 +424,7 @@ class Prospect extends Component {
     // });
   };
 
-  resetFilters = val => {
+  resetFilters = (val: any) => {
     this.setState({
       display: [],
       //filtered: false,
@@ -367,13 +432,13 @@ class Prospect extends Component {
     });
   };
 
-  handleChange = (key, val) => {
+  handleChange = (key: any, val: any) => {
     this.setState({
       [key]: val
     });
   };
 
-  selectedVoice = async val => {
+  selectedVoice = async (val: any) => {
     this.setState({
       searchVoice: val,
       campaigns: [],
@@ -381,10 +446,9 @@ class Prospect extends Component {
       voiceSelected: val
     });
 
-
     this.setState({
       campaigns: campaignMockData
-    })
+    });
 
     //UNCOMMENT FOR ACTUAL DATA
     // let campaigns = [],
@@ -423,8 +487,8 @@ class Prospect extends Component {
     // });
   };
 
-  deleteAudio = val => {
-    this.state.recorded.map((data, id) => {
+  deleteAudio = (val: any) => {
+    this.state.recorded.map((data: any, id: any) => {
       if (val === data.name) {
         this.state.recorded.splice(id, 1);
       }
@@ -433,7 +497,7 @@ class Prospect extends Component {
   };
 
   // for uploading audio, this is also used by main adding of prospect audio
-  handleAudio = e => {
+  handleAudio = (e: any) => {
     this.setState({ audioFile: e.target.value });
     let files = e.target.files;
     var uploadFile = new FormData();
@@ -451,12 +515,12 @@ class Prospect extends Component {
     });
   };
 
-  getRecordedName = val => {
+  getRecordedName = (val: any) => {
     this.setState({
       recordedName: val
     });
 
-    this.state.unrecorded.map((data, id) => {
+    this.state.unrecorded.map((data: any, id: any) => {
       if (val === data.name) {
         this.state.unrecorded.splice(id, 1);
       }
@@ -465,7 +529,7 @@ class Prospect extends Component {
   };
   // end for uploading audio
 
-  addToRerecord = (version, voice, key) => {
+  addToRerecord = (version: any, voice: any, key: any) => {
     // empty the state to show loader
     this.setState({
       loader: true,
@@ -554,24 +618,24 @@ class Prospect extends Component {
     this.setState(
       prevState => ({
         openAddNew: !prevState.openAddNew
-      }),
-      () => this.showSuccessBar()
+      })
+      // () => this.showSuccessBar()
     );
   };
 
-  getUpdatedRecorded = val => {
+  getUpdatedRecorded = (val: any) => {
     this.setState({
       recorded: val
     });
 
-    this.state.unrecorded.map((data, id) => {
+    this.state.unrecorded.map((data: any, id: any) => {
       if (val.name === data.name) {
         this.state.unrecorded.splice(id, 1);
       }
       return null;
     });
   };
-  playAudio = (version, voice, key) => {
+  playAudio = (version: any, voice: any, key: any) => {
     get(`/pitch/audio/version/${version}/prospect/${voice}/${key}/`).then(
       res => {
         this.setState({ audio: res.data, isAudioLoading: false });
@@ -581,7 +645,7 @@ class Prospect extends Component {
   stopLoading = () => {
     this.setState({ isAudioLoading: false });
   };
-  showLoader = type => {
+  showLoader = (type: any) => {
     if (type === "recorded") {
       this.setState({ isAudioLoading: true });
     } else {
@@ -593,7 +657,7 @@ class Prospect extends Component {
   };
 
   // function for changing the status to rerecordAudio
-  rerecordAudio = (version, voice, key) => {
+  rerecordAudio = (version: any, voice: any, key: any) => {
     // empty the state to show loader
     this.setState({
       display: [],
@@ -650,15 +714,15 @@ class Prospect extends Component {
 
   // function for uploading audio file
   uploadAudio = (
-    voice,
-    version,
-    slug,
-    key,
-    file,
-    modification,
-    fadein,
-    fadeout,
-    convert
+    voice: any,
+    version: any,
+    slug: any,
+    key: any,
+    file: any,
+    modification: any,
+    fadein: any,
+    fadeout: any,
+    convert: any
   ) => {
     if (file == null) {
       this.setState({
@@ -732,12 +796,12 @@ class Prospect extends Component {
 
   //ANCHOR UPLOAD SESSION
 
-  uploadSession = session => {
+  uploadSession = (session: any) => {
     console.log(session);
     this.setState({
       uploadLoading: true
     });
-    const requests = session.map(audio => {
+    const requests = session.map((audio: any) => {
       return post(
         `/pitch/audio/version/${audio.version}/prospect/${audio.voice}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
         audio.file
@@ -784,7 +848,7 @@ class Prospect extends Component {
   };
 
   // undo rerecord audio || transfer rerecord audio to recorded again
-  undoProspectAudio = (version, voice, key) => {
+  undoProspectAudio = (version: any, voice: any, key: any) => {
     // empty first the state to show loader
     this.setState({
       loader: true,
@@ -857,7 +921,7 @@ class Prospect extends Component {
     //   });
   };
 
-  openAddNewVoiceModal = (bool, currentMode) => {
+  openAddNewVoiceModal = (bool: any, currentMode: any) => {
     if (bool === false) {
       this.setState({
         addNewVoiceModal: false,
@@ -881,7 +945,7 @@ class Prospect extends Component {
   };
 
   // refresh the table
-  refreshData = version => {
+  refreshData = (version: any) => {
     this.setState({
       display: [],
       displayRerecord: [],
@@ -892,10 +956,10 @@ class Prospect extends Component {
     });
     this.filterData(version);
   };
-  handleUnrecordedSelected = val => {
+  handleUnrecordedSelected = (val: any) => {
     this.setState({ unrecordedSelected: val });
   };
-  showToastSession = (type, message) => {
+  showToastSession = (type: any, message: any) => {
     this.setState({
       openToast: true,
       toastType: type,
@@ -906,7 +970,7 @@ class Prospect extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -943,7 +1007,7 @@ class Prospect extends Component {
                   {/* HEADER - MOBILE VERSION START */}
                   <Grid container className={classes.mobileConDropdown}>
                     <Grid item xs={7} sm={8}>
-                      <DropdownDesktop groupID={this.state.user_group} />
+                      {/* <DropdownDesktop groupID={this.state.user_group} /> */}
                     </Grid>
                     <Grid item xs={5} sm={4}>
                       <Dropdown
@@ -1019,7 +1083,9 @@ class Prospect extends Component {
                             rerecord={this.state.rerecord}
                             recorded={this.state.recorded}
                             filterData={this.filterData}
-                            filtered={val => this.setState({ filtered: val })}
+                            filtered={(val: any) =>
+                              this.setState({ filtered: val })
+                            }
                             user={this.state.user}
                             searched={this.state.searchVoice}
                             selectCampaign={this.selectCampaign}
@@ -1229,7 +1295,9 @@ class Prospect extends Component {
                             // rerecord={this.state.rerecord}
                             // recorded={this.state.recorded}
                             filterData={this.filterData}
-                            filtered={val => this.setState({ filtered: val })}
+                            filtered={(val: any) =>
+                              this.setState({ filtered: val })
+                            }
                             user={this.state.user}
                             searched={this.state.searchVoice}
                             selectCampaign={this.selectCampaign}
@@ -1391,7 +1459,6 @@ class Prospect extends Component {
                 color="secondary"
                 size="large"
                 aria-label="add"
-                float="right"
                 className={classes.addBtn}
                 onClick={() => {
                   this.openAddNewDialog();

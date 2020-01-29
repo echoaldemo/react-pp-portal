@@ -24,9 +24,77 @@ import TableDataDialog from "../../../common-components/table-components/TableDa
 import LoaderNoDataFound from "../../../common-components/table-components/TableLoader_DataNoFound";
 import useStyles from "../../../common-components/styles/tableStyles";
 import TableDataAction from "./table-component/TableDataAction";
+interface IState {
+  page: number;
+  rowsPerPage: number;
+  addNewVoiceModal: boolean;
+  deleteAudioModal: boolean;
+  rerecordAudioModal: boolean;
+  anchorEl: any;
+  open: boolean;
+  searchPhrase: any;
+  unrecordedName: any;
+  id: any;
+  data: any;
+  audioName: any;
+  dialog: any;
+  isLoading?: any;
+  key: any;
+  selectedIndex: any;
+  backDisabled: boolean;
+  hasMic: any;
+  recordAudio?: any;
+  openToast?: any;
+  toastType?: any;
+  message?: any;
+  vertical?: any;
+  horizontal?: any;
+  undoAudioModal: any;
+  uuid: any;
+}
+interface IProps {
+  undoProspectAudio?: any;
+  uploadFetched?: any;
+  isLoading?: boolean;
+  removeAudio?: any;
+  undoPitchAudio?: any;
+  voice?: any;
+  version?: any;
+  getRecordedName?: any;
+  tblName?: any;
+  searchKey?: any;
+  searchPhrase?: any;
+  audio?: any;
+  showLoader?: any;
+  playAudio?: any;
+  openAddNewVoiceModal?: any;
+  fetched?: any;
+  file?: any;
+  handleChange?: any;
+  rerecordAudio?: any;
+  addNewVoiceModal?: any;
+  uploadLoading?: any;
+  setRecordedName?: any;
+  undoAudioOpen?: any;
+  upload?: any;
+  deleteAudio?: any;
+  audio_key?: any;
+  rows?: any;
+  columns?: any;
+  displayData?: any;
+  filtered?: any;
+  user_id?: any;
+  refreshData?: any;
+  handleAudio?: any;
+  fileName?: any;
+  addToRerecord?: any;
+  classes?: any;
+  addToRecorded?: any;
+  slug?: any;
+}
 
-class CustomPaginationActionsTable extends Component {
-  constructor(props) {
+class CustomPaginationActionsTable extends Component<IProps, IState> {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -61,7 +129,7 @@ class CustomPaginationActionsTable extends Component {
     );
   };
 
-  openAddNewVoiceModal = bool => {
+  openAddNewVoiceModal = (bool: any) => {
     if (bool === false) {
       this.setState({
         addNewVoiceModal: false
@@ -74,14 +142,14 @@ class CustomPaginationActionsTable extends Component {
     }
   };
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event: any) => {
     this.setState({
       rowsPerPage: +event.target.value,
       page: 0
     });
   };
 
-  handleChangePage = e => {
+  handleChangePage = (e: any) => {
     if (e.currentTarget.getAttribute("aria-label") === "next page") {
       this.setState({
         page: this.state.page + 1
@@ -120,13 +188,13 @@ class CustomPaginationActionsTable extends Component {
     this.setState({ undoAudioModal: false });
   };
 
-  handleClick = event => {
+  handleClick = (event: any) => {
     this.setState({
       anchorEl: event.currentTarget
     });
   };
 
-  handleClickWithName = (event, value, uuid, index) => {
+  handleClickWithName = (event: any, value: any, uuid: any, index: any) => {
     this.setState({
       anchorEl: event.currentTarget,
       unrecordedName: value,
@@ -152,14 +220,14 @@ class CustomPaginationActionsTable extends Component {
     });
   };
 
-  handleClickRecord = (event, val, data) => {
+  handleClickRecord = (event: any, val: any, data: any) => {
     this.setState({
       anchorEl: event.currentTarget,
       id: val,
       data: data
     });
   };
-  setAudioDetails = (name, dialog, uuid) => {
+  setAudioDetails = (name: any, dialog: any, uuid: any) => {
     this.setState({
       audioName: name,
       dialog: dialog,
@@ -203,11 +271,11 @@ class CustomPaginationActionsTable extends Component {
     this.setState({ selectedIndex: this.state.selectedIndex - 1 });
   };
 
-  setNewAudioDetails = (key, audioName, dialog) => {
+  setNewAudioDetails = (key: any, audioName: any, dialog: any) => {
     this.setState({ uuid: key, audioName, dialog });
   };
 
-  handleBackButton = index => {
+  handleBackButton = (index: any) => {
     if (index === 0) {
       this.setState({ backDisabled: true });
     } else {
@@ -253,7 +321,7 @@ class CustomPaginationActionsTable extends Component {
                   this.props.tblName === "Unrecorded"
                     ? {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
 
                         borderTop: "5px solid red"
@@ -261,14 +329,14 @@ class CustomPaginationActionsTable extends Component {
                     : this.props.tblName === "Rerecord"
                     ? {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
 
                         borderTop: "5px solid #f89523"
                       }
                     : {
                         backgroundColor: "#eeeeee",
-                        fontWeight: "700",
+                        fontWeight: 700,
                         color: "#444851",
                         borderTop: "5px solid #a5c556"
                       }
@@ -303,11 +371,11 @@ class CustomPaginationActionsTable extends Component {
           </TableHead>
           <TableHead>
             <TableRow>
-              {columns.map(column => (
+              {columns.map((column: any) => (
                 <TableCell
                   key={column}
                   style={{
-                    fontWeight: "700",
+                    fontWeight: 700,
                     color: "#444851",
                     textAlign: "center"
                   }}
@@ -325,7 +393,7 @@ class CustomPaginationActionsTable extends Component {
                   this.state.page * this.state.rowsPerPage +
                     this.state.rowsPerPage
                 )
-                .map((row, index) => {
+                .map((row: any, index: any) => {
                   if (this.props.searchPhrase !== "") {
                     if (
                       row.name
