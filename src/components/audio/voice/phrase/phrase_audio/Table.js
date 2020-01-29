@@ -216,15 +216,16 @@ class CustomPaginationActionsTable extends Component {
   };
 
   detectMic = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        // Code for success
-        this.setState({ hasMic: true });
-      })
-      .catch(err => {
-        this.setState({ hasMic: false });
-      });
+    this.setState({ hasMic: true });
+    // navigator.mediaDevices
+    //   .getUserMedia({ audio: true })
+    //   .then(stream => {
+    //     // Code for success
+    //     this.setState({ hasMic: true });
+    //   })
+    //   .catch(err => {
+    //     this.setState({ hasMic: false });
+    //   });
   };
 
   render() {
