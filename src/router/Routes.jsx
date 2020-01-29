@@ -43,6 +43,7 @@ import RouterSettings from "components/manage/manage-campaigns/components/edit-c
 import AudioResources from "components/audio/audio-resources";
 import PitchVoice from "components/audio/voice/pitch";
 import PhraseVoice from "components/audio/voice/phrase";
+import ProspectVoice from "components/audio/voice/prospect";
 
 import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
@@ -175,6 +176,7 @@ export default function Routes() {
         />
         <PrivateRoute exact path="/manage/audio/pitch" component={PitchVoice} />
         <PrivateRoute exact path="/manage/audio/phrase" component={PhraseVoice} />
+        <PrivateRoute exact path="/manage/audio/prospect" component={ProspectVoice} />
         <PrivateRoute
           path={`/dashboard/all/:slug/overview`}
           component={Overview}

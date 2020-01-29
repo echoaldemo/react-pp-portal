@@ -1,4 +1,4 @@
-const useStyles: any = (theme: any) => ({
+const useStyles = theme => ({
   root: {
     width: "100%",
     display: "flex"
@@ -108,6 +108,7 @@ const useStyles: any = (theme: any) => ({
     }
   },
   pitchTable: {
+    zIndex: 0,
     padding: "30px 0px 30px 21px",
     flexDirection: "row",
     "@media (max-width: 425px)": {

@@ -25,7 +25,7 @@ import Table from './phrase_audio/Table';
 
 import Toast from '../../common-components/toast';
 import MainAddNewAudio from '../../common-components/add-new-voice/MainAddNewVoice';
-import Loader from '../../common-components/loader';
+// import Loader from '../../common-components/loader';
 
 //CARDS
 import UnrecordedCard from '../../common-components/cards/Unrecorded';
