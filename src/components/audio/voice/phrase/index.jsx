@@ -125,190 +125,213 @@ class Phrase extends Component {
 		}
 		this.setState({ token: tokenLogin });
 
-		//view data
-		get('/identity/user/profile/').then((profileData) => {
+		const mockProfileData = {
+			uuid: 'ba540c0e-c5b2-11e9-a0b7-0242ac110013',
+			groups: [ 1 ],
+			company: null,
+			campaigns: [ '832e87d4-a859-11e9-b505-0242ac110012' ],
+			team: null,
+			last_login: '2020-01-27T17:58:45.015557Z',
+			username: 'rogelio',
+			first_name: 'Rogelio',
+			last_name: 'Jimenez',
+			is_active: true,
+			date_joined: '2019-08-23T14:31:43.242964Z',
+			email: 'rogelio@boomsourcing.com',
+			password_update_required: false,
+			password_last_update: '2019-11-06T02:46:19.495631Z',
+			hire_date: '2019-09-11'
+		};
+
+		setTimeout(() => {
 			this.setState({
 				state: 'DATA_LOADED',
-				profile: profileData.data,
-				user_uuid: profileData.data.uuid,
-				user_group: profileData.data.groups[0]
+				profile: mockProfileData,
+				user_uuid: mockProfileData.uuid,
+				user_group: mockProfileData.groups[0],
+				voices: [
+					{
+						uuid: '346516de-5aa6-11e7-88db-02420aff0012',
+						last_login: '2019-11-14T02:50:49.913632Z',
+						username: 'ahayterVoice',
+						first_name: 'aodhan-voice',
+						last_name: 'hayter',
+						is_active: true,
+						date_joined: '2017-06-26T19:32:34.818980Z',
+						email: null,
+						password_update_required: false,
+						password_last_update: '2019-09-26T03:02:51.152101Z',
+						hire_date: null
+					},
+					{
+						uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+						last_login: '2018-07-23T20:50:32.797472Z',
+						username: 'awhite',
+						first_name: 'a',
+						last_name: 'white',
+						is_active: true,
+						date_joined: '2017-07-19T14:55:53.913298Z',
+						email: 'testingforaudio@testing.com',
+						password_update_required: false,
+						password_last_update: '2018-07-23T20:48:53.780656Z',
+						hire_date: null
+					},
+					{
+						uuid: '79041608-5c29-11e7-9756-02420aff000e',
+						last_login: '2017-07-20T17:19:26.063777Z',
+						username: 'compManager',
+						first_name: 'CompManager',
+						last_name: 'CompManager',
+						is_active: true,
+						date_joined: '2017-06-28T17:44:45.180722Z',
+						email: null,
+						password_update_required: false,
+						password_last_update: '2017-06-28T17:45:11.216414Z',
+						hire_date: null
+					},
+					{
+						uuid: 'c4d8bac6-fab4-11e9-981d-0242ac110014',
+						last_login: '2019-11-25T08:39:48.822360Z',
+						username: 'eco-dev',
+						first_name: 'eco',
+						last_name: 'aldemo',
+						is_active: true,
+						date_joined: '2019-10-30T01:29:51.510443Z',
+						email: null,
+						password_update_required: true,
+						password_last_update: '2019-10-30T06:05:02.833473Z',
+						hire_date: '1970-01-01'
+					},
+					{
+						uuid: '5544d13e-f949-11e9-ac72-0242ac110014',
+						last_login: '2019-12-09T06:21:18.792850Z',
+						username: 'ecofriendly',
+						first_name: 'eco',
+						last_name: 'aldemo',
+						is_active: true,
+						date_joined: '2019-10-28T06:08:17.001162Z',
+						email: null,
+						password_update_required: true,
+						password_last_update: '2019-10-30T01:36:17.085441Z',
+						hire_date: '1970-01-01'
+					},
+					{
+						uuid: '51a059fe-e3f5-11e9-8aab-0242ac11000e',
+						last_login: '2019-10-01T05:31:14.471862Z',
+						username: 'el_chapo',
+						first_name: 'Joaquin',
+						last_name: 'Guzman',
+						is_active: true,
+						date_joined: '2019-10-01T02:43:58.746532Z',
+						email: null,
+						password_update_required: true,
+						password_last_update: null,
+						hire_date: null
+					},
+					{
+						uuid: '91dd2102-9283-11e7-a3d8-02420aff0015',
+						last_login: '2017-09-05T21:51:36.724644Z',
+						username: 'newVoice',
+						first_name: 'New',
+						last_name: 'Voice',
+						is_active: true,
+						date_joined: '2017-09-05T21:45:44.360843Z',
+						email: null,
+						password_update_required: false,
+						password_last_update: '2017-09-05T21:51:30.314024Z',
+						hire_date: null
+					},
+					{
+						uuid: '43614808-9788-11e9-85ae-0242ac110012',
+						last_login: '2020-01-13T01:41:29.592267Z',
+						username: 'samuel-dev',
+						first_name: 'Samuel',
+						last_name: 'Lopez',
+						is_active: true,
+						date_joined: '2019-06-25T20:31:51.330423Z',
+						email: 'samuel.lopez@boom.camp',
+						password_update_required: false,
+						password_last_update: '2019-06-26T08:33:43.667057Z',
+						hire_date: '2019-05-15'
+					},
+					{
+						uuid: 'a00b8df0-042c-11ea-a1c7-0242ac110014',
+						last_login: '2019-11-11T02:49:43.330276Z',
+						username: 'test-pass',
+						first_name: 'test',
+						last_name: 'password',
+						is_active: true,
+						date_joined: '2019-11-11T02:40:29.840353Z',
+						email: null,
+						password_update_required: true,
+						password_last_update: null,
+						hire_date: '1970-01-01'
+					},
+					{
+						uuid: '6a336dd6-0424-11ea-b8a8-0242ac110014',
+						last_login: null,
+						username: 'testUser1',
+						first_name: 'Testa',
+						last_name: 'Datest',
+						is_active: true,
+						date_joined: '2019-11-11T01:41:43.530409Z',
+						email: 'testtst@tst.net',
+						password_update_required: true,
+						password_last_update: null,
+						hire_date: '2019-11-12'
+					},
+					{
+						uuid: 'f55f5ace-a93f-11e7-8740-0242ac110008',
+						last_login: '2017-10-04T20:11:31.607253Z',
+						username: 'voice-user',
+						first_name: 'Voice',
+						last_name: 'User',
+						is_active: true,
+						date_joined: '2017-10-04T20:09:42.277778Z',
+						email: null,
+						password_update_required: false,
+						password_last_update: '2017-10-04T20:11:21.013984Z',
+						hire_date: null
+					},
+					{
+						uuid: 'e301d554-e3fe-11e9-97bb-0242ac11000e',
+						last_login: null,
+						username: 'wsmith',
+						first_name: 'Will',
+						last_name: 'Smith',
+						is_active: true,
+						date_joined: '2019-10-01T03:52:28.125468Z',
+						email: null,
+						password_update_required: true,
+						password_last_update: null,
+						hire_date: null
+					}
+				]
 			});
-			if (profileData.data.groups[0] === 10) {
-				this.recorderCamp(profileData.data.uuid, tokenLogin);
-				this.recorderSelectCampaign(profileData.data.uuid);
-			}
-			else {
-				this.setState({
-					state: 'DATA_LOADED',
-					voices: [
-						{
-							uuid: '346516de-5aa6-11e7-88db-02420aff0012',
-							last_login: '2019-11-14T02:50:49.913632Z',
-							username: 'ahayterVoice',
-							first_name: 'aodhan-voice',
-							last_name: 'hayter',
-							is_active: true,
-							date_joined: '2017-06-26T19:32:34.818980Z',
-							email: null,
-							password_update_required: false,
-							password_last_update: '2019-09-26T03:02:51.152101Z',
-							hire_date: null
-						},
-						{
-							uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
-							last_login: '2018-07-23T20:50:32.797472Z',
-							username: 'awhite',
-							first_name: 'a',
-							last_name: 'white',
-							is_active: true,
-							date_joined: '2017-07-19T14:55:53.913298Z',
-							email: 'testingforaudio@testing.com',
-							password_update_required: false,
-							password_last_update: '2018-07-23T20:48:53.780656Z',
-							hire_date: null
-						},
-						{
-							uuid: '79041608-5c29-11e7-9756-02420aff000e',
-							last_login: '2017-07-20T17:19:26.063777Z',
-							username: 'compManager',
-							first_name: 'CompManager',
-							last_name: 'CompManager',
-							is_active: true,
-							date_joined: '2017-06-28T17:44:45.180722Z',
-							email: null,
-							password_update_required: false,
-							password_last_update: '2017-06-28T17:45:11.216414Z',
-							hire_date: null
-						},
-						{
-							uuid: 'c4d8bac6-fab4-11e9-981d-0242ac110014',
-							last_login: '2019-11-25T08:39:48.822360Z',
-							username: 'eco-dev',
-							first_name: 'eco',
-							last_name: 'aldemo',
-							is_active: true,
-							date_joined: '2019-10-30T01:29:51.510443Z',
-							email: null,
-							password_update_required: true,
-							password_last_update: '2019-10-30T06:05:02.833473Z',
-							hire_date: '1970-01-01'
-						},
-						{
-							uuid: '5544d13e-f949-11e9-ac72-0242ac110014',
-							last_login: '2019-12-09T06:21:18.792850Z',
-							username: 'ecofriendly',
-							first_name: 'eco',
-							last_name: 'aldemo',
-							is_active: true,
-							date_joined: '2019-10-28T06:08:17.001162Z',
-							email: null,
-							password_update_required: true,
-							password_last_update: '2019-10-30T01:36:17.085441Z',
-							hire_date: '1970-01-01'
-						},
-						{
-							uuid: '51a059fe-e3f5-11e9-8aab-0242ac11000e',
-							last_login: '2019-10-01T05:31:14.471862Z',
-							username: 'el_chapo',
-							first_name: 'Joaquin',
-							last_name: 'Guzman',
-							is_active: true,
-							date_joined: '2019-10-01T02:43:58.746532Z',
-							email: null,
-							password_update_required: true,
-							password_last_update: null,
-							hire_date: null
-						},
-						{
-							uuid: '91dd2102-9283-11e7-a3d8-02420aff0015',
-							last_login: '2017-09-05T21:51:36.724644Z',
-							username: 'newVoice',
-							first_name: 'New',
-							last_name: 'Voice',
-							is_active: true,
-							date_joined: '2017-09-05T21:45:44.360843Z',
-							email: null,
-							password_update_required: false,
-							password_last_update: '2017-09-05T21:51:30.314024Z',
-							hire_date: null
-						},
-						{
-							uuid: '43614808-9788-11e9-85ae-0242ac110012',
-							last_login: '2020-01-13T01:41:29.592267Z',
-							username: 'samuel-dev',
-							first_name: 'Samuel',
-							last_name: 'Lopez',
-							is_active: true,
-							date_joined: '2019-06-25T20:31:51.330423Z',
-							email: 'samuel.lopez@boom.camp',
-							password_update_required: false,
-							password_last_update: '2019-06-26T08:33:43.667057Z',
-							hire_date: '2019-05-15'
-						},
-						{
-							uuid: 'a00b8df0-042c-11ea-a1c7-0242ac110014',
-							last_login: '2019-11-11T02:49:43.330276Z',
-							username: 'test-pass',
-							first_name: 'test',
-							last_name: 'password',
-							is_active: true,
-							date_joined: '2019-11-11T02:40:29.840353Z',
-							email: null,
-							password_update_required: true,
-							password_last_update: null,
-							hire_date: '1970-01-01'
-						},
-						{
-							uuid: '6a336dd6-0424-11ea-b8a8-0242ac110014',
-							last_login: null,
-							username: 'testUser1',
-							first_name: 'Testa',
-							last_name: 'Datest',
-							is_active: true,
-							date_joined: '2019-11-11T01:41:43.530409Z',
-							email: 'testtst@tst.net',
-							password_update_required: true,
-							password_last_update: null,
-							hire_date: '2019-11-12'
-						},
-						{
-							uuid: 'f55f5ace-a93f-11e7-8740-0242ac110008',
-							last_login: '2017-10-04T20:11:31.607253Z',
-							username: 'voice-user',
-							first_name: 'Voice',
-							last_name: 'User',
-							is_active: true,
-							date_joined: '2017-10-04T20:09:42.277778Z',
-							email: null,
-							password_update_required: false,
-							password_last_update: '2017-10-04T20:11:21.013984Z',
-							hire_date: null
-						},
-						{
-							uuid: 'e301d554-e3fe-11e9-97bb-0242ac11000e',
-							last_login: null,
-							username: 'wsmith',
-							first_name: 'Will',
-							last_name: 'Smith',
-							is_active: true,
-							date_joined: '2019-10-01T03:52:28.125468Z',
-							email: null,
-							password_update_required: true,
-							password_last_update: null,
-							hire_date: null
-						}
-					]
-				});
+		}, 1000);
 
-				//UNCOMMENT FOR ACTUAL DATA
-				// get('/identity/user/manage/list/?groups=10&limit=100').then((voiceData) => {
-				// 	this.setState({
-				// 		state: 'DATA_LOADED',
-				// 		voices: voiceData.data.results
-				// 	});
-				// });
-			}
-		});
+		//UNCOMMENT FOR ACTUAL DATA
+		//view data
+		// get('/identity/user/profile/').then((profileData) => {
+		// 	this.setState({
+		// 		state: 'DATA_LOADED',
+		// 		profile: profileData.data,
+		// 		user_uuid: profileData.data.uuid,
+		// 		user_group: profileData.data.groups[0]
+		// 	});
+		// 	if (profileData.data.groups[0] === 10) {
+		// 		this.recorderCamp(profileData.data.uuid, tokenLogin);
+		// 		this.recorderSelectCampaign(profileData.data.uuid);
+		// 	}
+		// 	else {
+		// 		get('/identity/user/manage/list/?groups=10&limit=100').then((voiceData) => {
+		// 			this.setState({
+		// 				state: 'DATA_LOADED',
+		// 				voices: voiceData.data.results
+		// 			});
+		// 		});
+		// 	}
+		// });
 
 		get(`/identity/group/list/`).then((res) => {
 			this.setState({
@@ -703,7 +726,7 @@ class Phrase extends Component {
 		}
 	};
 
-	selectVersion = (value) => {  
+	selectVersion = (value) => {
 		this.setState({
 			selectedVersion: value
 		});
@@ -716,11 +739,26 @@ class Phrase extends Component {
 		});
 
 		if (this.state.checkIfGlobal === true) {
-      this.setState({
-        unrecordedList: [{"uuid": "785123b8-0523-11ea-8e22-0242ac11000f", "name": "echo-phrase", "slug": "echo-phrase", "phrase": "Jerecho echo echo", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}, {"uuid": "5b7836d2-0523-11ea-acda-0242ac110005", "name": "test-me", "slug": "test-me", "phrase": "hi my name is Echo Jerecho", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}]
-      });
+			this.setState({
+				unrecordedList: [
+					{
+						uuid: '785123b8-0523-11ea-8e22-0242ac11000f',
+						name: 'echo-phrase',
+						slug: 'echo-phrase',
+						phrase: 'Jerecho echo echo',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					},
+					{
+						uuid: '5b7836d2-0523-11ea-acda-0242ac110005',
+						name: 'test-me',
+						slug: 'test-me',
+						phrase: 'hi my name is Echo Jerecho',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					}
+				]
+			});
 
-      //UNCOMMENT FOR ACTUAL DATA
+			//UNCOMMENT FOR ACTUAL DATA
 			// get(
 			// 	`/pitch/global/audio/phrase-book/${value}/voice/${this.state.user_data.uuid}/unrecorded/`
 			// ).then((unrec) => {
@@ -730,11 +768,26 @@ class Phrase extends Component {
 			// });
 		}
 		else {
-      this.setState({
-        unrecordedList: [{"uuid": "785123b8-0523-11ea-8e22-0242ac11000f", "name": "echo-phrase", "slug": "echo-phrase", "phrase": "Jerecho echo echo", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}, {"uuid": "5b7836d2-0523-11ea-acda-0242ac110005", "name": "test-me", "slug": "test-me", "phrase": "hi my name is Echo Jerecho", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}]
-      });
+			this.setState({
+				unrecordedList: [
+					{
+						uuid: '785123b8-0523-11ea-8e22-0242ac11000f',
+						name: 'echo-phrase',
+						slug: 'echo-phrase',
+						phrase: 'Jerecho echo echo',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					},
+					{
+						uuid: '5b7836d2-0523-11ea-acda-0242ac110005',
+						name: 'test-me',
+						slug: 'test-me',
+						phrase: 'hi my name is Echo Jerecho',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					}
+				]
+			});
 
-      //UNCOMMENT FOR ACTUAL DATA
+			//UNCOMMENT FOR ACTUAL DATA
 			// get(
 			// 	`/pitch/company/${this.state.campaignSelected}/audio/phrase-book/${value}/voice/${this.state.user_data
 			// 		.uuid}/unrecorded/`
@@ -767,15 +820,29 @@ class Phrase extends Component {
 
 		//global phrase
 		if (this.state.checkIfGlobal === true) {
-      this.setState({
-        display: [{"uuid": "785123b8-0523-11ea-8e22-0242ac11000f", "name": "echo-phrase", "slug": "echo-phrase", "phrase": "Jerecho echo echo", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}, {"uuid": "5b7836d2-0523-11ea-acda-0242ac110005", "name": "test-me", "slug": "test-me", "phrase": "hi my name is Echo Jerecho", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}],
-        fetchedUnrecorded: true,
+			this.setState({
+				display: [
+					{
+						uuid: '785123b8-0523-11ea-8e22-0242ac11000f',
+						name: 'echo-phrase',
+						slug: 'echo-phrase',
+						phrase: 'Jerecho echo echo',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					},
+					{
+						uuid: '5b7836d2-0523-11ea-acda-0242ac110005',
+						name: 'test-me',
+						slug: 'test-me',
+						phrase: 'hi my name is Echo Jerecho',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					}
+				],
+				fetchedUnrecorded: true,
 				loader: false,
 				showTable: true
-      });
+			});
 
-
-      //UNCOMMENT FOR ACTUAL DATA
+			//UNCOMMENT FOR ACTUAL DATA
 			// data1 = get(
 			// 	`/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data
 			// 		.uuid}/unrecorded/`
@@ -805,12 +872,27 @@ class Phrase extends Component {
 			});
 		}
 		else {
-      this.setState({
-        display: [{"uuid": "785123b8-0523-11ea-8e22-0242ac11000f", "name": "echo-phrase", "slug": "echo-phrase", "phrase": "Jerecho echo echo", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}, {"uuid": "5b7836d2-0523-11ea-acda-0242ac110005", "name": "test-me", "slug": "test-me", "phrase": "hi my name is Echo Jerecho", "phrase_book": "61a1e872-dae7-11e7-a483-0242ac110009"}],
-        fetchedUnrecorded: true
-      });
+			this.setState({
+				display: [
+					{
+						uuid: '785123b8-0523-11ea-8e22-0242ac11000f',
+						name: 'echo-phrase',
+						slug: 'echo-phrase',
+						phrase: 'Jerecho echo echo',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					},
+					{
+						uuid: '5b7836d2-0523-11ea-acda-0242ac110005',
+						name: 'test-me',
+						slug: 'test-me',
+						phrase: 'hi my name is Echo Jerecho',
+						phrase_book: '61a1e872-dae7-11e7-a483-0242ac110009'
+					}
+				],
+				fetchedUnrecorded: true
+			});
 
-      //UNCOMMENT FOR ACTUAL DATA
+			//UNCOMMENT FOR ACTUAL DATA
 			// data1 = get(
 			// 	`/pitch/company/${this.state.selectedCampaign}/audio/phrase-book/${this.state
 			// 		.selectedVersion}/voice/${this.state.user_data.uuid}/unrecorded/`
@@ -888,12 +970,12 @@ class Phrase extends Component {
 			company: 'global',
 			slug: 'global'
 		};
-    campaigns.push(global);
-    
-    this.setState({
-      state: 'DATA_LOADED',
-      campaigns: campaigns
-    })
+		campaigns.push(global);
+
+		this.setState({
+			state: 'DATA_LOADED',
+			campaigns: campaigns
+		});
 
 		// get(`/identity/user/manage/${val}/`).then((user) => {
 		// 	this.setState({
@@ -912,8 +994,8 @@ class Phrase extends Component {
 		// 				return null;
 		// 			});
 		// 			return null;
-    //     });
-    //     console.log(campaigns);
+		//     });
+		//     console.log(campaigns);
 		// 		this.setState({
 		// 			campaigns
 		// 		});
