@@ -36,7 +36,6 @@ import { TableLoader, HeaderLink } from 'common-components';
 import {
   prospectMockData,
   manageListMockData,
-  selectedVoiceData,
   campaignMockData,
   versionMockData,
   UnrecordedVoicesProspectData,
@@ -381,21 +380,23 @@ class Prospect extends Component {
       versions: [],
       voiceSelected: val
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/manage/${val}/`).then(user => {
-      user_data = user.data.campaigns;
-      this.setState({
-        state: "DATA_LOADED",
-        user_data: user.data
-      });
-    });
+
 
     this.setState({
       campaigns: campaignMockData
     })
 
     //UNCOMMENT FOR ACTUAL DATA
+    // let campaigns = [],
+    //   user_data = [];
+    // const data1 = await get(`/identity/user/manage/${val}/`).then(user => {
+    //   user_data = user.data.campaigns;
+    //   this.setState({
+    //     state: "DATA_LOADED",
+    //     user_data: user.data
+    //   });
+    // });
+
     // const data2 = await get(`/identity/campaign/list/`)
     //   .then(campaign => {
     //     campaigns = campaign.data.filter(camp => {

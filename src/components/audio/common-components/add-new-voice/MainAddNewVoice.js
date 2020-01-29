@@ -38,10 +38,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import RecordAudio from "../record-audio";
 import Toast from "../toast";
 import Loader from "../loader";
-import axios from "axios";
+// import axios from "axios";
 import UploadStatus from "../upload/UploadStatus";
 import NothingToUpload from "../table-components/NothingtoUpload";
-import { get, remove, post } from "../../../../utils/api";
+// import { get, remove, post } from "../../../../utils/api";
+import { post } from "../../../../utils/api";
 
 // for tabs
 function TabPanel(props) {
