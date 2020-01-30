@@ -34,11 +34,10 @@ import RecordedCard from '../../common-components/cards/Recorded';
 
 import { get, patch, post } from '../../utils/api';
 import { TableLoader, HeaderLink } from 'common-components';
-import { IProps,IState } from './interfacePhrase'
+import { IProps, IState } from './interfacePhrase';
 
-
-class Phrase extends Component<IProps,IState> {
-	constructor(props:any) {
+class Phrase extends Component<IProps, IState> {
+	constructor(props: any) {
 		super(props);
 
 		this.state = {
@@ -350,12 +349,12 @@ class Phrase extends Component<IProps,IState> {
 		});
 	}
 
-	recorderCamp = (uuid:any, token:any) => {
+	recorderCamp = (uuid: any, token: any) => {
 		this.setState({
 			searchVoice: uuid
 		});
 
-		let campaigns:any = [];
+		let campaigns: any = [];
 
 		const global = {
 			uuid: 'global1111',
@@ -365,35 +364,35 @@ class Phrase extends Component<IProps,IState> {
 		};
 		campaigns.push(global);
 
-		get(`/identity/user/profile/`).then((user) => {
-			this.setState({
-				state: 'DATA_LOADED',
-				user_data: user.data
-			});
+		// get(`/identity/user/profile/`).then((user) => {
+		// 	this.setState({
+		// 		state: 'DATA_LOADED',
+		// 		user_data: user.data,
+		// 	});
 
-			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps:any) => {
-					campaign.data.map((res:any) => {
-						if (res.uuid === camps) {
-							campaigns.push(res);
-						}
-						return null;
-					});
-					return null;
-				});
-				this.setState({
-					campaigns
-				});
-			});
-		});
+		// get(`/identity/campaign/list/`).then((campaign) => {
+		// 	user.data.campaigns.map((camps:any) => {
+		// 		campaign.data.map((res:any) => {
+		// 			if (res.uuid === camps) {
+		// 				campaigns.push(res);
+		// 			}
+		// 			return null;
+		// 		});
+		// 		return null;
+		// 	});
+		// 	this.setState({
+		// 		campaigns
+		// 	});
+		// });
+		// });
 	};
 
-	recorderSelectCampaign = (uuid:any) => {
+	recorderSelectCampaign = (uuid: any) => {
 		this.setState({
 			voiceSelected: uuid
 		});
 
-		let campaigns:any = [];
+		let campaigns: any = [];
 
 		const global = {
 			uuid: 'global1111',
@@ -410,8 +409,8 @@ class Phrase extends Component<IProps,IState> {
 			});
 
 			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps:any) => {
-					campaign.data.map((res:any) => {
+				user.data.campaigns.map((camps: any) => {
+					campaign.data.map((res: any) => {
 						if (res.uuid === camps) {
 							campaigns.push(res);
 						}
@@ -426,26 +425,26 @@ class Phrase extends Component<IProps,IState> {
 		});
 	};
 
-	toTitleCase = (str:any) => {
-		return str.replace(/\w\S*/g, function(txt:any) {
+	toTitleCase = (str: any) => {
+		return str.replace(/\w\S*/g, function(txt: any) {
 			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 		});
 	};
 
 	//tabs (unrecorded, rerecord, recorded) function
-	tabSelected = (val:any) => {
+	tabSelected = (val: any) => {
 		this.setState({
 			tabSelected: val
 		});
 	};
 
 	//voice selected
-	selectVoice = (val:any) => {
+	selectVoice = (val: any) => {
 		this.setState({
 			voiceSelected: val
 		});
 
-		let campaigns:any = [];
+		let campaigns: any = [];
 		const global = {
 			uuid: 'global1111',
 			name: 'Global (Globally3 required phrases)',
@@ -461,8 +460,8 @@ class Phrase extends Component<IProps,IState> {
 			});
 
 			get(`/identity/campaign/list/`).then((campaign) => {
-				user.data.campaigns.map((camps:any) => {
-					campaign.data.map((res:any) => {
+				user.data.campaigns.map((camps: any) => {
+					campaign.data.map((res: any) => {
 						if (res.uuid === camps) {
 							campaigns.push(res);
 						}
@@ -480,131 +479,218 @@ class Phrase extends Component<IProps,IState> {
 	};
 
 	// selecting campaign function
-	selectCampaign = (value:any, uuid:any) => {
+	selectCampaign = (value: any, uuid: any) => {
 		this.setState({
 			selectedCampaign: value,
-			versions: []
+			versions: [
+				{
+					uuid: '61a1e872-dae7-11e7-a483-0242ac110009',
+					name: 'PB 1 test ed',
+					company: null,
+					slug: 'pb-1',
+					phrases: [ '785123b8-0523-11ea-8e22-0242ac11000f', '5b7836d2-0523-11ea-acda-0242ac110005' ]
+				},
+				{
+					uuid: '77242e56-fa31-11e9-8f09-0242ac110005',
+					name: 'asf',
+					company: null,
+					slug: 'asf',
+					phrases: [ 'fe08ad8e-043b-11ea-a070-0242ac11000f' ]
+				},
+				{
+					uuid: 'f6f80738-fa31-11e9-a038-0242ac11000f',
+					name: 'sadfsadf',
+					company: null,
+					slug: 'sadfsadf',
+					phrases: []
+				},
+				{
+					uuid: '1d6621b2-fab3-11e9-9d8b-0242ac11000f',
+					name: 'asfsadfsadf',
+					company: null,
+					slug: 'asfsadfsadf',
+					phrases: []
+				},
+				{
+					uuid: '1ffcf29a-0079-11ea-a7d2-0242ac110005',
+					name: 'test-phrase',
+					company: null,
+					slug: 'test-phrase',
+					phrases: [ '2029e6d8-0079-11ea-8f26-0242ac110005' ]
+				},
+				{
+					uuid: 'dad2c19e-0079-11ea-9234-0242ac110005',
+					name: 'try-phrase',
+					company: null,
+					slug: 'try-phrase',
+					phrases: []
+				},
+				{
+					uuid: '16750bf8-007a-11ea-babc-0242ac110005',
+					name: 'renamed-test-phrase',
+					company: null,
+					slug: 'test-cypress-phrase',
+					phrases: [ '864c8c28-3025-11ea-81c0-0242ac110005' ]
+				},
+				{
+					uuid: '3cd03c64-007a-11ea-9695-0242ac11000f',
+					name: 'test-cypress-phrase',
+					company: null,
+					slug: 'test-cypress-phrase-2',
+					phrases: [ '3d9ee398-007a-11ea-adfa-0242ac110005' ]
+				},
+				{
+					uuid: '3d0e5a4e-0101-11ea-9153-0242ac110005',
+					name: 'test-cypress-phrase-2',
+					company: null,
+					slug: 'test-cypress-phrase-2-3',
+					phrases: []
+				},
+				{
+					uuid: '4e2cfc44-0102-11ea-9f17-0242ac11000f',
+					name: 'test-cypress-phrase-3',
+					company: null,
+					slug: 'test-cypress-phrase-3',
+					phrases: []
+				},
+				{
+					uuid: '767d87b2-0103-11ea-974d-0242ac110008',
+					name: 'test-cypress-phrase-4',
+					company: null,
+					slug: 'test-cypress-phrase-4',
+					phrases: []
+				},
+				{
+					uuid: 'bf64703a-0103-11ea-9510-0242ac110008',
+					name: 'test-cypress-phrase-5',
+					company: null,
+					slug: 'test-cypress-phrase-5',
+					phrases: []
+				},
+				{ uuid: '75ad3184-32bd-11ea-a261-0242ac11000f', name: 'u', company: null, slug: 'u', phrases: [] }
+			],
+			checkIfGlobal: true
 		});
 
-		if (uuid === 'global') {
-			//global for phrasebook
-			this.setState({
-				versions: [
-					{
-						uuid: '61a1e872-dae7-11e7-a483-0242ac110009',
-						name: 'PB 1 test ed',
-						company: null,
-						slug: 'pb-1',
-						phrases: [ '785123b8-0523-11ea-8e22-0242ac11000f', '5b7836d2-0523-11ea-acda-0242ac110005' ]
-					},
-					{
-						uuid: '77242e56-fa31-11e9-8f09-0242ac110005',
-						name: 'asf',
-						company: null,
-						slug: 'asf',
-						phrases: [ 'fe08ad8e-043b-11ea-a070-0242ac11000f' ]
-					},
-					{
-						uuid: 'f6f80738-fa31-11e9-a038-0242ac11000f',
-						name: 'sadfsadf',
-						company: null,
-						slug: 'sadfsadf',
-						phrases: []
-					},
-					{
-						uuid: '1d6621b2-fab3-11e9-9d8b-0242ac11000f',
-						name: 'asfsadfsadf',
-						company: null,
-						slug: 'asfsadfsadf',
-						phrases: []
-					},
-					{
-						uuid: '1ffcf29a-0079-11ea-a7d2-0242ac110005',
-						name: 'test-phrase',
-						company: null,
-						slug: 'test-phrase',
-						phrases: [ '2029e6d8-0079-11ea-8f26-0242ac110005' ]
-					},
-					{
-						uuid: 'dad2c19e-0079-11ea-9234-0242ac110005',
-						name: 'try-phrase',
-						company: null,
-						slug: 'try-phrase',
-						phrases: []
-					},
-					{
-						uuid: '16750bf8-007a-11ea-babc-0242ac110005',
-						name: 'renamed-test-phrase',
-						company: null,
-						slug: 'test-cypress-phrase',
-						phrases: [ '864c8c28-3025-11ea-81c0-0242ac110005' ]
-					},
-					{
-						uuid: '3cd03c64-007a-11ea-9695-0242ac11000f',
-						name: 'test-cypress-phrase',
-						company: null,
-						slug: 'test-cypress-phrase-2',
-						phrases: [ '3d9ee398-007a-11ea-adfa-0242ac110005' ]
-					},
-					{
-						uuid: '3d0e5a4e-0101-11ea-9153-0242ac110005',
-						name: 'test-cypress-phrase-2',
-						company: null,
-						slug: 'test-cypress-phrase-2-3',
-						phrases: []
-					},
-					{
-						uuid: '4e2cfc44-0102-11ea-9f17-0242ac11000f',
-						name: 'test-cypress-phrase-3',
-						company: null,
-						slug: 'test-cypress-phrase-3',
-						phrases: []
-					},
-					{
-						uuid: '767d87b2-0103-11ea-974d-0242ac110008',
-						name: 'test-cypress-phrase-4',
-						company: null,
-						slug: 'test-cypress-phrase-4',
-						phrases: []
-					},
-					{
-						uuid: 'bf64703a-0103-11ea-9510-0242ac110008',
-						name: 'test-cypress-phrase-5',
-						company: null,
-						slug: 'test-cypress-phrase-5',
-						phrases: []
-					},
-					{ uuid: '75ad3184-32bd-11ea-a261-0242ac11000f', name: 'u', company: null, slug: 'u', phrases: [] }
-				],
-				checkIfGlobal: true
-			});
+		// if (uuid === 'global') {
+		// 	//global for phrasebook
+		// 	this.setState({
+		// 		versions: [
+		// 			{
+		// 				uuid: '61a1e872-dae7-11e7-a483-0242ac110009',
+		// 				name: 'PB 1 test ed',
+		// 				company: null,
+		// 				slug: 'pb-1',
+		// 				phrases: [ '785123b8-0523-11ea-8e22-0242ac11000f', '5b7836d2-0523-11ea-acda-0242ac110005' ]
+		// 			},
+		// 			{
+		// 				uuid: '77242e56-fa31-11e9-8f09-0242ac110005',
+		// 				name: 'asf',
+		// 				company: null,
+		// 				slug: 'asf',
+		// 				phrases: [ 'fe08ad8e-043b-11ea-a070-0242ac11000f' ]
+		// 			},
+		// 			{
+		// 				uuid: 'f6f80738-fa31-11e9-a038-0242ac11000f',
+		// 				name: 'sadfsadf',
+		// 				company: null,
+		// 				slug: 'sadfsadf',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: '1d6621b2-fab3-11e9-9d8b-0242ac11000f',
+		// 				name: 'asfsadfsadf',
+		// 				company: null,
+		// 				slug: 'asfsadfsadf',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: '1ffcf29a-0079-11ea-a7d2-0242ac110005',
+		// 				name: 'test-phrase',
+		// 				company: null,
+		// 				slug: 'test-phrase',
+		// 				phrases: [ '2029e6d8-0079-11ea-8f26-0242ac110005' ]
+		// 			},
+		// 			{
+		// 				uuid: 'dad2c19e-0079-11ea-9234-0242ac110005',
+		// 				name: 'try-phrase',
+		// 				company: null,
+		// 				slug: 'try-phrase',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: '16750bf8-007a-11ea-babc-0242ac110005',
+		// 				name: 'renamed-test-phrase',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase',
+		// 				phrases: [ '864c8c28-3025-11ea-81c0-0242ac110005' ]
+		// 			},
+		// 			{
+		// 				uuid: '3cd03c64-007a-11ea-9695-0242ac11000f',
+		// 				name: 'test-cypress-phrase',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase-2',
+		// 				phrases: [ '3d9ee398-007a-11ea-adfa-0242ac110005' ]
+		// 			},
+		// 			{
+		// 				uuid: '3d0e5a4e-0101-11ea-9153-0242ac110005',
+		// 				name: 'test-cypress-phrase-2',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase-2-3',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: '4e2cfc44-0102-11ea-9f17-0242ac11000f',
+		// 				name: 'test-cypress-phrase-3',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase-3',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: '767d87b2-0103-11ea-974d-0242ac110008',
+		// 				name: 'test-cypress-phrase-4',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase-4',
+		// 				phrases: []
+		// 			},
+		// 			{
+		// 				uuid: 'bf64703a-0103-11ea-9510-0242ac110008',
+		// 				name: 'test-cypress-phrase-5',
+		// 				company: null,
+		// 				slug: 'test-cypress-phrase-5',
+		// 				phrases: []
+		// 			},
+		// 			{ uuid: '75ad3184-32bd-11ea-a261-0242ac11000f', name: 'u', company: null, slug: 'u', phrases: [] }
+		// 		],
+		// 		checkIfGlobal: true
+		// 	});
 
-			//UNCOMMENT FOR ACTUAL DATA
-			// get(`/pitch/global/phrases/`).then(global => {
-			//   //if choose global checkIfGlobal will be true
-			//   this.setState({
-			//     versions: global.data,
-			//     checkIfGlobal: true
-			//   });
-			// });
-		}
-		else {
-			get(`/identity/company/${uuid}/`).then((res) => {
-				this.setState({
-					companySlug: res.data.slug
-				});
+		//UNCOMMENT FOR ACTUAL DATA
+		// get(`/pitch/global/phrases/`).then(global => {
+		//   //if choose global checkIfGlobal will be true
+		//   this.setState({
+		//     versions: global.data,
+		//     checkIfGlobal: true
+		//   });
+		// });
+		// }
+		// else {
+		// 	get(`/identity/company/${uuid}/`).then((res) => {
+		// 		this.setState({
+		// 			companySlug: res.data.slug
+		// 		});
 
-				get(`/pitch/company/${res.data.slug}/phrases/`).then((camp) => {
-					this.setState({
-						versions: camp.data,
-						checkIfGlobal: false
-					});
-				});
-			});
-		}
+		// 		get(`/pitch/company/${res.data.slug}/phrases/`).then((camp) => {
+		// 			this.setState({
+		// 				versions: camp.data,
+		// 				checkIfGlobal: false
+		// 			});
+		// 		});
+		// 	});
+		// }
 	};
 
-	selectVoiceCampaign = (value:any, uuid:any) => {
+	selectVoiceCampaign = (value: any, uuid: any) => {
 		this.setState({
 			campaignSelected: value
 		});
@@ -728,7 +814,7 @@ class Phrase extends Component<IProps,IState> {
 		}
 	};
 
-	selectVersion = (value:any) => {
+	selectVersion = (value: any) => {
 		this.setState({
 			selectedVersion: value
 		});
@@ -801,7 +887,7 @@ class Phrase extends Component<IProps,IState> {
 		}
 	};
 
-	selectUnrecorded = (value:any) => {
+	selectUnrecorded = (value: any) => {
 		this.setState({
 			unrecordedSelected: value
 		});
@@ -1050,7 +1136,17 @@ class Phrase extends Component<IProps,IState> {
 	};
 
 	// table audio upload
-	uploadAudio = (voice: any, phrasebook: any, slug: any, phrase: any, file: any, modification: any, fadein: any, fadeout: any, convert: any) => {
+	uploadAudio = (
+		voice: any,
+		phrasebook: any,
+		slug: any,
+		phrase: any,
+		file: any,
+		modification: any,
+		fadein: any,
+		fadeout: any,
+		convert: any
+	) => {
 		if (file == null) {
 			this.setState({
 				openToast: true,
@@ -1462,7 +1558,17 @@ class Phrase extends Component<IProps,IState> {
 		});
 	};
 
-	mainUploadAudio = (voice: any, phrasebook: any, slug: any, phrase: any, file: any, modification: any, fadein: any, fadeout: any, convert: any) => {
+	mainUploadAudio = (
+		voice: any,
+		phrasebook: any,
+		slug: any,
+		phrase: any,
+		file: any,
+		modification: any,
+		fadein: any,
+		fadeout: any,
+		convert: any
+	) => {
 		if (file == null) {
 			this.setState({
 				openToast: true,
@@ -1634,8 +1740,6 @@ class Phrase extends Component<IProps,IState> {
 		});
 	};
 
-
-
 	getUpdatedRecorded = (val: any) => {
 		this.setState({
 			recorded: val
@@ -1748,7 +1852,7 @@ class Phrase extends Component<IProps,IState> {
 	};
 
 	render() {
-		const { classes, width } : any= this.props;
+		const { classes, width }: any = this.props;
 		const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 		return (
 			<React.Fragment>
@@ -1776,7 +1880,7 @@ class Phrase extends Component<IProps,IState> {
 									</Grid>
 									<Grid container className={classes.mobileConDropdown}>
 										<Grid item xs={7} sm={8}>
-											<DropdownDesktop  />
+											<DropdownDesktop />
 										</Grid>
 										<Grid item xs={5} sm={4}>
 											<Dropdown
