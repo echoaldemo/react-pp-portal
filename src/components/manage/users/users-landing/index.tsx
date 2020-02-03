@@ -26,19 +26,18 @@ const UserLanding = () => {
 
   const classes = useStyles();
 
-  // *** FETCHING DATA USING API UTIL ***
+  // *** FETCHING DATA USING API UTIL
   useEffect(() => {
     setLoading(true)
     get("/identity/user/manage/list/", {
       limit: 10,
       order_by: "-datetime_modified"
     }).then((res:any) => {
+      console.log(res.data.results);
       setUsers(res.data.results)
       setLoading(false)
     })
   }, [])
-
-  // *** DIRECT FETCHING USING AXIOS ***
 
   // useEffect(() => {
   //fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/users")
@@ -65,11 +64,21 @@ const UserLanding = () => {
     setUserData(users.slice(from, to));
   };
 
+  //FOR MOCK DATA
   const editUser = (id: any) => {
     let activeData = users.filter((key: any) => key.uuid === id);
     setActiveUserData(activeData[0]);
     setIsUserEdit(true);
   };
+
+  // *** UNCOMMENT FOR ACTUAL DATA ***
+  // const editUser = (id: any) => {
+  //   get(`/identity/user/manage/${id}`)
+  //     .then((activeUser: any) => {
+  //       setActiveUserData(activeUser.data);
+  //       setIsUserEdit(true);
+  //     });
+  // };
 
   const renderPagination: Function = () => {
     return (

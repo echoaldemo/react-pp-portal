@@ -28,6 +28,9 @@ import styled from "styled-components";
 import { SetupPassword } from "./SetupPassword";
 import { useStyles, theme, CustomText } from "./styles";
 
+//API UTIL
+import { get } from "utils/api"
+
 const SelectField = styled(InputField)`
   .MuiInputLabel-shrink {
     color: #bbb !important;
@@ -144,6 +147,41 @@ function Edit({ open, setOpen, data }: EditProps) {
 				setTeam(team);
 			});
 	};
+
+	// *** UNCOMMENT FOR ACTUAL DATA ***
+	// useEffect(() => {
+	// 	get("/identity/group/list")
+	// 		// .then((roles: any) => roles.json())
+	// 		.then((role: any) => {
+	// 			setRole(role.data);
+	// 		})
+	// 		.then(() => getCompanies())
+	// 		.then(() => getCampaigns())
+	// 		.then(() => getTeams());
+	// }, [data, open]);
+
+	// const getCompanies = () => {
+	// 	get("/identity/company/list")
+	// 		// .then((company: any) => company.json())
+	// 		.then((company: any) => {
+	// 			console.log(company.data);
+	// 			setCompany(company.data);
+	// 		});
+	// };
+
+	// const getCampaigns = () => {
+	// 	get("/identity/campaign/list")
+	// 		.then((campaign: any) => {
+	// 			setCampaign(campaign.data);
+	// 		});
+	// };
+
+	// const getTeams = () => {
+	// 	get("/identity/team/list")
+	// 		.then((team: any) => {
+	// 			setTeam(team.data);
+	// 		});
+	// };
 
 	let classProp = {
 		classes: {
