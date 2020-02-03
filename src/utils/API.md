@@ -4,8 +4,8 @@ This is the documentation for using the api util
 
 <b>Dynamic data:</b>
 
-<b>token:</b> "Your token" <br />
-<b>baseUrl:</b> "Url of the api server"
+<b>token</b>: {Your token} <br />
+<b>baseUrl</b>: {Url of the api server}
 
 ## IMPORT A TOOL
 
@@ -19,8 +19,10 @@ This is the documentation for using the api util
 
   #### `EXAMPLE`
   ```
-  get("/identity/user/manage/list/", {query})
-    .then((res) => {
+  get("/identity/user/manage/list/", {
+    limit: 10,
+    order_by: "-datetime_modified"
+  }).then((res) => {
       --data manipulation here--
     })
   ```
@@ -35,7 +37,7 @@ This is the documentation for using the api util
 
   #### `EXAMPLE`
   ```
-  post("/identity/user/manage/list/", {data})
+  post('/identity/user/manage/check_username/', { username: "user" })
     .then((res) => {
       --data manipulation here--
     })
@@ -51,7 +53,7 @@ This is the documentation for using the api util
 
   #### `EXAMPLE`
   ```
-  patch("/identity/user/manage/list/", {data})
+  patch("/identity/user/manage/list/", { username: "user" })
     .then((res) => {
       --data manipulation here--
     })
@@ -67,7 +69,7 @@ This is the documentation for using the api util
 
   #### `EXAMPLE`
   ```
-  put("/identity/user/manage/list/", {data})
+  put("/identity/user/manage/list/", { username: "user" })
     .then((res) => {
       --data manipulation here--
     })
@@ -75,7 +77,7 @@ This is the documentation for using the api util
 
   ### REMOVE METHOD
   ```
-  get("{endpoint}")
+  remove("{endpoint}")
     .then((res) => {
       --data manipulation here--
     })
@@ -83,7 +85,7 @@ This is the documentation for using the api util
 
   #### `EXAMPLE`
   ```
-  get("/identity/user/manage/list/", {query})
+  remove("/identity/user/manage/list/")
     .then((res) => {
       --data manipulation here--
     })
