@@ -4,8 +4,8 @@ This is the documentation for using the api util
 
 <b>Dynamic data:</b>
 
-<b>token</b>: {Your token} <br />
-<b>baseUrl</b>: {Url of the api server}
+<b>token</b>: { Your token } <br />
+<b>baseUrl</b>: { Url of the api server }
 
 ## IMPORT A TOOL
 
@@ -23,8 +23,8 @@ This is the documentation for using the api util
     limit: 10,
     order_by: "-datetime_modified"
   }).then((res) => {
-      --data manipulation here--
-    })
+    --data manipulation here--
+  })
   ```
 
   ### POST METHOD
