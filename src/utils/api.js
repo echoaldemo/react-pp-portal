@@ -8,7 +8,7 @@ if (token != null) {
   axios.defaults.headers.common['Authorization'] = `token ${token}`
 }
 
-const baseUrl = 'http://devswarm.perfectpitchtech.com'
+const baseUrl = 'http://devswarm.perfectpitchtech.com' // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken
 let cancel = () => {}
 
@@ -34,18 +34,21 @@ const post = (endpoint, data) =>
       cancel = c
     })
   })
+
 const patch = (endpoint, data) =>
   axios.patch(`${baseUrl}${endpoint}`, data, {
     cancelToken: new CancelToken(function executor(c) {
       cancel = c
     })
   })
+
 const put = (endpoint, data) =>
   axios.put(`${baseUrl}${endpoint}`, data, {
     cancelToken: new CancelToken(function executor(c) {
       cancel = c
     })
   })
+
 const remove = endpoint =>
   axios.delete(`${baseUrl}${endpoint}`, {
     cancelToken: new CancelToken(function executor(c) {

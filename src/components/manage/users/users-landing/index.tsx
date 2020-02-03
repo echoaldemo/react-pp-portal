@@ -13,6 +13,9 @@ import { UserTable } from "../components";
 import { useStyles } from "./styles";
 import axios from 'axios'
 
+//API UTIL
+import { get } from "utils/api"
+
 const UserLanding = () => {
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState([]);
@@ -23,28 +26,40 @@ const UserLanding = () => {
 
   const classes = useStyles();
 
+  // *** FETCHING DATA USING API UTIL ***
   useEffect(() => {
-    //fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/users")
-    let token = '00000'
-    axios.request<any>(
-      {
-        method: 'get',
-        headers: {'Authorization': `token ${token}`},
-        url: 'https://dev-api.perfectpitchtech.com/identity/user/manage/list/?editable=true&limit=10&order_by=-datetime_modified'
-      }
-    ).then(({data}) => {
-    // handle success
-    console.log(data);
-    setUsers(data.results);
-    setLoading(false);
-  })
-  .catch((error) => {
-    // handle error
-    console.log(error);
-  })
+    setLoading(true)
+    get("/identity/user/manage/list/", {
+      limit: 10,
+      order_by: "-datetime_modified"
+    }).then((res:any) => {
+      setUsers(res.data.results)
+      setLoading(false)
+    })
+  }, [])
 
-      
-  }, []);
+  // *** DIRECT FETCHING USING AXIOS ***
+
+  // useEffect(() => {
+  //fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/users")
+  //   let token = '00000'
+  //   axios.request<any>(
+  //     {
+  //       method: 'get',
+  //       headers: {'Authorization': `token ${token}`},
+  //       url: 'https://dev-api.perfectpitchtech.com/identity/user/manage/list/?editable=true&limit=10&order_by=-datetime_modified'
+  //     }
+  //   ).then(({data}) => {
+  //   // handle success
+  //   console.log(data);
+  //   setUsers(data.results);
+  //   setLoading(false);
+  // })
+  // .catch((error) => {
+  //   // handle error
+  //   console.log(error);
+  // })
+  // }, []);
 
   const paginate: Function = (from: any, to: any) => {
     setUserData(users.slice(from, to));
