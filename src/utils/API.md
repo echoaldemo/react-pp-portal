@@ -17,11 +17,11 @@ This is the documentation for using the api util
     })
   ```
 
-  ### EXAMPLE
+  #### `EXAMPLE`
   ```
   get("/identity/user/manage/list/", {query})
     .then((res) => {
-    --data manipulation here--
+      --data manipulation here--
     })
   ```
 
@@ -33,7 +33,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ### EXAMPLE
+  #### `EXAMPLE`
   ```
   post("/identity/user/manage/list/", {data})
     .then((res) => {
@@ -49,7 +49,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ### EXAMPLE
+  #### `EXAMPLE`
   ```
   patch("/identity/user/manage/list/", {data})
     .then((res) => {
@@ -65,7 +65,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ### EXAMPLE
+  #### `EXAMPLE`
   ```
   put("/identity/user/manage/list/", {data})
     .then((res) => {
@@ -81,7 +81,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ### EXAMPLE
+  #### `EXAMPLE`
   ```
   get("/identity/user/manage/list/", {query})
     .then((res) => {
