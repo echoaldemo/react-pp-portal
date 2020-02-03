@@ -7,9 +7,9 @@ This is the documentation for using the api util
 <b>token:</b> "Your token" <br />
 <b>baseUrl:</b> "Url of the api server"
 
-# IMPORT A TOOL
+## IMPORT A TOOL
 
-  ## GET METHOD
+  ### GET METHOD
   ```
   get("{endpoint}", {query})
     .then((res) => {
@@ -25,7 +25,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ## POST METHOD
+  ### POST METHOD
   ```
   post("{endpoint}", {data})
     .then((res) => {
@@ -41,7 +41,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ## PATCH METHOD
+  ### PATCH METHOD
   ```
   patch("{endpoint}", {data})
     .then((res) => {
@@ -57,7 +57,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ## PUT METHOD
+  ### PUT METHOD
   ```
   put("{endpoint}", {data})
     .then((res) => {
@@ -73,7 +73,7 @@ This is the documentation for using the api util
     })
   ```
 
-  ## REMOVE METHOD
+  ### REMOVE METHOD
   ```
   get("{endpoint}")
     .then((res) => {
