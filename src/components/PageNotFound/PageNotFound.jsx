@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import text404 from 'assets/images/404_text.svg';
+import text404 from 'assets/images/404_image.svg';
 const PageNotFound = () => {
 	return (
 		<div className="container" style={{ height: '100vh' }}>
