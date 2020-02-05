@@ -458,6 +458,33 @@ function Edit({ open, setOpen, data }: EditProps) {
 		</Grid>
 	);
 
+	const impersonate = async (role: any) => {
+    if(!localStorage.getItem('is_impersonate')){
+			localStorage.setItem('is_impersonate', "true");
+			window.location.href = '/gateway';
+
+      // let token = localStorage.getItem('ngStorage-ppToken');
+      // let type = localStorage.getItem('type');
+      // localStorage.setItem('type/previous', type)
+      // localStorage.setItem('ngStorage-ppToken/previous',token);
+      // localStorage.removeItem('user_uuid');
+ 
+      
+     //  api request
+      // let token_1 = await getToken(this.state.uuid);
+      // await localStorage.setItem('ngStorage-ppToken',token_1.data);
+      // await getData();
+      // if (role.includes(10)){
+      //   localStorage.setItem('type', role[0]);
+      //   this.props.history.push('/manage/audio/pitch')
+      // } else {
+      //   this.props.history.push('/gateway');
+      // }
+      // document.location.reload();
+    }
+  }
+
+
 	const handleDateChange = (value: any) => {
 		Info.add({ hire_date: value });
 	};
@@ -678,7 +705,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 						</Grid>
 
 						<Grid item xs>
-							<button className={classes.impersonateBtn}>Impersonate</button>
+							<button className={classes.impersonateBtn} onClick={() => impersonate(role)}>Impersonate</button>
 						</Grid>
 					</Grid>
 				</Grid>

@@ -28,7 +28,6 @@ import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
 
 interface HeadMenuProps {
   location: Obj;
-  logout: Function;
   getData: Function;
 }
 
@@ -36,7 +35,7 @@ interface Obj {
   [index: string]: any;
 }
 
-const HeadMenu: React.FC<HeadMenuProps> = ({ location, logout, getData }) => {
+const HeadMenu: React.FC<HeadMenuProps> = ({ location, getData }) => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [wholeName, setWholeName] = useState<string>("Loading...");

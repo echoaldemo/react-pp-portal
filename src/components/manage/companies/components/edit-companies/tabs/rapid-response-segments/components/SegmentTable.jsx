@@ -1,4 +1,3 @@
-import AsyncTable from '../../../../common-components/async-table/AsyncTable'
 import TableRow from '@material-ui/core/TableRow'
 import CopyIcon from '@material-ui/icons/FilterNone'
 import Icon from '@mdi/react'
@@ -10,9 +9,10 @@ import ViewIcon from '@material-ui/icons/Visibility'
 
 import TableCell from '@material-ui/core/TableCell'
 import {
+  AsyncTable,
   ActiveCell,
   UnderlineCell
-} from '../../../../common-components/table-cells/TableCells'
+} from 'common-components/table-cells/TableCells'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 import React, { useState } from 'react'
@@ -21,7 +21,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
 import { withRouter } from 'react-router-dom'
 import { Typography, Button, Menu, MenuItem, Dialog } from '@material-ui/core'
-import EditButton from '../../../../common-components/EditButton/EditButton'
+import EditButton from 'common-components/EditButton/EditButton'
 // import DeleteSegment from "./DeleteSegment";
 
 const LightTooltip = withStyles(theme => ({

@@ -29,7 +29,7 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
     if (loginChecker()) {
       history.push("/gateway");
     }
-  }, []);
+  }, [history]);
 
   const handleClose = () => {
     setState({ ...state, snackbar: false });

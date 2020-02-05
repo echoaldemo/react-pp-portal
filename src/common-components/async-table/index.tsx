@@ -83,10 +83,10 @@ const AsyncTable: React.FC<Props> = ({
                   />
                 </TableCell>
               ) : (
-                <TableCell className={classes.header} key={idx}>
-                  <span className={classes.overflowClass}>{header}</span>
-                </TableCell>
-              )
+                  <TableCell className={classes.header} key={idx}>
+                    <span className={classes.overflowClass}>{header}</span>
+                  </TableCell>
+                )
             )}
           </TableRow>
         </TableHead>

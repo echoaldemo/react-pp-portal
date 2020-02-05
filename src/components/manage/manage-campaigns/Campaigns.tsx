@@ -8,7 +8,7 @@ import { Paper, Divider } from '@material-ui/core';
 import NewCampaign from './components/new-campaign/NewCampaign';
 import { AppContext } from 'contexts/CampaignContext';
 const Campaigns = ({ history }: any) => {
-	const [ openCreateModal, setOpenCreateModal ] = useState(false);
+	const [openCreateModal, setOpenCreateModal] = useState(false);
 
 	return (
 		<AppContext.Consumer>
@@ -21,13 +21,13 @@ const Campaigns = ({ history }: any) => {
 							<SearchBar
 								title="Campaign"
 								userData={data}
-								headers={[ 'name', 'slug', 'uuid' ]}
+								headers={['name', 'slug', 'uuid']}
 								loading={loading}
 								active={true}
 								link={true}
 								pathnameData={{
 									firstLink: `/manage/campaign/edit/`,
-									fetchData: [ 'slug', 'uuid' ],
+									fetchData: ['slug', 'uuid'],
 									lastLink: `/settings`
 								}}
 							/>

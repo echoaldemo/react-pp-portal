@@ -1,4 +1,4 @@
-import { post, withToken } from "../../utils/api";
+import { post } from "../../utils/api";
 function login(username, password) {
   return post("/identity/user/login/", {
     username,

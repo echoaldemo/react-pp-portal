@@ -10,7 +10,7 @@ const FieldsTable = ({ data }: any) => {
 		<div>
 			{data ? (
 				<AsyncTable
-					headers={[ 'Description', 'Value', '' ]}
+					headers={['Description', 'Value', '']}
 					tableData={data}
 					render={(data: any, { row, cell, uuid, icon }: any) =>
 						data.map((item: any, i: number) => (
@@ -32,23 +32,23 @@ const FieldsTable = ({ data }: any) => {
 						))}
 				/>
 			) : (
-				<TableNoResult
-					noHeader
-					headerText="Option Groups"
-					mainMessage="No option have been created"
-					subMessage="Would you like to create one? Just hit the “New Option” button."
-					renderButton={
-						<SaveButton
-							onClick={() => {
-								setNewFieldModal(true);
-							}}
-						>
-							<Add />
-							New Field
+					<TableNoResult
+						noHeader
+						headerText="Option Groups"
+						mainMessage="No option have been created"
+						subMessage="Would you like to create one? Just hit the “New Option” button."
+						renderButton={
+							<SaveButton
+								onClick={() => {
+									setNewFieldModal(true);
+								}}
+							>
+								<Add />
+								New Field
 						</SaveButton>
-					}
-				/>
-			)}
+						}
+					/>
+				)}
 		</div>
 	);
 };
