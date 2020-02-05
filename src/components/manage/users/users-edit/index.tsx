@@ -366,7 +366,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 					return (
 						<MenuItem
 							style={{ minHeight: "36px" }}
-							key={key.id}
+							key={key.uuid}
 							value={key.uuid}
 							data-cy="select-list"
 						>
@@ -441,9 +441,9 @@ function Edit({ open, setOpen, data }: EditProps) {
 				{...customProp}
 				{...roleSelectProps}
 			>
-				{role.map((key: any) => {
+				{role.map((key: any,i:number) => {
 					return (
-						<MenuItem key={key.id} value={key.pk} data-cy="roles-list">
+						<MenuItem key={i} value={key.pk} data-cy="roles-list">
 							<Checkbox
 								color="primary"
 								checked={

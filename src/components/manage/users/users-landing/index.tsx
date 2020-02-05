@@ -11,10 +11,9 @@ import { NewUser } from "../users-new";
 import { Edit } from "../users-edit";
 import { UserTable } from "../components";
 import { useStyles } from "./styles";
-import axios from 'axios'
 
 //API UTIL
-import { get } from "utils/api"
+import { get } from "utils/api";
 
 const UserLanding = () => {
   const [users, setUsers] = useState([]);
@@ -28,16 +27,16 @@ const UserLanding = () => {
 
   // *** FETCHING DATA USING API UTIL
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     get("/identity/user/manage/list/", {
       limit: 10,
       order_by: "-datetime_modified"
-    }).then((res:any) => {
+    }).then((res: any) => {
       console.log(res.data.results);
-      setUsers(res.data.results)
-      setLoading(false)
-    })
-  }, [])
+      setUsers(res.data.results);
+      setLoading(false);
+    });
+  }, []);
 
   // useEffect(() => {
   //fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/users")
@@ -65,20 +64,19 @@ const UserLanding = () => {
   };
 
   //FOR MOCK DATA
-  const editUser = (id: any) => {
-    let activeData = users.filter((key: any) => key.uuid === id);
-    setActiveUserData(activeData[0]);
-    setIsUserEdit(true);
-  };
+  // const editUser = (id: any) => {
+  //   let activeData = users.filter((key: any) => key.uuid === id);
+  //   setActiveUserData(activeData[0]);
+  //   setIsUserEdit(true);
+  // };
 
   // *** UNCOMMENT FOR ACTUAL DATA ***
-  // const editUser = (id: any) => {
-  //   get(`/identity/user/manage/${id}`)
-  //     .then((activeUser: any) => {
-  //       setActiveUserData(activeUser.data);
-  //       setIsUserEdit(true);
-  //     });
-  // };
+  const editUser = (id: any) => {
+    get(`/identity/user/manage/${id}`).then((activeUser: any) => {
+      setActiveUserData(activeUser.data);
+      setIsUserEdit(true);
+    });
+  };
 
   const renderPagination: Function = () => {
     return (
