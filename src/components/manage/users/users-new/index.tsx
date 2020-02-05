@@ -164,7 +164,6 @@ const NewUser = ({ open, setOpen, onClose }: Props) => {
       hire_date: info.date.toISOString().slice(0, 10)
     };
 
-    console.log(data);
     setLoading(true);
     post("/identity/user/manage/create/", data).then((res: any) => {
       console.log(res);
