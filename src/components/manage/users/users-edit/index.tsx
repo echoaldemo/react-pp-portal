@@ -29,7 +29,7 @@ import { SetupPassword } from "./SetupPassword";
 import { useStyles, theme, CustomText } from "./styles";
 
 //API UTIL
-import { get } from "utils/api"
+import { get, patch } from "utils/api"
 
 const SelectField = styled(InputField)`
   .MuiInputLabel-shrink {
@@ -41,17 +41,19 @@ type EditProps = {
 	open: boolean;
 	setOpen: any;
 	data: any;
+	update: Function;
 };
 
 type Indexable = { [key: string]: any };
 
-function Edit({ open, setOpen, data }: EditProps) {
+function Edit({ open, setOpen, data, update }: EditProps) {
 	const classes = useStyles();
 	const [setup, setSetup] = useState(false);
 	const [success, setSuccess] = useState(false);
 	const [message, setMessage] = useState("");
 	const [loading, setLoading] = useState(false);
 	const initialState = {
+		uuid: "",
 		first_name: "",
 		last_name: "",
 		username: "",
@@ -59,7 +61,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 		team: "",
 		company: "",
 		campaigns: [],
-		role: [],
+		groups: [],
 		is_active: true,
 		password: {
 			original: "",
@@ -77,13 +79,14 @@ function Edit({ open, setOpen, data }: EditProps) {
 	const [team, setTeam] = useState([]);
 	const [company, setCompany] = useState([]);
 	const [campaign, setCampaign] = useState([]);
-	const [role, setRole] = useState([]);
+	const [groups, setGroup] = useState([]);
 	const [info, setInfo] = useState(initialState);
 	const [error, setError] = useState(initialErrorState);
 	const [openDelete, setOpenDelete] = useState(false);
 
 	useEffect(() => {
 		const {
+			uuid,
 			first_name,
 			last_name,
 			username,
@@ -96,6 +99,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 		} = data;
 
 		let userInfo = {
+			uuid,
 			first_name,
 			last_name,
 			username,
@@ -103,7 +107,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 			team,
 			company,
 			campaigns,
-			role: groups,
+			groups: groups,
 			hire_date
 		} as any;
 		Info.add(userInfo);
@@ -113,47 +117,11 @@ function Edit({ open, setOpen, data }: EditProps) {
 		Info.add({ campaigns: [] });
 	}, [info.company]);
 
-	useEffect(() => {
-		fetch("http://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles")
-			.then((roles: any) => roles.json())
-			.then((role: any) => {
-				setRole(role);
-			})
-			.then(() => getCompanies())
-			.then(() => getCampaigns())
-			.then(() => getTeams());
-	}, [data, open]);
-
-	const getCompanies = () => {
-		fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies")
-			.then((company: any) => company.json())
-			.then((company: any) => {
-				setCompany(company);
-			});
-	};
-
-	const getCampaigns = () => {
-		fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns")
-			.then((campaign: any) => campaign.json())
-			.then((campaign: any) => {
-				setCampaign(campaign);
-			});
-	};
-
-	const getTeams = () => {
-		fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/teams")
-			.then((team: any) => team.json())
-			.then((team: any) => {
-				setTeam(team);
-			});
-	};
-
-	// *** UNCOMMENT FOR ACTUAL DATA ***
 	// useEffect(() => {
-	// 	get("/identity/group/list")
-	// 		// .then((roles: any) => roles.json())
+	// 	fetch("http://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles")
+	// 		.then((roles: any) => roles.json())
 	// 		.then((role: any) => {
-	// 			setRole(role.data);
+	// 			setGroup(role);
 	// 		})
 	// 		.then(() => getCompanies())
 	// 		.then(() => getCampaigns())
@@ -161,27 +129,60 @@ function Edit({ open, setOpen, data }: EditProps) {
 	// }, [data, open]);
 
 	// const getCompanies = () => {
-	// 	get("/identity/company/list")
-	// 		// .then((company: any) => company.json())
+	// 	fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies")
+	// 		.then((company: any) => company.json())
 	// 		.then((company: any) => {
-	// 			console.log(company.data);
-	// 			setCompany(company.data);
+	// 			setCompany(company);
 	// 		});
 	// };
 
 	// const getCampaigns = () => {
-	// 	get("/identity/campaign/list")
+	// 	fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns")
+	// 		.then((campaign: any) => campaign.json())
 	// 		.then((campaign: any) => {
-	// 			setCampaign(campaign.data);
+	// 			setCampaign(campaign);
 	// 		});
 	// };
 
 	// const getTeams = () => {
-	// 	get("/identity/team/list")
+	// 	fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/teams")
+	// 		.then((team: any) => team.json())
 	// 		.then((team: any) => {
-	// 			setTeam(team.data);
+	// 			setTeam(team);
 	// 		});
 	// };
+
+	// *** UNCOMMENT FOR ACTUAL DATA ***
+	useEffect(() => {
+		get("/identity/group/list")
+			.then((groups: any) => {
+				setGroup(groups.data);
+			})
+			.then(() => getCompanies())
+			.then(() => getCampaigns())
+			.then(() => getTeams());
+	}, [data, open]);
+
+	const getCompanies = () => {
+		get("/identity/company/list")
+			.then((company: any) => {
+				setCompany(company.data);
+			});
+	};
+
+	const getCampaigns = () => {
+		get("/identity/campaign/list")
+			.then((campaign: any) => {
+				setCampaign(campaign.data);
+			});
+	};
+
+	const getTeams = () => {
+		get("/identity/team/list")
+			.then((team: any) => {
+				setTeam(team.data);
+			});
+	};
 
 	let classProp = {
 		classes: {
@@ -204,7 +205,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 	};
 
 	const handleRoleSelection = ({ target: { value } }: any) => {
-		Info.add({ role: value });
+		Info.add({ groups: value });
 	};
 
 	const hasContent = (str: any) => {
@@ -221,7 +222,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 				!hasContent(error.last_name_error) &&
 				!hasContent(error.username_error) &&
 				!hasContent(error.email_error) &&
-				info.role.length > 0
+				info.groups.length > 0
 			);
 		}
 	};
@@ -441,13 +442,13 @@ function Edit({ open, setOpen, data }: EditProps) {
 				{...customProp}
 				{...roleSelectProps}
 			>
-				{role.map((key: any,i:number) => {
+				{groups.map((key: any,i:number) => {
 					return (
 						<MenuItem key={i} value={key.pk} data-cy="roles-list">
 							<Checkbox
 								color="primary"
 								checked={
-									info.role.findIndex((uuid: any) => uuid === key.pk) > -1
+									info.groups.findIndex((uuid: any) => uuid === key.pk) > -1
 								}
 							/>
 							<CustomText>{key.name}</CustomText>
@@ -458,7 +459,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 		</Grid>
 	);
 
-	const impersonate = async (role: any) => {
+	const impersonate = async (groups: any) => {
     if(!localStorage.getItem('is_impersonate')){
 			localStorage.setItem('is_impersonate', "true");
 			window.location.href = '/gateway';
@@ -513,19 +514,6 @@ function Edit({ open, setOpen, data }: EditProps) {
 		Info.add({ is_active: !info.is_active });
 	};
 
-	const resetAndClose = () => {
-		setInfo(initialState);
-		setError(initialErrorState);
-		setTeam([]);
-		setCompany([]);
-		setCampaign([]);
-		setRole([]);
-		setOpen(false);
-		setLoading(false);
-		setOpenDelete(false);
-		setSetup(false);
-	};
-
 	const handlePassword = (type: any, value: any) => {
 		if (type === "original") {
 			Info.add(Object.assign(info.password, { original: value }));
@@ -546,7 +534,6 @@ function Edit({ open, setOpen, data }: EditProps) {
 		setMessage(`One moment. We're removing user ${info.first_name}`);
 		setLoading(true);
 		let simulated = setInterval(() => {
-			resetAndClose();
 			clearInterval(simulated);
 		}, 2000);
 	};
@@ -567,21 +554,46 @@ function Edit({ open, setOpen, data }: EditProps) {
 			<SuccessModal
 				open={success}
 				text={message}
-				closeFn={() => setSuccess(false)}
+				closeFn={() => updateData()}
 			/>
 		);
 	};
 
+	const updateData = () => {
+		setOpen(false);
+		setSuccess(false);
+		update(info);
+	}
+
 	const saveEdit = () => {
+		// let userInfoUpdate = {
+		// 	"groups": info.groups,
+		// 	"company": info.company,
+		// 	"campaigns": info.campaigns,
+		// 	"team": info.team,
+		// 	"username": info.username,
+		// 	"first_name": info.first_name,
+		// 	"last_name": info.last_name,
+		// 	"is_active": info.is_active,
+		// 	"email": info.email,
+		// 	"hire_date": info.hire_date
+		// }
 		if (verifyInput("update")) {
 			setMessage("One moment. We’re updating the user...");
 			setLoading(true);
-			let simulated = setInterval(() => {
-				setMessage(`You have updated user ${info.username}`);
-				setLoading(false);
-				setSuccess(true);
-				clearInterval(simulated);
-			}, 2000);
+			patch(`/identity/user/manage/${info.uuid}/`, info)
+				.then((res:any) => {
+					console.log(res);
+					setMessage(`You have updated user ${info.username}`);
+					setLoading(false);
+					setSuccess(true);
+				})
+			// let simulated = setInterval(() => {
+			// 	setMessage(`You have updated user ${info.username}`);
+			// 	setLoading(false);
+			// 	setSuccess(true);
+			// 	clearInterval(simulated);
+			// }, 2000);
 		}
 	};
 
@@ -598,8 +610,8 @@ function Edit({ open, setOpen, data }: EditProps) {
 	};
 
 	const customProp = {
-		error: info.role.length <= 0,
-		helperText: info.role.length <= 0 ? "A role is required." : ""
+		error: info.groups.length <= 0,
+		helperText: info.groups.length <= 0 ? "A role is required." : ""
 	};
 
 	const MenuProps = {
@@ -633,7 +645,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 			IconComponent: () => <KeyboardArrowDown />,
 			multiple: true,
 			onChange: handleCampaignSelection,
-			value: data.campaigns,
+			value: info.campaigns,
 			renderValue: (selected: any) => {
 				let output = selected
 					.map((select: any) => {
@@ -655,11 +667,11 @@ function Edit({ open, setOpen, data }: EditProps) {
 			IconComponent: () => <KeyboardArrowDown />,
 			multiple: true,
 			onChange: handleRoleSelection,
-			value: info.role,
+			value: info.groups,
 			renderValue: (selected: any) =>
 				selected
 					.map((select: any) => {
-						return role
+						return groups
 							.filter((rls: any) => rls.pk === select)
 							.map((data: any) => data.name);
 					})
@@ -705,7 +717,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 						</Grid>
 
 						<Grid item xs>
-							<button className={classes.impersonateBtn} onClick={() => impersonate(role)}>Impersonate</button>
+							<button className={classes.impersonateBtn} onClick={() => impersonate(groups)}>Impersonate</button>
 						</Grid>
 					</Grid>
 				</Grid>
@@ -719,7 +731,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 							UUID:
             </Typography>
 						<Typography className={classes.uuidText}>
-							61268160-2deb-11ea-9f60-0242ac110014
+							{info.uuid}
             </Typography>
 					</Grid>
 				</Grid>
@@ -799,7 +811,7 @@ function Edit({ open, setOpen, data }: EditProps) {
 								backgroundColor: "#eee"
 							}}
 							disabled={false}
-							handleClick={() => resetAndClose()}
+							handleClick={() => setOpen(false)}
 						>
 							<Typography className={classes.cancelText}>CANCEL</Typography>
 						</CustomButton>

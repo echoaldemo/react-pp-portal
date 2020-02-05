@@ -29,10 +29,9 @@ const UserLanding = () => {
   useEffect(() => {
     setLoading(true);
     get("/identity/user/manage/list/", {
-      limit: 10,
+      limit: 9999,
       order_by: "-datetime_modified"
     }).then((res: any) => {
-      console.log(res.data.results);
       setUsers(res.data.results);
       setLoading(false);
     });
@@ -73,10 +72,24 @@ const UserLanding = () => {
   // *** UNCOMMENT FOR ACTUAL DATA ***
   const editUser = (id: any) => {
     get(`/identity/user/manage/${id}`).then((activeUser: any) => {
+      console.log(activeUser.data);
       setActiveUserData(activeUser.data);
       setIsUserEdit(true);
     });
   };
+
+  const updateData = (user: any) => {
+    console.log(user);
+    setLoading(true);
+    get("/identity/user/manage/list/", {
+      limit: 9999,
+      order_by: "-datetime_modified"
+    }).then((res: any) => {
+      console.log(res.data.results);
+      setUsers(res.data.results);
+      setLoading(false);
+    });
+  }
 
   const renderPagination: Function = () => {
     return (
@@ -164,7 +177,7 @@ const UserLanding = () => {
         onClose={() => setIsNewUser(false)}
       />
 
-      <Edit open={is_user_edit} setOpen={setIsUserEdit} data={activeUserData} />
+      <Edit open={is_user_edit} setOpen={setIsUserEdit} data={activeUserData} update={updateData} />
 
       {renderHeader()}
       <Card square={true}>
