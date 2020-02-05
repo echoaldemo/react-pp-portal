@@ -50,10 +50,10 @@ const UserLandingSection = () => {
     ]).then(function(values) {
       setLoading(false);
       const userList = values[0].data.results;
-      const companyList = values[1].data.results;
-      const campaignList = values[2].data.results;
-      const roleList = values[3].data.results;
-      const teamList = values[4].data.results;
+      const companyList = values[1].data;
+      const campaignList = values[2].data;
+      const roleList = values[3].data;
+      const teamList = values[4].data;
 
       dispatch({
         type: "manage-list",
@@ -182,11 +182,13 @@ const UserLandingSection = () => {
 
   return (
     <>
-      <NewUser
-        open={is_new_user}
-        setOpen={setIsNewUser}
-        onClose={() => setIsNewUser(false)}
-      />
+      {state.companies.length !== 0 && (
+        <NewUser
+          open={is_new_user}
+          setOpen={setIsNewUser}
+          onClose={() => setIsNewUser(false)}
+        />
+      )}
 
       <Edit open={is_user_edit} setOpen={setIsUserEdit} data={activeUserData} />
 

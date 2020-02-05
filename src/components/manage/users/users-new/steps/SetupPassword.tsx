@@ -48,7 +48,7 @@ const SetupPassword = ({ password, handlePassword, custom }: Props) => {
   const processPassword = (type: any) => ({ target: { value } }: any) => {
     if (type === "original") {
       handlePassword(type, value);
-      handlePassword("confirm", "");
+      // handlePassword("confirm", "");
     } else {
       matchPassword(value);
       if (checkGuideline(password.original)) {
