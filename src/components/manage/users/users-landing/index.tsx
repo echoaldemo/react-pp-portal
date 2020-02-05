@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card, Divider } from "@material-ui/core";
 import {
   Pagination,
@@ -11,12 +11,14 @@ import { NewUser } from "../users-new";
 import { Edit } from "../users-edit";
 import { UserTable } from "../components";
 import { useStyles } from "./styles";
+import { StateProvider, store } from "contexts/ManageComponent";
 
 //API UTIL
 import { get } from "utils/api";
 
-const UserLanding = () => {
-  const [users, setUsers] = useState([]);
+const UserLandingSection = () => {
+  const { state, dispatch } = useContext(store);
+  const { users } = state;
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [is_new_user, setIsNewUser] = useState(false);
@@ -28,13 +30,35 @@ const UserLanding = () => {
   // *** FETCHING DATA USING API UTIL
   useEffect(() => {
     setLoading(true);
-    get("/identity/user/manage/list/", {
-      limit: 10,
-      order_by: "-datetime_modified"
-    }).then((res: any) => {
-      console.log(res.data.results);
-      setUsers(res.data.results);
+    // get("/identity/user/manage/list/", {
+    //   limit: 10,
+    //   order_by: "-datetime_modified"
+    // }).then((res: any) => {
+    //   dispatch({ type: "manage-user", payload: { users: res.data.results } });
+    //   setLoading(false);
+    // });
+
+    Promise.all([
+      get("/identity/user/manage/list/", {
+        limit: 9999,
+        order_by: "-datetime_modified"
+      }),
+      get("/identity/company/list/"),
+      get("/identity/campaign/list/"),
+      get("/identity/group/list/"),
+      get("/identity/team/list/")
+    ]).then(function(values) {
       setLoading(false);
+      const userList = values[0].data.results;
+      const companyList = values[1].data.results;
+      const campaignList = values[2].data.results;
+      const roleList = values[3].data.results;
+      const teamList = values[4].data.results;
+
+      dispatch({
+        type: "manage-list",
+        payload: { userList, companyList, campaignList, roleList, teamList }
+      });
     });
   }, []);
 
@@ -175,6 +199,13 @@ const UserLanding = () => {
         {!loading && renderPagination()}
       </Card>
     </>
+  );
+};
+const UserLanding = () => {
+  return (
+    <StateProvider>
+      <UserLandingSection />
+    </StateProvider>
   );
 };
 export { UserLanding };
