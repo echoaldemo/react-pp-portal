@@ -43,7 +43,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
       <SEO title="Gateway" />
       <span>
         <Tooltip title="Manage Settings" placement="right">
-          <IconButton onClick={() => history.push("/manage/users")}>
+          <IconButton onClick={() => (window.location.href = "/manage/users")}>
             <Settings />
           </IconButton>
         </Tooltip>
