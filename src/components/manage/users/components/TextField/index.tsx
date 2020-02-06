@@ -12,7 +12,6 @@ type InputProps = {
   htmlFor: string;
   name: string;
   label: string;
-  autoComplete: any;
   required?: boolean;
   value: any;
   onBlur: any;
@@ -24,7 +23,6 @@ const TextField = ({
   htmlFor,
   name,
   label,
-  autoComplete,
   required,
   value,
   onBlur,
@@ -48,7 +46,6 @@ const TextField = ({
       <Input
         data-cy={htmlFor}
         classes={{ underline: classes.underline }}
-        autoComplete={autoComplete}
         value={value}
         onBlur={onBlur}
         onChange={onChange}
