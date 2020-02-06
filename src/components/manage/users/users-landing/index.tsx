@@ -60,7 +60,7 @@ const UserLandingSection = () => {
         payload: { userList, companyList, campaignList, roleList, teamList }
       });
     });
-  }, []);
+  }, [dispatch]);
 
   // useEffect(() => {
   //fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/users")
