@@ -9,6 +9,7 @@ function login(username, password) {
       return withToken(`/identity/user/profile/`, res.data.auth_token)
         .then(res => {
           localStorage.setItem("user", res.data.first_name);
+          localStorage.setItem("uuid", res.data.uuid);
           return true;
         })
         .catch(err => console.log(err));
