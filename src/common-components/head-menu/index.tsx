@@ -28,14 +28,13 @@ import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
 
 interface HeadMenuProps {
   location: Obj;
-  getData: Function;
 }
 
 interface Obj {
   [index: string]: any;
 }
 
-const HeadMenu: React.FC<HeadMenuProps> = ({ location, getData }) => {
+const HeadMenu: React.FC<HeadMenuProps> = ({ location }) => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [wholeName, setWholeName] = useState<string>("Loading...");
@@ -46,10 +45,10 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, getData }) => {
   }, []); // eslint-disable-line
 
   const result = async () => {
-    const res = await getData();
-    if (res) {
-      setWholeName(`${res.first_name} ${res.last_name}`);
-      setName(res.first_name);
+    const name = localStorage.getItem("user");
+    if (name) {
+      setWholeName(`${name}`);
+      setName(name);
     }
   };
 
@@ -95,7 +94,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, getData }) => {
           ) : null}
           <NotifIcon />
           <AccountCircleIcon fontSize="large" />
-          <Typography>{wholeName}</Typography>
+          <Typography> {wholeName}</Typography>
           <IconButton
             ref={anchorRef}
             onClick={handleToggle}
@@ -181,9 +180,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({ location, getData }) => {
 
 HeadMenu.defaultProps = {
   location: { pathname: "/manage/user" },
-  getData: () => {
-    return { first_name: "StoryBook", last_name: "User" };
-  },
+
   logout: () => {
     alert("Logout");
   }

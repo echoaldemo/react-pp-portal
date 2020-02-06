@@ -1,7 +1,7 @@
 import axios from "axios";
 //sam token
-// const token = localStorage.getItem("ngStorage-ppToken");
-const token = "6076491441e22edab73be6bde2793b138fb6de7e"; // TOKEN
+const token = localStorage.getItem("ngStorage-ppToken");
+// const token = "a6a232ce-9788-11e9-b222-0242ac110012"; // TOKEN
 axios.defaults.headers.common.Accept = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json"; //CONTENT TYPE
 if (token != null) {
@@ -75,6 +75,11 @@ const remove = endpoint =>
       cancel = c;
     })
   });
+const withToken = (endpoint, token) => {
+  return axios.get(`${baseUrl}${endpoint}`, {
+    headers: { Authorization: `Token ${token}` }
+  });
+};
 
 // list of exported tools
-export { get, post, patch, put, remove, cancel };
+export { get, post, patch, put, remove, cancel, withToken };

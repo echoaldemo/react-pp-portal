@@ -7,9 +7,6 @@ const Content: React.FC<ContentProps> = ({
   searchText,
   history
 }: any) => {
-  useEffect(() => {
-    localStorage.setItem("all_campaigns", campaigns);
-  }, []); // eslint-disable-line
   return (
     <List>
       <ListItem>

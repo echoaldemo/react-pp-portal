@@ -51,6 +51,7 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
     login(data.username, data.password).then((res: any) => {
       if (res) {
         setState({ ...state, loggedIn: true, loading: false });
+
         history.push("/gateway");
       } else {
         handleSnackbar(true, "Incorrect Login Credentials");
