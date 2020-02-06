@@ -62,7 +62,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 			original: '',
 			confirm: ''
 		},
-		hire_date: new Date()
+		hire_date: ''
 	};
 
 	const initialErrorState = {
@@ -108,42 +108,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		[ info.company ]
 	);
 
-	// useEffect(() => {
-	// 	fetch("http://5e00169a1fb99500141403ae.mockapi.io/api/v1/roles")
-	// 		.then((roles: any) => roles.json())
-	// 		.then((role: any) => {
-	// 			setGroup(role);
-	// 		})
-	// 		.then(() => getCompanies())
-	// 		.then(() => getCampaigns())
-	// 		.then(() => getTeams());
-	// }, [data, open]);
-
-	// const getCompanies = () => {
-	// 	fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/companies")
-	// 		.then((company: any) => company.json())
-	// 		.then((company: any) => {
-	// 			setCompany(company);
-	// 		});
-	// };
-
-	// const getCampaigns = () => {
-	// 	fetch("http://5e0015181fb99500141403a4.mockapi.io/mock/v1/campaigns")
-	// 		.then((campaign: any) => campaign.json())
-	// 		.then((campaign: any) => {
-	// 			setCampaign(campaign);
-	// 		});
-	// };
-
-	// const getTeams = () => {
-	// 	fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/teams")
-	// 		.then((team: any) => team.json())
-	// 		.then((team: any) => {
-	// 			setTeam(team);
-	// 		});
-	// };
-
-	// *** UNCOMMENT FOR ACTUAL DATA ***
 	useEffect(
 		() => {
 			get('/identity/group/list')
@@ -431,29 +395,15 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		if (!localStorage.getItem('is_impersonate')) {
 			localStorage.setItem('is_impersonate', 'true');
 			window.location.href = '/gateway';
-
-			// let token = localStorage.getItem('ngStorage-ppToken');
-			// let type = localStorage.getItem('type');
-			// localStorage.setItem('type/previous', type)
-			// localStorage.setItem('ngStorage-ppToken/previous',token);
-			// localStorage.removeItem('user_uuid');
-
-			//  api request
-			// let token_1 = await getToken(this.state.uuid);
-			// await localStorage.setItem('ngStorage-ppToken',token_1.data);
-			// await getData();
-			// if (role.includes(10)){
-			//   localStorage.setItem('type', role[0]);
-			//   this.props.history.push('/manage/audio/pitch')
-			// } else {
-			//   this.props.history.push('/gateway');
-			// }
-			// document.location.reload();
 		}
 	};
 
-	const handleDateChange = (value: any) => {
-		Info.add({ hire_date: value });
+	const handleDateChange = (e: any) => {
+		var date = new Date(e)
+    var month = ("0" + (date.getMonth() + 1)).slice(-2)
+		var day = ("0" + date.getDate()).slice(-2)
+		var convertedDate = ([date.getFullYear(), month, day].join("-"));
+		Info.add({ hire_date: convertedDate });
 	};
 
 	const renderDateSelector = () => (
@@ -462,9 +412,9 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				<DatePicker
 					fullWidth
 					label="Hired Date"
-					format="MM/dd/yyyy"
+					format="yyyy-MM-dd"
 					value={info.hire_date}
-					onChange={handleDateChange}
+					onChange={(e) => handleDateChange(e)}
 					InputProps={{
 						classes: {
 							underline: classes.inputField,
@@ -524,6 +474,8 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		if (verifyInput('update')) {
 			setMessage('One moment. We’re updating the user...');
 			setLoading(true);
+			console.log(info);
+			console.log(info.hire_date);
 			patch(`/identity/user/manage/${info.uuid}/`, info).then((res: any) => {
 				setMessage(`You have updated user ${info.username}`);
 				setLoading(false);
