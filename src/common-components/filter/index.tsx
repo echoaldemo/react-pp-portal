@@ -175,7 +175,7 @@ class FilterToolBarComp extends React.Component<Props, State> {
                             : 1
                         }
                       >
-                        <InputLabel>
+                        <InputLabel style={{marginTop:10}}>
                           {toolbar.Label === "Sort By User"
                             ? "Sort By"
                             : toolbar.Label}

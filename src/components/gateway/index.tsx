@@ -19,6 +19,7 @@ import Content from "./components/Content";
 import { Card, Container, Header } from "./style";
 import { Campaign } from "./types";
 import { logout } from "auth/controllers/controller";
+import { loginChecker } from "auth/services/authService";
 
 const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [loading, setLoading] = useState(true);
@@ -28,10 +29,14 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
 
   useEffect(() => {
+    if (!loginChecker()) {
+      history.push("/");
+    }
     let mock: any = [];
     for (let i = 0; i < 20; i++) {
       mock.push({ name: `Demo ${i}`, uuid: `${i}`, slug: `slug-${i}` });
     }
+
     setCampaigns(mock);
     setTimeout(() => {
       setLoading(false);

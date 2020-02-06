@@ -30,13 +30,6 @@ const UserLandingSection = () => {
   // *** FETCHING DATA USING API UTIL
   useEffect(() => {
     setLoading(true);
-    // get("/identity/user/manage/list/", {
-    //   limit: 10,
-    //   order_by: "-datetime_modified"
-    // }).then((res: any) => {
-    //   dispatch({ type: "manage-user", payload: { users: res.data.results } });
-    //   setLoading(false);
-    // });
 
     Promise.all([
       get("/identity/user/manage/list/", {
@@ -96,14 +89,6 @@ const UserLandingSection = () => {
     setUserData(users.slice(from, to));
   };
 
-  //FOR MOCK DATA
-  // const editUser = (id: any) => {
-  //   let activeData = users.filter((key: any) => key.uuid === id);
-  //   setActiveUserData(activeData[0]);
-  //   setIsUserEdit(true);
-  // };
-
-  // *** UNCOMMENT FOR ACTUAL DATA ***
   const editUser = (id: any) => {
     get(`/identity/user/manage/${id}`).then((activeUser: any) => {
       setActiveUserData(activeUser.data);
