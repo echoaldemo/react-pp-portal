@@ -1,14 +1,13 @@
 import axios from "axios";
 //sam token
 const token = localStorage.getItem("ngStorage-ppToken");
-// const token = "a6a232ce-9788-11e9-b222-0242ac110012"; // TOKEN
 axios.defaults.headers.common.Accept = "application/json";
 axios.defaults.headers.post["Content-Type"] = "application/json"; //CONTENT TYPE
 if (token != null) {
   axios.defaults.headers.common["Authorization"] = `token ${token}`; // AUTHORIZATION
 }
 
-const baseUrl = "https://dev-api.perfectpitchtech.com"; // BASE URL OF THE API SERVER
+const baseUrl = "http://devswarm.perfectpitchtech.com"; // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken;
 let cancel = () => {};
 
