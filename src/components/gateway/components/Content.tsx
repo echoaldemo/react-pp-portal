@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
 import { ContentProps } from "../types";
 

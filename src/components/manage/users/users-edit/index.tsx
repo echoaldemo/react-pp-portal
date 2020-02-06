@@ -1,29 +1,36 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
-import { Grid, Switch, Typography, MenuItem, Checkbox, Divider } from '@material-ui/core';
-import { KeyboardArrowDown } from '@material-ui/icons';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { ThemeProvider } from '@material-ui/styles';
-import DateFnsUtils from '@date-io/date-fns';
+import React, { useState, useEffect } from "react";
 import {
-	Modal,
-	InputField,
-	SaveButton as CustomButton,
-	LoadingModal,
-	SuccessModal,
-	DeleteModal
-} from 'common-components';
-import { Avatar } from './components';
-import { DatePicker } from '../users-new/styles';
-import { TextField } from '../components';
-import defaultAvatar from './avatar.svg';
-import styled from 'styled-components';
-import { SetupPassword } from './SetupPassword';
-import { useStyles, theme, CustomText } from './styles';
+  Grid,
+  Switch,
+  Typography,
+  MenuItem,
+  Checkbox,
+  Divider
+} from "@material-ui/core";
+import { KeyboardArrowDown } from "@material-ui/icons";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { ThemeProvider } from "@material-ui/styles";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  Modal,
+  InputField,
+  SaveButton as CustomButton,
+  LoadingModal,
+  SuccessModal,
+  DeleteModal
+} from "common-components";
+import { Avatar } from "./components";
+import { DatePicker } from "../users-new/styles";
+import { TextField } from "../components";
+import defaultAvatar from "./avatar.svg";
+import styled from "styled-components";
+import { SetupPassword } from "./SetupPassword";
+import { useStyles, theme, CustomText } from "./styles";
 
 //API UTIL
-import { get, post, patch } from 'utils/api';
-import { logout } from 'auth/controllers/controller';
+import { get, post, patch } from "utils/api";
+import { logout } from "auth/controllers/controller";
 
 const SelectField = styled(InputField)`
   .MuiInputLabel-shrink {
@@ -32,10 +39,10 @@ const SelectField = styled(InputField)`
 `;
 
 type EditProps = {
-	open: boolean;
-	setOpen: any;
-	data: any;
-	update: Function;
+  open: boolean;
+  setOpen: any;
+  data: any;
+  update: Function;
 };
 
 type Indexable = { [key: string]: any };
@@ -220,7 +227,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 					htmlFor="first_name"
 					label="Firstname"
 					name="First Name"
-					autoComplete
 					value={info.first_name}
 					onBlur={handleInput('first_name')('Firstname')}
 					onChange={handleInput('first_name')('Firstname')}
@@ -234,7 +240,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 					htmlFor="last_name"
 					label="Lastname"
 					name="Last Name"
-					autoComplete
 					value={info.last_name}
 					onBlur={handleInput('last_name')('Lastname')}
 					onChange={handleInput('last_name')('Lastname')}
@@ -248,7 +253,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 					htmlFor="username"
 					label="Username"
 					name="Username"
-					autoComplete
 					value={info.username}
 					onBlur={handleInput('username')('Username')}
 					onChange={handleInput('username')('Username')}
@@ -262,7 +266,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 					htmlFor="email"
 					label="Email"
 					name="Email"
-					autoComplete
 					value={info.email}
 					onBlur={handleInput('email')('Email')}
 					onChange={handleInput('email')('Email')}
@@ -577,6 +580,12 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 			password={info.password}
 			handlePassword={handlePassword}
 			handleSave={() => setupPassword()}
+			setSave={
+        info.password.original.length !== 0 &&
+        info.password.original === info.password.confirm
+          ? false
+          : true
+      }
 		/>
 	);
 
