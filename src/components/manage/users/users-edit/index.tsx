@@ -1,36 +1,29 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { Grid, Switch, Typography, MenuItem, Checkbox, Divider } from '@material-ui/core';
+import { KeyboardArrowDown } from '@material-ui/icons';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { ThemeProvider } from '@material-ui/styles';
+import DateFnsUtils from '@date-io/date-fns';
 import {
-  Grid,
-  Switch,
-  Typography,
-  MenuItem,
-  Checkbox,
-  Divider
-} from "@material-ui/core";
-import { KeyboardArrowDown } from "@material-ui/icons";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/styles";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  Modal,
-  InputField,
-  SaveButton as CustomButton,
-  LoadingModal,
-  SuccessModal,
-  DeleteModal
-} from "common-components";
-import { Avatar } from "./components";
-import { DatePicker } from "../users-new/styles";
-import { TextField } from "../components";
-import defaultAvatar from "./avatar.svg";
-import styled from "styled-components";
-import { SetupPassword } from "./SetupPassword";
-import { useStyles, theme, CustomText } from "./styles";
+	Modal,
+	InputField,
+	SaveButton as CustomButton,
+	LoadingModal,
+	SuccessModal,
+	DeleteModal
+} from 'common-components';
+import { Avatar } from './components';
+import { DatePicker } from '../users-new/styles';
+import { TextField } from '../components';
+import defaultAvatar from './avatar.svg';
+import styled from 'styled-components';
+import { SetupPassword } from './SetupPassword';
+import { useStyles, theme, CustomText } from './styles';
 
 //API UTIL
-import { get, post, patch } from "utils/api";
-import { logout } from "auth/controllers/controller";
+import { get, post, patch } from 'utils/api';
+import { logout } from 'auth/controllers/controller';
 
 const SelectField = styled(InputField)`
   .MuiInputLabel-shrink {
@@ -39,10 +32,10 @@ const SelectField = styled(InputField)`
 `;
 
 type EditProps = {
-  open: boolean;
-  setOpen: any;
-  data: any;
-  update: Function;
+	open: boolean;
+	setOpen: any;
+	data: any;
+	update: Function;
 };
 
 type Indexable = { [key: string]: any };
@@ -88,7 +81,19 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 
 	useEffect(
 		() => {
-			const { uuid, first_name, last_name, username, email, team, company, campaigns, hire_date, groups, is_active } = data;
+			const {
+				uuid,
+				first_name,
+				last_name,
+				username,
+				email,
+				team,
+				company,
+				campaigns,
+				hire_date,
+				groups,
+				is_active
+			} = data;
 
 			let userInfo = {
 				uuid,
@@ -402,10 +407,10 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	};
 
 	const handleDateChange = (e: any) => {
-		var date = new Date(e)
-    var month = ("0" + (date.getMonth() + 1)).slice(-2)
-		var day = ("0" + date.getDate()).slice(-2)
-		var convertedDate = ([date.getFullYear(), month, day].join("-"));
+		var date = new Date(e);
+		var month = ('0' + (date.getMonth() + 1)).slice(-2);
+		var day = ('0' + date.getDate()).slice(-2);
+		var convertedDate = [ date.getFullYear(), month, day ].join('-');
 		Info.add({ hire_date: convertedDate });
 	};
 
@@ -581,11 +586,8 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 			handlePassword={handlePassword}
 			handleSave={() => setupPassword()}
 			setSave={
-        info.password.original.length !== 0 &&
-        info.password.original === info.password.confirm
-          ? false
-          : true
-      }
+				info.password.original.length !== 0 && info.password.original === info.password.confirm ? false : true
+			}
 		/>
 	);
 
@@ -608,7 +610,11 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 						<Grid item xs>
 							<div className={classes.toggleContainer}>
 								<Typography className={classes.activeText}>Active:</Typography>
-								<Switch color="primary" onClick={() => handleActiveToggle()} checked={info.is_active} />
+								<Switch
+									color="primary"
+									onChange={() => handleActiveToggle()}
+									value={info.is_active}
+								/>
 							</div>
 						</Grid>
 

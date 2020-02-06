@@ -88,7 +88,7 @@ const UserTable: React.FC<Props> = ({ users, setEdit, loading }) => {
           {i !== 7 ? (
             <p>{cellVal}</p>
           ) : (
-            <ActiveCell className={cellStyle}>{true}</ActiveCell>
+            <ActiveCell className={cellStyle}>{cellVal}</ActiveCell>
           )}
 
           {i === 4 && renderIcon(cellVal, iconProps)}
