@@ -25,22 +25,27 @@ import { logout } from "auth/controllers/controller";
 import { SideNav, DashboardSidenav } from "common-components";
 import logo from "assets/images/pp_logo_white_font.png";
 import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
+import { loginChecker } from "auth/services/authService";
 
 interface HeadMenuProps {
   location: Obj;
+  history: any;
 }
 
 interface Obj {
   [index: string]: any;
 }
 
-const HeadMenu: React.FC<HeadMenuProps> = ({ location }) => {
+const HeadMenu: React.FC<HeadMenuProps> = ({ location, history }) => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [wholeName, setWholeName] = useState<string>("Loading...");
   const [name, setName] = useState<string>("");
 
   React.useEffect(() => {
+    if (!loginChecker()) {
+      history.push("/");
+    }
     result();
   }, []); // eslint-disable-line
 

@@ -18,7 +18,7 @@ import { get } from "utils/api";
 
 const UserLandingSection = () => {
   const { state, dispatch } = useContext(store);
-  const { users } = state;
+  const { users, campaigns, companies, realms, roles } = state;
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [is_new_user, setIsNewUser] = useState(false);
@@ -30,13 +30,6 @@ const UserLandingSection = () => {
   // *** FETCHING DATA USING API UTIL
   useEffect(() => {
     setLoading(true);
-    // get("/identity/user/manage/list/", {
-    //   limit: 10,
-    //   order_by: "-datetime_modified"
-    // }).then((res: any) => {
-    //   dispatch({ type: "manage-user", payload: { users: res.data.results } });
-    //   setLoading(false);
-    // });
 
     Promise.all([
       get("/identity/user/manage/list/", {
@@ -46,7 +39,8 @@ const UserLandingSection = () => {
       get("/identity/company/list/"),
       get("/identity/campaign/list/"),
       get("/identity/group/list/"),
-      get("/identity/team/list/")
+      get("/identity/team/list/"),
+      get("/identity/realm/list/")
     ]).then(function(values) {
       setLoading(false);
       const userList = values[0].data.results;
@@ -54,10 +48,18 @@ const UserLandingSection = () => {
       const campaignList = values[2].data;
       const roleList = values[3].data;
       const teamList = values[4].data;
+      const realmList = values[5].data;
 
       dispatch({
         type: "manage-list",
-        payload: { userList, companyList, campaignList, roleList, teamList }
+        payload: {
+          userList,
+          companyList,
+          campaignList,
+          roleList,
+          teamList,
+          realmList
+        }
       });
     });
   }, [dispatch]);
@@ -87,17 +89,8 @@ const UserLandingSection = () => {
     setUserData(users.slice(from, to));
   };
 
-  //FOR MOCK DATA
-  // const editUser = (id: any) => {
-  //   let activeData = users.filter((key: any) => key.uuid === id);
-  //   setActiveUserData(activeData[0]);
-  //   setIsUserEdit(true);
-  // };
-
-  // *** UNCOMMENT FOR ACTUAL DATA ***
   const editUser = (id: any) => {
     get(`/identity/user/manage/${id}`).then((activeUser: any) => {
-      console.log(activeUser.data);
       setActiveUserData(activeUser.data);
       setIsUserEdit(true);
     });
@@ -179,18 +172,24 @@ const UserLandingSection = () => {
           title="User"
           userData={users}
           headers={["username", "first_name", "last_name"]}
+          modalFunc={editUser}
         />
         <Divider />
-        <FilterToolBar
-          sortBy={true}
-          activeStatus={true}
-          realm={false}
-          company={true}
-          campaign={true}
-          hasCompany={true}
-          roles={true}
-          FilterApplyButton={(data: any) => console.log("Data: ", data)}
-        />
+        {state.companies.length !== 0 ? (
+          <FilterToolBar
+            filterData={state}
+            sortBy={true}
+            activeStatus={true}
+            realm={false}
+            company={true}
+            campaign={true}
+            hasCompany={true}
+            roles={true}
+            FilterApplyButton={(data: any) => console.log("Data: ", data)}
+          />
+        ) : (
+          <div style={{ height: 90 }} />
+        )}
       </>
     );
   };
