@@ -97,8 +97,23 @@ const UserLandingSection = () => {
   // *** UNCOMMENT FOR ACTUAL DATA ***
   const editUser = (id: any) => {
     get(`/identity/user/manage/${id}`).then((activeUser: any) => {
+      console.log(activeUser.data);
       setActiveUserData(activeUser.data);
       setIsUserEdit(true);
+    });
+  };
+
+  const updateData = (user: any) => {
+    setLoading(true);
+    get("/identity/user/manage/list/", {
+      limit: 9999,
+      order_by: "-datetime_modified"
+    }).then((res: any) => {
+      dispatch({
+        type: "manage-list",
+        payload: { userList: res.data.results }
+      });
+      setLoading(false);
     });
   };
 
@@ -190,7 +205,12 @@ const UserLandingSection = () => {
         />
       )}
 
-      <Edit open={is_user_edit} setOpen={setIsUserEdit} data={activeUserData} />
+      <Edit
+        open={is_user_edit}
+        setOpen={setIsUserEdit}
+        data={activeUserData}
+        update={updateData}
+      />
 
       {renderHeader()}
       <Card square={true}>

@@ -23,6 +23,31 @@ const StateProvider = ({ children }: any) => {
           roles: action.payload.roleList,
           teams: action.payload.teamList
         };
+      case "manage-users":
+        return {
+          ...state,
+          users: action.payload.userList
+        };
+      case "manage-companies":
+        return {
+          ...state,
+          companies: action.payload.companyList
+        };
+      case "manage-campaigns":
+        return {
+          ...state,
+          campaigns: action.payload.campaignList
+        };
+      case "manage-roles":
+        return {
+          ...state,
+          roles: action.payload.roleList
+        };
+      case "manage-teams":
+        return {
+          ...state,
+          teams: action.payload.teamList
+        };
       default:
         return null;
     }
