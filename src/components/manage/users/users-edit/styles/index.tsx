@@ -13,8 +13,11 @@ const theme = createMuiTheme({
       }
     },
     MuiSwitch: {
-      track: {
-        backgroundColor: "#ddd !important"
+      colorPrimary: {
+        color: '#ddd !important',
+        "&.Mui-checked": {
+          color: "#1394F6 !important",
+        },
       }
     },
     MuiInput: {

@@ -613,7 +613,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 								<Switch
 									color="primary"
 									onChange={() => handleActiveToggle()}
-									value={info.is_active}
+									checked={info.is_active}
 								/>
 							</div>
 						</Grid>
