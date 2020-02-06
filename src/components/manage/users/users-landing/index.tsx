@@ -110,7 +110,7 @@ const UserLandingSection = () => {
       order_by: "-datetime_modified"
     }).then((res: any) => {
       dispatch({
-        type: "manage-list",
+        type: "manage-users",
         payload: { userList: res.data.results }
       });
       setLoading(false);
