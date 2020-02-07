@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Modal, LoadingModal, SuccessModal } from "common-components";
 import { Step } from "./steps";
 import { store } from "contexts/ManageComponent";
-import { post } from "utils/api";
+import { post, cancel } from "utils/api";
 
 type Props = {
   open: boolean;
@@ -148,7 +148,9 @@ const NewUser = ({ open, setOpen, onClose }: Props) => {
     // }
   };
 
-  const cancelUser = () => {};
+  const cancelUser = () => {
+    cancel();
+  };
 
   const finishFn = () => {
     const data = {

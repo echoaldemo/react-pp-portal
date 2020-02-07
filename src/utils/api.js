@@ -9,7 +9,9 @@ if (token != null) {
 
 const baseUrl = "https://dev-api.perfectpitchtech.com"; // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken;
-let cancel = () => {};
+let cancel = () => {
+  axios.cancelAll();
+};
 
 // EXPORTED TOOLS
 
@@ -45,11 +47,13 @@ const get = (endpoint, query) => {
 
 //post method
 const post = (endpoint, data) =>
-  axios.post(`${baseUrl}${endpoint}`, data, {
-    cancelToken: new CancelToken(function executor(c) {
-      cancel = c;
+  axios
+    .post(`${baseUrl}${endpoint}`, data, {
+      cancelToken: new CancelToken(function executor(c) {
+        cancel = c;
+      })
     })
-  });
+    .catch(err => err);
 
 //patch method
 const patch = (endpoint, data) =>
