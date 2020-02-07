@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Redirect } from "react-router-dom";
 import Impersonate from 'components/impersonate/Impersonate';
 import Gateway from "components/gateway";
@@ -50,62 +50,53 @@ import AgentDashboard from "components/dashboard/agent-dashboard";
 import AgentDetails from "components/dashboard/campaign-dashboard/AgentDetails";
 import DialerQueue from "components/dashboard/dialer-queue";
 import ChangePassword from "auth/change-password/ChangePassword";
+
+//API UTIL
+import { get } from "utils/api";
+
 export default function Routes() {
+  const [ person, setPerson ] = useState([]);
 
   useEffect(() => {
     let is_impersonate = localStorage.getItem("is_impersonate");
     if (is_impersonate) {
-      // getUserProfile().then((data) => {
-      //   console.log(data.data);
-      //   this.setState({
-      //     person: data.data
-      //   });
-      // });
+      get(`/identity/user/profile/`)
+      .then((res) => {
+        setPerson(res.data)
+      })
     }
   }, []); 
 
   const stopImpersonating = async () => {
+    localStorage.removeItem("type");
+    let token = localStorage.getItem("ngStorage-ppToken/previous");
+    let type = localStorage.getItem("type/previous");
+
+    localStorage.setItem("ngStorage-ppToken", token);
+    localStorage.setItem("type", type);
     localStorage.removeItem("is_impersonate");
-    document.location.reload();
 
-    // localStorage.removeItem("type");
-    // let token = localStorage.getItem("ngStorage-ppToken/previous");
-    // let type = localStorage.getItem("type/previous");
-
-    // localStorage.setItem("ngStorage-ppToken", token);
-    // localStorage.setItem("type", type);
-    // await getData();
-    // document.location.reload();
+    if (localStorage.getItem("type", type) !== 10){
+      window.location.href = '/manage/users';
+    } else {
+      window.location.href = '/manage/audio/pitch';
+    }
   };
 
   
   return (
     <React.Fragment>
-    {localStorage.getItem("is_impersonate") && (
-      <React.Fragment>
-        <Impersonate
-          person={{
-            uuid:"05aa69e2-81cb-11e7-84c6-02420aff0008",
-            groups:[1],
-            company:null,
-            campaigns:[],
-            team:"0c497130-df6d-11e7-94db-0242ac110008",
-            last_login:"2019-11-07T17:32:19.645332Z",
-            username:"dev-em","first_name":"Eliezer",
-            last_name:"Malo",
-            is_active:true,
-            date_joined:"2017-08-15T15:04:23.146724Z",
-            email:"emalo@perfectpitchtech.com",
-            password_update_required:false,
-            password_last_update:"2019-02-06T20:55:26.296554Z",
-            hire_date:"2017-08-14"
-          }}
-          stopImpersonating={stopImpersonating}
-        />
-        <br />
-        <br />
-      </React.Fragment>
-    )}
+      {localStorage.getItem("is_impersonate") && (
+        <React.Fragment>
+          <Impersonate
+            person={person}
+            stopImpersonating={stopImpersonating}
+          />
+
+          <br />
+          <br />
+        </React.Fragment>
+      )}
 
     <BrowserRouter>
       <Switch>

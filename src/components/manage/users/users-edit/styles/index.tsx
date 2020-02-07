@@ -148,7 +148,14 @@ const useStyles = makeStyles({
     backgroundColor: "#7c8a97",
     cursor: "pointer",
     "&:hover": {
-      opacity: 0.8
+      opacity: 0.8,
+      backgroundColor: "#7c8a97",
+    },
+  },
+  impersonateBtnRoot: {
+    '&.Mui-disabled' : {
+      color: 'rgba(0, 0, 0, 0.26)',
+      backgroundColor: '#d8d8d8'
     }
   },
   activeText: {

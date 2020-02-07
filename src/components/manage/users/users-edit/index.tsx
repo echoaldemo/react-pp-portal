@@ -6,7 +6,8 @@ import {
   Typography,
   MenuItem,
   Checkbox,
-  Divider
+	Divider,
+	Button
 } from "@material-ui/core";
 import { KeyboardArrowDown } from "@material-ui/icons";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -29,7 +30,7 @@ import { SetupPassword } from "./SetupPassword";
 import { useStyles, theme, CustomText } from "./styles";
 
 //API UTIL
-import { post, patch, remove } from "utils/api";
+import { get, post, patch, remove } from "utils/api";
 import { logout } from "auth/controllers/controller";
 import { store } from "contexts/ManageComponent";
 
@@ -47,7 +48,23 @@ type EditProps = {
 };
 
 type Indexable = { [key: string]: any };
-
+interface IState {
+	uuid: any;
+	first_name: any;
+	last_name: any;
+	username:  any;
+	email:  any;
+	team:  any;
+	company:  any;
+	campaigns:  any;
+	groups:  any;
+	is_active: any;
+	password: {
+		original:  any;
+		confirm:  any;
+	},
+	hire_date:  any;
+}
 
 function Edit({ open, setOpen, data, update }: EditProps) {
 	const classes = useStyles();
@@ -80,11 +97,12 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		username_error: '',
 		email_error: ''
 	};
+
 	const [ team, setTeam ] = useState([]);
 	const [ company, setCompany ] = useState([]);
 	const [ campaign, setCampaign ] = useState([]);
 	const [ groups, setGroup ] = useState([]);
-	const [ info, setInfo ] = useState(initialState);
+	const [ info, setInfo ] = useState<IState>(initialState);
 	const [ error, setError ] = useState(initialErrorState);
 	const [ openDelete, setOpenDelete ] = useState(false);
 	const [ companyDisabled, setCompanyDisabled ] = useState(false);
@@ -347,7 +365,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 							<MenuItem key={i} value={key.uuid} data-cy="campaign-list">
 								<Checkbox
 									color="primary"
-									checked={info.campaigns.findIndex((camp) => camp === key.uuid) > -1}
+									checked={info.campaigns.findIndex((camp:any) => camp === key.uuid) > -1}
 								/>
 								<CustomText>{key.name}</CustomText>
 							</MenuItem>
@@ -359,7 +377,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 							<MenuItem key={i} value={key.uuid} data-cy="campaign-list">
 								<Checkbox
 									color="primary"
-									checked={info.campaigns.findIndex((camp) => camp === key.uuid) > -1}
+									checked={info.campaigns.findIndex((camp:any) => camp === key.uuid) > -1}
 								/>
 								<CustomText>{key.name}</CustomText>
 							</MenuItem>
@@ -402,10 +420,25 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		</Grid>
 	);
 
-	const impersonate = async (groups: any) => {
+	const impersonate = async (groups: any, token: any, type: any) => {
 		if (!localStorage.getItem('is_impersonate')) {
-			localStorage.setItem('is_impersonate', 'true');
-			window.location.href = '/gateway';
+      localStorage.setItem('is_impersonate', 'true');
+      localStorage.setItem("type/previous", type)
+      localStorage.setItem("ngStorage-ppToken/previous", token);
+
+      get(`/identity/user/manage/impersonate/${info.uuid}/`)
+        .then(({data}:any) => {
+          localStorage.setItem('ngStorage-ppToken', data.auth_token)
+          get(`/identity/user/manage/${info.uuid}`)
+            .then((res:any) => {
+							localStorage.setItem('type', info.groups[0]);
+							if (res.data.groups.includes(10)){
+								window.location.href = '/manage/audio/pitch';
+							} else {
+								window.location.href = "/gateway";
+							}			
+            })
+        })
 		}
 	};
 
@@ -626,9 +659,9 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 						</Grid>
 
 						<Grid item xs>
-							<button className={classes.impersonateBtn} onClick={() => impersonate(groups)}>
+							<Button className={classes.impersonateBtn} classes={{root: classes.impersonateBtnRoot}} onClick={() => impersonate(groups, localStorage.getItem('ngStorage-ppToken'), localStorage.getItem('type'))} disabled={localStorage.getItem('uuid') === info.uuid}>
 								Impersonate
-							</button>
+							</Button>
 						</Grid>
 					</Grid>
 				</Grid>
