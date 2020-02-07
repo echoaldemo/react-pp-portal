@@ -8,8 +8,9 @@ type Props = {
   open: boolean;
   setOpen: any;
   onClose: any;
+  updateData: any;
 };
-const NewUser = ({ open, setOpen, onClose }: Props) => {
+const NewUser = ({ open, setOpen, onClose, updateData }: Props) => {
   const { state } = useContext(store);
 
   const { roles, companies, campaigns, teams } = state;
@@ -168,9 +169,16 @@ const NewUser = ({ open, setOpen, onClose }: Props) => {
 
     setLoading(true);
     post("/identity/user/manage/create/", data).then((res: any) => {
-      console.log(res);
-      setLoading(false);
-      setSuccess(true);
+      if (res.status !== undefined) {
+        setLoading(false);
+        setSuccess(true);
+      } else {
+        if (res.message === undefined) {
+          setLoading(false);
+        }
+      }
+      resetAndClose();
+      updateData();
     });
     // setTimeout(() => {
 
