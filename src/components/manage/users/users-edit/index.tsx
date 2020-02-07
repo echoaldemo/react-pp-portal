@@ -22,7 +22,7 @@ import { SetupPassword } from './SetupPassword';
 import { useStyles, theme, CustomText } from './styles';
 
 //API UTIL
-import { get, post, patch } from 'utils/api';
+import { get, post, patch, remove } from 'utils/api';
 import { logout } from 'auth/controllers/controller';
 
 const SelectField = styled(InputField)`
@@ -450,11 +450,15 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	};
 
 	const handleDelete = () => {
-		setMessage(`One moment. We're removing user ${info.first_name}`);
+		setMessage(`One moment. We're removing user ${info.username}`);
 		setLoading(true);
-		let simulated = setInterval(() => {
-			clearInterval(simulated);
-		}, 2000);
+		remove(`/identity/user/manage/${info.uuid}`)
+			.then((res:any) => {
+				setMessage(`You have deleted user ${info.username}`);
+				setLoading(false);
+				setSuccess(true);
+				setOpenDelete(false);
+			})
 	};
 
 	const renderDelete = () => (
@@ -482,8 +486,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		if (verifyInput('update')) {
 			setMessage('One moment. We’re updating the user...');
 			setLoading(true);
-			console.log(info);
-			console.log(info.hire_date);
 			patch(`/identity/user/manage/${info.uuid}/`, info).then((res: any) => {
 				setMessage(`You have updated user ${info.username}`);
 				setLoading(false);
@@ -613,7 +615,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 								<Switch
 									color="primary"
 									onChange={() => handleActiveToggle()}
-									value={info.is_active}
+									checked={info.is_active}
 								/>
 							</div>
 						</Grid>
