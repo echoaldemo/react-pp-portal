@@ -71,9 +71,12 @@ export default function Routes() {
     localStorage.removeItem("type");
     let token = localStorage.getItem("ngStorage-ppToken/previous");
     let type = localStorage.getItem("type/previous");
+    let user = localStorage.getItem("user/previous");
+
 
     localStorage.setItem("ngStorage-ppToken", token);
     localStorage.setItem("type", type);
+    localStorage.setItem("user", user);
     localStorage.removeItem("is_impersonate");
 
     if (localStorage.getItem("type", type) !== 10){

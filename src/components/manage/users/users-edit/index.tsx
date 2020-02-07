@@ -420,11 +420,13 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		</Grid>
 	);
 
-	const impersonate = async (groups: any, token: any, type: any) => {
+	const impersonate = async (groups: any, token: any, type: any, user: any) => {
 		if (!localStorage.getItem('is_impersonate')) {
       localStorage.setItem('is_impersonate', 'true');
       localStorage.setItem("type/previous", type)
-      localStorage.setItem("ngStorage-ppToken/previous", token);
+			localStorage.setItem("ngStorage-ppToken/previous", token);
+			localStorage.setItem("user/previous", user);
+
 
       get(`/identity/user/manage/impersonate/${info.uuid}/`)
         .then(({data}:any) => {
@@ -432,6 +434,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
           get(`/identity/user/manage/${info.uuid}`)
             .then((res:any) => {
 							localStorage.setItem('type', info.groups[0]);
+							localStorage.setItem('user', info.first_name);
 							if (res.data.groups.includes(10)){
 								window.location.href = '/manage/audio/pitch';
 							} else {
@@ -659,7 +662,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 						</Grid>
 
 						<Grid item xs>
-							<Button className={classes.impersonateBtn} classes={{root: classes.impersonateBtnRoot}} onClick={() => impersonate(groups, localStorage.getItem('ngStorage-ppToken'), localStorage.getItem('type'))} disabled={localStorage.getItem('uuid') === info.uuid}>
+							<Button className={classes.impersonateBtn} classes={{root: classes.impersonateBtnRoot}} onClick={() => impersonate(groups, localStorage.getItem('ngStorage-ppToken'), localStorage.getItem('type'), localStorage.getItem('user'))} disabled={localStorage.getItem('uuid') === info.uuid}>
 								Impersonate
 							</Button>
 						</Grid>
