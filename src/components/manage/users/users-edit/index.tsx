@@ -78,6 +78,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	const [ info, setInfo ] = useState(initialState);
 	const [ error, setError ] = useState(initialErrorState);
 	const [ openDelete, setOpenDelete ] = useState(false);
+	const [ companyDisabled, setCompanyDisabled ] = useState(false);
 
 	useEffect(
 		() => {
@@ -172,7 +173,13 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	};
 
 	const handleRoleSelection = ({ target: { value } }: any) => {
-		Info.add({ groups: value });
+		setCompanyDisabled(false);
+		value.map((role:any) => {
+			if(role === 1 || role === 2 || role === 3) {
+				setCompanyDisabled(true);
+			}
+		})
+		Info.add({ groups: value, team: '', company: '', campaign: [] });
 	};
 
 	const hasContent = (str: any) => {
@@ -286,6 +293,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				style={{ marginTop: -12, width: 360 }}
 				label="Team"
 				select
+				SelectProps={{ id: 'team-select' }}
 				{...teamSelectProps}
 				margin="normal"
 				value={info.team}
@@ -307,6 +315,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	const renderCompanySelector = () => (
 		<Grid item xs={12}>
 			<SelectField
+				id="company-select"
 				data-cy="select-3-5"
 				style={{ marginTop: 1, width: 360 }}
 				label="Company"
@@ -314,6 +323,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				{...companySelectProps}
 				margin="normal"
 				value={info.company}
+				disabled={companyDisabled}
 			>
 				<MenuItem style={{ minHeight: '36px' }} key="none" value="">
 					<CustomText>None</CustomText>
@@ -332,6 +342,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	const renderCampaignSelector = () => (
 		<Grid item xs={12}>
 			<SelectField
+				id="campaign-select"
 				data-cy="campaign"
 				style={{ marginTop: 1, width: 360 }}
 				label="Campaigns"
@@ -452,13 +463,12 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	const handleDelete = () => {
 		setMessage(`One moment. We're removing user ${info.username}`);
 		setLoading(true);
-		remove(`/identity/user/manage/${info.uuid}`)
-			.then((res:any) => {
-				setMessage(`You have deleted user ${info.username}`);
-				setLoading(false);
-				setSuccess(true);
-				setOpenDelete(false);
-			})
+		remove(`/identity/user/manage/${info.uuid}`).then((res: any) => {
+			setMessage(`You have deleted user ${info.username}`);
+			setLoading(false);
+			setSuccess(true);
+			setOpenDelete(false);
+		});
 	};
 
 	const renderDelete = () => (
