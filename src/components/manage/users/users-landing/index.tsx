@@ -96,6 +96,29 @@ const UserLandingSection = () => {
     });
   };
 
+  //Needed this method for the filtertoolbar component
+  const FilterApplyButton = (params: any) => {
+    setLoading(true);
+    const parameter = {
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { is_active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && {
+        no_company: params.hasCompany === "true" ? false : true
+      })
+    };
+
+    get("/identity/user/manage/list/", parameter).then((res: any) => {
+      dispatch({
+        type: "manage-users",
+        payload: { userList: res.data.results }
+      });
+      setLoading(false);
+    });
+  };
+
   const updateData = (user: any) => {
     setLoading(true);
     get("/identity/user/manage/list/", {
@@ -185,7 +208,7 @@ const UserLandingSection = () => {
             campaign={true}
             hasCompany={true}
             roles={true}
-            FilterApplyButton={(data: any) => console.log("Data: ", data)}
+            FilterApplyButton={FilterApplyButton}
           />
         ) : (
           <div style={{ height: 90 }} />
