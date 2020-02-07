@@ -132,13 +132,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 
 	useEffect(
 		() => {
-			// get('/identity/group/list')
-			// 	.then((groups: any) => {
-			// 		setGroup(groups.data);
-			// 	})
-			// 	.then(() => getCompanies())
-			// 	.then(() => getCampaigns())
-      // 	.then(() => getTeams());
       const newRoles = (state.roles.filter((role:any) => (role.pk !== 11 && role.pk !== 12)));
 			setGroup(newRoles);
       setCompany(state.companies);
@@ -147,24 +140,6 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		},
 		[ data, open ]
 	);
-
-	// const getCompanies = () => {
-	// 	get('/identity/company/list').then((company: any) => {
-	// 		setCompany(company.data);
-	// 	});
-	// };
-
-	// const getCampaigns = () => {
-	// 	get('/identity/campaign/list').then((campaign: any) => {
-	// 		setCampaign(campaign.data);
-	// 	});
-	// };
-
-	// const getTeams = () => {
-	// 	get('/identity/team/list').then((team: any) => {
-	// 		setTeam(team.data);
-	// 	});
-	// };
 
 	let classProp = {
 		classes: {
