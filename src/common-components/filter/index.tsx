@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Grid,
-  TextField,
   MenuItem,
   withStyles,
   Select,
@@ -54,11 +53,26 @@ class FilterToolBarComp extends React.Component<Props, State> {
       Campaign: " ",
       Roles: " ",
       FilterLabel: [],
-      companyData: this.props.filterData.companies,
-      realmData: this.props.filterData.realms,
-      campaignData: this.props.filterData.campaigns,
-      rolesData: this.props.filterData.roles,
-      campaignDataO: this.props.filterData.campaigns,
+      companyData:
+        this.props.filterData !== undefined
+          ? this.props.filterData.companies
+          : null,
+      realmData:
+        this.props.filterData !== undefined
+          ? this.props.filterData.realms
+          : null,
+      campaignData:
+        this.props.filterData !== undefined
+          ? this.props.filterData.campaigns
+          : null,
+      rolesData:
+        this.props.filterData !== undefined
+          ? this.props.filterData.roles
+          : null,
+      campaignDataO:
+        this.props.filterData !== undefined
+          ? this.props.filterData.campaigns
+          : null,
       Status: " "
     };
   }
@@ -175,7 +189,7 @@ class FilterToolBarComp extends React.Component<Props, State> {
                             : 1
                         }
                       >
-                        <InputLabel style={{marginTop:10}}>
+                        <InputLabel style={{ marginTop: 10 }}>
                           {toolbar.Label === "Sort By User"
                             ? "Sort By"
                             : toolbar.Label}

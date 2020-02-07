@@ -11,14 +11,14 @@ import { NewUser } from "../users-new";
 import { Edit } from "../users-edit";
 import { UserTable } from "../components";
 import { useStyles } from "./styles";
-import { StateProvider, store } from "contexts/ManageComponent";
+import { store } from "contexts/ManageComponent";
 
 //API UTIL
 import { get } from "utils/api";
 
-const UserLandingSection = () => {
+const UserLanding = () => {
   const { state, dispatch } = useContext(store);
-  const { users, campaigns, companies, realms, roles } = state;
+  const { users } = state;
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [is_new_user, setIsNewUser] = useState(false);
@@ -245,11 +245,5 @@ const UserLandingSection = () => {
     </>
   );
 };
-const UserLanding = () => {
-  return (
-    <StateProvider>
-      <UserLandingSection />
-    </StateProvider>
-  );
-};
+
 export { UserLanding };

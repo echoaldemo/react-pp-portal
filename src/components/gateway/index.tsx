@@ -41,7 +41,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [history]);
 
   return (
     <Container>
