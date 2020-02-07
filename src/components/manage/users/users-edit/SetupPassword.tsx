@@ -22,7 +22,7 @@ const SetupPassword = ({
   return (
     <>
       <Setup
-        custom="edit"
+        custom="edite"
         password={password}
         handlePassword={handlePassword}
       />

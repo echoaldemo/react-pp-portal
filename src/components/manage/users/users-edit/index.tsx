@@ -138,11 +138,12 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 			// 	})
 			// 	.then(() => getCompanies())
 			// 	.then(() => getCampaigns())
-			// 	.then(() => getTeams());
-			setGroup(state.roles);
-setCompany(state.companies);
-setCampaign(state.campaigns);
-setTeam(state.teams);
+      // 	.then(() => getTeams());
+      const newRoles = (state.roles.filter((role:any) => (role.pk !== 11 && role.pk !== 12)));
+			setGroup(newRoles);
+      setCompany(state.companies);
+      setCampaign(state.campaigns);
+      setTeam(state.teams);
 		},
 		[ data, open ]
 	);
@@ -310,6 +311,7 @@ setTeam(state.teams);
 				{...teamSelectProps}
 				margin="normal"
 				value={info.team}
+				disabled={localStorage.getItem('uuid') === info.uuid}
 			>
 				<MenuItem style={{ minHeight: '36px' }} key="none" value="">
 					<CustomText>None</CustomText>
@@ -336,7 +338,7 @@ setTeam(state.teams);
 				{...companySelectProps}
 				margin="normal"
 				value={info.company}
-				disabled={companyDisabled}
+				disabled={companyDisabled || (localStorage.getItem('uuid') === info.uuid) ? true : false}
 			>
 				<MenuItem style={{ minHeight: '36px' }} key="none" value="">
 					<CustomText>None</CustomText>
@@ -362,6 +364,7 @@ setTeam(state.teams);
 				select
 				{...campaignSelectProps}
 				margin="normal"
+				disabled={localStorage.getItem('uuid') === info.uuid}
 			>
 				{selectedCompany ? (
 					campaign.filter((c: any) => c.company === selectedCompany).map((key: any, i: number) => {
@@ -407,6 +410,7 @@ setTeam(state.teams);
 				margin="normal"
 				{...customProp}
 				{...roleSelectProps}
+				disabled={localStorage.getItem('uuid') === info.uuid}
 			>
 				{groups.map((key: any, i: number) => {
 					return (
@@ -450,9 +454,10 @@ setTeam(state.teams);
 					InputProps={{
 						classes: {
 							underline: classes.inputField,
-							root: classes.inputField
+						root: classes.inputField
 						}
 					}}
+					disabled={localStorage.getItem('uuid') === info.uuid}
 				/>
 			</MuiPickersUtilsProvider>
 		</Grid>
@@ -532,6 +537,8 @@ setTeam(state.teams);
 			setLoading(false);
 			setSuccess(true);
 			setSetup(false);
+			info.password.original = "";
+			info.password.confirm = "";
 		});
 	};
 
@@ -754,8 +761,13 @@ setTeam(state.teams);
 	}
 	else {
 		return (
+			setup ? 
+				<Modal open={setup} onClose={() => setSetup(false)} title="Edit password">
+				{renderSetup()}
+			</Modal>
+			:
 			<Modal open={open && !loading && !success} onClose={() => setOpen(false)} title="Edit user">
-				{!setup ? renderEdit() : renderSetup()}
+				{renderEdit()}
 			</Modal>
 		);
 	}
