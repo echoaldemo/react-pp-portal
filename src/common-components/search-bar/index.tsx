@@ -379,7 +379,11 @@ const SearchBar: React.FC<Props> = ({
                               button
                               onClick={
                                 modalFunc !== undefined
-                                  ? () => modalFunc(result)
+                                  ? () => {
+                                      setTextSearch("");
+                                      setResults(null);
+                                      modalFunc(result.uuid);
+                                    }
                                   : () => null
                               }
                               key={result.uuid}

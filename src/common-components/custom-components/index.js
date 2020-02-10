@@ -1,62 +1,60 @@
-import React from 'react'
-import { TextField, Typography, makeStyles } from '@material-ui/core'
-import styled from 'styled-components'
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
-import { Tooltip, withStyles } from '@material-ui/core'
-import Icon from '@mdi/react'
-import { mdiContentCopy } from '@mdi/js'
+import React from "react";
+import { TextField, Typography, makeStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+// import { Tooltip, withStyles } from "@material-ui/core";
 
-const LightTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
-    boxShadow: theme.shadows[1],
-    fontSize: 11
-  }
-}))(Tooltip)
+// const LightTooltip = withStyles(theme => ({
+//   tooltip: {
+//     backgroundColor: theme.palette.common.white,
+//     color: 'rgba(0, 0, 0, 0.87)',
+//     boxShadow: theme.shadows[1],
+//     fontSize: 11
+//   }
+// }))(Tooltip)
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#1194f6' }
+    primary: { main: "#1194f6" }
   },
   overrides: {
     MuiInput: {
       underline: {
-        '&:before': {
+        "&:before": {
           borderBottom: `2px solid rgba(238, 238, 238, 0.99)`
         },
-        '&:hover:not($disabled):before': {
-          borderBottom: '2px solid #1194f6'
+        "&:hover:not($disabled):before": {
+          borderBottom: "2px solid #1194f6"
         },
-        '&:after': {
-          borderBottom: '2px solid #1194f6'
+        "&:after": {
+          borderBottom: "2px solid #1194f6"
         }
       }
     }
   }
-})
+});
 
 const styles = theme =>
   makeStyles({
     errorText: {
       margin: 0,
       padding: 0,
-      marginTop: '-1rem',
-      color: 'red'
+      marginTop: "-1rem",
+      color: "red"
     },
     text: {
-      width: '36px',
-      height: '16px',
-      fontSize: '14px',
+      width: "36px",
+      height: "16px",
+      fontSize: "14px",
       fontWeight: 500,
-      fontStretch: 'normal',
-      fontStyle: 'normal',
-      lineHeight: 'normal',
-      letterSpacing: 'normal',
-      textAlign: 'center',
-      color: '#444851'
+      fontStretch: "normal",
+      fontStyle: "normal",
+      lineHeight: "normal",
+      letterSpacing: "normal",
+      textAlign: "center",
+      color: "#444851"
     }
-  })
+  });
 
 // const Copy = props => {
 //   return  <Icon
@@ -69,13 +67,13 @@ const styles = theme =>
 // };
 
 const CustomInput = props => {
-  const classes = styles()
+  const classes = styles();
   return (
     <MuiThemeProvider theme={theme}>
       <TextField
         style={{ width: `${props.width}` }}
         label={props.label}
-        type={props.type ? props.type : 'text'}
+        type={props.type ? props.type : "text"}
         onInput={props.onInput}
         onBlur={props.onBlur}
         error={props.error}
@@ -87,8 +85,8 @@ const CustomInput = props => {
         }
       />
     </MuiThemeProvider>
-  )
-}
+  );
+};
 
 const CustomButton = styled.button`
   width: 165px;
@@ -102,10 +100,10 @@ const CustomButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 const CustomText = props => {
-  const classes = styles()
+  const classes = styles();
   return (
     <Typography
       className={classes.text}
@@ -117,7 +115,7 @@ const CustomText = props => {
     >
       {props.children}
     </Typography>
-  )
-}
+  );
+};
 
-export { CustomInput, CustomButton, CustomText }
+export { CustomInput, CustomButton, CustomText };

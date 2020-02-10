@@ -9,6 +9,8 @@ const handleInput: any = (e: any, state: any, setState: any) => {
         new:
           e.target.value.length === 0
             ? "New password required"
+            : !e.target.value.match(/[a-z]/)
+            ? "Password must be alphanumeric"
             : e.target.value.length < 10
             ? "Password must be at least 10 characters long"
             : !/\d/.test(e.target.value)

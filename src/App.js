@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes } from "./router";
-import { CampaignsContextProvider } from "contexts/CampaignContext";
+import { StateProvider } from "contexts/ManageComponent";
 function App() {
   return (
     <div>
-      <CampaignsContextProvider>
+      <StateProvider>
         <Routes />
-      </CampaignsContextProvider>
+      </StateProvider>
     </div>
   );
 }

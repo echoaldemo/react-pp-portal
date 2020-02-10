@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import { Modal } from "common-components";
 import styled from "styled-components";

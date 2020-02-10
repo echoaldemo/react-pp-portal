@@ -1,10 +1,8 @@
+/* eslint-disable */
 import React, { useState } from "react";
 import { Grid, Button } from "@material-ui/core";
 import { PeopleAlt, Person } from "@material-ui/icons";
-import {
-  CustomText,
-  CustomButton
-} from "common-components";
+import { CustomText, CustomButton } from "common-components";
 import PersonaInfo from "./PersonaInfo";
 // import Context from "../../provider/Context";
 
@@ -46,7 +44,11 @@ const Impersonate = props => {
         }}
       >
         <Grid
-          style={{ padding: "0 0.5rem 0 1rem", backgroundColor: '#FF504D', color: '#FFFFFF' }}
+          style={{
+            padding: "0 0.5rem 0 1rem",
+            backgroundColor: "#FF504D",
+            color: "#FFFFFF"
+          }}
           container
           direction="row"
           alignItems="center"
@@ -85,7 +87,7 @@ const Impersonate = props => {
             <Button
               style={{
                 borderRadius: "0",
-                color: '#ffffff',
+                color: "#ffffff",
                 backgroundColor: "#a90000"
               }}
               onClick={() => stopImpersonating()}

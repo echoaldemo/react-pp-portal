@@ -1,96 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SnackNotif from "./snackbar/snackbar";
 import Card from "@material-ui/core/Card";
 import Logo from "../../assets/images/pp_logo_transparent_bkgrd.png";
 import SignInForm from "./Signin.form";
+import { login } from "auth/controllers/controller";
+import SignInLoader from "./SignIn.loader";
+import { loginChecker } from "auth/services/authService";
 
 interface StateType {
-	loading: boolean;
-	siteLoading: boolean;
-	snackbar: boolean;
-	loggedIn: boolean;
-	recorder: boolean;
-	message: string;
+  loading: boolean;
+  siteLoading: boolean;
+  snackbar: boolean;
+  loggedIn: boolean;
+  recorder: boolean;
+  message: string;
 }
 const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
-	const [state, setState] = useState<StateType>({
-		loading: false,
-		siteLoading: true,
-		snackbar: false,
-		message: "",
-		loggedIn: false,
-		recorder: false
-	});
+  const [state, setState] = useState<StateType>({
+    loading: false,
+    siteLoading: true,
+    snackbar: false,
+    message: "",
+    loggedIn: false,
+    recorder: false
+  });
 
-	const handleClose = () => {
-		setState({ ...state, snackbar: false });
-	};
+  useEffect(() => {
+    if (loginChecker()) {
+      window.location.href = "/gateway";
+    }
+  }, []);
 
-	const handleLoadingLogin = (bool: boolean) => {
-		setState({ ...state, loading: bool });
-	};
+  const handleClose = () => {
+    setState({ ...state, snackbar: false });
+  };
 
-	const handleSnackbar = (bool: boolean, mess: string) => {
-		setState({ ...state, snackbar: bool, message: mess });
-	};
+  const handleLoadingLogin = (bool: boolean) => {
+    setState({ ...state, loading: bool });
+  };
 
-	const logger = async () => {
-		if (localStorage.getItem("type") === "10") {
-			setState({ ...state, recorder: true });
-		}
-		setState({ ...state, loggedIn: true });
-		history.push('/gateway')
-	};
+  const handleSnackbar = (bool: boolean, mess: string) => {
+    setState({ ...state, snackbar: bool, message: mess });
+  };
 
-	return (
-		<>
-			<div
-				style={{
-					backgroundColor: "#ececec",
-					width: "100%",
-					height: "100vh",
-					display: "flex",
-					justifyContent: "center"
-				}}
-			>
-				<SnackNotif
-					snackbar={state.snackbar}
-					handleClose={handleClose}
-					message={state.message}
-				/>
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						flexDirection: "column",
-						width: "350px",
-						marginTop: "64px"
-					}}
-				>
-					{/* {this.state.loading && <SignInLoader />} */}
-					<img alt=" " src={Logo} style={{ width: "251px", height: "57px" }} />
-					<Card
-						style={{
-							paddingTop: "20px",
-							display: "flex",
-							alignItems: "center",
-							flexDirection: "column",
-							marginTop: "15px",
-							width: "100%",
-							height: "230px",
-							borderRadius: "0px"
-						}}
-					>
-						<SignInForm
-							handleLoadingLogin={handleLoadingLogin}
-							handleSnackbar={handleSnackbar}
-							logger={logger}
-						/>
-					</Card>
-				</div>
-			</div>
-		</>
-	);
-}
+  const logger = async (data: any) => {
+    if (localStorage.getItem("type") === "10") {
+      setState({ ...state, recorder: true });
+    }
+
+    login(data.username, data.password).then((res: any) => {
+      if (res) {
+        setState({ ...state, loggedIn: true, loading: false });
+
+        window.location.href = "/gateway";
+      } else {
+        handleSnackbar(true, "Incorrect Login Credentials");
+      }
+    });
+
+    // if (login(data.username, data.password)) {
+    //   setState({ ...state, loggedIn: true });
+    //   history.push("/gateway");
+    // } else {
+    //   setState({ ...state, loggedIn: false });
+    // }
+  };
+
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: "#ececec",
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center"
+        }}
+      >
+        <SnackNotif
+          snackbar={state.snackbar}
+          handleClose={handleClose}
+          message={state.message}
+        />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            width: "350px",
+            marginTop: "120px"
+          }}
+        >
+          {state.loading && <SignInLoader />}
+          <Card
+            style={{
+              paddingTop: "45px",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              marginTop: "15px",
+              width: 400,
+              height: "auto",
+              borderRadius: "4px"
+            }}
+          >
+            <img
+              alt=" "
+              src={Logo}
+              style={{ width: "251px", height: "57px", marginBottom: 30 }}
+            />
+            <SignInForm
+              handleLoadingLogin={handleLoadingLogin}
+              handleSnackbar={handleSnackbar}
+              logger={logger}
+            />
+          </Card>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default SigninComponent;
