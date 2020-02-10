@@ -16,9 +16,9 @@ type ContextProps = {
 const AppContext = React.createContext<Partial<ContextProps>>({});
 
 function CampaignsContextProvider({ children }: any) {
-	const [ data, setData ] = useState(mockData.campaigns);
-	const [ paginateList, setPaginateList ] = useState(mockData.campaigns);
-	const [ loading, setLoading ] = useState(false);
+	const [data, setData] = useState(mockData.campaigns);
+	const [paginateList, setPaginateList] = useState(mockData.campaigns);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => getAllData(), []);
 

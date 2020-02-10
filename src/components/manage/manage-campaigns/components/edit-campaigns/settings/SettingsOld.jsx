@@ -6,7 +6,7 @@ import { Paper, Typography, Tabs, Tab, Box } from '@material-ui/core';
 import { General, AudioResources, List, QA, ChangeLog } from './content';
 import { IdentityContext } from 'contexts/IdentityProvider';
 export default function SettingsSection({ match, history }) {
-	const [ tabValue, setValue ] = useState(0);
+	const [tabValue, setValue] = useState(0);
 
 	function handleChange(event, newValue) {
 		setValue(newValue);

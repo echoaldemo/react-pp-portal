@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Redirect } from "react-router-dom";
-
+import Impersonate from 'components/impersonate/Impersonate';
 import Gateway from "components/gateway";
 import {
   Realms,
@@ -38,14 +38,69 @@ import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-res
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
 import RouterSettings from "components/manage/manage-campaigns/components/edit-campaigns/data-posting/components/EditRoute/EditRoute";
+
 //audio
 import AudioResources from "components/audio/audio-resources";
+import PitchVoice from "components/audio/voice/pitch";
+import PhraseVoice from "components/audio/voice/phrase";
+import ProspectVoice from "components/audio/voice/prospect";
+
 import Overview from "components/dashboard/overview/Overview";
 import AgentDashboard from "components/dashboard/agent-dashboard";
 import AgentDetails from "components/dashboard/campaign-dashboard/AgentDetails";
 import DialerQueue from "components/dashboard/dialer-queue";
+import ChangePassword from "auth/change-password/ChangePassword";
+
+//API UTIL
+import { get } from "utils/api";
+
 export default function Routes() {
+  const [ person, setPerson ] = useState([]);
+
+  useEffect(() => {
+    let is_impersonate = localStorage.getItem("is_impersonate");
+    if (is_impersonate) {
+      get(`/identity/user/profile/`)
+      .then((res) => {
+        setPerson(res.data)
+      })
+    }
+  }, []); 
+
+  const stopImpersonating = async () => {
+    localStorage.removeItem("type");
+    let token = localStorage.getItem("ngStorage-ppToken/previous");
+    let type = localStorage.getItem("type/previous");
+    let user = localStorage.getItem("user/previous");
+
+
+    localStorage.setItem("ngStorage-ppToken", token);
+    localStorage.setItem("type", type);
+    localStorage.setItem("user", user);
+    localStorage.removeItem("is_impersonate");
+
+    if (localStorage.getItem("type", type) !== 10){
+      window.location.href = '/manage/users';
+    } else {
+      window.location.href = '/manage/audio/pitch';
+    }
+  };
+
+  
   return (
+    <React.Fragment>
+      {localStorage.getItem("is_impersonate") && (
+        <React.Fragment>
+          <Impersonate
+            person={person}
+            stopImpersonating={stopImpersonating}
+          />
+
+          <br />
+          <br />
+        </React.Fragment>
+      )}
+
     <BrowserRouter>
       <Switch>
         <PublicRoute exact path="/" component={Signin} />
@@ -168,6 +223,9 @@ export default function Routes() {
           path="/manage/audio/audio-resources"
           component={AudioResources}
         />
+        <PrivateRoute exact path="/manage/audio/pitch" component={PitchVoice} />
+        <PrivateRoute exact path="/manage/audio/phrase" component={PhraseVoice} />
+        <PrivateRoute exact path="/manage/audio/prospect" component={ProspectVoice} />
         <PrivateRoute
           path={`/dashboard/all/:slug/overview`}
           component={Overview}
@@ -184,9 +242,15 @@ export default function Routes() {
           path={`/dashboard/all/:slug/dialer-queue`}
           component={DialerQueue}
         />
+        <PrivateRoute
+          exact
+          path={`/change-password`}
+          component={ChangePassword}
+        />
         <PublicRoute path="/404" component={PageNotFound} />
         <Redirect to="/404" />
       </Switch>
     </BrowserRouter>
+    </React.Fragment>
   );
 }

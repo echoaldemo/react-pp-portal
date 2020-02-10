@@ -9,8 +9,8 @@ const EditPanelForm = () => {
 
 	const initialState = state.panels[state.panel_tab].name;
 
-	const [ panelName, setPanelName ] = useState(initialState);
-	const [ err, setErr ] = useState(false);
+	const [panelName, setPanelName] = useState(initialState);
+	const [err, setErr] = useState(false);
 	return (
 		<div className="panel-header">
 			<Grid container>
@@ -89,15 +89,15 @@ const CreateNewPanelForm = () => {
 		name: '',
 		description: ''
 	};
-	const [ formState, setFormState ] = useState(initialState);
-	const [ createLoading, setCreateLoading ] = useState(false);
+	const [formState, setFormState] = useState(initialState);
+	const [createLoading, setCreateLoading] = useState(false);
 	const addNewPanel = () => {
 		setCreateLoading(true);
 		setOpenCreatePanelModal(false);
 		setTimeout(() => {
 			dispatch({
 				type: 'CREATE_PANEL',
-				payload: { panel: [ ...state.panels, { ...formState } ] }
+				payload: { panel: [...state.panels, { ...formState }] }
 			});
 			setCreateLoading(false);
 			dispatch({ type: 'SET_PANEL_TAB', payload: { panel_tab: state.panels.length } });

@@ -18,28 +18,28 @@ const initialState = {
 };
 
 // const filterRealm = (data: Array<object>, initialRealms: any) => {
-// 	let newArr: any = [];
+//   let newArr: any = [];
 
-// 	initialRealms.map((item: any) => {
-// 		const value = data.find((realm: any) => {
-// 			return realm.uuid == item;
-// 		});
+//   initialRealms.map((item: any) => {
+//     const value = data.find((realm: any) => {
+//       return realm.uuid == item;
+//     });
 
-// 		newArr.push(value);
-// 	});
+//     newArr.push(value);
+//   });
 
-// 	return newArr;
+//   return newArr;
 // };
 
 const IdentityContext = React.createContext<any>(initialState);
 
 const IdentityProvider = ({ children }: any) => {
-	const [ tab, setTab ] = useState(0);
-	const [ openModal, setOpenModal ] = useState(false);
-	const [ editGroup, setEditGroup ] = useState(false);
-	const [ openCreatePanelModal, setOpenCreatePanelModal ] = useState(false);
-	const [ editPanel, setEditPanel ] = useState(false);
-	const [ newFieldModal, setNewFieldModal ] = useState(false);
+	const [tab, setTab] = useState(0);
+	const [openModal, setOpenModal] = useState(false);
+	const [editGroup, setEditGroup] = useState(false);
+	const [openCreatePanelModal, setOpenCreatePanelModal] = useState(false);
+	const [editPanel, setEditPanel] = useState(false);
+	const [newFieldModal, setNewFieldModal] = useState(false);
 	const setLoading = (val: boolean) => {
 		dispatch({ type: 'LOADING', payload: { loading: val } });
 	};
@@ -59,7 +59,7 @@ const IdentityProvider = ({ children }: any) => {
 		}, 1000);
 	}, []);
 
-	const [ state, dispatch ] = useReducer((state: any, action: any) => {
+	const [state, dispatch] = useReducer((state: any, action: any) => {
 		switch (action.type) {
 			case 'SET_PANEL_TAB':
 				return { ...state, panel_tab: action.payload.panel_tab };

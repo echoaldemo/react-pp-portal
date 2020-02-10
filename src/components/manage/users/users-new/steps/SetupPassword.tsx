@@ -26,6 +26,9 @@ const SetupPassword = ({ password, handlePassword, custom }: Props) => {
   const checkGuideline = (pass: any) => {
     return pass.match(/(?=.{10,}$)/);
   };
+  const checkGuideline1 = (pass: any) => {
+    return pass.match(/[0-9]/) && pass.match(/[a-z]/);
+  };
 
   const hasContent = (str: any) => {
     return str.match(/(?=.{1,}$)/);
@@ -48,16 +51,23 @@ const SetupPassword = ({ password, handlePassword, custom }: Props) => {
   const processPassword = (type: any) => ({ target: { value } }: any) => {
     if (type === "original") {
       handlePassword(type, value);
-      handlePassword("confirm", "");
+      matchPassword(password.confirm);
+      // handlePassword("confirm", "");
     } else {
       matchPassword(value);
-      if (checkGuideline(password.original)) {
+      if (
+        checkGuideline(password.original) &&
+        checkGuideline1(password.original)
+      ) {
         handlePassword(type, value);
       }
     }
   };
 
   let dynamicStyle = !checkGuideline(password.original) ? { color: "red" } : {};
+  let dynamicStyle1 = !checkGuideline1(password.original)
+    ? { color: "red" }
+    : {};
 
   return (
     <div
@@ -123,6 +133,9 @@ const SetupPassword = ({ password, handlePassword, custom }: Props) => {
 
       <Typography style={dynamicStyle} className={classes.note}>
         *The password must contains at least 10 characters.
+      </Typography>
+      <Typography style={dynamicStyle1} className={classes.note}>
+        *The password must be alphanumeric.
       </Typography>
     </div>
   );

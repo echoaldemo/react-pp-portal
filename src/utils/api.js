@@ -1,16 +1,17 @@
 import axios from "axios"
 //sam token
-// const token = localStorage.getItem("ngStorage-ppToken");
-const token = "" // TOKEN
+const token = localStorage.getItem("ngStorage-ppToken")
 axios.defaults.headers.common.Accept = "application/json"
 axios.defaults.headers.post["Content-Type"] = "application/json" //CONTENT TYPE
 if (token != null) {
   axios.defaults.headers.common["Authorization"] = `token ${token}` // AUTHORIZATION
 }
 
-const baseUrl = "http://devswarm.perfectpitchtech.com" // BASE URL OF THE API SERVER
+const baseUrl = "https://dev-api.perfectpitchtech.com" // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken
-let cancel = () => {}
+let cancel = () => {
+  axios.cancelAll()
+}
 
 // EXPORTED TOOLS
 
@@ -46,11 +47,13 @@ const get = (endpoint, query) => {
 
 //post method
 const post = (endpoint, data) =>
-  axios.post(`${baseUrl}${endpoint}`, data, {
-    cancelToken: new CancelToken(function executor(c) {
-      cancel = c
+  axios
+    .post(`${baseUrl}${endpoint}`, data, {
+      cancelToken: new CancelToken(function executor(c) {
+        cancel = c
+      })
     })
-  })
+    .catch(res => res)
 
 //patch method
 const patch = (endpoint, data) =>
@@ -75,6 +78,11 @@ const remove = endpoint =>
       cancel = c
     })
   })
+const withToken = (endpoint, token) => {
+  return axios.get(`${baseUrl}${endpoint}`, {
+    headers: { Authorization: `Token ${token}` }
+  })
+}
 
 // list of exported tools
-export { get, post, patch, put, remove, cancel }
+export { get, post, patch, put, remove, cancel, withToken }

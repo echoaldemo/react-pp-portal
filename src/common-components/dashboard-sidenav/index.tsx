@@ -77,7 +77,7 @@ const Dashboard: React.FC<Props> = ({
 				}}
 			>
 				<Divider />
-				<div style={{ marginTop: "63px" }}>
+				<div className={classes.iconSection}>
 					{/* start remove from recorder */}
 					{type !== "10" ? (
 						<React.Fragment>

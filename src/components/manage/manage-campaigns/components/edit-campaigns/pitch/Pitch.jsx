@@ -30,7 +30,7 @@ const tabnames = [
 
 export default function PitchSection({ history }) {
 	const { state } = useContext(IdentityContext);
-	const [ tabValue, setValue ] = useState(0);
+	const [tabValue, setValue] = useState(0);
 
 	function handleChange(event, newValue) {
 		setValue(newValue);
@@ -65,23 +65,23 @@ export default function PitchSection({ history }) {
 					})}
 				</Tabs>
 
-        {tabPanels.map((item, i) => {
-          if (i === 4) {
-            return (
-              <TabPanel key={i} value={tabValue} index={i}>
-                <XML />
-              </TabPanel>
-            );
-          } else
-            return (
-              <TabPanel key={i} value={tabValue} index={i}>
-                {item}
-              </TabPanel>
-            );
-        })}
-      </div>
-    );
-  };
+				{tabPanels.map((item, i) => {
+					if (i === 4) {
+						return (
+							<TabPanel key={i} value={tabValue} index={i}>
+								<XML />
+							</TabPanel>
+						);
+					} else
+						return (
+							<TabPanel key={i} value={tabValue} index={i}>
+								{item}
+							</TabPanel>
+						);
+				})}
+			</div>
+		);
+	};
 
 	return (
 		<div>
@@ -90,8 +90,8 @@ export default function PitchSection({ history }) {
 				{state.pitch ? (
 					<React.Fragment>{state.loading ? <TableLoader /> : renderPitchContent()}</React.Fragment>
 				) : (
-					<AddNewPitch />
-				)}
+						<AddNewPitch />
+					)}
 			</Paper>
 		</div>
 	);

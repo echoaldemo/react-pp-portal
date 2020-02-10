@@ -28,7 +28,7 @@ export default function Details() {
 const DetailsForm = () => {
 	const { state } = useContext(IdentityContext);
 
-	const [ formState, setFormState ] = useState(state.pitch);
+	const [formState, setFormState] = useState(state.pitch);
 
 	return (
 		<form>
@@ -57,7 +57,7 @@ const DetailsForm = () => {
 						setFormState({ ...formState, panel: e.target.value });
 					}}
 				>
-					{[ 'Generic', 'Standard' ].map((item) => (
+					{['Generic', 'Standard'].map((item) => (
 						<MenuItem key={item} value={item}>
 							{item}
 						</MenuItem>
@@ -77,7 +77,7 @@ const DetailsForm = () => {
 						setFormState({ ...formState, active_version: e.target.value });
 					}}
 				>
-					{[ 1, 2, 3 ].map((item) => (
+					{[1, 2, 3].map((item) => (
 						<MenuItem key={item} value={item}>
 							{item}
 						</MenuItem>
