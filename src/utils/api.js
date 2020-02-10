@@ -1,17 +1,16 @@
-import axios from 'axios'
+import axios from "axios"
 //sam token
 // const token = localStorage.getItem("ngStorage-ppToken");
-const token = '6076491441e22edab73be6bde2793b138fb6de7e' // TOKEN
-axios.defaults.headers.common.Accept = 'application/json'
-axios.defaults.headers.post['Content-Type'] = 'application/json' //CONTENT TYPE
+const token = "" // TOKEN
+axios.defaults.headers.common.Accept = "application/json"
+axios.defaults.headers.post["Content-Type"] = "application/json" //CONTENT TYPE
 if (token != null) {
-  axios.defaults.headers.common['Authorization'] = `token ${token}` // AUTHORIZATION
+  axios.defaults.headers.common["Authorization"] = `token ${token}` // AUTHORIZATION
 }
 
-const baseUrl = 'http://devswarm.perfectpitchtech.com' // BASE URL OF THE API SERVER
+const baseUrl = "http://devswarm.perfectpitchtech.com" // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken
 let cancel = () => {}
-
 
 // EXPORTED TOOLS
 
@@ -20,7 +19,7 @@ let cancel = () => {}
 //   --data manipulation here--
 //   })
 
-// *** EXAMPLE FOR USING *** 
+// *** EXAMPLE FOR USING ***
 // get("/identity/user/manage/list/", {
 //   limit: 10,
 //   order_by: "-datetime_modified"
@@ -30,7 +29,7 @@ let cancel = () => {}
 
 //get method
 const get = (endpoint, query) => {
-  let test = ''
+  let test = ""
   let count = 0
   if (query) {
     for (const key of Object.keys(query)) {

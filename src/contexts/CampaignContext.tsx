@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import mockData from './mockData.json';
 import { get } from 'utils/api';
 
@@ -20,23 +20,19 @@ function CampaignsContextProvider({ children }: any) {
 	const [ paginateList, setPaginateList ] = useState(mockData.campaigns);
 	const [ loading, setLoading ] = useState(false);
 
-	// useEffect(() => {
-	// 	setLoading(true);
-	// 	setTimeout(() => {
-	// 		setLoading(false);
-	// 	}, 1000);
+	useEffect(() => getAllData(), []);
 
-	// 	// getAllData()
-	// }, []);
-
-	// function getAllData() {
-	// 	// eslint-disable-line
-	// 	setLoading(true);
-	// 	get('/identity/campaign/list/').then((res: any) => {
-	// 		setData(res.data);
-	// 		setLoading(false);
-	// 	});
-	// }
+	function getAllData() {
+		// eslint-disable-line
+		setLoading(true);
+		get('/identity/campaign/list/', {
+			editable:true,
+			order_by: "-datetime_modified"
+		}).then((res: any) => {
+			setData(res.data);
+			setLoading(false);
+		});
+	}
 
 	function FilterApplyButton(params: any) {
 		var parameter = {
