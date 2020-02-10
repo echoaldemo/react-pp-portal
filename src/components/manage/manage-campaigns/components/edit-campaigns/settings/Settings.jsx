@@ -23,8 +23,8 @@ const TabPanel = (props) => {
 };
 
 const SettingsContent = () => {
-	const [ tabValue, setValue ] = useState(0);
-	const tabArr = [ 'General', 'Audio Resources', 'List', 'QA', 'Change Log' ];
+	const [tabValue, setValue] = useState(0);
+	const tabArr = ['General', 'Audio Resources', 'List', 'QA', 'Change Log'];
 	function handleChange(event, newValue) {
 		setValue(newValue);
 	}
@@ -35,7 +35,7 @@ const SettingsContent = () => {
 			'aria-controls': `full-width-tabpanel-${index}`
 		};
 	}
-	const tabPanels = [ General, AudioResources, List, QA, ChangeLog ];
+	const tabPanels = [General, AudioResources, List, QA, ChangeLog];
 	return (
 		<div>
 			<Typography className="section-title">Campaign Settings</Typography>

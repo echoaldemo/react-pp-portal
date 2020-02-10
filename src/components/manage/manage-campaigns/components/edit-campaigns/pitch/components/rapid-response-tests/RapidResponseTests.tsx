@@ -39,19 +39,19 @@ export default function RapidResponseTests() {
             </div>
           </>
         ) : (
-          <div className={classes.container}>
-            <DNDCards
-              card1Title="Active segments"
-              card2Title="Global segments"
-              card3Title="Company segments"
-              card1Data={state.activeTestData}
-              card2Data={state.globalTestData}
-              card3Data={state.companyTestData}
-              saveActiveSegment={saveActiveSegment}
-              setActiveData={setActiveData}
-            />
-          </div>
-        )}
+            <div className={classes.container}>
+              <DNDCards
+                card1Title="Active segments"
+                card2Title="Global segments"
+                card3Title="Company segments"
+                card1Data={state.activeTestData}
+                card2Data={state.globalTestData}
+                card3Data={state.companyTestData}
+                saveActiveSegment={saveActiveSegment}
+                setActiveData={setActiveData}
+              />
+            </div>
+          )}
       </div>
     </div>
   );

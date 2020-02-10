@@ -40,3 +40,4 @@ export { NavTabs } from './nav-tabs';
 export { DashboardSidenav } from './dashboard-sidenav';
 export { CallMenu } from './call-menu';
 export { EditText } from './edit-text';
+export { CustomText, CustomInput } from './custom-components'

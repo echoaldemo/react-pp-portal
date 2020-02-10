@@ -5,7 +5,7 @@ import SEO from 'utils/seo';
 
 export default function EditHeader({ campaignDetails, history }) {
 	const localData = JSON.parse(localStorage.getItem('campaignData'));
-	const [ selected, setSelected ] = useState('1');
+	const [selected, setSelected] = useState('1');
 	const options = [
 		{
 			name: 'PP23',

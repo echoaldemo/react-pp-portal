@@ -18,7 +18,7 @@ const defaultState = {
 };
 
 const Segments = () => {
-	const [ state, setState ] = useState(defaultState);
+	const [state, setState] = useState(defaultState);
 	const classes = styles();
 	const setActiveData = (data: any) => {
 		setState({ ...state, activeData: data });
@@ -36,19 +36,19 @@ const Segments = () => {
 					</div>
 				</React.Fragment>
 			) : (
-				<div className={classes.container}>
-					<DNDCards
-						card1Title="Active segments"
-						card2Title="Global segments"
-						card3Title="Company segments"
-						card1Data={state.activeTestData}
-						card2Data={state.globalTestData}
-						card3Data={state.companyTestData}
-						saveActiveSegment={saveActiveSegment}
-						setActiveData={setActiveData}
-					/>
-				</div>
-			)}
+					<div className={classes.container}>
+						<DNDCards
+							card1Title="Active segments"
+							card2Title="Global segments"
+							card3Title="Company segments"
+							card1Data={state.activeTestData}
+							card2Data={state.globalTestData}
+							card3Data={state.companyTestData}
+							saveActiveSegment={saveActiveSegment}
+							setActiveData={setActiveData}
+						/>
+					</div>
+				)}
 		</div>
 	);
 };

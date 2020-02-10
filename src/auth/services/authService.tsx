@@ -1,14 +1,18 @@
 // Make your function for auths here
 
 function loginChecker() {
-	return 'sample function';
+  if (localStorage.getItem("ngStorage-ppToken") !== null) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // Function for authentication
 
-// Note: This function will be used in `ManageRoute.tsx` and `GatewayRoute.tsx` 
+// Note: This function will be used in `ManageRoute.tsx` and `GatewayRoute.tsx`
 function isAuth() {
-	return true;
+  return true;
 }
 
 export { loginChecker, isAuth };

@@ -1,13 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Snackbar } from '@material-ui/core';
-
 import { CContainer } from 'components/manage/global/global-rr-test/components';
-
 import { PHeader, PColumn, NewVoice } from 'components/manage/global/global-rr-test/prospect-voices/components';
-
 import { getVoices, updateVoices, getRRTest } from 'components/manage/global/global-rr-test/utils/ProspectVoices';
-
 import { cancel } from 'utils/api';
 
 // mock data
@@ -23,7 +19,36 @@ const activeData: any = [
 		email: null,
 		password_update_required: false,
 		password_last_update: '2017-06-28T17:45:11.216414Z',
-		hire_date: null
+		hire_date: null,
+
+	},
+	{
+		uuid: '79041608-5c29-11e7-9756-02420aff000e1',
+		last_login: '2017-07-20T17:19:26.063777Z',
+		username: 'gregDoermann',
+		first_name: 'Greg',
+		last_name: 'Doermann',
+		is_active: true,
+		date_joined: '2017-06-28T17:44:45.180722Z',
+		email: null,
+		password_update_required: false,
+		password_last_update: '2017-06-28T17:45:11.216414Z',
+		hire_date: null,
+
+	},
+	{
+		uuid: '79041608-5c29-11e7-9756-02420aff000e12',
+		last_login: '2017-07-20T17:19:26.063777Z',
+		username: 'testVoice',
+		first_name: 'Test',
+		last_name: 'Voice',
+		is_active: true,
+		date_joined: '2017-06-28T17:44:45.180722Z',
+		email: null,
+		password_update_required: false,
+		password_last_update: '2017-06-28T17:45:11.216414Z',
+		hire_date: null,
+
 	}
 ];
 
@@ -40,21 +65,73 @@ const availableData: any = [
 		password_update_required: false,
 		password_last_update: '2018-07-23T20:48:53.780656Z',
 		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'amyAuto',
+		first_name: 'Amy',
+		last_name: 'Auto',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'alexBalagna',
+		first_name: 'Alex',
+		last_name: 'Balagna',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'adamOrchard',
+		first_name: 'Adam',
+		last_name: 'Orchard',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
+	},
+	{
+		uuid: '5cfc5e92-6c92-11e7-94dc-02420aff0015',
+		last_login: '2018-07-23T20:50:32.797472Z',
+		username: 'brianPreston',
+		first_name: 'Brian',
+		last_name: 'Preston',
+		is_active: true,
+		date_joined: '2017-07-19T14:55:53.913298Z',
+		email: 'testingforaudio@testing.com',
+		password_update_required: false,
+		password_last_update: '2018-07-23T20:48:53.780656Z',
+		hire_date: null
 	}
 ];
 // end mock data
 
 const ProspectVoices = (props: any) => {
-	const [ open, setOpen ] = useState(false);
-	const [ pure_act_data, setPureActData ] = useState([]);
-	const [ pure_avl_data, setPureAvlData ] = useState([]);
-	const [ act_data, setActData ] = useState(activeData);
-	const [ avl_data, setAvlData ] = useState(availableData);
-	const [ is_edit, setIsEdit ] = useState(false);
-	const [ updateError, setUpdateError ] = useState(false);
-	const [ errorMessage, setErrorMessage ] = useState('');
-	const [ loading, setLoading ] = useState(false);
-	const [ voicesData, setVoicesData ] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [pure_act_data, setPureActData] = useState([]);
+	const [pure_avl_data, setPureAvlData] = useState([]);
+	const [act_data, setActData] = useState(activeData);
+	const [avl_data, setAvlData] = useState(availableData);
+	const [is_edit, setIsEdit] = useState(false);
+	const [updateError, setUpdateError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+	const [loading, setLoading] = useState(false);
+	const [voicesData, setVoicesData] = useState([]);
 
 	// useEffect(() => {
 	// 	async function fetchDatas() {
@@ -106,32 +183,32 @@ const ProspectVoices = (props: any) => {
 
 	function removeItem(voice: any) {
 		setIsEdit(true);
-		setAvlData([...avl_data, voice ]);
-		let newAvailableData = act_data.filter((key:any) => key !== voice);
+		setAvlData([...avl_data, voice]);
+		let newAvailableData = act_data.filter((key: any) => key !== voice);
 		setActData(newAvailableData);
 	}
 
 	function renderActiveData(data: any) {
 		return data
 			? data.map((key: any, i: number) => {
-					return (
-						<PColumn
-							key={i}
-							// notifyEdit={(value: any) => setIsEdit(value)}
-							voiceFn={removeItem}
-							data={key}
-							add={false}
-							newRecord={false}
-						/>
-					);
-				})
+				return (
+					<PColumn
+						key={i}
+						// notifyEdit={(value: any) => setIsEdit(value)}
+						voiceFn={removeItem}
+						data={key}
+						add={false}
+						newRecord={false}
+					/>
+				);
+			})
 			: null;
 	}
 
 	function renderAvailableData(data: any) {
 		return data.map((key: any) => {
 			return (
-				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true}/>}</React.Fragment>
+				<React.Fragment>{key.username && <PColumn voiceFn={addVoice} data={key} add={true} />}</React.Fragment>
 			);
 		});
 	}
@@ -150,7 +227,7 @@ const ProspectVoices = (props: any) => {
 		if (voice) {
 			setIsEdit(true);
 			let old_act = act_data;
-			let new_act: any = [ ...old_act, voice ];
+			let new_act: any = [...old_act, voice];
 			setActData(new_act);
 			let newAvailableData = avl_data.filter((key: any) => key !== voice);
 			setAvlData(newAvailableData);
