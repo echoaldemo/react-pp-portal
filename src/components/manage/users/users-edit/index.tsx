@@ -186,7 +186,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				setCompanyDisabled(true);
 			}
 		})
-		Info.add({ groups: value, team: '', company: '', campaign: [] });
+		Info.add({ groups: value, team: '', company: '', campaigns: [] });
 	};
 
 	const hasContent = (str: any) => {
