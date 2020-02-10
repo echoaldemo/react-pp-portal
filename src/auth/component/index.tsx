@@ -44,15 +44,15 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
   };
 
   const logger = async (data: any) => {
-    if (localStorage.getItem("type") === "10") {
-      setState({ ...state, recorder: true });
-    }
-
     login(data.username, data.password).then((res: any) => {
       if (res) {
-        setState({ ...state, loggedIn: true, loading: false });
-
-        window.location.href = "/gateway";
+        if (localStorage.getItem("type") === "10") {
+          setState({ ...state, recorder: true });
+          window.location.href = "/manage/audio/pitch";
+        } else {
+          setState({ ...state, loggedIn: true, loading: false });
+          window.location.href = "/gateway";
+        }
       } else {
         handleSnackbar(true, "Incorrect Login Credentials");
       }
