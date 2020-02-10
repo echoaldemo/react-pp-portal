@@ -7,7 +7,7 @@ if (token != null) {
   axios.defaults.headers.common["Authorization"] = `token ${token}`; // AUTHORIZATION
 }
 
-const baseUrl = "https://dev-api.perfectpitchtech.com"; // BASE URL OF THE API SERVER
+const baseUrl = "http://devswarm.perfectpitchtech.com"; // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken;
 let cancel = () => {
   axios.cancelAll();
