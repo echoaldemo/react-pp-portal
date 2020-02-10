@@ -27,9 +27,9 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
 
   useEffect(() => {
     if (loginChecker()) {
-      history.push("/gateway");
+      window.location.href = "/gateway";
     }
-  }, [history]);
+  }, []);
 
   const handleClose = () => {
     setState({ ...state, snackbar: false });
@@ -52,7 +52,7 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
       if (res) {
         setState({ ...state, loggedIn: true, loading: false });
 
-        history.push("/gateway");
+        window.location.href = "/gateway";
       } else {
         handleSnackbar(true, "Incorrect Login Credentials");
       }
