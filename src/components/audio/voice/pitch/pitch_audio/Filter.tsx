@@ -190,11 +190,11 @@ class Filter extends Component<IProps, IState> {
               <Select
                 classes={{ select: classes.select }}
                 value={this.props.selectedCampaign}
+                name={campaigns.filter(
+                  (camp: any) => camp.slug === this.props.selectedCampaign
+                )}
                 onChange={e => {
-                  this.props.selectCampaign(
-                    e.target.value
-                    // e.currentTarget.getAttribute("uuid")
-                  );
+                  this.props.selectCampaign(e.target.value, e.target.name);
                 }}
                 MenuProps={MenuProps}
                 disabled={this.disableCampaign()}
