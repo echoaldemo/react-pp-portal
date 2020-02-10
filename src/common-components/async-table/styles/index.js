@@ -119,6 +119,7 @@ export const useStyles = makeStyles(() => ({
     }
   },
   uuid: {
+    paddingTop: '25px',
     color: "#777777",
     height: "100%",
     whiteSpace: "nowrap",
