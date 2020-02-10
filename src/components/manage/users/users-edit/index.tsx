@@ -179,6 +179,10 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 		Info.add({ campaigns: value });
 	};
 
+	const checkRoles = (obj : any) => {
+		return (info.groups.every((elem:any) => obj.indexOf(elem) > -1))
+	}
+
 	const handleRoleSelection = ({ target: { value } }: any) => {
 		setCompanyDisabled(false);
 		value.map((role:any) => {
@@ -331,7 +335,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				{...companySelectProps}
 				margin="normal"
 				value={info.company}
-				disabled={companyDisabled || (localStorage.getItem('uuid') === info.uuid) ? true : false}
+				disabled={companyDisabled || (localStorage.getItem('uuid') === info.uuid) || checkRoles([1, 2, 3]) ? true : false}
 			>
 				<MenuItem style={{ minHeight: '36px' }} key="none" value="">
 					<CustomText>None</CustomText>
