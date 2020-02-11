@@ -14,10 +14,10 @@ const theme = createMuiTheme({
     },
     MuiSwitch: {
       colorPrimary: {
-        color: '#ddd !important',
+        color: "#ddd !important",
         "&.Mui-checked": {
-          color: "#1394F6 !important",
-        },
+          color: "#1394F6 !important"
+        }
       }
     },
     MuiInput: {
@@ -149,13 +149,13 @@ const useStyles = makeStyles({
     cursor: "pointer",
     "&:hover": {
       opacity: 0.8,
-      backgroundColor: "#7c8a97",
-    },
+      backgroundColor: "#7c8a97"
+    }
   },
   impersonateBtnRoot: {
-    '&.Mui-disabled' : {
-      color: 'rgba(0, 0, 0, 0.26)',
-      backgroundColor: '#d8d8d8'
+    "&.Mui-disabled": {
+      color: "rgba(0, 0, 0, 0.26)",
+      backgroundColor: "#d8d8d8"
     }
   },
   activeText: {
