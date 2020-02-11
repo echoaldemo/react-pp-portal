@@ -1,5 +1,5 @@
-import React from 'react'
-import { Dialog } from '@material-ui/core'
+import React from "react";
+import { Dialog } from "@material-ui/core";
 import {
   Center,
   Card,
@@ -7,12 +7,12 @@ import {
   LoadingIcon,
   Button,
   Cancel
-} from './styles/styles'
+} from "./styles/styles";
 
 interface Props {
-  open: boolean
-  text: string
-  cancelFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
+  open: boolean;
+  text: string;
+  cancelFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 const LoadingModal: React.FC<Props> = ({ open, text, cancelFn }) => {
@@ -28,12 +28,12 @@ const LoadingModal: React.FC<Props> = ({ open, text, cancelFn }) => {
         </Card>
       </Center>
     </Dialog>
-  )
-}
+  );
+};
 
 LoadingModal.defaultProps = {
   open: false,
-  text: ''
-} as Partial<Props>
+  text: ""
+} as Partial<Props>;
 
-export { LoadingModal }
+export { LoadingModal };

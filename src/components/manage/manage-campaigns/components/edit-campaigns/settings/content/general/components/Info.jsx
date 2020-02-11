@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
-import { TableLoader, DeleteModal } from 'common-components'
-import EditForm from './EditForm'
-import { IdentityContext } from 'contexts/IdentityProvider'
+import React, { useContext } from "react";
+import { TableLoader, DeleteModal } from "common-components";
+import EditForm from "./EditForm";
+import { IdentityContext } from "contexts/IdentityProvider";
 
 export default function Info() {
-  const { state, openModal, setOpenModal } = useContext(IdentityContext)
+  const { state, openModal, setOpenModal } = useContext(IdentityContext);
 
   return (
     <React.Fragment>
@@ -15,15 +15,15 @@ export default function Info() {
         name={state.campaignDetails.name}
         msg="campaign"
         closeFn={() => {
-          setOpenModal(false)
+          setOpenModal(false);
         }}
         delFn={() => {
           // deleteCompany();
-          return null
+          return null;
         }}
       />
     </React.Fragment>
-  )
+  );
 }
 
 // {

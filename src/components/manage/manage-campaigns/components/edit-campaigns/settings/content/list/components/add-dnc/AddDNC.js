@@ -29,7 +29,7 @@ const AddDNC = ({ state, setState }) => {
         fullWidth
         label="Phone"
         value={state.phone}
-        onChange={(e) => setState({ ...state, phone: e.target.value })}
+        onChange={e => setState({ ...state, phone: e.target.value })}
       />
       <BtnCont>
         <CancelBtn onClick={() => setState({ ...state, dnc: false })}>

@@ -1,4 +1,3 @@
-
 export const phrase = {
   container: {
     padding: 30

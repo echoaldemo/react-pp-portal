@@ -82,7 +82,7 @@ export default function NewRoute({ open, openFn, onClose, handleCreate }: any) {
       <ThemeProvider theme={materialTheme}>
         <Modal open={open} title={<b>Add New Route</b>} onClose={onClose}>
           <form
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
               onClose();
               setAdd({

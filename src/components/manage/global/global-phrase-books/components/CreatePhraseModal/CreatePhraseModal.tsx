@@ -144,7 +144,7 @@ const CreatePhraseModal = ({ open, onClose, openFn, handleAdd }: Props) => {
           <div style={{ paddingBottom: 15 }}>
             <CustomButton
               type="submit"
-              handleClick={(e) => {
+              handleClick={e => {
                 console.log(e);
               }}
               disabled={!state.phrase_nameValid || !state.phraseValid}

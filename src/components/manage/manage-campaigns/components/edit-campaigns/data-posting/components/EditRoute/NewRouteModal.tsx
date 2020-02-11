@@ -166,7 +166,7 @@ const NewRoute = ({ onClose, open, openFn, handleAddNewRoute }: Props) => {
                   routeDetails.routeUrl.length === 0 ||
                   routeDetails.routeName.length === 0
                 }
-                handleClick={() => { }}
+                handleClick={() => {}}
               >
                 Save
               </CustomButton>

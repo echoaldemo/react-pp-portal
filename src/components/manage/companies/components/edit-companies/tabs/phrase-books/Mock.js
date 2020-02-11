@@ -95,5 +95,5 @@ export const company = [
     company: "ce92941c-f92c-11e9-8ffa-0242ac110014",
     slug: "trtretret",
     phrases: []
-  },
+  }
 ];

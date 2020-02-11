@@ -23,7 +23,7 @@ const Link = styled(Text)`
 `;
 const PlayerContainer = styled.div``;
 
-const Player = (props) => {
+const Player = props => {
   let audioPlayer = useRef();
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Player = (props) => {
     <>
       <PlayerContainer>
         <Link
-          onClick={(e) => closePlayer()}
+          onClick={e => closePlayer()}
           style={{
             marginBottom: "14px",
             cursor: "pointer"

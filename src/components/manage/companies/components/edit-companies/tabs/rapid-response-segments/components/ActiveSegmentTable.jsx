@@ -1,5 +1,11 @@
 import React, { PureComponent } from "react";
-import { CustomCard, CardHeader, CardBody, CardNoResult, AsyncTable } from "common-components/card";
+import {
+  CustomCard,
+  CardHeader,
+  CardBody,
+  CardNoResult,
+  AsyncTable
+} from "common-components/card";
 import TableRow from "@material-ui/core/TableRow";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +28,7 @@ class ActiveSegmentTable extends PureComponent {
       globalSegments: this.props.globalSegments
     };
   }
-  
+
   getFirst = n => {
     var x = n.firstChild;
     // while (x.nodeType != 1) {
@@ -47,7 +53,6 @@ class ActiveSegmentTable extends PureComponent {
     return result;
   };
 
-
   onDragEnd = result => {
     const { source, destination } = result;
 
@@ -57,33 +62,33 @@ class ActiveSegmentTable extends PureComponent {
     }
     if (source.droppableId === destination.droppableId) {
       const items = reorder(
-          this.getList(source.droppableId),
-          source.index,
-          destination.index
+        this.getList(source.droppableId),
+        source.index,
+        destination.index
       );
 
       let state = { items };
 
-      if (source.droppableId === 'droppable2') {
-          state = { selected: items };
+      if (source.droppableId === "droppable2") {
+        state = { selected: items };
       }
 
       this.setState(state);
     } else {
       const result = move(
-          this.getList(source.droppableId),
-          this.getList(destination.droppableId),
-          source,
-          destination
+        this.getList(source.droppableId),
+        this.getList(destination.droppableId),
+        source,
+        destination
       );
 
       this.setState({
-          items: result.droppable,
-          selected: result.droppable2
+        items: result.droppable,
+        selected: result.droppable2
       });
     }
 
-    // const column = this.state. 
+    // const column = this.state.
   };
 
   render() {

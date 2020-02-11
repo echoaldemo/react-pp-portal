@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   TextField,
   Grid,
@@ -8,23 +8,23 @@ import {
   Radio,
   FormControl,
   FormLabel
-} from '@material-ui/core'
-import TransferListCard from '../transfer-list-card/TransferListCard'
-import { CustomButton } from 'common-components'
-import { cdrStyle as useStyles } from './styles'
+} from "@material-ui/core";
+import TransferListCard from "../transfer-list-card/TransferListCard";
+import { CustomButton } from "common-components";
+import { cdrStyle as useStyles } from "./styles";
 
 const TopInfo = ({ classes }) => {
   const textFields = [
     {
-      placeholder: 'Start Date'
+      placeholder: "Start Date"
     },
     {
-      placeholder: 'End Date'
+      placeholder: "End Date"
     },
     {
-      placeholder: 'Filename'
+      placeholder: "Filename"
     }
-  ]
+  ];
   return (
     <div>
       {textFields.map((fields, i) => {
@@ -39,8 +39,8 @@ const TopInfo = ({ classes }) => {
             margin="normal"
             autoComplete="off"
             style={{
-              padding: '5px 15px 5px 0px',
-              width: '100%'
+              padding: "5px 15px 5px 0px",
+              width: "100%"
             }}
             InputProps={{
               classes: {
@@ -49,16 +49,16 @@ const TopInfo = ({ classes }) => {
               }
             }}
           />
-        )
+        );
       })}
       <Grid item xs={12}>
         <Grid container>
           <Grid item>
             <FormControlLabel
               style={{
-                padding: '5px 10px 5px 0px',
-                width: '100%',
-                color: '#777777'
+                padding: "5px 10px 5px 0px",
+                width: "100%",
+                color: "#777777"
               }}
               control={
                 <Checkbox
@@ -75,9 +75,9 @@ const TopInfo = ({ classes }) => {
           <Grid item>
             <FormControlLabel
               style={{
-                padding: '5px 10px 5px 0px',
-                width: '100%',
-                color: '#777777'
+                padding: "5px 10px 5px 0px",
+                width: "100%",
+                color: "#777777"
               }}
               control={
                 <Checkbox
@@ -94,9 +94,9 @@ const TopInfo = ({ classes }) => {
           <Grid item>
             <FormControlLabel
               style={{
-                padding: '5px 10px 5px 0px',
-                width: '100%',
-                color: '#777777'
+                padding: "5px 10px 5px 0px",
+                width: "100%",
+                color: "#777777"
               }}
               control={
                 <Checkbox
@@ -113,39 +113,39 @@ const TopInfo = ({ classes }) => {
         </Grid>
       </Grid>
     </div>
-  )
-}
+  );
+};
 const mockData = [
   {
-    name: 'IVR Removal'
+    name: "IVR Removal"
   },
   {
-    name: 'Wrong number'
+    name: "Wrong number"
   },
   {
-    name: 'Voice mail'
+    name: "Voice mail"
   },
   {
-    name: 'Do not call'
+    name: "Do not call"
   }
-]
+];
 const ExportCDR = props => {
-  const { setOpenExportList, SaveExportList } = props
-  const classes = useStyles()
-  const [selectedData, setSelectedData] = useState([])
-  const [value, setValue] = React.useState('female')
+  const { setOpenExportList, SaveExportList } = props;
+  const classes = useStyles();
+  const [selectedData, setSelectedData] = useState([]);
+  const [value, setValue] = React.useState("female");
   const handleChange = event => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
   const SelectedDataFunc = (data, listname) => {
-    setSelectedData({ [listname]: data })
-  }
+    setSelectedData({ [listname]: data });
+  };
   const SaveDataFunc = () => {
-    SaveExportList(selectedData)
-  }
+    SaveExportList(selectedData);
+  };
   const CancelDataFunc = () => {
-    setOpenExportList(false)
-  }
+    setOpenExportList(false);
+  };
   return (
     <>
       <Grid container>
@@ -217,14 +217,14 @@ const ExportCDR = props => {
         <Grid item xs={12}>
           <TransferListCard
             list={{
-              title: 'Dispositions'
+              title: "Dispositions"
             }}
             mockData={mockData}
             SelectedDataFunc={SelectedDataFunc}
           />
           <TransferListCard
             list={{
-              title: 'Locations'
+              title: "Locations"
             }}
             mockData={mockData}
             SelectedDataFunc={SelectedDataFunc}
@@ -238,14 +238,14 @@ const ExportCDR = props => {
         <Grid item>
           <CustomButton
             onClick={CancelDataFunc}
-            style={{ backgroundColor: '#eee' }}
+            style={{ backgroundColor: "#eee" }}
           >
-            <strong style={{ color: '#444851' }}>Cancel</strong>
+            <strong style={{ color: "#444851" }}>Cancel</strong>
           </CustomButton>
         </Grid>
       </Grid>
     </>
-  )
-}
+  );
+};
 
-export default ExportCDR
+export default ExportCDR;

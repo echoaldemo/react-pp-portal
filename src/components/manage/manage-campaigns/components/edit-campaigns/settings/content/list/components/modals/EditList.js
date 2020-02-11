@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { SaveButton } from "common-components";
 import { RefreshOutlined } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
     width: "100%",

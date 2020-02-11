@@ -58,7 +58,7 @@ const NewProspectList = ({ state, setState }) => {
         style={{ marginTop: 20 }}
         limit={20}
         helperText="Associated data file"
-        getAudio={(e) => console.log("I am the file", e)}
+        getAudio={e => console.log("I am the file", e)}
       />
       <BtnCont>
         <CancelBtn onClick={() => setState({ ...state, list: false })}>

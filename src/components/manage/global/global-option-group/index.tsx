@@ -1,4 +1,4 @@
-import GlobalOptionGroup from './OptionGroup'
-import EditOptionGroup from './edit-option-group/EditOptionGroup'
+import GlobalOptionGroup from "./OptionGroup";
+import EditOptionGroup from "./edit-option-group/EditOptionGroup";
 
-export { GlobalOptionGroup, EditOptionGroup }
+export { GlobalOptionGroup, EditOptionGroup };

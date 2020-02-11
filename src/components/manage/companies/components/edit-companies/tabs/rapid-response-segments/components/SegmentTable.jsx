@@ -1,37 +1,37 @@
-import TableRow from '@material-ui/core/TableRow'
-import CopyIcon from '@material-ui/icons/FilterNone'
-import Icon from '@mdi/react'
-import { mdiContentCopy } from '@mdi/js'
-import CodeIcon from '@material-ui/icons/Code'
-import EyeIcon from '@material-ui/icons/Visibility'
-import DeleteIcon from '@material-ui/icons/Delete'
-import ViewIcon from '@material-ui/icons/Visibility'
+import TableRow from "@material-ui/core/TableRow";
+import CopyIcon from "@material-ui/icons/FilterNone";
+import Icon from "@mdi/react";
+import { mdiContentCopy } from "@mdi/js";
+import CodeIcon from "@material-ui/icons/Code";
+import EyeIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ViewIcon from "@material-ui/icons/Visibility";
 
-import TableCell from '@material-ui/core/TableCell'
+import TableCell from "@material-ui/core/TableCell";
 import {
   AsyncTable,
   ActiveCell,
   UnderlineCell
-} from 'common-components/table-cells/TableCells'
-import CircularProgress from '@material-ui/core/CircularProgress'
+} from "common-components/table-cells/TableCells";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import React, { useState } from 'react'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import Tooltip from '@material-ui/core/Tooltip'
-import { withStyles } from '@material-ui/core/styles'
-import { withRouter } from 'react-router-dom'
-import { Typography, Button, Menu, MenuItem, Dialog } from '@material-ui/core'
-import EditButton from 'common-components/EditButton/EditButton'
+import React, { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+import { Typography, Button, Menu, MenuItem, Dialog } from "@material-ui/core";
+import EditButton from "common-components/EditButton/EditButton";
 // import DeleteSegment from "./DeleteSegment";
 
 const LightTooltip = withStyles(theme => ({
   tooltip: {
     backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 0.87)',
+    color: "rgba(0, 0, 0, 0.87)",
     boxShadow: theme.shadows[1],
     fontSize: 11
   }
-}))(Tooltip)
+}))(Tooltip);
 
 function SegmentTable({
   userData,
@@ -42,38 +42,38 @@ function SegmentTable({
   openDelete
 }) {
   //
-  const [copy, setCopy] = useState(false)
-  const [delForm, setDelForm] = useState(false)
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [activeData, setActiveData] = React.useState(null)
+  const [copy, setCopy] = useState(false);
+  const [delForm, setDelForm] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [activeData, setActiveData] = React.useState(null);
 
   const handleClick = (event, data) => {
-    setAnchorEl(event.currentTarget)
-    setActiveData(data)
-  }
+    setAnchorEl(event.currentTarget);
+    setActiveData(data);
+  };
 
   const openDelete1 = () => {
-    openDelete(activeData)
-    setAnchorEl(null)
-  }
+    openDelete(activeData);
+    setAnchorEl(null);
+  };
 
   const closeDelete = () => {
-    setDelForm(false)
-    closeF()
-  }
+    setDelForm(false);
+    closeF();
+  };
 
   const handClose = () => {
-    setAnchorEl(null)
-  }
+    setAnchorEl(null);
+  };
   const handleClose = () => {
-    setAnchorEl(null)
-    handleClickOpen(activeData)
-  }
+    setAnchorEl(null);
+    handleClickOpen(activeData);
+  };
   return (
     <React.Fragment>
       {innerLoading === true ? (
-        <div style={{ height: '100%' }}>
-          <div style={{ textAlign: 'center', padding: '10px 0' }}>
+        <div style={{ height: "100%" }}>
+          <div style={{ textAlign: "center", padding: "10px 0" }}>
             <CircularProgress />
           </div>
         </div>
@@ -87,15 +87,15 @@ function SegmentTable({
               return companies.map(company => (
                 <TableRow className={row} key={company.uuid} id="demo-body">
                   <UnderlineCell className={cell}>{company.name}</UnderlineCell>
-                  <TableCell className={cell} style={{ color: '#777777' }}>
+                  <TableCell className={cell} style={{ color: "#777777" }}>
                     {company.slug}
                   </TableCell>
 
                   <TableCell
                     className={cell}
                     style={{
-                      color: '#777777',
-                      height: '100%'
+                      color: "#777777",
+                      height: "100%"
                     }}
                     text={company.type}
                   >
@@ -104,23 +104,23 @@ function SegmentTable({
                   <TableCell
                     className={cell}
                     style={{
-                      color: '#777777',
-                      width: 'fit-content',
-                      height: '100%',
-                      whiteSpace: 'nowrap',
-                      display: 'flex',
-                      flexDirection: 'row'
+                      color: "#777777",
+                      width: "fit-content",
+                      height: "100%",
+                      whiteSpace: "nowrap",
+                      display: "flex",
+                      flexDirection: "row"
                     }}
                     text={company.uuid}
                   >
                     <p
                       style={{
-                        overflow: 'hidden',
-                        width: '130px',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
+                        overflow: "hidden",
+                        width: "130px",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                         margin: 0,
-                        marginRight: '10px',
+                        marginRight: "10px",
                         padding: 0
                       }}
                     >
@@ -143,19 +143,19 @@ function SegmentTable({
                       )}
                     </CopyToClipboard>
                   </TableCell>
-                  <ActiveCell className={cell} style={{ color: '#777777' }}>
+                  <ActiveCell className={cell} style={{ color: "#777777" }}>
                     {company.active}
                   </ActiveCell>
                   <TableCell className={cell}>
                     <Button
                       // onClick={this.props.onClickFunc}
                       style={{
-                        textTransform: 'none',
-                        color: '#444851',
-                        display: 'flex',
+                        textTransform: "none",
+                        color: "#444851",
+                        display: "flex",
                         margin: 5,
-                        alignItems: 'center',
-                        cursor: 'pointer'
+                        alignItems: "center",
+                        cursor: "pointer"
                       }}
                     >
                       <ViewIcon
@@ -168,8 +168,8 @@ function SegmentTable({
                         style={{
                           fontSize: 14,
                           fontWeight: 600,
-                          textDecoration: 'underline',
-                          color: '#444851'
+                          textDecoration: "underline",
+                          color: "#444851"
                         }}
                       >
                         View
@@ -181,16 +181,16 @@ function SegmentTable({
                       text="Edit"
                       onClickFunc={e => handleClick(e, company)}
                       style={{
-                        color: '#444851',
-                        display: 'flex',
+                        color: "#444851",
+                        display: "flex",
                         margin: 5,
-                        alignItems: 'center',
-                        cursor: 'pointer'
+                        alignItems: "center",
+                        cursor: "pointer"
                       }}
                     />
                   </TableCell>
                 </TableRow>
-              ))
+              ));
             }}
           />
           <Menu
@@ -204,31 +204,31 @@ function SegmentTable({
             <MenuItem
               onClick={handleClose}
               style={{
-                color: '#777777',
+                color: "#777777",
                 width: 250,
                 paddingTop: 0,
                 paddingBottom: 0
               }}
             >
-              <CodeIcon />{' '}
+              <CodeIcon />{" "}
               <Typography style={{ marginLeft: 40 }}>XML</Typography>
             </MenuItem>
             <MenuItem
               onClick={openDelete1}
               style={{
-                color: '#777777',
+                color: "#777777",
                 width: 250,
                 paddingTop: 0,
                 paddingBottom: 0
               }}
             >
-              <DeleteIcon />{' '}
+              <DeleteIcon />{" "}
               <Typography style={{ marginLeft: 40 }}>Delete</Typography>
             </MenuItem>
           </Menu>
         </>
       }
     </React.Fragment>
-  )
+  );
 }
-export default withRouter(SegmentTable)
+export default withRouter(SegmentTable);

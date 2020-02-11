@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: "1px",
     textAlign: "justify"
   },
-
   progress: {
     justifyContent: "center",
     display: " flex",

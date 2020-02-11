@@ -9,7 +9,7 @@ export const theme = createMuiTheme({
   }
 });
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles(theme => ({
   navBar: {
     display: "flex",
     justifyContent: "center",

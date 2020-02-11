@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Typography, Divider, CircularProgress, Zoom } from '@material-ui/core'
-import { CustomButton } from 'common-components'
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Typography, Divider, CircularProgress, Zoom } from "@material-ui/core";
+import { CustomButton } from "common-components";
 
 const VoiceContainer = styled.div`
   position: relative;
@@ -9,7 +9,7 @@ const VoiceContainer = styled.div`
   width: 48%;
   border-radius: 3px;
   border: solid 1px #eeeeee;
-`
+`;
 
 const VoiceTitle = styled.div`
   width: 100%;
@@ -18,7 +18,7 @@ const VoiceTitle = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 
 const TitleText = styled(Typography)`
   width: 200px;
@@ -31,7 +31,7 @@ const TitleText = styled(Typography)`
   letter-spacing: normal;
   color: #444851;
   text-indent: 20px;
-`
+`;
 
 const VoiceListContainer = styled.div`
   position: relative;
@@ -41,7 +41,7 @@ const VoiceListContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #fafafa;
-`
+`;
 
 const OptionToSave = styled.div`
   position: absolute;
@@ -55,101 +55,109 @@ const OptionToSave = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`
+`;
 
-const has_search = ['segments']
+const has_search = ["segments"];
 
 interface Props {
-	title: string
-	onEdit?: boolean
-	cancelEdit: () => void
-	saveChangeItem: () => void
-	type?: any
-	loading: boolean
-	children: React.ReactNode
-	newRecord?: boolean
+  title: string;
+  onEdit?: boolean;
+  cancelEdit: () => void;
+  saveChangeItem: () => void;
+  type?: any;
+  loading: boolean;
+  children: React.ReactNode;
+  newRecord?: boolean;
 }
 
-const ProspectContainer = ({ title, onEdit, cancelEdit, saveChangeItem, type, loading, children }: Props) => {
-	const [is_search] = useState(false)
+const ProspectContainer = ({
+  title,
+  onEdit,
+  cancelEdit,
+  saveChangeItem,
+  type,
+  loading,
+  children
+}: Props) => {
+  const [is_search] = useState(false);
 
-	function renderTitle() {
-		return (
-			<VoiceTitle>
-				<TitleText>{title}</TitleText>
-				{/* <IconButton>
+  function renderTitle() {
+    return (
+      <VoiceTitle>
+        <TitleText>{title}</TitleText>
+        {/* <IconButton>
           <Search size={16} />
         </IconButton> */}
-			</VoiceTitle>
-		)
-	}
+      </VoiceTitle>
+    );
+  }
 
-	function renderSearch() {
-		return (
-			<VoiceTitle>
-				<TitleText>I am the search component</TitleText>
-			</VoiceTitle>
-		)
-	}
+  function renderSearch() {
+    return (
+      <VoiceTitle>
+        <TitleText>I am the search component</TitleText>
+      </VoiceTitle>
+    );
+  }
 
-	function filterSearchVisibility(value: any) {
-		return has_search.indexOf(value) > -1
-	}
+  function filterSearchVisibility(value: any) {
+    return has_search.indexOf(value) > -1;
+  }
 
-	function renderLoadingIcon() {
-		return (
-			<CircularProgress
-				size={20}
-				style={{
-					position: 'absolute',
-					top: '50%',
-					right: '50%',
-					zIndex: 1600,
-					color: '#777777'
-				}}
-			/>
-		)
-	}
+  function renderLoadingIcon() {
+    return (
+      <CircularProgress
+        size={20}
+        style={{
+          position: "absolute",
+          top: "50%",
+          right: "50%",
+          zIndex: 1600,
+          color: "#777777"
+        }}
+      />
+    );
+  }
 
-	function renderOptionToSave() {
-		return (
-			<Zoom in={onEdit}>
-				<OptionToSave>
-					<CustomButton
-						handleClick={cancelEdit}
-						style={{ marginRight: '30px', background: '#eee' }}
-					>
-						<strong style={{ color: '#444851' }}>CANCEL</strong>
-					</CustomButton>
-
-					<CustomButton
-						handleClick={saveChangeItem}
-						style={{
-							backgroundColor: '#b6d36b'
-						}}
-					>
-						SAVE CHANGES
+  function renderOptionToSave() {
+    return (
+      <Zoom in={onEdit}>
+        <OptionToSave>
+          <CustomButton
+            handleClick={cancelEdit}
+            style={{ marginRight: "30px", background: "#eee" }}
+          >
+            <strong style={{ color: "#444851" }}>CANCEL</strong>
           </CustomButton>
-				</OptionToSave>
-			</Zoom>
-		)
-	}
 
-	return (
-		<VoiceContainer>
-			{loading && renderLoadingIcon()}
-			{(!is_search || !filterSearchVisibility(type)) && renderTitle()}
-			{is_search && filterSearchVisibility(type) && renderSearch()}
-			<Divider />
-			<VoiceListContainer>{children}</VoiceListContainer>
-			{title.match(/Active/) && renderOptionToSave()}
-		</VoiceContainer>
-	)
-}
+          <CustomButton
+            handleClick={saveChangeItem}
+            style={{
+              backgroundColor: "#b6d36b"
+            }}
+          >
+            SAVE CHANGES
+          </CustomButton>
+        </OptionToSave>
+      </Zoom>
+    );
+  }
 
-ProspectContainer.defaultProps = {
-	cancelEdit: () => { },
-	saveChangeItem: () => { }
+  return (
+    <VoiceContainer>
+      {loading && renderLoadingIcon()}
+      {(!is_search || !filterSearchVisibility(type)) && renderTitle()}
+      {is_search && filterSearchVisibility(type) && renderSearch()}
+      <Divider />
+      <VoiceListContainer>{children}</VoiceListContainer>
+      {title.match(/Active/) && renderOptionToSave()}
+    </VoiceContainer>
+  );
 };
 
-export default ProspectContainer
+ProspectContainer.defaultProps = {
+  cancelEdit: () => {},
+  saveChangeItem: () => {}
+};
+
+export default ProspectContainer;

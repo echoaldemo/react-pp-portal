@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   Grid,
   Typography,
@@ -9,96 +9,96 @@ import {
   TableRow,
   TableBody,
   Slide
-} from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import CloseIcon from '@material-ui/icons/Close'
-import { CustomCard } from 'common-components'
-import CHeader from './CHeader/CHeader'
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import CloseIcon from "@material-ui/icons/Close";
+import { CustomCard } from "common-components";
+import CHeader from "./CHeader/CHeader";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: "flex"
   },
   inputField: {
-    fontSize: '1rem',
-    '&&&&:hover:not($disabled):before': {
-      borderBottom: '1px solid #1194f6'
+    fontSize: "1rem",
+    "&&&&:hover:not($disabled):before": {
+      borderBottom: "1px solid #1194f6"
     },
-    '&:before': {
-      borderBottom: '1px solid rgba(0,0,0,0.1)'
+    "&:before": {
+      borderBottom: "1px solid rgba(0,0,0,0.1)"
     },
-    '&:after': {
-      borderBottom: '2px solid #1394f6'
+    "&:after": {
+      borderBottom: "2px solid #1394f6"
     }
   },
   table: {
-    backgroundColor: '#FFF'
+    backgroundColor: "#FFF"
   },
   row: {
     height: 50,
-    '&:nth-of-type(even)': {
-      backgroundColor: '#f8f9fa'
+    "&:nth-of-type(even)": {
+      backgroundColor: "#f8f9fa"
     },
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#FFF'
+    "&:nth-of-type(odd)": {
+      backgroundColor: "#FFF"
     }
   },
   cell: {
-    borderBottom: 'none'
+    borderBottom: "none"
   }
-}))
+}));
 function TransferListCard(props) {
-  const [selectedData, setSelectedData] = useState([])
-  const [choices, setChoices] = useState([])
-  const [choicesData, setChoicesData] = useState([])
+  const [selectedData, setSelectedData] = useState([]);
+  const [choices, setChoices] = useState([]);
+  const [choicesData, setChoicesData] = useState([]);
 
-  const { list, mockData, SelectedDataFunc } = props
-  const classes = useStyles()
+  const { list, mockData, SelectedDataFunc } = props;
+  const classes = useStyles();
 
   useEffect(() => {
-    setChoices(mockData)
-    setChoicesData(mockData)
-  }, [])
+    setChoices(mockData);
+    setChoicesData(mockData);
+  }, []);
 
   const selectAllFunc = () => {
-    setSelectedData(choicesData)
-    SelectedDataFunc(choicesData, list)
-  }
+    setSelectedData(choicesData);
+    SelectedDataFunc(choicesData, list);
+  };
 
   const SelectData = data => {
-    let arrCamp = [...selectedData]
+    let arrCamp = [...selectedData];
     if (selectedData.length === 0) {
-      arrCamp.push(data)
+      arrCamp.push(data);
     } else {
       if (
         selectedData.filter(select => select.name === data.name).length === 0
       ) {
-        arrCamp.push(data)
+        arrCamp.push(data);
       }
     }
 
-    setSelectedData(arrCamp)
-    SelectedDataFunc(arrCamp, list)
-  }
+    setSelectedData(arrCamp);
+    SelectedDataFunc(arrCamp, list);
+  };
 
   const RemoveSelected = data => {
-    let arrCamp = []
-    arrCamp = selectedData.filter(arr => arr !== data)
+    let arrCamp = [];
+    arrCamp = selectedData.filter(arr => arr !== data);
 
-    setSelectedData(arrCamp)
-  }
+    setSelectedData(arrCamp);
+  };
 
   const classicSearch = result => {
     if (result) {
       if (result.length !== 0) {
-        setChoices(result)
+        setChoices(result);
       } else {
-        setChoices(choicesData)
+        setChoices(choicesData);
       }
     } else {
-      setChoices(choicesData)
+      setChoices(choicesData);
     }
-  }
+  };
 
   return (
     <div>
@@ -110,16 +110,16 @@ function TransferListCard(props) {
           <Grid container>
             <Grid item xs={6} style={{ marginBottom: 20 }}>
               <CustomCard>
-                <div style={{ height: 350, overflow: 'hidden' }}>
+                <div style={{ height: 350, overflow: "hidden" }}>
                   <CHeader title={`${selectedData.length} items selected`} />
                   <div
                     style={{
                       height: 300,
-                      backgroundColor: '#fafafa',
+                      backgroundColor: "#fafafa",
 
                       borderTop: 0,
                       maxHeight: 300,
-                      overflow: 'auto'
+                      overflow: "auto"
                     }}
                   >
                     <Table className={classes.table}>
@@ -143,9 +143,9 @@ function TransferListCard(props) {
                                 >
                                   <div
                                     style={{
-                                      cursor: 'pointer',
-                                      display: 'flex',
-                                      justifyContent: 'flex-end'
+                                      cursor: "pointer",
+                                      display: "flex",
+                                      justifyContent: "flex-end"
                                     }}
                                     onClick={() => RemoveSelected(campaign)}
                                   >
@@ -169,23 +169,23 @@ function TransferListCard(props) {
             </Grid>
             <Grid item xs={6}>
               <CustomCard>
-                <div style={{ height: 350, overflow: 'hidden' }}>
+                <div style={{ height: 350, overflow: "hidden" }}>
                   <CHeader
                     title={`${list.title} list`}
                     searchData={choices}
                     searchFor={`${list.title}`}
                     selectAllFunc={selectAllFunc}
-                    searchHeaders={['name']}
+                    searchHeaders={["name"]}
                     classicSearch={classicSearch}
                   />
                   <div
                     style={{
                       height: 300,
-                      backgroundColor: '#fafafa',
+                      backgroundColor: "#fafafa",
 
                       borderTop: 0,
                       maxHeight: 300,
-                      overflow: 'auto'
+                      overflow: "auto"
                     }}
                   >
                     <Table className={classes.table}>
@@ -198,9 +198,9 @@ function TransferListCard(props) {
                             <TableCell className={classes.cell}>
                               <div
                                 style={{
-                                  cursor: 'pointer',
-                                  display: 'flex',
-                                  justifyContent: 'flex-end'
+                                  cursor: "pointer",
+                                  display: "flex",
+                                  justifyContent: "flex-end"
                                 }}
                                 onClick={() => SelectData(data)}
                               >
@@ -220,7 +220,7 @@ function TransferListCard(props) {
         </div>
       ) : null}
     </div>
-  )
+  );
 }
 
-export default TransferListCard
+export default TransferListCard;

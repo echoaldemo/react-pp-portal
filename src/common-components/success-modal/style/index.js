@@ -1,11 +1,11 @@
-import styled from 'styled-components'
-import { Close, Check, Error } from '@material-ui/icons'
+import styled from "styled-components";
+import { Close, Check, Error } from "@material-ui/icons";
 
 const Center = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 const Card = styled.div`
   display: flex;
   flex-direction: column;
@@ -15,7 +15,7 @@ const Card = styled.div`
   height: auto;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
-`
+`;
 const CheckIcon = styled(Check)`
   background: #b6d36b;
   color: white;
@@ -26,18 +26,18 @@ const CheckIcon = styled(Check)`
     width: 18px !important;
     height: 13.8px !important;
   }
-`
+`;
 const WarningIcon = styled(Error)`
   font-size: 36px !important;
   color: #ff504d;
-`
+`;
 const CloseIcon = styled(Close)`
   color: #444851;
-`
+`;
 const CloseIconCont = styled.div`
   margin: 26px 18.5px 10px auto;
   cursor: pointer;
-`
+`;
 const CloseBtn = styled.button`
   width: 165px;
   height: 40px;
@@ -47,7 +47,7 @@ const CloseBtn = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-`
+`;
 const BtnFn = styled.button`
   width: 165px;
   height: 40px;
@@ -56,7 +56,7 @@ const BtnFn = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-`
+`;
 const BtnText = styled.span`
   width: 54px;
   height: 16px;
@@ -64,7 +64,7 @@ const BtnText = styled.span`
   font-weight: 600;
   text-align: center;
   color: #ffffff;
-`
+`;
 const CloseText = styled.span`
   width: 54px;
   height: 16px;
@@ -73,13 +73,13 @@ const CloseText = styled.span`
   text-align: center;
   color: #444851;
   text-transform: uppercase;
-`
+`;
 const BtnCont = styled.div`
   display: flex;
   justify-content: space-evenly;
   width: 100%;
   margin: 8px 0 34px 0;
-`
+`;
 const Text = styled.div`
   margin-top: 20px;
   width: 340px;
@@ -88,14 +88,14 @@ const Text = styled.div`
   font-weight: 600;
   text-align: center;
   color: #7c8a97;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-`
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+`;
 const P = styled.p`
   color: #7c8a97;
   margin: 10px 0 40px 0;
   max-width: 80%;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-`
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+`;
 const NewUserBtn = styled.button`
   width: 165px;
   height: 40px;
@@ -105,7 +105,7 @@ const NewUserBtn = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
-`
+`;
 const NewUserText = styled.strong`
   font-size: 14px;
   color: #ffffff;
@@ -113,12 +113,12 @@ const NewUserText = styled.strong`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 const Great = styled.strong`
   font-size: 18px;
   color: #444851;
   margin-top: 18px;
-`
+`;
 
 export {
   Center,
@@ -137,4 +137,4 @@ export {
   NewUserBtn,
   NewUserText,
   Great
-}
+};

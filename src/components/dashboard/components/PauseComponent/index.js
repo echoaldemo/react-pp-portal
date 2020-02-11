@@ -1,14 +1,14 @@
-import React from 'react'
-import { Pause } from '@material-ui/icons'
-import { Typography } from '@material-ui/core'
+import React from "react";
+import { Pause } from "@material-ui/icons";
+import { Typography } from "@material-ui/core";
 
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const PauseContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 const HeaderButton = styled.button`
   margin-left: 29px;
@@ -23,7 +23,7 @@ const HeaderButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 const ButtonText = styled(Typography)`
   height: 16px;
@@ -38,13 +38,13 @@ const ButtonText = styled(Typography)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`
+`;
 
 const TimeContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 const TimeText = styled(Typography)`
   font-family: Roboto;
@@ -56,7 +56,7 @@ const TimeText = styled(Typography)`
   letter-spacing: normal;
   text-align: right;
   color: #444851;
-`
+`;
 
 export default props => {
   function renderTime() {
@@ -64,7 +64,7 @@ export default props => {
       <TimeContainer>
         <TimeText
           style={{
-            marginRight: '6px'
+            marginRight: "6px"
           }}
         >
           Last Sync:
@@ -72,7 +72,7 @@ export default props => {
 
         <TimeText>{props.time}</TimeText>
       </TimeContainer>
-    )
+    );
   }
 
   return (
@@ -80,17 +80,17 @@ export default props => {
       {renderTime()}
       <HeaderButton style={props.style} onClick={() => props.onClick()}>
         <ButtonText>
-          {' '}
+          {" "}
           <Pause
             style={{
-              fontSize: '18px',
-              color: '#fff',
-              marginRight: '3px'
+              fontSize: "18px",
+              color: "#fff",
+              marginRight: "3px"
             }}
-          />{' '}
+          />{" "}
           <strong
             style={{
-              fontSize: '14px'
+              fontSize: "14px"
             }}
           >
             PAUSE
@@ -98,5 +98,5 @@ export default props => {
         </ButtonText>
       </HeaderButton>
     </PauseContainer>
-  )
-}
+  );
+};

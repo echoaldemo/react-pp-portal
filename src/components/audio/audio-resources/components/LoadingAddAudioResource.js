@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Button,
   Dialog,
@@ -6,11 +6,11 @@ import {
   DialogContentText,
   CircularProgress,
   Box
-} from '@material-ui/core'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+} from "@material-ui/core";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 export default function LoadingAddAudioResource(props) {
-  const [open, setOpen] = React.useState(true) // eslint-disable-line
+  const [open, setOpen] = React.useState(true); // eslint-disable-line
 
   // const handleClickOpen = () => {
   //   setOpen(true);
@@ -23,10 +23,10 @@ export default function LoadingAddAudioResource(props) {
   const themes = createMuiTheme({
     palette: {
       primary: {
-        main: '#1194f6'
+        main: "#1194f6"
       }
     }
-  })
+  });
   return (
     <div>
       <ThemeProvider theme={themes}>
@@ -41,38 +41,38 @@ export default function LoadingAddAudioResource(props) {
             <DialogContent
               style={{
                 marginBottom: 25,
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                textAlign: 'center'
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                textAlign: "center"
               }}
             >
               <Box
                 fontSize={18}
                 fontWeight="fontWeightMedium"
                 m={1}
-                style={{ color: '#7c8a97', fontSize: '18px' }}
+                style={{ color: "#7c8a97", fontSize: "18px" }}
               >
-                {props.loadingType === 'audioName' ? (
+                {props.loadingType === "audioName" ? (
                   <React.Fragment>
                     One moment. We’re creating the <br /> new campaign...
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    One moment. We’re uploading the <br /> file audio{' '}
+                    One moment. We’re uploading the <br /> file audio{" "}
                     <strong>{props.currentResourceInfo.name}</strong>...
                   </React.Fragment>
                 )}
               </Box>
-              <DialogContentText style={{ margin: '30px 0 30px 0' }}>
+              <DialogContentText style={{ margin: "30px 0 30px 0" }}>
                 <CircularProgress color="primary" thickness={4} size={50} />
               </DialogContentText>
               {/* <br/> */}
-              {props.loadingType === 'audioName' ? (
+              {props.loadingType === "audioName" ? (
                 <div>
                   <Button
                     size="medium"
-                    style={{ width: '165px', color: '#444851' }}
+                    style={{ width: "165px", color: "#444851" }}
                     variant="contained"
                     onClick={() => props.handleCancelAddAudioResource()}
                   >
@@ -85,5 +85,5 @@ export default function LoadingAddAudioResource(props) {
         </Dialog>
       </ThemeProvider>
     </div>
-  )
+  );
 }

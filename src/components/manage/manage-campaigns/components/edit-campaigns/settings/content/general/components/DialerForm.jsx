@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { InputField } from 'common-components'
-import { Grid, MenuItem } from '@material-ui/core'
-import { KeyboardArrowDown } from '@material-ui/icons'
+import React, { useState } from "react";
+import { InputField } from "common-components";
+import { Grid, MenuItem } from "@material-ui/core";
+import { KeyboardArrowDown } from "@material-ui/icons";
 
 const MenuProps = {
   PaperProps: {
@@ -10,22 +10,22 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 const DropdownIcon = () => {
-  return <KeyboardArrowDown style={{ color: '#444851' }} />
-}
+  return <KeyboardArrowDown style={{ color: "#444851" }} />;
+};
 
 function DialerForm() {
   const initialState = {
-    interval: 'Number of seconds between calling the dialer algorithm',
+    interval: "Number of seconds between calling the dialer algorithm",
     requested_call:
-      'Max number of calls/logged in stations on a single dial request. 0 is no limit',
+      "Max number of calls/logged in stations on a single dial request. 0 is no limit",
     call_ratio:
-      'The autodialer will call a new prospect whenever the ratio of outgoing calls to ready rep relogins falls below the value',
-    damper_threshold: 'Number of seconds between calling the dialer algorithm'
-  }
+      "The autodialer will call a new prospect whenever the ratio of outgoing calls to ready rep relogins falls below the value",
+    damper_threshold: "Number of seconds between calling the dialer algorithm"
+  };
 
-  const [errMsg, setErrMsg] = useState(initialState) // eslint-disable-line
+  const [errMsg, setErrMsg] = useState(initialState); // eslint-disable-line
 
   return (
     <form>
@@ -99,7 +99,7 @@ function DialerForm() {
         </Grid>
       </Grid>
     </form>
-  )
+  );
 }
 
-export default DialerForm
+export default DialerForm;

@@ -1,11 +1,11 @@
-import React from 'react'
-import { Button, AddIcon } from './styles'
+import React from "react";
+import { Button, AddIcon } from "./styles";
 
 interface Props {
-  style?: React.CSSProperties
-  openFunction: () => void
-  noIcon?: boolean
-  buttonText: string
+  style?: React.CSSProperties;
+  openFunction: () => void;
+  noIcon?: boolean;
+  buttonText: string;
 }
 
 const HeaderButton: React.FC<Props> = ({
@@ -21,13 +21,13 @@ const HeaderButton: React.FC<Props> = ({
         {buttonText}
       </Button>
     </>
-  )
-}
+  );
+};
 
 HeaderButton.defaultProps = {
   openFunction: () => {},
-  buttonIcon: '',
-  buttonText: ''
-} as Partial<Props>
+  buttonIcon: "",
+  buttonText: ""
+} as Partial<Props>;
 
-export { HeaderButton }
+export { HeaderButton };

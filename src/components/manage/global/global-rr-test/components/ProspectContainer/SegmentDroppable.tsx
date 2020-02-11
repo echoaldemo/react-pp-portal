@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import styled from "styled-components";
 import {
-	Typography,
-	Divider,
-	IconButton,
-	TextField,
-	CircularProgress,
-	Zoom
-} from '@material-ui/core'
-import { Search, Close } from '@material-ui/icons'
-import { Droppable } from 'react-beautiful-dnd'
-import { CustomButton } from 'common-components'
+  Typography,
+  Divider,
+  IconButton,
+  TextField,
+  CircularProgress,
+  Zoom
+} from "@material-ui/core";
+import { Search, Close } from "@material-ui/icons";
+import { Droppable } from "react-beautiful-dnd";
+import { CustomButton } from "common-components";
 
 const InputField = styled(TextField)`
   .MuiInputLabel-shrink {
@@ -33,7 +33,7 @@ const InputField = styled(TextField)`
   .MuiInputLabel-shrink {
     transform: translate(0, 1.5px) scale(1);
   }
-`
+`;
 
 const VoiceContainer = styled.div`
   position: relative;
@@ -41,7 +41,7 @@ const VoiceContainer = styled.div`
   width: 48%;
   border-radius: 3px;
   border: solid 1px #eeeeee;
-`
+`;
 
 const VoiceTitle = styled.div`
   width: 100%;
@@ -50,7 +50,7 @@ const VoiceTitle = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 
 const TitleText = styled(Typography)`
   width: 200px;
@@ -63,7 +63,7 @@ const TitleText = styled(Typography)`
   letter-spacing: normal;
   color: #444851;
   text-indent: 20px;
-`
+`;
 
 const VoiceListContainer = styled.div`
   position: relative;
@@ -73,7 +73,7 @@ const VoiceListContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   background-color: #fafafa;
-`
+`;
 
 const OptionToSave = styled.div`
   position: absolute;
@@ -87,137 +87,137 @@ const OptionToSave = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`
+`;
 
-const has_search = ['segments']
+const has_search = ["segments"];
 
 interface Props {
-	title: string
-	search: any
-	type: string
-	dropId: string
-	droppableId?: string
-	searchHolder: string
-	onEdit: boolean
-	cancelEdit: () => void
-	saveChangeItem: () => void
-	loading: boolean
-	children: React.ReactNode
+  title: string;
+  search: any;
+  type: string;
+  dropId: string;
+  droppableId?: string;
+  searchHolder: string;
+  onEdit: boolean;
+  cancelEdit: () => void;
+  saveChangeItem: () => void;
+  loading: boolean;
+  children: React.ReactNode;
 }
 
 export default (props: Props) => {
-	const [is_search, setIsSearch] = useState(false)
+  const [is_search, setIsSearch] = useState(false);
 
-	function renderTitle() {
-		return (
-			<VoiceTitle>
-				{!is_search && <TitleText>{props.title}</TitleText>}
-				{is_search && filterSearchVisibility(props.type) && renderSearch()}
-				{renderIcon()}
-			</VoiceTitle>
-		)
-	}
+  function renderTitle() {
+    return (
+      <VoiceTitle>
+        {!is_search && <TitleText>{props.title}</TitleText>}
+        {is_search && filterSearchVisibility(props.type) && renderSearch()}
+        {renderIcon()}
+      </VoiceTitle>
+    );
+  }
 
-	function closeSearch() {
-		setIsSearch(false)
-		props.search({ target: { value: '' } }, props.dropId)
-	}
+  function closeSearch() {
+    setIsSearch(false);
+    props.search({ target: { value: "" } }, props.dropId);
+  }
 
-	function renderIcon() {
-		return (
-			<>
-				{filterSearchVisibility(props.type) && !is_search ? (
-					<IconButton onClick={() => setIsSearch(true)}>
-						<Search />
-					</IconButton>
-				) : (
-						<IconButton onClick={closeSearch}>
-							<Close />
-						</IconButton>
-					)}
-			</>
-		)
-	}
+  function renderIcon() {
+    return (
+      <>
+        {filterSearchVisibility(props.type) && !is_search ? (
+          <IconButton onClick={() => setIsSearch(true)}>
+            <Search />
+          </IconButton>
+        ) : (
+          <IconButton onClick={closeSearch}>
+            <Close />
+          </IconButton>
+        )}
+      </>
+    );
+  }
 
-	function handleSearch(e: any) {
-		props.search(e, props.dropId)
-	}
+  function handleSearch(e: any) {
+    props.search(e, props.dropId);
+  }
 
-	function renderSearch() {
-		return (
-			<InputField
-				fullWidth
-				name={props.droppableId}
-				onInput={handleSearch}
-				placeholder={props.searchHolder}
-				style={{
-					marginLeft: '20px'
-				}}
-			/>
-		)
-	}
+  function renderSearch() {
+    return (
+      <InputField
+        fullWidth
+        name={props.droppableId}
+        onInput={handleSearch}
+        placeholder={props.searchHolder}
+        style={{
+          marginLeft: "20px"
+        }}
+      />
+    );
+  }
 
-	function filterSearchVisibility(value: any) {
-		return has_search.indexOf(value) > -1
-	}
+  function filterSearchVisibility(value: any) {
+    return has_search.indexOf(value) > -1;
+  }
 
-	function renderLoadingIcon() {
-		return (
-			<CircularProgress
-				size={20}
-				style={{
-					position: 'absolute',
-					top: '50%',
-					right: '50%',
-					zIndex: 1600,
-					color: '#777777'
-				}}
-			/>
-		)
-	}
+  function renderLoadingIcon() {
+    return (
+      <CircularProgress
+        size={20}
+        style={{
+          position: "absolute",
+          top: "50%",
+          right: "50%",
+          zIndex: 1600,
+          color: "#777777"
+        }}
+      />
+    );
+  }
 
-	function renderOptionToSave() {
-		return (
-			<Zoom in={props.onEdit}>
-				<OptionToSave>
-					<CustomButton
-						handleClick={props.cancelEdit}
-						style={{ marginRight: '30px', background: '#eee' }}
-					>
-						<strong style={{ color: '#444851' }}>CANCEL</strong>
-					</CustomButton>
-
-					<CustomButton
-						handleClick={props.saveChangeItem}
-						style={{
-							backgroundColor: '#b6d36b'
-						}}
-					>
-						SAVE CHANGES
+  function renderOptionToSave() {
+    return (
+      <Zoom in={props.onEdit}>
+        <OptionToSave>
+          <CustomButton
+            handleClick={props.cancelEdit}
+            style={{ marginRight: "30px", background: "#eee" }}
+          >
+            <strong style={{ color: "#444851" }}>CANCEL</strong>
           </CustomButton>
-				</OptionToSave>
-			</Zoom>
-		)
-	}
 
-	return (
-		<VoiceContainer>
-			{renderTitle()}
-			{props.loading && renderLoadingIcon()}
-			<Divider />
-			<Droppable droppableId={props.dropId}>
-				{provided => (
-					<>
-						<VoiceListContainer
-							// {...provided.placeholder}
-							ref={provided.innerRef}
-						>
-							{props.children}
-						</VoiceListContainer>
-						{props.title.match(/Active/) && renderOptionToSave()}
-					</>
-				)}
-			</Droppable>
-		</VoiceContainer>
-	)
-}
+          <CustomButton
+            handleClick={props.saveChangeItem}
+            style={{
+              backgroundColor: "#b6d36b"
+            }}
+          >
+            SAVE CHANGES
+          </CustomButton>
+        </OptionToSave>
+      </Zoom>
+    );
+  }
+
+  return (
+    <VoiceContainer>
+      {renderTitle()}
+      {props.loading && renderLoadingIcon()}
+      <Divider />
+      <Droppable droppableId={props.dropId}>
+        {provided => (
+          <>
+            <VoiceListContainer
+              // {...provided.placeholder}
+              ref={provided.innerRef}
+            >
+              {props.children}
+            </VoiceListContainer>
+            {props.title.match(/Active/) && renderOptionToSave()}
+          </>
+        )}
+      </Droppable>
+    </VoiceContainer>
+  );
+};
