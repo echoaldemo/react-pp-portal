@@ -115,7 +115,6 @@ interface IProps {
   rerecord: any;
   recorded: any;
   filterData: any;
-  filtered: any;
   searched: any;
   refreshData: any;
 }
@@ -186,15 +185,11 @@ class Filter extends Component<IProps, IState> {
               <InputLabel htmlFor="age-simple" className={classes.fontRes}>
                 Campaign
               </InputLabel>
-
               <Select
                 classes={{ select: classes.select }}
                 value={this.props.selectedCampaign}
-                name={campaigns.filter(
-                  (camp: any) => camp.slug === this.props.selectedCampaign
-                )}
                 onChange={e => {
-                  this.props.selectCampaign(e.target.value, e.target.name);
+                  this.props.selectCampaign(e.target.value);
                 }}
                 MenuProps={MenuProps}
                 disabled={this.disableCampaign()}
@@ -255,9 +250,7 @@ class Filter extends Component<IProps, IState> {
               variant="contained"
               className={classes.applyBtn}
               onClick={() => {
-                refreshData(this.props.selectedVersion);
-                filterData(this.props.selectedVersion);
-                filtered(true);
+                filterData(this.props.selectedVersion, true);
               }}
               disabled={this.disableButton(this.props.selectedVersion)}
             >

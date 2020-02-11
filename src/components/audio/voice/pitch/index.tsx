@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   withWidth,
   withStyles,
@@ -41,17 +41,17 @@ import {
 } from "./pitchMockData";
 import { get, patch, post } from "utils/api";
 import { store } from "contexts/ManageComponent";
+import { getAllList } from "utils/getList";
 
-interface State {
-  loader: boolean;
+interface IState {
   user: number;
+  loaders: Boolean;
   links: any;
   state1: string;
   campaigns: any;
   versions: any;
   selected: any;
   tabSelected: any;
-
   unrecorded: any;
   rerecord: any;
   recorded: any;
@@ -105,13 +105,18 @@ interface State {
   [x: number]: any;
   voiceSelected?: any;
   anchorEl?: any;
+  asd: any;
 }
-
-const Pitch = (props: any) => {
-  const { state } = useContext(store);
-  const [states, setState] = React.useState<State>({
-    loader: false,
+interface Props {
+  classes: any;
+  width: any;
+}
+const Pitch: React.FC<Props> = (props: any) => {
+  const { state, dispatch } = useContext(store);
+  const [states, setStates] = useState<IState>({
     user: 1,
+    asd: "asd",
+    loaders: false,
     links: [
       { name: "pitch audio", link: "/pitch" },
       { name: "phrase audio", link: "/phrase" },
@@ -175,9 +180,10 @@ const Pitch = (props: any) => {
   });
 
   React.useEffect(() => {
+    getAllList(dispatch);
     document.title = "Pitch Audio";
     if (localStorage.getItem("error")) {
-      setState({
+      setStates({
         ...states,
         openToast: true,
         toastType: "caution",
@@ -189,7 +195,7 @@ const Pitch = (props: any) => {
     } else {
       get(`/identity/user/profile/`).then((profileData: any) => {
         if (profileData.data.groups[0] === 10) {
-          setState({
+          setStates({
             ...states,
             state1: "DATA_LOADED",
             profile: profileData.data,
@@ -198,32 +204,24 @@ const Pitch = (props: any) => {
           });
           recorderCamp(profileData.data.uuid);
         } else {
-          get("/identity/user/manage/list/?groups=10&limit=100").then(
-            (voiceData: any) => {
-              setState({
-                ...states,
-                state1: "DATA_LOADED",
-                voices: voiceData.data.results,
-                profile: profileData.data,
-                user_uuid: profileData.data.uuid,
-                user_group: profileData.data.groups[0]
-              });
-            }
-          );
+          setStates({
+            ...states,
+            state1: "DATA_LOADED",
+            profile: profileData.data,
+            user_uuid: profileData.data.uuid,
+            user_group: profileData.data.groups[0]
+          });
         }
       });
     }
   }, []);
 
   const recorderCamp = async (uuid: any) => {
-    // this.setState({
-    //   searchVoice: uuid
-    // });
     let campaigns: any = [],
       user_data: any = [];
     const data1 = await get(`/identity/user/profile/`).then((user: any) => {
       user_data = user.data.campaigns;
-      setState({
+      setStates({
         ...states,
         state1: "DATA_LOADED",
         user_data: user.data
@@ -231,7 +229,7 @@ const Pitch = (props: any) => {
     });
     const data2 = await get(`/identity/campaign/list/`)
       .then((campaign: any) => {
-        campaigns = campaign.data.filter((camp: any) => {
+        state.campaigns = campaign.data.filter((camp: any) => {
           return user_data.indexOf(camp.uuid) > -1;
         });
       })
@@ -240,12 +238,12 @@ const Pitch = (props: any) => {
       });
     Promise.all([data1, data2]).then(() => {
       if (campaigns.length) {
-        setState({
+        setStates({
           ...states,
           campaigns
         });
       } else {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "caution",
@@ -264,140 +262,116 @@ const Pitch = (props: any) => {
   };
 
   const tabSelected = (val: any) => {
-    setState({
+    setStates({
       ...states,
       tabSelected: val
     });
   };
 
-  const selectCampaign = (value: any, uuid: any) => {
-    console.log(uuid);
-    setState({
+  const selectCampaign = (value: any) => {
+    const dataCampaigns: any = state.campaigns.filter(
+      (camp: any) => camp.slug === value
+    );
+    const uuid = dataCampaigns[0].company;
+    const dataCompanies: any = state.companies.filter(
+      (comp: any) => comp.uuid === uuid
+    );
+    setStates({
       ...states,
+      selectedVersion: "",
       selectedCampaign: value
     });
-    // //setState of mockData
-    // //=================================
-    // setTimeout(() => {
-    //   this.setState({
-    //     versions: versionMockData.versions.reverse()
-    //   });
-    // }, 1000);
-    // //====================================
-
-    get(`/identity/company/${uuid}/`).then((res: any) => {
-      get(`/pitch/company/${res.data.slug}/campaign/${value}/`)
-        .then((versions: any) => {
-          if (versions.data.versions.length > 0) {
-            setState({
-              ...states,
-              versions: versions.data.versions.reverse()
-            });
-          } else {
-            setState({
-              ...states,
-              openToast: true,
-              toastType: "caution",
-              message: `There are no pitch versions available for this campaign.`,
-              vertical: "top",
-              horizontal: "right"
-            });
-          }
-        })
-        .catch((err: any) => {
-          setState({
+    get(`/pitch/company/${dataCompanies[0].slug}/campaign/${value}/`)
+      .then((versions: any) => {
+        if (versions.data.versions.length > 0) {
+          setStates({
+            ...states,
+            versions: versions.data.versions.reverse(),
+            selectedCampaign: value
+          });
+        } else {
+          setStates({
             ...states,
             openToast: true,
+            selectedVersion: "",
+            selectedCampaign: value,
             toastType: "caution",
             message: `There are no pitch versions available for this campaign.`,
             vertical: "top",
             horizontal: "right"
           });
+        }
+      })
+      .catch((err: any) => {
+        setStates({
+          ...states,
+          openToast: true,
+          toastType: "caution",
+          message: `There are no pitch versions available for this campaign.`,
+          vertical: "top",
+          horizontal: "right"
         });
-    });
+      });
   };
 
   const selectVersion = (value: any) => {
-    // this.setState({
-    //   selectedVersion: value
-    // });
+    setStates({
+      ...states,
+      selectedVersion: value
+    });
     get(
       `/pitch/audio/version/${value}/voice/${states.user_data.uuid}/unrecorded/`
     ).then((pitchunrecorded: any) => {
-      setState({
+      setStates({
         ...states,
+        selectedVersion: value,
         unrecordedList: pitchunrecorded.data
       });
     });
   };
 
   const selectUnrecorded = (value: any) => {
-    setState({
+    setStates({
       ...states,
       unrecordedSelected: value
     });
   };
 
-  const filterData = (pitch_version: any) => {
-    setState({
-      ...states,
-      showTable: false,
-      loader: true
-    });
-
-    // //setState of mockData
-    // //=================================
-    // setTimeout(() => {
-    //   this.setState({
-    //     display: UnrecordedVoicesPitchData,
-    //     fetchedUnrecorded: true,
-    //     displayRerecord: RerecordedVoicesPitchData,
-    //     fetchedRerecord: false,
-    //     displayRecorded: RecordVoicesPitchData,
-    //     fetchedRecorded: true,
-    //     showTable: true,
-    //     loader: false
-    //   });
-    // }, 1000);
-    // //====================================
+  const filterData1 = (pitch_version: any) => {
     const data1 = get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/unrecorded/`
-    ).then((unrecorded: any) => {
-      setState({
-        ...states,
-        display: unrecorded.data,
-        fetchedUnrecorded: unrecorded.status === 200 ? true : false
-      });
-    });
+    );
     const data2 = get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/rerecord/`
-    ).then((rerecord: any) => {
-      setState({
-        ...states,
-        displayRerecord: rerecord.data,
-        fetchedRerecord: rerecord.status === 200 ? true : false
-      });
-    });
+    );
     const data3 = get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/recorded/`
-    ).then((recorded: any) => {
-      setState({
-        ...states,
-        displayRecorded: recorded.data,
-        fetchedRecorded: recorded.status === 200 ? true : false
-      });
-    });
-    Promise.all([data1, data2, data3]).then(() => {
-      setState({
+    );
+    Promise.all([data1, data2, data3]).then(values => {
+      setStates({
         ...states,
         showTable: true,
-        loader: false
+        loaders: false,
+        display: values[0].data,
+        fetchedUnrecorded: values[0].status === 200 ? true : false,
+        displayRerecord: values[1].data,
+        fetchedRerecord: values[1].status === 200 ? true : false,
+        displayRecorded: values[2].data,
+        fetchedRecorded: values[2].status === 200 ? true : false
       });
     });
   };
+  const filterData = (pitch_version: any, filtered: any) => {
+    setStates({
+      ...states,
+      loaders: true,
+      filtered: filtered === null ? states.filtered : filtered
+    });
+    filterData1(pitch_version);
+  };
 
   const resetFilters = (val: any) => {
-    setState({
+    setStates({
       ...states,
       display: [],
       showTable: val
@@ -405,63 +379,48 @@ const Pitch = (props: any) => {
   };
 
   const handleChange = (key: any, val: any) => {
-    setState({
+    setStates({
       ...states,
       [key]: val
     });
   };
 
-  const selectedVoice = async (val: any) => {
-    setState({
+  const selectedVoice = (val: any) => {
+    setStates({
       ...states,
       campaigns: [],
       versions: [],
-      voiceSelected: val,
-      searchVoice: val
+      selectedCampaign: "",
+      selectedVersion: ""
     });
-
-    // //setState of mockData
-    // //=================================
-    // setTimeout(() => {
-    //   this.setState({
-    //     state: "DATA_LOADED",
-    //     user_data: selectedVoiceData,
-    //     campaigns: campaignMockData
-    //   });
-    // }, 1000);
-    // //====================================
-
-    let campaigns: any = [],
-      user_data: any = [];
-    const data1 = await get(`/identity/user/manage/${val}/`).then(
-      (user: any) => {
-        user_data = user.data.campaigns;
-        setState({
-          ...states,
-          state1: "DATA_LOADED",
-          user_data: user.data
-        });
-      }
-    );
-    const data2 = await get(`/identity/campaign/list/`)
-      .then((campaign: any) => {
-        console.log("Campaign ==>", campaign);
-        campaigns = campaign.data.filter((camp: any) => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
+    let campaigns: any = [];
+    get(`/identity/user/manage/${val}/`).then((user: any) => {
+      campaigns = state.campaigns.filter((camp: any) => {
+        return user.data.campaigns.indexOf(camp.uuid) > -1;
       });
-    Promise.all([data1, data2]).then(() => {
       if (campaigns.length) {
-        setState({
+        setStates({
           ...states,
-          campaigns
+          campaigns,
+          state1: "DATA_LOADED",
+          user_data: user.data,
+          versions: [],
+          selectedCampaign: "",
+          selectedVersion: "",
+          voiceSelected: val,
+          searchVoice: val
         });
       } else {
-        setState({
+        setStates({
           ...states,
+          state1: "DATA_LOADED",
+          user_data: user.data,
+          versions: [],
+          voiceSelected: val,
+          searchVoice: val,
+          campaigns: [],
+          selectedCampaign: "",
+          selectedVersion: "",
           openToast: true,
           toastType: "caution",
           message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
@@ -484,14 +443,14 @@ const Pitch = (props: any) => {
   // for uploading audio
   const handleAudio = (e: any) => {
     if (e.target.files && e.target.value) {
-      setState({
+      setStates({
         ...states,
         audioFile: e.target.value
       });
       let files = e.target.files;
       var uploadFile = new FormData();
       uploadFile.append("file", files[0]);
-      setState({
+      setStates({
         ...states,
         fileName: files[0].name,
         file: uploadFile
@@ -500,7 +459,7 @@ const Pitch = (props: any) => {
   };
 
   const removeAudio = () => {
-    setState({
+    setStates({
       ...states,
       file: "",
       audioFile: "",
@@ -509,7 +468,7 @@ const Pitch = (props: any) => {
   };
 
   const getRecordedName = (val: any) => {
-    setState({
+    setStates({
       ...states,
       recordedName: val
     });
@@ -524,9 +483,9 @@ const Pitch = (props: any) => {
   // end for uploading audio
 
   const addToRerecord = (version: any, voice: any, val: any) => {
-    setState({
+    setStates({
       ...states,
-      loader: true,
+      loaders: true,
       display: [],
       displayRerecord: [],
       displayRecorded: [],
@@ -534,35 +493,11 @@ const Pitch = (props: any) => {
       fetchedRerecord: false,
       fetchedRecorded: false
     });
-    // //setState of mockData
-    // //=================================
-    // setTimeout(() => {
-    //   this.setState({
-    //     display: UnrecordedVoicesPitchData,
-    //     fetchedUnrecorded: true,
-    //     displayRerecord: RecordVoicesPitchData,
-    //     fetchedRerecord: true,
-    //     displayRecorded: RerecordedVoicesPitchData,
-    //     fetchedRecorded: false,
-    //     showTable: true,
-    //     loader: false
-    //   });
-    // }, 1000);
-    // //====================================
-
-    // if (this.state.checkIfGlobal === true) {
-    //   patch(
-    //     `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
-    //     { rerecord: true }
-    //   ).then(audio => {
-    //     this.filterData(audio);
-    //   });
-    // } else {
     patch(`/pitch/audio/version/${version}/voice/${voice}/${val.key}/`, {
       rerecord: true
     }).then((res: any) => {
       if (res.status === 201 || res.status === 200) {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "check",
@@ -571,10 +506,10 @@ const Pitch = (props: any) => {
           horizontal: "right",
           addNewVoiceModal: false,
           uploadLoading: false,
-          loader: false
+          loaders: false
         });
       } else {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "caution",
@@ -585,21 +520,20 @@ const Pitch = (props: any) => {
           uploadLoading: false
         });
       }
-      filterData(version);
+      filterData(version, null);
     });
-    // }
   };
 
   // main audio adding
   function openAddNewDialog() {
-    setState({
+    setStates({
       ...states,
       openAddNew: true
     });
   }
 
   function closeAddNewDialog() {
-    setState({
+    setStates({
       ...states,
       openAddNew: false,
       voiceSelected: "",
@@ -614,7 +548,7 @@ const Pitch = (props: any) => {
   }
 
   const savingAudio = () => {
-    setState((prevState: any) => ({
+    setStates((prevState: any) => ({
       ...states,
       openAddNew: !prevState.openAddNew
     }));
@@ -622,7 +556,7 @@ const Pitch = (props: any) => {
   };
 
   const showSuccessBar = () => {
-    setState({
+    setStates({
       ...states,
       openToast: true,
       toastType: "check",
@@ -636,14 +570,14 @@ const Pitch = (props: any) => {
   };
 
   const handleCloseToast = () => {
-    setState({
+    setStates({
       ...states,
       openToast: false
     });
   };
 
   const getUpdatedRecorded = (val: any) => {
-    setState({
+    setStates({
       ...states,
       recorded: val
     });
@@ -659,7 +593,7 @@ const Pitch = (props: any) => {
   const playAudio = (version: any, voice: any, key: any) => {
     get(`/pitch/audio/version/${version}/voice/${voice}/${key}/`).then(
       (res: any) => {
-        setState({
+        setStates({
           ...states,
           audio: res.data,
           isAudioLoading: false,
@@ -670,7 +604,7 @@ const Pitch = (props: any) => {
   };
 
   const stopLoading = () => {
-    setState({
+    setStates({
       ...states,
       isAudioLoading: false
     });
@@ -678,12 +612,12 @@ const Pitch = (props: any) => {
 
   const showLoader = (type: any) => {
     if (type === "recorded") {
-      setState({
+      setStates({
         ...states,
         isAudioLoading: true
       });
     } else {
-      setState({
+      setStates({
         ...states,
         isAudioLoadingRerec: true
       });
@@ -691,7 +625,7 @@ const Pitch = (props: any) => {
   };
 
   const removeAudioPlayed = () => {
-    setState({
+    setStates({
       ...states,
       audio: []
     });
@@ -709,7 +643,7 @@ const Pitch = (props: any) => {
     convert: any
   ) => {
     if (file == null) {
-      setState({
+      setStates({
         ...states,
         openToast: true,
         toastType: "caution",
@@ -718,7 +652,7 @@ const Pitch = (props: any) => {
         horizontal: "right"
       });
     } else {
-      setState({
+      setStates({
         ...states,
         uploadLoading: true
       });
@@ -727,7 +661,7 @@ const Pitch = (props: any) => {
         file
       )
         .then((res: any) => {
-          setState({
+          setStates({
             ...states,
             display: [],
             displayRerecord: [],
@@ -741,11 +675,11 @@ const Pitch = (props: any) => {
             uploadLoading: false,
             openAddNew: false
           });
-          filterData(version);
+          filterData(version, null);
 
           // checks if status response was 201.
           if (res.status === 201 || res.status === 200) {
-            setState({
+            setStates({
               ...states,
               openToast: true,
               toastType: "check",
@@ -756,7 +690,7 @@ const Pitch = (props: any) => {
               uploadLoading: false
             });
           } else {
-            setState({
+            setStates({
               ...states,
               openToast: true,
               toastType: "caution",
@@ -770,7 +704,7 @@ const Pitch = (props: any) => {
         })
         // if there is no response we will show a failed upload message
         .catch((err: any) => {
-          setState({
+          setStates({
             ...states,
             openToast: true,
             toastType: "caution",
@@ -788,7 +722,7 @@ const Pitch = (props: any) => {
   //ANCHOR UPLOAD SESSION START
 
   const uploadSession = (session: any) => {
-    setState({
+    setStates({
       ...states,
       uploadLoading: true
     });
@@ -800,7 +734,7 @@ const Pitch = (props: any) => {
     });
     Promise.all(requests)
       .then(() => {
-        setState({
+        setStates({
           ...states,
           display: [],
           displayRerecord: [],
@@ -814,8 +748,8 @@ const Pitch = (props: any) => {
           uploadLoading: false,
           openAddNew: false
         });
-        filterData(states.selectedVersion);
-        setState({
+        filterData(states.selectedVersion, null);
+        setStates({
           ...states,
           openToast: true,
           toastType: "check",
@@ -828,7 +762,7 @@ const Pitch = (props: any) => {
       })
       // if there is no response we will show a failed upload message
       .catch(err => {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "caution",
@@ -843,7 +777,7 @@ const Pitch = (props: any) => {
   };
 
   const rerecordAudio = (version: any, voice: any, key: any) => {
-    setState({
+    setStates({
       ...states,
       display: [],
       displayRecorded: [],
@@ -857,11 +791,11 @@ const Pitch = (props: any) => {
       rerecord: true
     })
       .then((res: any) => {
-        filterData(version);
+        filterData(version, null);
 
         // checks if status response was 201.
         if (res.status === 201 || res.status === 200) {
-          setState({
+          setStates({
             ...states,
             openToast: true,
             toastType: "check",
@@ -872,7 +806,7 @@ const Pitch = (props: any) => {
             uploadLoading: false
           });
         } else {
-          setState({
+          setStates({
             ...states,
             openToast: true,
             toastType: "caution",
@@ -886,7 +820,7 @@ const Pitch = (props: any) => {
       })
       // if there is no response we will show a failed upload message
       .catch((err: any) => {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "caution",
@@ -901,9 +835,9 @@ const Pitch = (props: any) => {
 
   //Update a specific pitch audio
   const undoPitchAudio = (version: any, voice: any, key: any) => {
-    setState({
+    setStates({
       ...states,
-      loader: true,
+      loaders: true,
       display: [],
       displayRecorded: [],
       displayRerecord: [],
@@ -911,33 +845,14 @@ const Pitch = (props: any) => {
       fetchedUnrecorded: false,
       fetchedRerecord: false
     });
-    // //setState of mockData
-    // //=================================
-    // setTimeout(() => {
-    //   this.setState({
-    //     display: UnrecordedVoicesPitchData,
-    //     fetchedUnrecorded: true,
-    //     displayRerecord: RerecordedVoicesPitchData,
-    //     fetchedRerecord: false,
-    //     displayRecorded: RecordVoicesPitchData,
-    //     fetchedRecorded: true,
-    //     showTable: true,
-    //     loader: false
-    //   });
-    // }, 1000);
-    // //====================================
-
     patch(
       `/pitch/audio/version/${states.selectedVersion}/voice/${states.searchVoice}/${key}/`,
       { rerecord: false }
     )
       .then((res: any) => {
-        //added
-        filterData(states.selectedVersion);
-
-        // checks if status response was 201.
+        filterData(states.selectedVersion, null);
         if (res.status === 201 || res.status === 200) {
-          setState({
+          setStates({
             ...states,
             openToast: true,
             toastType: "check",
@@ -948,7 +863,7 @@ const Pitch = (props: any) => {
             uploadLoading: false
           });
         } else {
-          setState({
+          setStates({
             ...states,
             openToast: true,
             toastType: "caution",
@@ -962,7 +877,7 @@ const Pitch = (props: any) => {
       })
       // if there is no response we will show a failed upload message
       .catch((err: any) => {
-        setState({
+        setStates({
           ...states,
           openToast: true,
           toastType: "caution",
@@ -976,7 +891,7 @@ const Pitch = (props: any) => {
   };
 
   const closeModal = () => {
-    setState(
+    setStates(
       (prevState: any) => ({
         ...states,
         addNewVoiceModal: !prevState.addNewVoiceModal
@@ -987,12 +902,12 @@ const Pitch = (props: any) => {
 
   const openAddNewVoiceModal = (bool: any, currentMode: any) => {
     if (bool === false) {
-      setState({
+      setStates({
         ...states,
         addNewVoiceModal: false
       });
     } else {
-      setState({
+      setStates({
         ...states,
         currentMode,
         addNewVoiceModal: true,
@@ -1000,15 +915,8 @@ const Pitch = (props: any) => {
       });
     }
   };
-
-  // handleCloseToast = () => {
-  //   this.setState({
-  //     openToast: false
-  //   });
-  // };
-
   const refreshData = (version: any) => {
-    setState({
+    setStates({
       ...states,
       display: [],
       displayRerecord: [],
@@ -1017,33 +925,32 @@ const Pitch = (props: any) => {
       fetchedUnrecorded: false,
       fetchedRerecord: false
     });
-    filterData(version);
   };
   const detectMic = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then(stream => {
         // Code for success
-        setState({
+        setStates({
           ...states,
           hasMic: true
         });
       })
       .catch(err => {
-        setState({
+        setStates({
           ...states,
           hasMic: false
         });
       });
   };
   const handleUnrecordedSelected = (val: any) => {
-    setState({
+    setStates({
       ...states,
       unrecordedSelected: val
     });
   };
   const showToastSession = (type: any, message: any) => {
-    setState({
+    setStates({
       ...states,
       openToast: true,
       toastType: type,
@@ -1145,7 +1052,7 @@ const Pitch = (props: any) => {
                           {localStorage.getItem("type") !== "10" && (
                             <Search
                               searchFunction={selectedVoice}
-                              voices={states.voices}
+                              voices={state.users}
                             />
                           )}
                         </Grid>
@@ -1163,12 +1070,12 @@ const Pitch = (props: any) => {
                             rerecord={states.rerecord}
                             recorded={states.recorded}
                             filterData={filterData}
-                            filtered={(val: any) =>
-                              setState({
-                                ...states,
-                                filtered: val
-                              })
-                            }
+                            // filtered={(val: any) =>
+                            //   setStates({
+                            //     ...states,
+                            //     filtered: val
+                            //   })
+                            // }
                             user={states.user}
                             searched={states.searchVoice}
                             selectCampaign={selectCampaign}
@@ -1190,8 +1097,10 @@ const Pitch = (props: any) => {
                         : { background: "#fafafa" }
                     }
                   >
-                    {states.loader ? (
-                      <TableLoader />
+                    {states.loaders ? (
+                      <>
+                        <TableLoader />
+                      </>
                     ) : states.showTable ? (
                       <Grid container className={classes.pitchTable}>
                         <Grid item sm={12} xs={12} md={4} lg={4}>
@@ -1355,7 +1264,7 @@ const Pitch = (props: any) => {
                           {localStorage.getItem("type") !== "10" && (
                             <Search
                               searchFunction={selectedVoice}
-                              voices={states.voices}
+                              voices={state.users}
                             />
                           )}
                         </Grid>
@@ -1373,12 +1282,12 @@ const Pitch = (props: any) => {
                             rerecord={states.rerecord}
                             recorded={states.recorded}
                             filterData={filterData}
-                            filtered={(val: any) =>
-                              setState({
-                                ...states,
-                                filtered: val
-                              })
-                            }
+                            // filtered={(val: any) =>
+                            //   setStates({
+                            //     ...states,
+                            //     filtered: val
+                            //   })
+                            // }
                             user={states.user}
                             searched={states.searchVoice}
                             selectCampaign={selectCampaign}
