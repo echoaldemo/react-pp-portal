@@ -7,26 +7,26 @@ import HeadOption from "./HeadOptions";
 const theme = createMuiTheme({});
 
 interface Props {
-	open: boolean;
-	onClose: () => void;
-	title: string;
+  open: boolean;
+  onClose: () => void;
+  title: string;
 }
 
 const SalesModal = ({ open, onClose, title }: Props) => {
-	return (
-		<MuiThemeProvider theme={theme}>
-			<Modal
-				open={open}
-				onClose={onClose}
-				title={title || "Sales"}
-				width={1245}
-				height={660}
-			>
-				<HeadOption />
-				<NodeChart />
-			</Modal>
-		</MuiThemeProvider>
-	)
-}
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Modal
+        open={open}
+        onClose={onClose}
+        title={title || "Sales"}
+        width={1245}
+        height={660}
+      >
+        <HeadOption />
+        <NodeChart />
+      </Modal>
+    </MuiThemeProvider>
+  );
+};
 
-export default SalesModal
+export default SalesModal;

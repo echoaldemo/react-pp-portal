@@ -14,8 +14,9 @@ import { data, data2 } from "./mockData";
 function DialerQueue(props: any) {
   const [queue, setQueue] = useState(data);
   const [connected, setConnected] = useState(data2);
-  const [searchData, setSearchData] = useState({ // eslint-disable-line
-    queue: data, 
+  const [searchData, setSearchData] = useState({
+    // eslint-disable-line
+    queue: data,
     connected: data2
   });
 

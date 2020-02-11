@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-import { Grid, Typography, Paper, Divider } from '@material-ui/core'
-import AgentFilter from './filter'
-import DatePicker from './filter/datePicker'
-import styled from 'styled-components'
-import AgentTable from './agent-table/AgentTable'
-import { data } from './mockData'
-import Performance from './Performance/Performance'
+import { Grid, Typography, Paper, Divider } from "@material-ui/core";
+import AgentFilter from "./filter";
+import DatePicker from "./filter/datePicker";
+import styled from "styled-components";
+import AgentTable from "./agent-table/AgentTable";
+import { data } from "./mockData";
+import Performance from "./Performance/Performance";
 
-import { SearchBar, CallMenu, Pagination } from 'common-components'
+import { SearchBar, CallMenu, Pagination } from "common-components";
 
 const FilterContainer = styled.div`
   width: 100%;
@@ -18,14 +18,14 @@ const FilterContainer = styled.div`
   align-items: baseline;
   justify-content: space-between;
   padding: 3px 0px 9px 24px;
-`
+`;
 
 const FilterActual = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const ApplyText = styled(Typography)`
   font-size: 16px;
@@ -35,7 +35,7 @@ const ApplyText = styled(Typography)`
   line-height: normal;
   letter-spacing: normal;
   color: #ffffff;
-`
+`;
 
 const ApplyButton = styled.button`
   outline: none;
@@ -54,7 +54,7 @@ const ApplyButton = styled.button`
   &.active {
     opacity: 1;
   }
-`
+`;
 
 // const data = [
 //   {
@@ -103,131 +103,127 @@ const ApplyButton = styled.button`
 // 	}
 // ]
 function AgentDashboard({ history }: any) {
-	const [selectedDate, setSelectedDate] = useState(
-		new Date('2019-11-15T21:11:54')
-	)
-	const [activeData, setActiveData] = useState('')
-	const [openMonitor, setOpenMonitor] = useState(false)
-	const [agents, setAgents] = useState<any>([])
-	const [paginateList, setPaginateList] = useState<any>({})
-	const [callInfo, setCallInfo] = useState<any>({
-		agentName: '',
-		agentImage: '',
-		listening: true,
-		whisper: false
-	})
+  const [selectedDate, setSelectedDate] = useState(
+    new Date("2019-11-15T21:11:54")
+  );
+  const [activeData, setActiveData] = useState("");
+  const [openMonitor, setOpenMonitor] = useState(false);
+  const [agents, setAgents] = useState<any>([]);
+  const [paginateList, setPaginateList] = useState<any>({});
+  const [callInfo, setCallInfo] = useState<any>({
+    agentName: "",
+    agentImage: "",
+    listening: true,
+    whisper: false
+  });
 
-	React.useEffect(() => {
-		setAgents(data)
-		setPaginateList(data)
-	}, [])
+  React.useEffect(() => {
+    setAgents(data);
+    setPaginateList(data);
+  }, []);
 
-	const handleDateChange = (date: Date) => {
-		setSelectedDate(date)
-	}
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+  };
 
-	const OpenMonitorFunc = (data: any) => {
-		setOpenMonitor(!openMonitor)
-		setActiveData(data)
-		setCallInfo({
-			...callInfo,
-			agentName: data.name,
-			agentImage: data.avatar
-		})
-	}
+  const OpenMonitorFunc = (data: any) => {
+    setOpenMonitor(!openMonitor);
+    setActiveData(data);
+    setCallInfo({
+      ...callInfo,
+      agentName: data.name,
+      agentImage: data.avatar
+    });
+  };
 
-	const ToggleCallButton = (button: any) => {
-		setCallInfo({ ...callInfo, [button]: !callInfo[button] })
-	}
+  const ToggleCallButton = (button: any) => {
+    setCallInfo({ ...callInfo, [button]: !callInfo[button] });
+  };
 
-	const paginate = (from: number, to: number) => {
-		setAgents(paginateList.slice(from, to))
-	}
+  const paginate = (from: number, to: number) => {
+    setAgents(paginateList.slice(from, to));
+  };
 
-	return (
-		<>
-			<Performance />
-			<Paper>
-				<SearchBar title="Agents" userData={agents} headers={['name']} />
-				<Divider />
-				<Grid container>
-					<Grid item xs={12}>
-						<FilterContainer>
-							<FilterActual>
-								{[
-									{
-										tag: 'Campaign',
-										data: [
-											{
-												name: 'All'
-											},
-											{
-												name: 'Campaign 1'
-											},
-											{
-												name: 'Campaign 2'
-											},
-											{
-												name: 'Campaign 3'
-											}
-										]
-									},
-									{
-										tag: 'Status',
-										data: [
-											{
-												name: 'All'
-											},
-											{
-												name: 'On Call'
-											},
-											{
-												name: 'Idle'
-											},
-											{
-												name: 'On Break'
-											}
-										]
-									}
-								].map((key: any, i: number) => (
-									<AgentFilter
-										key={i}
-										tag={key.tag}
-										filterData={key.data}
-									/>
-								))}
-								<DatePicker changeFn={handleDateChange} date={selectedDate} />
-							</FilterActual>
+  return (
+    <>
+      <Performance />
+      <Paper>
+        <SearchBar title="Agents" userData={agents} headers={["name"]} />
+        <Divider />
+        <Grid container>
+          <Grid item xs={12}>
+            <FilterContainer>
+              <FilterActual>
+                {[
+                  {
+                    tag: "Campaign",
+                    data: [
+                      {
+                        name: "All"
+                      },
+                      {
+                        name: "Campaign 1"
+                      },
+                      {
+                        name: "Campaign 2"
+                      },
+                      {
+                        name: "Campaign 3"
+                      }
+                    ]
+                  },
+                  {
+                    tag: "Status",
+                    data: [
+                      {
+                        name: "All"
+                      },
+                      {
+                        name: "On Call"
+                      },
+                      {
+                        name: "Idle"
+                      },
+                      {
+                        name: "On Break"
+                      }
+                    ]
+                  }
+                ].map((key: any, i: number) => (
+                  <AgentFilter key={i} tag={key.tag} filterData={key.data} />
+                ))}
+                <DatePicker changeFn={handleDateChange} date={selectedDate} />
+              </FilterActual>
 
-							<ApplyButton style={{ marginLeft: 'auto' }}>
-								<ApplyText>Apply</ApplyText>
-							</ApplyButton>
-						</FilterContainer>
-						<AgentTable
-							agents={agents}
-							activeData={activeData}
-							OpenMonitorFunc={OpenMonitorFunc}
-							history={history}
-						/>
-						{openMonitor && (
-							<CallMenu
-								callInfo={callInfo}
-								ToggleCallButton={ToggleCallButton}
-								OpenMonitorFunc={OpenMonitorFunc}
-							/>
-						)}
-						{Boolean(paginateList.length) && (
-							<Pagination
-								paginateFn={paginate}
-								totalItems={paginateList.length}
-								itemsPerPage={6}
-							/>
-						)}
-					</Grid>
-				</Grid>
-			</Paper>
-		</>
-	)
+              <ApplyButton style={{ marginLeft: "auto" }}>
+                <ApplyText>Apply</ApplyText>
+              </ApplyButton>
+            </FilterContainer>
+            <AgentTable
+              agents={agents}
+              activeData={activeData}
+              OpenMonitorFunc={OpenMonitorFunc}
+              history={history}
+            />
+            {openMonitor && (
+              <CallMenu
+                callInfo={callInfo}
+                ToggleCallButton={ToggleCallButton}
+                OpenMonitorFunc={OpenMonitorFunc}
+              />
+            )}
+            {Boolean(paginateList.length) && (
+              <Pagination
+                paginateFn={paginate}
+                totalItems={paginateList.length}
+                itemsPerPage={6}
+              />
+            )}
+          </Grid>
+        </Grid>
+      </Paper>
+    </>
+  );
 }
 
-export default AgentDashboard
+export default AgentDashboard;
