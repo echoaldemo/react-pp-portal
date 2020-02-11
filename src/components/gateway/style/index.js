@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Container = styled.div`
   margin: 0 auto;
@@ -7,14 +7,14 @@ const Container = styled.div`
     color: rgba(0, 0, 0, 0.5);
     font-weight: 300;
     text-align: center;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
   }
   span {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-`
+`;
 const Header = styled.div`
   height: 64px;
   background: #5f7d98;
@@ -24,7 +24,7 @@ const Header = styled.div`
   align-items: center;
   color: #fff;
   h2 {
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 300;
     line-height: 1;
     letter-spacing: -0.00833em;
@@ -42,7 +42,7 @@ const Header = styled.div`
     border: none;
     outline: none;
   }
-`
+`;
 const Card = styled.div`
   height: 80vh;
   background: #fff;
@@ -67,6 +67,6 @@ const Card = styled.div`
   strong {
     color: rgba(0, 0, 0, 0.54);
   }
-`
+`;
 
-export { Container, Header, Card }
+export { Container, Header, Card };
