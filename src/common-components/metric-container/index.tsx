@@ -1,13 +1,13 @@
-import React from 'react'
-import { IoIosSettings } from 'react-icons/io'
-import { ButtonWithIcon } from 'common-components'
-import { Card, Header, HeaderText, Content } from './style'
+import React from "react";
+import { IoIosSettings } from "react-icons/io";
+import { ButtonWithIcon } from "common-components";
+import { Card, Header, HeaderText, Content } from "./style";
 
 interface Props {
-  icon?: React.ReactNode
-  header?: string
-  editFn: () => void
-  children?: React.ReactNode
+  icon?: React.ReactNode;
+  header?: string;
+  editFn: () => void;
+  children?: React.ReactNode;
 }
 
 const MetricContainer: React.FC<Props> = ({
@@ -19,13 +19,13 @@ const MetricContainer: React.FC<Props> = ({
   return (
     <Card>
       <Header>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           {icon}
           <HeaderText>{header}</HeaderText>
         </div>
         <ButtonWithIcon
           handleClick={editFn}
-          style={{ marginLeft: 'auto' }}
+          style={{ marginLeft: "auto" }}
           icon={<IoIosSettings />}
         >
           Edit metrics
@@ -33,12 +33,12 @@ const MetricContainer: React.FC<Props> = ({
       </Header>
       <Content>{children}</Content>
     </Card>
-  )
-}
+  );
+};
 
 MetricContainer.defaultProps = {
-  header: '',
+  header: "",
   editFn: () => {}
-} as Partial<Props>
+} as Partial<Props>;
 
-export { MetricContainer }
+export { MetricContainer };

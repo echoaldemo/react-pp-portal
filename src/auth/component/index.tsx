@@ -67,7 +67,7 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <div
         style={{
           backgroundColor: "#ececec",
@@ -117,7 +117,7 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
           </Card>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

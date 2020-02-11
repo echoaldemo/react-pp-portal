@@ -7,7 +7,7 @@ function login(username, password) {
     .then(res => {
       localStorage.setItem("ngStorage-ppToken", res.data.auth_token);
       return withToken(`/identity/user/profile/`, res.data.auth_token)
-        .then(({data}) => {
+        .then(({ data }) => {
           localStorage.setItem("user", data.first_name);
           localStorage.setItem("uuid", data.uuid);
           localStorage.setItem("type", data.groups[0]);

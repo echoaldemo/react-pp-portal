@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import { TextField, Dialog } from '@material-ui/core'
-import { Close } from '@material-ui/icons'
-import { GoTrashcan } from 'react-icons/go'
+import styled from "styled-components";
+import { TextField, Dialog } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import { GoTrashcan } from "react-icons/go";
 
 const InputField = styled(TextField)`
   .MuiInputLabel-shrink {
@@ -18,18 +18,18 @@ const InputField = styled(TextField)`
       border-bottom: 2px solid #1194f6;
     }
   }
-`
+`;
 const Center = styled(Dialog)`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 const Box = styled.div`
   width: 420px;
   min-height: 420px;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.12);
   background-color: #ffffff;
-`
+`;
 const Header = styled.div`
   display: flex;
   justify-content: center;
@@ -42,22 +42,22 @@ const Header = styled.div`
   color: #ffffff;
   padding: 0 20px;
   box-sizing: border-box;
-`
+`;
 const CenterText = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
   margin-left: 20px;
-`
+`;
 const CloseIcon = styled(Close)`
   cursor: pointer;
-`
+`;
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 36px;
-`
+`;
 const DelBtn = styled.button`
   width: 165px;
   height: 40px;
@@ -68,7 +68,7 @@ const DelBtn = styled.button`
   cursor: pointer;
   margin: 0 auto;
   margin-top: 36px;
-`
+`;
 const DisBtn = styled.button`
   width: 165px;
   height: 40px;
@@ -78,7 +78,7 @@ const DisBtn = styled.button`
   border: none;
   margin: 0 auto;
   margin-top: 36px;
-`
+`;
 const DelBtnText = styled.strong`
   display: flex;
   align-items: center;
@@ -86,27 +86,27 @@ const DelBtnText = styled.strong`
   font-size: 16px;
   color: #eeeeee;
   margin: 0 36px;
-`
+`;
 const Trash = styled(GoTrashcan)`
   position: relative;
   font-size: 20px;
   bottom: 2px;
-`
+`;
 const Text = styled.strong`
   font-size: 18px;
   color: #7c8a97;
   margin: 0 0 20px 0;
-`
+`;
 const Name = styled.strong`
   font-size: 18px;
   margin: 0 0 20px 0;
   color: #444851;
-`
+`;
 const Text2 = styled.p`
   color: #777777;
   font-size: 16px;
   margin: 0 0 20px 0;
-`
+`;
 
 export {
   InputField,
@@ -123,4 +123,4 @@ export {
   Text,
   Text2,
   Name
-}
+};

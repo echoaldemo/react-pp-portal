@@ -1,9 +1,9 @@
-import { Tabs } from '@material-ui/core'
-import styled from 'styled-components'
+import { Tabs } from "@material-ui/core";
+import styled from "styled-components";
 
 const Cont = styled.div`
   background: #eeeeee;
-`
+`;
 const TabsStyled = styled(Tabs)`
   border-radius: 3px;
   button {
@@ -25,5 +25,5 @@ const TabsStyled = styled(Tabs)`
   .MuiTab-root {
     color: #7c8a97;
   }
-`
-export { Cont, TabsStyled }
+`;
+export { Cont, TabsStyled };

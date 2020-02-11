@@ -46,7 +46,7 @@ const theme = createMuiTheme({
   }
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
@@ -191,7 +191,7 @@ const SearchBar: React.FC<Props> = ({
     <Grid item xs={12} lg={12}>
       <TextField
         disabled={loading !== undefined ? loading : false}
-        onChange={(e) => handleSearch(e)}
+        onChange={e => handleSearch(e)}
         id="standard-full-width"
         value={textSearch}
         placeholder={`Search for ${title}`}
@@ -402,7 +402,7 @@ const SearchBar: React.FC<Props> = ({
                         <Grid item style={{ marginTop: 10 }}>
                           <GearIcon
                             style={{ color: "#777777" }}
-                            onClick={(e) => handleClick(e, result)}
+                            onClick={e => handleClick(e, result)}
                           />
                           <Menu
                             {...menuProps}

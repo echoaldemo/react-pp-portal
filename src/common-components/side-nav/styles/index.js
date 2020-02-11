@@ -34,7 +34,7 @@ export const useStyles = makeStyles(theme => ({
     })
   },
   iconSection: {
-    marginTop: `${localStorage.getItem('is_impersonate') ? '100px' : '63px'}`,
+    marginTop: `${localStorage.getItem("is_impersonate") ? "100px" : "63px"}`
   },
   menuButton: {
     marginRight: 36

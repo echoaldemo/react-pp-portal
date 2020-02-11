@@ -1,5 +1,5 @@
-import React from 'react'
-import * as Styled from './style'
+import React from "react";
+import * as Styled from "./style";
 
 const TableLoader = () => {
   return (
@@ -18,7 +18,7 @@ const TableLoader = () => {
         </span>
       </Styled.SubMsgCont>
     </Styled.Container>
-  )
-}
+  );
+};
 
-export { TableLoader }
+export { TableLoader };

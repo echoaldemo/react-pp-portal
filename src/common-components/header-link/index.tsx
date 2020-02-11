@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Popover, MenuList, MenuItem } from '@material-ui/core'
-import { Link } from 'react-router-dom'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import React, { useState, useEffect } from "react";
+import { Button, Popover, MenuList, MenuItem } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 interface HeaderLinkProps {
-  menu: Array<{ title: string; path: string }>
-  pathSensitive?: boolean
-  style?: Obj
-  title: string
+  menu: Array<{ title: string; path: string }>;
+  pathSensitive?: boolean;
+  style?: Obj;
+  title: string;
 }
 interface Obj {
-  [index: string]: any
+  [index: string]: any;
 }
 
 const HeaderLink: React.FC<HeaderLinkProps> = ({
@@ -19,26 +19,26 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
   style,
   title
 }) => {
-  const [popper, setPopper] = useState<boolean>(false)
-  const [anchorRef, setAnchorRef] = useState<any>(null)
+  const [popper, setPopper] = useState<boolean>(false);
+  const [anchorRef, setAnchorRef] = useState<any>(null);
   const checkLinks = () => {
-    if (typeof window != 'undefined')
-      menu.map(item => (window.location.pathname === item.path ? null : null))
-  }
+    if (typeof window != "undefined")
+      menu.map(item => (window.location.pathname === item.path ? null : null));
+  };
 
   useEffect(() => {
     if (pathSensitive) {
-      checkLinks()
+      checkLinks();
     }
-  })
+  });
 
   const handlePopper = (event: any) => {
-    setPopper(true)
-    setAnchorRef(event)
-  }
+    setPopper(true);
+    setAnchorRef(event);
+  };
   const handlePopperClose = () => {
-    setPopper(false)
-  }
+    setPopper(false);
+  };
 
   return (
     <div
@@ -48,29 +48,29 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
     >
       <Button
         style={{
-          fontSize: '24px',
-          textTransform: 'none',
-          textDecoration: 'underline',
-          color: '#444851'
+          fontSize: "24px",
+          textTransform: "none",
+          textDecoration: "underline",
+          color: "#444851"
         }}
         onClick={event => {
-          handlePopper(event.currentTarget)
+          handlePopper(event.currentTarget);
         }}
       >
         {title}
 
-        <ExpandMoreIcon style={{ marginLeft: '3px' }}></ExpandMoreIcon>
+        <ExpandMoreIcon style={{ marginLeft: "3px" }}></ExpandMoreIcon>
       </Button>
 
       <Popover
         open={popper}
         anchorEl={anchorRef}
         onClose={() => {
-          handlePopperClose()
+          handlePopperClose();
         }}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
+          vertical: "bottom",
+          horizontal: "left"
         }}
         PaperProps={{
           square: true,
@@ -80,14 +80,14 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
           }
         }}
       >
-        <MenuList style={{ width: '240px', color: ' #777777' }}>
+        <MenuList style={{ width: "240px", color: " #777777" }}>
           {menu.map((item, i) => (
             <div key={i}>
               <Link
                 to={item.path}
                 style={{
-                  textDecoration: 'none',
-                  color: ' #777777'
+                  textDecoration: "none",
+                  color: " #777777"
                 }}
               >
                 <MenuItem
@@ -96,7 +96,7 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
                     padding: 15
                   }}
                 >
-                  {item.title}{' '}
+                  {item.title}{" "}
                 </MenuItem>
               </Link>
             </div>
@@ -104,37 +104,37 @@ const HeaderLink: React.FC<HeaderLinkProps> = ({
         </MenuList>
       </Popover>
     </div>
-  )
-}
+  );
+};
 
 HeaderLink.defaultProps = {
-  title: 'Test Header',
+  title: "Test Header",
   menu: [
     {
-      title: 'Test1',
-      path: '/manage/1'
+      title: "Test1",
+      path: "/manage/1"
     },
     {
-      title: 'Test2',
-      path: '/manage/2'
+      title: "Test2",
+      path: "/manage/2"
     },
     {
-      title: 'Test3',
-      path: '/manage/3'
+      title: "Test3",
+      path: "/manage/3"
     },
     {
-      title: 'Test4',
-      path: '/manage/4'
+      title: "Test4",
+      path: "/manage/4"
     },
     {
-      title: 'Test5',
-      path: '/manage/5'
+      title: "Test5",
+      path: "/manage/5"
     },
     {
-      title: 'Test6',
-      path: '/manage/6'
+      title: "Test6",
+      path: "/manage/6"
     }
   ]
-} as Partial<HeaderLinkProps>
+} as Partial<HeaderLinkProps>;
 
-export { HeaderLink }
+export { HeaderLink };
