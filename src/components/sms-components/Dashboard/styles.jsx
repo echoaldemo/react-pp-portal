@@ -3,10 +3,9 @@ export const tblPaginationAction = theme => ({
     flexShrink: 0,
     color: theme.palette.text.secondary,
     marginLeft: theme.spacing(2.5),
-    "@media(max-width:768px) and (min-width:360px)":{
-      marginLeft: "-20px",
-    },
-    
+    "@media(max-width:768px) and (min-width:360px)": {
+      marginLeft: "-20px"
+    }
   }
 });
 
@@ -90,15 +89,15 @@ export const mainPagination = theme => ({
   },
   title: {
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: 500
   },
   footerBgCopy2: {
-    width: '60px',
-    height: '20px',
-    borderRadius: '3px',
-    backgroundColor: '#eeeeee',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: "60px",
+    height: "20px",
+    borderRadius: "3px",
+    backgroundColor: "#eeeeee",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
