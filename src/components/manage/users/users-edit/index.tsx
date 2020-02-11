@@ -20,6 +20,7 @@ import defaultAvatar from './avatar.svg';
 import styled from 'styled-components';
 import { SetupPassword } from './SetupPassword';
 import { useStyles, theme, CustomText } from './styles';
+import SnackNotif from "auth/component/snackbar/snackbar";
 
 //API UTIL
 import { get, post, patch, remove } from 'utils/api';
@@ -95,7 +96,9 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 	const [ groups, setGroups ] = useState([]);
 	const [ error, setError ] = useState(initialErrorState);
 	const [ openDelete, setOpenDelete ] = useState(false);
-	const [ companyDisabled, setCompanyDisabled ] = useState(false);
+  const [ companyDisabled, setCompanyDisabled ] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [openErrorMessage, setOpenErrorMessage] = useState(false);
 
 	useEffect(
 		() => {
@@ -252,7 +255,16 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				setMessage(`You have updated user ${user.username}`);
 				setLoading(false);
 				setSuccess(true);
-			});
+      })
+      .catch((err:any) => {
+        setLoading(false);
+        setOpenErrorMessage(true);
+        if(err.response.data.groups) {
+          return setErrorMessage(err.response.data.groups[0])
+        } else if (err.response.data.company) {
+          return setErrorMessage(err.response.data.company[0])
+        }
+      })
 		}
 	};
 
@@ -580,6 +592,11 @@ function Edit({ open, setOpen, data, update }: EditProps) {
 				}}
 				spacing={1}
 			>
+        <SnackNotif
+          snackbar={openErrorMessage}
+          handleClose={() => setOpenErrorMessage(false)}
+          message={errorMessage}
+        />
 				<Grid item xs={12}>
 					<Grid container alignItems="center">
 						<Grid item>
