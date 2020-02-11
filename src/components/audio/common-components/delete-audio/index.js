@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Button, Dialog, DialogActions, DialogTitle, Typography } from "@material-ui/core"
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+  Typography
+} from "@material-ui/core";
 import WarningIcon from "@material-ui/icons/ErrorOutline";
 
 const styles = theme => ({

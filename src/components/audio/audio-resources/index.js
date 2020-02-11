@@ -1,25 +1,25 @@
 /* eslint-disable */
-import React, { Component } from 'react'
-import axios from 'axios'
+import React, { Component } from "react";
+import axios from "axios";
 import {
   withStyles,
   createMuiTheme,
   ThemeProvider
-} from '@material-ui/core/styles'
+} from "@material-ui/core/styles";
 import {
   Divider,
   CssBaseline,
   Container,
   Grid,
   Typography
-} from '@material-ui/core'
+} from "@material-ui/core";
 
-import AddAudioResource from './components/AddAudioResource'
-import LoadingAddAudioResource from './components/LoadingAddAudioResource'
-import AudioResourceCreated from './components/AudioResourceCreated'
-import UploadAudioResource from './components/UploadAudioResource'
-import DeleteConfirmation from './components/DeleteConfirmation'
-import Toast from '../common-components/toast'
+import AddAudioResource from "./components/AddAudioResource";
+import LoadingAddAudioResource from "./components/LoadingAddAudioResource";
+import AudioResourceCreated from "./components/AudioResourceCreated";
+import UploadAudioResource from "./components/UploadAudioResource";
+import DeleteConfirmation from "./components/DeleteConfirmation";
+import Toast from "../common-components/toast";
 
 import {
   Pagination,
@@ -27,27 +27,27 @@ import {
   TableLoader,
   HeaderButton,
   HeaderLink
-} from 'common-components'
+} from "common-components";
 
-import useStyles from './audioresource.styles'
-import AudioResourceTable from './AudioResourceTable'
+import useStyles from "./audioresource.styles";
+import AudioResourceTable from "./AudioResourceTable";
 
 //import { get, remove, post, patch } from "../../../utils/api";
-import { mock, profile } from './mock'
+import { mock, profile } from "./mock";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { 500: '#1194f6' },
-    error: { 500: '#ff504d' }
+    primary: { 500: "#1194f6" },
+    error: { 500: "#ff504d" }
   }
-})
+});
 
-const CancelToken = axios.CancelToken
-let source = CancelToken.source()
+const CancelToken = axios.CancelToken;
+let source = CancelToken.source();
 
 class AudioResources extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
       addResourceModal: false,
       loadingAddAudioResource: false,
@@ -57,63 +57,63 @@ class AudioResources extends Component {
       errorMessage: null,
       audioResourceData: [],
       popper: null,
-      editUUID: '',
-      search: '',
-      loadingType: '',
+      editUUID: "",
+      search: "",
+      loadingType: "",
       deleteConfirmation: false,
       toast: false,
-      toastType: 'check',
-      toastMessage: '',
-      copiedUIID: '',
+      toastType: "check",
+      toastMessage: "",
+      copiedUIID: "",
       profile: [],
       user_group: 10,
       editRow: [],
       undo: false,
       filterlist: [],
       paginateList: []
-    }
+    };
   }
 
   handleCancelAddAudioResource = () => {
-    source.cancel('Operation canceled by the user.')
+    source.cancel("Operation canceled by the user.");
     this.setState({
       loadingAddAudioResource: false,
       addResourceModal: false,
       currentResourceInfo: null
-    })
-    this.handleClose()
-  }
+    });
+    this.handleClose();
+  };
 
   handleAudioResourceCreated = type => {
-    if (type === 'close') {
-      this.setState({ audioResourceCreated: false, currentResourceInfo: null })
+    if (type === "close") {
+      this.setState({ audioResourceCreated: false, currentResourceInfo: null });
     }
-  }
+  };
 
   handleUploadResourceModal = type => {
-    if (type === 'open') {
-      this.setState({ uploadResourceModal: true, audioResourceCreated: false })
+    if (type === "open") {
+      this.setState({ uploadResourceModal: true, audioResourceCreated: false });
     } else {
-      this.setState({ uploadResourceModal: false, currentResourceInfo: null })
+      this.setState({ uploadResourceModal: false, currentResourceInfo: null });
     }
-  }
+  };
   handleCloseConfirmation = () => {
     this.setState({
       deleteConfirmation: false
-    })
-  }
+    });
+  };
   handleCloseToast = () => {
     this.setState({
       toast: false
-    })
-  }
+    });
+  };
   handleToast = () => {
     this.setState({
       toast: true,
-      toastType: 'check',
-      toastMessage: ''
-    })
-  }
+      toastType: "check",
+      toastMessage: ""
+    });
+  };
 
   saveAudioName = name => {
     /* if (!this.state.currentResourceInfo) {
@@ -170,7 +170,7 @@ class AudioResources extends Component {
           })
         );
     } */
-  }
+  };
 
   uploadResourceAudio = (file, modification, convert, fadeIn, fadeOut) => {
     /* this.setState({
@@ -208,10 +208,10 @@ class AudioResources extends Component {
         });
         alert("Error Uploading Audio File");
       }); */
-  }
+  };
 
   componentDidMount() {
-    document.title = 'Audio Resources'
+    document.title = "Audio Resources";
     /* get("/identity/user/profile/").then(profileData => {
       this.setState({
         profile: profileData.data,
@@ -232,83 +232,83 @@ class AudioResources extends Component {
       audioResourceData: mock,
       filterlist: mock,
       paginateList: mock
-    })
+    });
   }
 
   handleDelete = () => {
     let index = this.state.audioResourceData.findIndex(
       obj => obj.uuid === this.state.editUUID
-    )
-    let newArr = this.state.audioResourceData
-    newArr.splice(index, 1)
-    this.forceUpdate()
+    );
+    let newArr = this.state.audioResourceData;
+    newArr.splice(index, 1);
+    this.forceUpdate();
     this.setState({
       audioResourceData: newArr,
       currentResourceInfo: null,
       toast: true,
-      toastMessage: 'Audio Deleted',
-      toastType: 'caution',
+      toastMessage: "Audio Deleted",
+      toastType: "caution",
       undo: true
-    })
-  }
+    });
+  };
 
   undoDelete = () => {
-    let newArr = this.state.audioResourceData
-    newArr.unshift(this.state.editRow)
-    this.setState({ audioResourceData: newArr, undo: false, toast: false })
-  }
+    let newArr = this.state.audioResourceData;
+    newArr.unshift(this.state.editRow);
+    this.setState({ audioResourceData: newArr, undo: false, toast: false });
+  };
 
   finalDelete = () => {
     /* remove(`/pitch/global/audio/resources/${this.state.editUUID}/`); */
-  }
+  };
 
   handleClick = event => {
-    this.setState({ popper: event })
-  }
+    this.setState({ popper: event });
+  };
 
   handleClose = () => {
-    this.setState({ popper: null, currentResourceInfo: null })
-  }
+    this.setState({ popper: null, currentResourceInfo: null });
+  };
 
   handleAddResourceModal = type => {
-    source = CancelToken.source()
-    if (type === 'open') {
-      this.setState({ addResourceModal: true })
-    } else if (type === 'close') {
-      this.setState({ addResourceModal: false, currentResourceInfo: null })
+    source = CancelToken.source();
+    if (type === "open") {
+      this.setState({ addResourceModal: true });
+    } else if (type === "close") {
+      this.setState({ addResourceModal: false, currentResourceInfo: null });
     }
-  }
+  };
 
   toTitleCase = str => {
     return str.replace(/\w\S*/g, function(txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
-    })
-  }
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
 
   handleFilter = url => {
-    this.setState({ innerLoading: true })
-    const token = localStorage.getItem('ngStorage-ppToken')
+    this.setState({ innerLoading: true });
+    const token = localStorage.getItem("ngStorage-ppToken");
     axios
       .get(url, {
         headers: { Authorization: `Token ${token}` }
       })
       .then(res => {
-        this.setState({ userData: res.data })
-        this.setState({ innerLoading: false })
-      })
-  }
+        this.setState({ userData: res.data });
+        this.setState({ innerLoading: false });
+      });
+  };
 
   //reuse
   FilterApplyButton = params => {
     var parameter = {
-      ...(params.sortby !== ' ' && { order_by: params.sortby }),
-      ...(params.active !== ' ' && { active: params.active }),
-      ...(params.company !== ' ' && { company: params.company }),
-      ...(params.realm !== ' ' && { realms: params.realm }),
-      ...(params.campaign !== ' ' && { campaigns: params.campaign }),
-      ...(params.roles !== ' ' && { groups: params.roles }),
-      ...(params.hasCompany !== ' ' && { no_company: !params.hasCompany })
-    }
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.realm !== " " && { realms: params.realm }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
     /* get("/pitch/global/audio/resources/", parameter).then(res => {
       this.setState({
@@ -317,16 +317,16 @@ class AudioResources extends Component {
         paginateList: [...res.data]
       });
     }) */
-  }
+  };
 
   paginate = (from, to) => {
     this.setState({
       audioResourceData: this.state.paginateList.slice(from, to)
-    })
-  }
+    });
+  };
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -337,27 +337,27 @@ class AudioResources extends Component {
                 <HeaderLink
                   menu={[
                     {
-                      title: 'Voice',
-                      path: '/manage/audio/pitch'
+                      title: "Voice",
+                      path: "/manage/audio/pitch"
                     }
                   ]}
                   title="Audio Resources"
                 />
                 <HeaderButton
                   buttonText="New Audio Resource"
-                  openFunction={() => this.handleAddResourceModal('open')}
+                  openFunction={() => this.handleAddResourceModal("open")}
                 />
               </div>
               <div style={{ marginTop: 36 }}>
                 <SearchBar
                   title="Audio Resource"
                   userData={this.state.filterlist}
-                  headers={['name', 'slug', 'uuid']}
+                  headers={["name", "slug", "uuid"]}
                 />
                 <Divider />
 
                 <Divider />
-                <div style={{ overflow: 'auto' }}>
+                <div style={{ overflow: "auto" }}>
                   {this.state.audioResourceData.length !== 0 ? (
                     <React.Fragment>
                       <AudioResourceTable
@@ -365,28 +365,28 @@ class AudioResources extends Component {
                         // handleUpdated={this.handleUpdate}
                         // innerLoading={this.state.innerLoading}
                         filterlist={this.state.filterlist}
-                        headers={['Name', 'SLUG', 'UUID', 'Status', '']}
+                        headers={["Name", "SLUG", "UUID", "Status", ""]}
                         upload={campaign => {
                           this.setState({
                             currentResourceInfo: campaign,
                             uploadResourceModal: true
-                          })
+                          });
                         }}
                         edit={row => {
                           this.setState({
                             editRow: row,
                             editUUID: row.uuid,
                             currentResourceInfo: row
-                          })
+                          });
                         }}
-                        openModal={() => this.handleAddResourceModal('open')}
+                        openModal={() => this.handleAddResourceModal("open")}
                         handleCLose={() => this.handleClose()}
                         deleteConfirmation={() => {
-                          this.setState({ deleteConfirmation: true })
+                          this.setState({ deleteConfirmation: true });
                         }}
                         editUUID={this.state.editUUID}
                       />
-                      <div style={{ width: '100%' }}>
+                      <div style={{ width: "100%" }}>
                         <Divider />
                         {Boolean(this.state.paginateList.length) && (
                           <Pagination
@@ -405,7 +405,7 @@ class AudioResources extends Component {
                           variant="h3"
                           className={classes.headerTitle}
                         >
-                          {this.toTitleCase('Audio Resources')}
+                          {this.toTitleCase("Audio Resources")}
                         </Typography>
                       </div>
                       <div className={classes.emptyPitch}>
@@ -467,12 +467,12 @@ class AudioResources extends Component {
           handleClose={this.handleCloseToast}
           toastType={this.state.toastType}
           message={this.state.toastMessage}
-          vertical={'top'}
-          horizontal={'right'}
+          vertical={"top"}
+          horizontal={"right"}
         />
       </div>
-    )
+    );
   }
 }
 
-export default withStyles(useStyles)(AudioResources)
+export default withStyles(useStyles)(AudioResources);

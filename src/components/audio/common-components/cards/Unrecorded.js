@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
-	Card,
-	CardHeader,
-	CardContent,
-	Grid,
-	Typography,
-	IconButton,
-	TextField,
-	Link,
-	Dialog,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Typography,
+  IconButton,
+  TextField,
+  Link,
+  Dialog,
   Table,
   TableHead,
-	TableBody,
-	TableCell,
-	TableRow
-} from '@material-ui/core';
+  TableBody,
+  TableCell,
+  TableRow
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import DesktopAddNewVoice from "../record-new-voice";
 import Loader from "../loader";
