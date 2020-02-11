@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { Grid } from '@material-ui/core'
-import { CustomButton } from 'common-components'
+import React, { Component } from "react";
+import { Grid } from "@material-ui/core";
+import { CustomButton } from "common-components";
 const classes = {
   gridWrapper: {},
   container: { fontSize: 16, paddingTop: 15 },
 
-  labelContainer: { color: '#444851', paddingBottom: 15 },
-  descriptionContainer: { color: '#777777', paddingBottom: 15 }
-}
+  labelContainer: { color: "#444851", paddingBottom: 15 },
+  descriptionContainer: { color: "#777777", paddingBottom: 15 }
+};
 
 export default class ModalDetails extends Component {
   displayChanges = () => {
-    let baseField = this.props.data.changed_fields
-    let originalBaseField = this.props.data.original_fields
+    let baseField = this.props.data.changed_fields;
+    let originalBaseField = this.props.data.original_fields;
     // let fields = baseField[element][Object.keys(baseField[element])[0]];
 
     return (
@@ -21,7 +21,7 @@ export default class ModalDetails extends Component {
           <Grid
             container
             key={i}
-            style={{ borderBottom: 'solid 1px #eee', paddingTop: 15 }}
+            style={{ borderBottom: "solid 1px #eee", paddingTop: 15 }}
           >
             {Object.keys(originalBaseField).length > 0 ? (
               <>
@@ -114,8 +114,8 @@ export default class ModalDetails extends Component {
           </Grid>
         ))}
       </>
-    )
-  }
+    );
+  };
   render() {
     return (
       <div style={classes.gridWrapper}>
@@ -155,22 +155,22 @@ export default class ModalDetails extends Component {
           lg={12}
           md={12}
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             paddingTop: 45
           }}
         >
           <CustomButton
-            style={{ backgroundColor: '#7C8A97', color: '#eeeeee' }}
+            style={{ backgroundColor: "#7C8A97", color: "#eeeeee" }}
             onClick={() => {
-              this.props.onClose()
+              this.props.onClose();
             }}
           >
             Close
           </CustomButton>
         </Grid>
       </div>
-    )
+    );
   }
 }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { MenuItem, Checkbox } from '@material-ui/core'
+import React, { useState } from "react";
+import { MenuItem, Checkbox } from "@material-ui/core";
 import {
   Btn,
   CreateBtn,
@@ -8,30 +8,30 @@ import {
   CreateText,
   BtnCont,
   Content
-} from './NewCampaignStyle'
-import { InputField } from 'common-components'
+} from "./NewCampaignStyle";
+import { InputField } from "common-components";
 const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
-  const [name, setName] = useState('')
-  const [addCompany, setAddCompany] = useState('')
-  const [addRealms, setAddRealms] = useState([])
-  const [create, setCreate] = useState(false)
-  const [errMsg, setErrMsg] = useState({})
+  const [name, setName] = useState("");
+  const [addCompany, setAddCompany] = useState("");
+  const [addRealms, setAddRealms] = useState([]);
+  const [create, setCreate] = useState(false);
+  const [errMsg, setErrMsg] = useState({});
 
   const handleSubmit = () => {
     const data = {
       name,
       company: addCompany,
       realms: addRealms
-    }
-    newFn(data, errMsg, setErrMsg)
-  }
+    };
+    newFn(data, errMsg, setErrMsg);
+  };
   const handleChange = (val, val2) => {
     if (val && val2) {
-      setCreate(true)
+      setCreate(true);
     } else {
-      setCreate(false)
+      setCreate(false);
     }
-  }
+  };
 
   const MenuProps = {
     PaperProps: {
@@ -40,7 +40,7 @@ const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
         width: 250
       }
     }
-  }
+  };
 
   return (
     <Content>
@@ -52,17 +52,17 @@ const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
         margin="normal"
         value={name}
         onChange={e => {
-          setName(e.target.value)
-          handleChange(e.target.value, addCompany)
-          setErrMsg({ ...errMsg, name: '' })
+          setName(e.target.value);
+          handleChange(e.target.value, addCompany);
+          setErrMsg({ ...errMsg, name: "" });
         }}
         error={errMsg.name ? true : false}
-        helperText={errMsg.name ? errMsg.name : ' '}
+        helperText={errMsg.name ? errMsg.name : " "}
         onBlur={() => {
           if (name) {
-            setErrMsg({ ...errMsg, name: '' })
+            setErrMsg({ ...errMsg, name: "" });
           } else {
-            setErrMsg({ ...errMsg, name: 'A campaign name is required' })
+            setErrMsg({ ...errMsg, name: "A campaign name is required" });
           }
         }}
       />
@@ -76,17 +76,17 @@ const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
         SelectProps={{ MenuProps }}
         value={addCompany}
         error={errMsg.addCompany ? true : false}
-        helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
+        helperText={errMsg.addCompany ? errMsg.addCompany : " "}
         onChange={e => {
-          setAddCompany(e.target.value)
-          handleChange(e.target.value, name)
-          setErrMsg({ ...errMsg, addCompany: '' })
+          setAddCompany(e.target.value);
+          handleChange(e.target.value, name);
+          setErrMsg({ ...errMsg, addCompany: "" });
         }}
         onBlur={() => {
           if (addCompany) {
-            setErrMsg({ ...errMsg, addCompany: '' })
+            setErrMsg({ ...errMsg, addCompany: "" });
           } else {
-            setErrMsg({ ...errMsg, addCompany: 'A company is required' })
+            setErrMsg({ ...errMsg, addCompany: "A company is required" });
           }
         }}
       >
@@ -106,11 +106,11 @@ const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
           MenuProps,
           multiple: true,
           onChange: e => {
-            setAddRealms(e.target.value)
+            setAddRealms(e.target.value);
           },
           value: addRealms,
           renderValue: selected =>
-            selected.map(select => select.name).join(', ')
+            selected.map(select => select.name).join(", ")
         }}
       >
         {realms.map(realm => (
@@ -135,7 +135,7 @@ const NewCampaign = ({ closeFn, realms, companys, newFn }) => {
         )}
       </BtnCont>
     </Content>
-  )
-}
+  );
+};
 
-export default NewCampaign
+export default NewCampaign;

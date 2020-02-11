@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from "react";
 import {
   Collapse,
   Grid,
@@ -7,16 +7,16 @@ import {
   Typography,
   MenuItem,
   Checkbox
-} from '@material-ui/core'
-import { InputField, CustomButton, SaveButton } from 'common-components'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { LightTooltip } from '../../../../../../../globalConstsVar'
+} from "@material-ui/core";
+import { InputField, CustomButton, SaveButton } from "common-components";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { LightTooltip } from "../../../../../../../globalConstsVar";
 import {
   Delete as DeleteIcon,
   FileCopyOutlined as CopyIcon,
   KeyboardArrowDown
-} from '@material-ui/icons/'
-import { IdentityContext } from 'contexts/IdentityProvider'
+} from "@material-ui/icons/";
+import { IdentityContext } from "contexts/IdentityProvider";
 const MenuProps = {
   PaperProps: {
     style: {
@@ -24,21 +24,21 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 
 const DropdownIcon = () => {
-  return <KeyboardArrowDown style={{ color: '#444851' }} />
-}
+  return <KeyboardArrowDown style={{ color: "#444851" }} />;
+};
 
 const EditForm = () => {
   const { state, handleSaveCampaignDetails, setOpenModal } = useContext(
     IdentityContext
-  )
-  const { campaignRealms, campaignDetails, realms, companies } = state
+  );
+  const { campaignRealms, campaignDetails, realms, companies } = state;
 
-  const [formState, setFormState] = useState(campaignDetails)
-  const [errMsg, setErrMsg] = useState({})
-  const [addRealms, setAddRealms] = useState(campaignRealms)
+  const [formState, setFormState] = useState(campaignDetails);
+  const [errMsg, setErrMsg] = useState({});
+  const [addRealms, setAddRealms] = useState(campaignRealms);
 
   const SwitchAd = () => {
     return (
@@ -47,24 +47,24 @@ const EditForm = () => {
         checked={formState.active}
         onChange={e => setFormState({ ...formState, active: e.target.checked })}
       />
-    )
-  }
+    );
+  };
 
   const realmChanged = () => {
     // return campaignDetails.realms.length !== addRealms.length;
-    return false
-  }
+    return false;
+  };
 
   return (
     <form
       onSubmit={e => {
-        e.preventDefault()
-        handleSaveCampaignDetails(formState)
+        e.preventDefault();
+        handleSaveCampaignDetails(formState);
       }}
     >
       <Grid container spacing={5}>
-        {console.log('formState', formState)}
-        {console.log('re', campaignRealms)}
+        {console.log("formState", formState)}
+        {console.log("re", campaignRealms)}
 
         <Grid item lg={6} xs={12} sm={12} xl={6}>
           <InputField
@@ -78,25 +78,25 @@ const EditForm = () => {
               setFormState({
                 ...formState,
                 name: e.target.value
-              })
+              });
             }}
             error={errMsg.name ? true : false}
-            helperText={errMsg.name ? errMsg.name : ' '}
+            helperText={errMsg.name ? errMsg.name : " "}
             onBlur={e => {
               if (e.target.value) {
                 setErrMsg({
                   ...errMsg,
-                  name: ''
-                })
+                  name: ""
+                });
               } else {
                 setErrMsg({
                   ...errMsg,
-                  name: 'A campaign name is required'
-                })
+                  name: "A campaign name is required"
+                });
               }
             }}
             onFocus={() => {
-              setErrMsg({ ...errMsg, name: '' })
+              setErrMsg({ ...errMsg, name: "" });
             }}
           />
         </Grid>
@@ -130,23 +130,23 @@ const EditForm = () => {
             }}
             value={formState.company}
             error={errMsg.addCompany ? true : false}
-            helperText={errMsg.addCompany ? errMsg.addCompany : ' '}
+            helperText={errMsg.addCompany ? errMsg.addCompany : " "}
             onChange={e => {
-              setFormState({ ...formState, company: e.target.value })
-              setErrMsg({ ...errMsg, addCompany: '' })
+              setFormState({ ...formState, company: e.target.value });
+              setErrMsg({ ...errMsg, addCompany: "" });
             }}
             onBlur={() => {
               if (formState.company) {
-                setErrMsg({ ...errMsg, addCompany: '' })
+                setErrMsg({ ...errMsg, addCompany: "" });
               } else {
                 setErrMsg({
                   ...errMsg,
-                  addCompany: 'A company is required'
-                })
+                  addCompany: "A company is required"
+                });
               }
             }}
             onFocus={() => {
-              setErrMsg({ ...errMsg, addCompany: '' })
+              setErrMsg({ ...errMsg, addCompany: "" });
             }}
           >
             {companies.map(company => (
@@ -164,7 +164,7 @@ const EditForm = () => {
             fullWidth
             required
             margin="normal"
-            value={state.active ? 'Active' : 'Inactive'}
+            value={state.active ? "Active" : "Inactive"}
             InputProps={{
               endAdornment: <SwitchAd />
             }}
@@ -182,11 +182,11 @@ const EditForm = () => {
               MenuProps,
               multiple: true,
               onChange: e => {
-                setAddRealms(e.target.value)
+                setAddRealms(e.target.value);
               },
               value: addRealms,
               renderValue: selected =>
-                selected.map(select => select.name).join(', ')
+                selected.map(select => select.name).join(", ")
             }}
           >
             {realms.map(realm => (
@@ -209,17 +209,17 @@ const EditForm = () => {
             <Grid item lg={6} xs={12} sm={12} md={6}>
               <CustomButton
                 handleClick={() => {
-                  setOpenModal(true)
-                  setFormState({ ...formState })
+                  setOpenModal(true);
+                  setFormState({ ...formState });
                 }}
                 style={{
-                  width: '130px',
-                  background: '#ff504d',
-                  color: 'white',
-                  float: 'right'
+                  width: "130px",
+                  background: "#ff504d",
+                  color: "white",
+                  float: "right"
                 }}
               >
-                <DeleteIcon fontSize="small" style={{ marginRight: 5 }} />{' '}
+                <DeleteIcon fontSize="small" style={{ marginRight: 5 }} />{" "}
                 DELETE
               </CustomButton>
             </Grid>
@@ -237,7 +237,7 @@ const EditForm = () => {
               setFormState({
                 ...formState,
                 slug: e.target.value
-              })
+              });
             }}
           />
         </Grid>
@@ -265,14 +265,14 @@ const EditForm = () => {
           &emsp;
           <CustomButton
             handleClick={() => {
-              setFormState({ ...campaignDetails })
-              setAddRealms(campaignRealms)
+              setFormState({ ...campaignDetails });
+              setAddRealms(campaignRealms);
             }}
             style={{
-              backgroundColor: '#eeeeee'
+              backgroundColor: "#eeeeee"
             }}
             textStyle={{
-              color: '#444851'
+              color: "#444851"
             }}
           >
             CANCEL
@@ -280,11 +280,11 @@ const EditForm = () => {
         </div>
       </Collapse>
     </form>
-  )
-}
+  );
+};
 
 const CopyUUID = ({ uuid }) => {
-  const [copy, setCopy] = useState(false)
+  const [copy, setCopy] = useState(false);
 
   return (
     <InputAdornment position="end">
@@ -297,20 +297,20 @@ const CopyUUID = ({ uuid }) => {
           <LightTooltip title="UUID Copied!" placement="top">
             <CopyIcon
               fontSize="small"
-              style={{ float: 'right', cursor: 'pointer' }}
+              style={{ float: "right", cursor: "pointer" }}
             />
           </LightTooltip>
         ) : (
           <LightTooltip title="Copy UUID" placement="top">
             <CopyIcon
               fontSize="small"
-              style={{ float: 'right', cursor: 'pointer' }}
+              style={{ float: "right", cursor: "pointer" }}
             />
           </LightTooltip>
         )}
       </CopyToClipboard>
     </InputAdornment>
-  )
-}
+  );
+};
 
-export default EditForm
+export default EditForm;

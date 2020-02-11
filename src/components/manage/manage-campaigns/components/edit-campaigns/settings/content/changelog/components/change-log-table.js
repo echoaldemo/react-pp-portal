@@ -1,36 +1,36 @@
-import React, { Component } from 'react'
-import { AsyncTable } from 'common-components'
-import { TableRow, TableCell } from '@material-ui/core'
+import React, { Component } from "react";
+import { AsyncTable } from "common-components";
+import { TableRow, TableCell } from "@material-ui/core";
 
 const classes = {
   linkStyle: {
-    color: '#333',
-    textDecoration: 'underline',
-    cursor: 'pointer'
+    color: "#333",
+    textDecoration: "underline",
+    cursor: "pointer"
   }
-}
+};
 const NoResult = () => {
   return (
     <div
       style={{
-        borderTop: 'solid 1px #eee',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderTop: "solid 1px #eee",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         minHeight: 500
       }}
     >
       <div>
-        <b style={{ fontSize: 16, color: '#777' }}>No changes</b>
+        <b style={{ fontSize: 16, color: "#777" }}>No changes</b>
       </div>
     </div>
-  )
-}
+  );
+};
 export default class ChangeLogTable extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.state = {}
+    this.state = {};
   }
 
   render() {
@@ -38,7 +38,7 @@ export default class ChangeLogTable extends Component {
       <div>
         {this.props.tableData ? (
           <AsyncTable
-            headers={['Users', 'Created', 'Time', 'Changes in', '']}
+            headers={["Users", "Created", "Time", "Changes in", ""]}
             tableData={this.props.tableData}
             render={(changes, { row, cell, icon }) => {
               return changes.map((change, i) => (
@@ -47,12 +47,12 @@ export default class ChangeLogTable extends Component {
                   <TableCell className={cell}>{change.created}</TableCell>
                   <TableCell className={cell}>{change.time}</TableCell>
                   <TableCell className={cell}>
-                    {Object.keys(change.changed_fields).join(', ')}
+                    {Object.keys(change.changed_fields).join(", ")}
                   </TableCell>
                   <TableCell className={cell}>
                     <span
                       onClick={() => {
-                        this.props.setActiveData(change)
+                        this.props.setActiveData(change);
                       }}
                       style={classes.linkStyle}
                     >
@@ -60,13 +60,13 @@ export default class ChangeLogTable extends Component {
                     </span>
                   </TableCell>
                 </TableRow>
-              ))
+              ));
             }}
           />
         ) : (
           <NoResult />
         )}
       </div>
-    )
+    );
   }
 }

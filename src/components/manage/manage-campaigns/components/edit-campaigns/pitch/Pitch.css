@@ -1,18 +1,18 @@
 .add-pitch-form {
-	display: flex;
-	height: 300px;
-	padding: 15px;
-	justify-content: space-between;
-	align-items: center;
-	flex-direction: column;
+  display: flex;
+  height: 300px;
+  padding: 15px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
 .option-group-form-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .field {
-	width: 100%;
-	padding-bottom: 25px;
+  width: 100%;
+  padding-bottom: 25px;
 }

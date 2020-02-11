@@ -146,7 +146,7 @@ const RouterSettingsForm = ({
         }}
       />
       <form
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           updateRoute();
         }}
@@ -266,7 +266,7 @@ const RouterSettingsForm = ({
                     <InputAdornment position="end">
                       <CustomSwitch
                         checked={routerState.routeActive}
-                        onChange={(e) => {
+                        onChange={e => {
                           setRouterState({
                             ...routerState,
                             routeActive: e.target.checked

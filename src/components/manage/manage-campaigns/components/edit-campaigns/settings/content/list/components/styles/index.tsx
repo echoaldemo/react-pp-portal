@@ -15,7 +15,7 @@ const BtnCont = styled.div`
   display: flex;
   align-items: center;
 `;
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   con: {
     display: "flex",
     justifyContent: "space-between",
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const exportStyle = makeStyles((theme) => ({
+const exportStyle = makeStyles(theme => ({
   root: {
     display: "flex"
   },
@@ -73,7 +73,7 @@ const exportStyle = makeStyles((theme) => ({
   }
 }));
 
-const cdrStyle = makeStyles((theme) => ({
+const cdrStyle = makeStyles(theme => ({
   root: {
     display: "flex"
   },
