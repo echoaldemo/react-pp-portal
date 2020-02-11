@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
-const TestTextComponent = (props) => {
-  return (
-    <div>
-      {props.children}
-    </div>
-  )
-}
+const TestTextComponent = props => {
+  return <div>{props.children}</div>;
+};
 
-export default TestTextComponent
+export default TestTextComponent;
