@@ -83,15 +83,15 @@ const EditPhraseBookForm = ({ editData, save }: Props) => {
         method: "DELETE"
       }
     )
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setDeletion({
           ...deletion,
           deleting: false,
           deleted: true
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error:", error);
       });
   };
@@ -100,7 +100,7 @@ const EditPhraseBookForm = ({ editData, save }: Props) => {
     <div className={classes.formContainer}>
       <ThemeProvider theme={materialTheme}>
         <form
-          onSubmit={(e) => {
+          onSubmit={e => {
             e.preventDefault();
             setSaving(true);
             setShow(false);
@@ -143,7 +143,7 @@ const EditPhraseBookForm = ({ editData, save }: Props) => {
             <CustomButton
               style={{ background: "rgb(255,80,77)" }}
               type="button"
-              handleClick={(e) => {
+              handleClick={e => {
                 setOpenDelete(true);
               }}
             >

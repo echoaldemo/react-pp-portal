@@ -23,8 +23,8 @@ const GlobalPhraseBooks = ({ history }: any) => {
 
   const getPhraseBooks = () => {
     fetch("http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books")
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         setpb(res);
         setPaginateList(res);
         setLoading(false);
@@ -39,10 +39,10 @@ const GlobalPhraseBooks = ({ history }: any) => {
       },
       body: JSON.stringify(data)
     })
-      .then((res) => {
+      .then(res => {
         return res.json();
       })
-      .then((res) => {
+      .then(res => {
         fn();
       });
   };

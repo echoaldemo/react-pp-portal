@@ -1,13 +1,13 @@
-import React from 'react'
-import { TableNoResult, HeaderButton } from 'common-components'
-import { IoIosGlobe } from 'react-icons/io'
+import React from "react";
+import { TableNoResult, HeaderButton } from "common-components";
+import { IoIosGlobe } from "react-icons/io";
 
 interface Props {
-	open: boolean
-	newTestOpen: Function
+  open: boolean;
+  newTestOpen: Function;
 }
 
-export default ({open, newTestOpen}: Props) => {
+export default ({ open, newTestOpen }: Props) => {
   return (
     <>
       {open && (
@@ -21,8 +21,8 @@ export default ({open, newTestOpen}: Props) => {
           renderButton={
             <HeaderButton
               style={{
-                width: '160px',
-                marginTop: '4px'
+                width: "160px",
+                marginTop: "4px"
               }}
               buttonText="New test"
               openFunction={() => newTestOpen()}
@@ -31,5 +31,5 @@ export default ({open, newTestOpen}: Props) => {
         />
       )}
     </>
-  )
-}
+  );
+};
