@@ -1,16 +1,16 @@
 export default theme => ({
-  searchIcon: { color: '#bbb' },
-  inputField: { 
-    marginBottom: 24, 
-    '& .MuiInput-underline': {
-      borderBottomColor: '#1194f6'
+  searchIcon: { color: "#bbb" },
+  inputField: {
+    marginBottom: 24,
+    "& .MuiInput-underline": {
+      borderBottomColor: "#1194f6"
     }
   },
   textField: {
     textAlign: "left",
     "& label": {
       color: "#999999",
-      fontWeight: 500,
+      fontWeight: 500
     },
     "& .MuiInput-underline:before": {
       borderBottomColor: "rgba(238, 238, 238, 0.99)"
@@ -27,5 +27,5 @@ export default theme => ({
     "& .MuiInputLabel-animated:after": {
       color: "#1194f6"
     }
-  },
-})
+  }
+});

@@ -1,66 +1,66 @@
 /*eslint-disable */
-import React, { useState, useEffect, createRef } from 'react'
+import React, { useState, useEffect, createRef } from "react";
 
-import { HeaderButton } from 'common-components'
-import NewCampaign from './NewCampaign'
-import LoadingDialog from './LoadingDialog'
-import DoneDialog from './DoneDialog'
-import SearchBar from './SearchBar'
-import FakeData from './FakeData'
+import { HeaderButton } from "common-components";
+import NewCampaign from "./NewCampaign";
+import LoadingDialog from "./LoadingDialog";
+import DoneDialog from "./DoneDialog";
+import SearchBar from "./SearchBar";
+import FakeData from "./FakeData";
 
-import Performance from '../Performance/Performance'
-import CampaignData from '../Dashboard/SMSDashboardDatatable'
+import Performance from "../Performance/Performance";
+import CampaignData from "../Dashboard/SMSDashboardDatatable";
 
-import { Paper, Typography, Divider } from '@material-ui/core'
+import { Paper, Typography, Divider } from "@material-ui/core";
 
-import { makeStyles } from '@material-ui/core/styles'
-import styles from './Styles/Container.styles'
-import { mockData } from './mockData'
+import { makeStyles } from "@material-ui/core/styles";
+import styles from "./Styles/Container.styles";
+import { mockData } from "./mockData";
 // import api from "services/fetchApi";
-import SEO from 'utils/seo'
+import SEO from "utils/seo";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 const SMSLandingPage = props => {
-  const classes = useStyles()
-  const searchField = createRef()
+  const classes = useStyles();
+  const searchField = createRef();
 
-  const [dialog, setDialog] = useState(false)
-  const [loader, setLoader] = useState(false)
-  const [refresher, setRefresher] = useState(false)
-  const [snack, setSnack] = useState(false)
-  const [done, setDone] = useState(false)
-  const [input, setInput] = useState('')
-  const [campaign, setCampaign] = useState([])
-  const [currentCamp, setCurrent] = useState(undefined)
-  const [icon, setIcon] = useState('')
-  const [result, setResult] = useState('')
-  const [error, setError] = useState(false)
-  const [list, setList] = useState([])
-  const [filtered, setFiltered] = useState([])
-  const [realms, setRealms] = useState([])
-  const [company, setCompany] = useState('')
-  const [pop, setPop] = useState('')
-  const [optional, setOptional] = useState(false)
+  const [dialog, setDialog] = useState(false);
+  const [loader, setLoader] = useState(false);
+  const [refresher, setRefresher] = useState(false);
+  const [snack, setSnack] = useState(false);
+  const [done, setDone] = useState(false);
+  const [input, setInput] = useState("");
+  const [campaign, setCampaign] = useState([]);
+  const [currentCamp, setCurrent] = useState(undefined);
+  const [icon, setIcon] = useState("");
+  const [result, setResult] = useState("");
+  const [error, setError] = useState(false);
+  const [list, setList] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [realms, setRealms] = useState([]);
+  const [company, setCompany] = useState("");
+  const [pop, setPop] = useState("");
+  const [optional, setOptional] = useState(false);
 
-  const [suggestion, setSuggestion] = React.useState([])
-  const [realmList, setRealmList] = React.useState([])
-  const [companyList, setCompanyList] = React.useState([])
-  const [campaignLoader, setCampaignLoader] = React.useState([])
-  const [realmLoader, setRealmLoader] = React.useState([])
-  const [companyLoader, setCompanyLoader] = React.useState([])
-  const [loaderClone, setLoaderClone] = useState(false)
-  const [user, setUser] = useState([])
-  const [token, setToken] = useState('')
+  const [suggestion, setSuggestion] = React.useState([]);
+  const [realmList, setRealmList] = React.useState([]);
+  const [companyList, setCompanyList] = React.useState([]);
+  const [campaignLoader, setCampaignLoader] = React.useState([]);
+  const [realmLoader, setRealmLoader] = React.useState([]);
+  const [companyLoader, setCompanyLoader] = React.useState([]);
+  const [loaderClone, setLoaderClone] = useState(false);
+  const [user, setUser] = useState([]);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
-    setList(mockData.data)
-    setToken(localStorage.getItem('ngStorage-ppToken'))
+    setList(mockData.data);
+    setToken(localStorage.getItem("ngStorage-ppToken"));
     setTimeout(() => {
-      fetchingCampaigns()
-    }, 1000)
+      fetchingCampaigns();
+    }, 1000);
 
     // refresh();
-  }, [])
+  }, []);
 
   // function refresh() {
   //   api
@@ -83,73 +83,73 @@ const SMSLandingPage = props => {
   // }
 
   function handleOpen() {
-    setDialog(true)
-    setLoader(false)
+    setDialog(true);
+    setLoader(false);
   }
 
   function handleClose() {
-    setDialog(false)
-    setIcon('')
+    setDialog(false);
+    setIcon("");
   }
 
   function handleDone() {
-    setDone(false)
-    setDialog(false)
-    setIcon('')
+    setDone(false);
+    setDialog(false);
+    setIcon("");
   }
 
   function setter(e) {
-    setOptional(e)
+    setOptional(e);
   }
 
   function handleSubmit(uuid) {
-    let fakeData = null
+    let fakeData = null;
 
-    setPop('')
-    setDialog(false)
-    setResult('')
-    setError(false)
-    setLoader(true)
+    setPop("");
+    setDialog(false);
+    setResult("");
+    setError(false);
+    setLoader(true);
 
     if (uuid) {
-      fakeData = FakeData(currentCamp, uuid)
+      fakeData = FakeData(currentCamp, uuid);
     } else {
-      fakeData = FakeData(currentCamp)
+      fakeData = FakeData(currentCamp);
     }
 
     setTimeout(() => {
       //validation here
-      const match = list.filter(list => list.name === fakeData.name)
+      const match = list.filter(list => list.name === fakeData.name);
       if (
         fakeData.name &&
         (!realms.length || !company) &&
         !match.length &&
         !optional
       ) {
-        saveToMockApi(fakeData)
+        saveToMockApi(fakeData);
       } else if (fakeData.name && company && !match.length) {
-        saveToPortal(fakeData)
+        saveToPortal(fakeData);
       } else {
         //when there is an error
         const msg = match.length
-          ? 'Campaign name already exist!'
-          : 'Error saving campaign!'
-        handleError(msg)
+          ? "Campaign name already exist!"
+          : "Error saving campaign!";
+        handleError(msg);
       }
-    }, 2000)
+    }, 2000);
   }
 
   function saveToMockApi(data) {
-    var post = list
-    post.push(data)
-    setList(post)
-    handleSuccess()
-    setRealms([])
-    setCompany(null)
-    setCurrent('')
+    var post = list;
+    post.push(data);
+    setList(post);
+    handleSuccess();
+    setRealms([]);
+    setCompany(null);
+    setCurrent("");
     setTimeout(() => {
-      setLoaderClone(false)
-    }, 500)
+      setLoaderClone(false);
+    }, 500);
 
     // api
     //   .fetch(`/data`, "post", data, "application/json")
@@ -171,23 +171,23 @@ const SMSLandingPage = props => {
   }
 
   function saveToPortal(fakeData, realm, comp) {
-    const TOKEN = `Token ${localStorage.getItem('ngStorage-ppToken')}`
+    const TOKEN = `Token ${localStorage.getItem("ngStorage-ppToken")}`;
     var data = {
       realms: realm ? realm : realms,
       company: !company ? comp : company,
-      slug: fakeData.name.replace(/\s+/g, '-').toLowerCase(),
+      slug: fakeData.name.replace(/\s+/g, "-").toLowerCase(),
       name: fakeData.name,
       active: true,
       archived: true
-    }
+    };
 
     //Fake Copy
-    let fakeDatas = null
-    fakeDatas = FakeData(fakeData.name, fakeData.uuid)
+    let fakeDatas = null;
+    fakeDatas = FakeData(fakeData.name, fakeData.uuid);
     setTimeout(() => {
-      saveToMockApi(fakeDatas)
-      resetStates()
-    }, 500)
+      saveToMockApi(fakeDatas);
+      resetStates();
+    }, 500);
 
     //-----Post Copy Data-----------
     // api
@@ -214,65 +214,65 @@ const SMSLandingPage = props => {
   }
 
   function handleSuccess(data) {
-    setLoader(false)
-    setSnack(true)
-    setCampaign([...campaign, currentCamp])
-    setIcon('check_outline')
-    setResult('Success message')
-    setError(false)
+    setLoader(false);
+    setSnack(true);
+    setCampaign([...campaign, currentCamp]);
+    setIcon("check_outline");
+    setResult("Success message");
+    setError(false);
     // setDone(true);
   }
 
   function resetStates() {
-    setCompany(null)
-    setRealms([])
+    setCompany(null);
+    setRealms([]);
   }
 
   function handleError(msg) {
-    setLoader(false)
-    setPop(msg)
-    setCompany(null)
-    setRealms([])
-    setIcon('close')
-    setError(true)
-    setResult('Error Message')
-    setDone(true)
+    setLoader(false);
+    setPop(msg);
+    setCompany(null);
+    setRealms([]);
+    setIcon("close");
+    setError(true);
+    setResult("Error Message");
+    setDone(true);
   }
 
   function changeStatus(id1, status) {
-    var temp = list
-    var index = list.indexOf(list.find(({ id }) => id === id1))
-    temp[index].status = status
-    setList(temp)
+    var temp = list;
+    var index = list.indexOf(list.find(({ id }) => id === id1));
+    temp[index].status = status;
+    setList(temp);
   }
 
   function handleDelete(id1, uuid) {
-    var del = list
-    var delIndex = list.indexOf(list.find(({ id }) => id === id1))
-    const token = localStorage.getItem('ngStorage-ppToken')
-    del.splice(delIndex, 1)
-    setList(del)
-    console.log(del)
+    var del = list;
+    var delIndex = list.indexOf(list.find(({ id }) => id === id1));
+    const token = localStorage.getItem("ngStorage-ppToken");
+    del.splice(delIndex, 1);
+    setList(del);
+    console.log(del);
   }
 
   function closeSnack() {
-    setSnack(false)
+    setSnack(false);
   }
 
   function handleSearch() {
-    searchField.current.focus()
+    searchField.current.focus();
   }
 
   function saveCamp(e) {
-    setCurrent(e)
+    setCurrent(e);
   }
 
   function newRealms(realms) {
-    setRealms(realms)
+    setRealms(realms);
   }
 
   function newCompany(company) {
-    setCompany(company)
+    setCompany(company);
   }
 
   function fetchingCampaigns() {
@@ -318,10 +318,10 @@ const SMSLandingPage = props => {
     // }, 5000)
 
     setTimeout(() => {
-      setCampaignLoader(false)
-      setRealmLoader(false)
-      setCompanyLoader(false)
-    }, 2000)
+      setCampaignLoader(false);
+      setRealmLoader(false);
+      setCompanyLoader(false);
+    }, 2000);
   }
 
   function cloneCampaign(id) {
@@ -367,12 +367,12 @@ const SMSLandingPage = props => {
       <Performance campaigns={list} />
       <Paper
         className={classes.root}
-        style={{ boxShadow: '0 0 6px 1px rgba(155, 155, 155, 0.18)' }}
+        style={{ boxShadow: "0 0 6px 1px rgba(155, 155, 155, 0.18)" }}
       >
         <span className={classes.title}>Campaigns</span>
         <div className={classes.innerDiv}>
           <Typography data-cy-add-new-campaign className={classes.addText}>
-            {' '}
+            {" "}
             You can add a new campaign right here.
           </Typography>
           <div className={classes.addBtnWrapper}>
@@ -426,7 +426,7 @@ const SMSLandingPage = props => {
         pop={pop}
       />
     </div>
-  )
-}
+  );
+};
 
-export { SMSLandingPage }
+export { SMSLandingPage };
