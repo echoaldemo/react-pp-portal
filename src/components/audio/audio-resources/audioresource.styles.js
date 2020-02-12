@@ -83,7 +83,7 @@ const useStyles = theme => ({
   },
   emptyPitch: {
     backgroundColor: "#fafafa",
-    height: "30vh",
+    height: "450px",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

@@ -9,86 +9,94 @@ This is the documentation for using the api util
 
 ## IMPORT A TOOL
 
-  ### GET METHOD
-  ```
-  get("{endpoint}", {query})
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+### GET METHOD
 
-  #### `EXAMPLE`
-  ```
-  get("/identity/user/manage/list/", {
-    limit: 10,
-    order_by: "-datetime_modified"
-  }).then((res) => {
+```
+get("{endpoint}", {query})
+  .then((res) => {
     --data manipulation here--
   })
-  ```
+```
 
-  ### POST METHOD
-  ```
-  post("{endpoint}", {data})
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+#### `EXAMPLE`
 
-  #### `EXAMPLE`
-  ```
-  post('/identity/user/manage/check_username/', { username: "user" })
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+```
+get("/identity/user/manage/list/", {
+  limit: 10,
+  order_by: "-datetime_modified"
+}).then((res) => {
+  --data manipulation here--
+})
+```
 
-  ### PATCH METHOD
-  ```
-  patch("{endpoint}", {data})
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+### POST METHOD
 
-  #### `EXAMPLE`
-  ```
-  patch("/identity/user/manage/list/", { username: "user" })
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+```
+post("{endpoint}", {data})
+  .then((res) => {
+    --data manipulation here--
+  })
+```
 
-  ### PUT METHOD
-  ```
-  put("{endpoint}", {data})
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+#### `EXAMPLE`
 
-  #### `EXAMPLE`
-  ```
-  put("/identity/user/manage/list/", { username: "user" })
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+```
+post('/identity/user/manage/check_username/', { username: "user" })
+  .then((res) => {
+    --data manipulation here--
+  })
+```
 
-  ### REMOVE METHOD
-  ```
-  remove("{endpoint}")
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+### PATCH METHOD
 
-  #### `EXAMPLE`
-  ```
-  remove("/identity/user/manage/list/")
-    .then((res) => {
-      --data manipulation here--
-    })
-  ```
+```
+patch("{endpoint}", {data})
+  .then((res) => {
+    --data manipulation here--
+  })
+```
 
+#### `EXAMPLE`
 
+```
+patch("/identity/user/manage/list/", { username: "user" })
+  .then((res) => {
+    --data manipulation here--
+  })
+```
+
+### PUT METHOD
+
+```
+put("{endpoint}", {data})
+  .then((res) => {
+    --data manipulation here--
+  })
+```
+
+#### `EXAMPLE`
+
+```
+put("/identity/user/manage/list/", { username: "user" })
+  .then((res) => {
+    --data manipulation here--
+  })
+```
+
+### REMOVE METHOD
+
+```
+remove("{endpoint}")
+  .then((res) => {
+    --data manipulation here--
+  })
+```
+
+#### `EXAMPLE`
+
+```
+remove("/identity/user/manage/list/")
+  .then((res) => {
+    --data manipulation here--
+  })
+```

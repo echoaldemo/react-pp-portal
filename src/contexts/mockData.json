@@ -1,230 +1,230 @@
 {
-	"campaigns": [
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-1",
-			"name": "Campaign 1",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "12ddasd-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"21asd12d-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "123124xsad-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-2",
-			"name": "Campaign 2",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-3",
-			"name": "Campaign 3",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-4",
-			"name": "Campaign 4",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-5",
-			"name": "Campaign 5",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-6",
-			"name": "Campaign 6",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-7",
-			"name": "Campaign 7",
-			"active": true,
-			"archived": true
-		},
-		{
-			"uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
-			"realms": [
-				"2e7fd94c-fffa-11e9-929d-0242ac110014",
-				"60df039e-a6a5-11e9-8a5e-0242ac110012",
-				"847a624a-a6a4-11e9-ac77-0242ac110012",
-				"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-			],
-			"company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
-			"dialingparams": null,
-			"queue": null,
-			"warmtransfer": null,
-			"callback": null,
-			"slug": "campaign-7",
-			"name": "Campaign 8",
-			"active": true,
-			"archived": true
-		}
-	],
+  "campaigns": [
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-1",
+      "name": "Campaign 1",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "12ddasd-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "21asd12d-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "123124xsad-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-2",
+      "name": "Campaign 2",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-3",
+      "name": "Campaign 3",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-4",
+      "name": "Campaign 4",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-5",
+      "name": "Campaign 5",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-6",
+      "name": "Campaign 6",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-7",
+      "name": "Campaign 7",
+      "active": true,
+      "archived": true
+    },
+    {
+      "uuid": "a200193c-db4b-11e9-967c-0242ac11000e",
+      "realms": [
+        "2e7fd94c-fffa-11e9-929d-0242ac110014",
+        "60df039e-a6a5-11e9-8a5e-0242ac110012",
+        "847a624a-a6a4-11e9-ac77-0242ac110012",
+        "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+      ],
+      "company": "33b087ac-8bfb-11e6-8b9d-0242ac14000a",
+      "dialingparams": null,
+      "queue": null,
+      "warmtransfer": null,
+      "callback": null,
+      "slug": "campaign-7",
+      "name": "Campaign 8",
+      "active": true,
+      "archived": true
+    }
+  ],
 
-	"realms": [
-		{
-			"active": true,
-			"campaigns": [
-				{
-					"active": true,
-					"archived": true,
-					"callback": null,
-					"company": "062866ae-e96a-11e9-80be-0242ac11000e",
-					"dialingparams": null,
-					"name": "perf",
-					"queue": null,
-					"slug": "perf",
-					"uuid": "11e72266-fa07-11e9-9b66-0242ac110014",
-					"warmtransfer": null
-				}
-			],
-			"name": "test-4",
-			"slug": "test-4",
-			"uuid": "2e7fd94c-fffa-11e9-929d-0242ac110014"
-		}
-	],
-	"companies": [
-		{
-			"active": true,
-			"datetime_created": "2020-01-16T21:07:45.367786Z",
-			"datetime_modified": "2020-01-16T21:07:45.367812Z",
-			"email": null,
-			"name": "Company Sample 1",
-			"slug": "company-sample-1",
-			"uuid": "060c8fde-f968-11e9-87aa-0242ac110014",
-			"website": null
-		}
-	],
-	"campaignDetails": {
-		"active": false,
-		"archived": true,
-		"callback": {
-			"ivr_greet_long_pitch": "test",
-			"ivr_greet_short_pitch": "test_from_local",
-			"ivr_invalid_sound_pitch": "test",
-			"ivr_exit_sound_pitch": "test_from_local"
-		},
-		"company": "060c8fde-f968-11e9-87aa-0242ac110014",
-		"dialingparams": null,
-		"name": "Campaign-1",
-		"queue": null,
-		"realms": [
-			"2e7fd94c-fffa-11e9-929d-0242ac110014",
-			"60df039e-a6a5-11e9-8a5e-0242ac110012",
-			"847a624a-a6a4-11e9-ac77-0242ac110012",
-			"250d1670-ff43-11e9-8a56-0242ac110014",
-			"5c7965be-0579-11ea-b200-0242ac110014",
-			"b1e4f216-0579-11ea-ad4e-0242ac110014",
-			"e77ffcc2-d628-11e7-b049-525400ceb6a1"
-		],
-		"slug": "campaign-1",
-		"uuid": "a200193c-db4b-11e9-967c-0242ac11000e"
-	},
-	"campaignRealms": [
-		{
-			"active": true,
-			"campaigns": [
-				{
-					"active": true,
-					"archived": true,
-					"callback": null,
-					"company": "062866ae-e96a-11e9-80be-0242ac11000e",
-					"dialingparams": null,
-					"name": "perf",
-					"queue": null,
-					"slug": "perf",
-					"uuid": "11e72266-fa07-11e9-9b66-0242ac110014",
-					"warmtransfer": null
-				}
-			],
-			"name": "test-4",
-			"slug": "test-4",
-			"uuid": "2e7fd94c-fffa-11e9-929d-0242ac110014"
-		}
-	]
+  "realms": [
+    {
+      "active": true,
+      "campaigns": [
+        {
+          "active": true,
+          "archived": true,
+          "callback": null,
+          "company": "062866ae-e96a-11e9-80be-0242ac11000e",
+          "dialingparams": null,
+          "name": "perf",
+          "queue": null,
+          "slug": "perf",
+          "uuid": "11e72266-fa07-11e9-9b66-0242ac110014",
+          "warmtransfer": null
+        }
+      ],
+      "name": "test-4",
+      "slug": "test-4",
+      "uuid": "2e7fd94c-fffa-11e9-929d-0242ac110014"
+    }
+  ],
+  "companies": [
+    {
+      "active": true,
+      "datetime_created": "2020-01-16T21:07:45.367786Z",
+      "datetime_modified": "2020-01-16T21:07:45.367812Z",
+      "email": null,
+      "name": "Company Sample 1",
+      "slug": "company-sample-1",
+      "uuid": "060c8fde-f968-11e9-87aa-0242ac110014",
+      "website": null
+    }
+  ],
+  "campaignDetails": {
+    "active": false,
+    "archived": true,
+    "callback": {
+      "ivr_greet_long_pitch": "test",
+      "ivr_greet_short_pitch": "test_from_local",
+      "ivr_invalid_sound_pitch": "test",
+      "ivr_exit_sound_pitch": "test_from_local"
+    },
+    "company": "060c8fde-f968-11e9-87aa-0242ac110014",
+    "dialingparams": null,
+    "name": "Campaign-1",
+    "queue": null,
+    "realms": [
+      "2e7fd94c-fffa-11e9-929d-0242ac110014",
+      "60df039e-a6a5-11e9-8a5e-0242ac110012",
+      "847a624a-a6a4-11e9-ac77-0242ac110012",
+      "250d1670-ff43-11e9-8a56-0242ac110014",
+      "5c7965be-0579-11ea-b200-0242ac110014",
+      "b1e4f216-0579-11ea-ad4e-0242ac110014",
+      "e77ffcc2-d628-11e7-b049-525400ceb6a1"
+    ],
+    "slug": "campaign-1",
+    "uuid": "a200193c-db4b-11e9-967c-0242ac11000e"
+  },
+  "campaignRealms": [
+    {
+      "active": true,
+      "campaigns": [
+        {
+          "active": true,
+          "archived": true,
+          "callback": null,
+          "company": "062866ae-e96a-11e9-80be-0242ac11000e",
+          "dialingparams": null,
+          "name": "perf",
+          "queue": null,
+          "slug": "perf",
+          "uuid": "11e72266-fa07-11e9-9b66-0242ac110014",
+          "warmtransfer": null
+        }
+      ],
+      "name": "test-4",
+      "slug": "test-4",
+      "uuid": "2e7fd94c-fffa-11e9-929d-0242ac110014"
+    }
+  ]
 }

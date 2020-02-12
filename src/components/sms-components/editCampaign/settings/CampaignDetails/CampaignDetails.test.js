@@ -28,11 +28,21 @@ describe("<CampaignDetails />", () => {
     const closeLead = getByLabelText(/Close lead after being on a/i);
     const closeDuration = getByLabelText(/Close duration/i);
     const revenue = getByLabelText(/Revenue per conversion/i);
-    const setLongTransfers = getByLabelText(/Automatically set long transfers as converted/i);
+    const setLongTransfers = getByLabelText(
+      /Automatically set long transfers as converted/i
+    );
     const repostRules = getByLabelText(/Repost rules/i);
 
-    expect(name, longTransfer, closeLead, closeDuration, revenue, setLongTransfers, repostRules).toBeInTheDocument();
-  })
+    expect(
+      name,
+      longTransfer,
+      closeLead,
+      closeDuration,
+      revenue,
+      setLongTransfers,
+      repostRules
+    ).toBeInTheDocument();
+  });
 
   it("opens up the loader dialog when field value changed and dialog value is 'true' ", () => {
     const { getByLabelText } = render(<CampaignDetails />);
@@ -42,34 +52,36 @@ describe("<CampaignDetails />", () => {
     const closeLead = getByLabelText(/Close lead after being on a/i);
     const closeDuration = getByLabelText(/Close duration/i);
     const revenue = getByLabelText(/Revenue per conversion/i);
-    const setLongTransfers = getByLabelText(/Automatically set long transfers as converted/i);
+    const setLongTransfers = getByLabelText(
+      /Automatically set long transfers as converted/i
+    );
     const repostRules = getByLabelText(/Repost rules/i);
-    
+
     name.value = "new";
     fireEvent.change(name);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
-    
-    longTransfer.value = "new"
+
+    longTransfer.value = "new";
     fireEvent.change(longTransfer);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
 
-    closeLead.value = "new"
+    closeLead.value = "new";
     fireEvent.change(closeLead);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
 
-    closeDuration.value = "new"
+    closeDuration.value = "new";
     fireEvent.change(closeDuration);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
 
-    revenue.value = "1000"
+    revenue.value = "1000";
     fireEvent.change(revenue);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
 
-    setLongTransfers.value = !setLongTransfers.value
+    setLongTransfers.value = !setLongTransfers.value;
     fireEvent.change(setLongTransfers);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
 
-    repostRules.value = "new"
+    repostRules.value = "new";
     fireEvent.change(repostRules);
     expect(getByTestId("loader-dialog")).toBeInTheDocument();
   });
@@ -101,35 +113,37 @@ describe("<CampaignDetails />", () => {
     const closeLead = getByLabelText(/Close lead after being on a/i);
     const closeDuration = getByLabelText(/Close duration/i);
     const revenue = getByLabelText(/Revenue per conversion/i);
-    const setLongTransfers = getByLabelText(/Automatically set long transfers as converted/i);
+    const setLongTransfers = getByLabelText(
+      /Automatically set long transfers as converted/i
+    );
     const repostRules = getByLabelText(/Repost rules/i);
-    
+
     name.value = "new";
     fireEvent.change(name);
     expect(getByTestId("snackbar")).toBeInTheDocument();
-    
-    longTransfer.value = "new"
+
+    longTransfer.value = "new";
     fireEvent.change(longTransfer);
     expect(getByTestId("snackbar")).toBeInTheDocument();
 
-    closeLead.value = "new"
+    closeLead.value = "new";
     fireEvent.change(closeLead);
     expect(getByTestId("snackbar")).toBeInTheDocument();
 
-    closeDuration.value = "new"
+    closeDuration.value = "new";
     fireEvent.change(closeDuration);
     expect(getByTestId("snackbar")).toBeInTheDocument();
 
-    revenue.value = "1000"
+    revenue.value = "1000";
     fireEvent.change(revenue);
     expect(getByTestId("snackbar")).toBeInTheDocument();
 
-    setLongTransfers.value = !setLongTransfers.value
+    setLongTransfers.value = !setLongTransfers.value;
     fireEvent.change(setLongTransfers);
     expect(getByTestId("snackbar")).toBeInTheDocument();
 
-    repostRules.value = "new"
+    repostRules.value = "new";
     fireEvent.change(repostRules);
     expect(getByTestId("snackbar")).toBeInTheDocument();
   });
-})
+});

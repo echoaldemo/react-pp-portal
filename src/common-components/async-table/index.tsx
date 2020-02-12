@@ -142,7 +142,6 @@ AsyncTable.defaultProps = {
   tableData: [],
   render: () => null,
   classes: [],
-  customHeight: 500,
   withBorder: false
 } as Partial<Props>;
 

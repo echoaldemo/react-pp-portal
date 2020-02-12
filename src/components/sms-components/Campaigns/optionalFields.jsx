@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
 import {
   Checkbox,
@@ -8,15 +8,15 @@ import {
   FormControl,
   Select,
   TextField
-} from '@material-ui/core'
+} from "@material-ui/core";
 
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import styles from './Styles/optionalFields.styles'
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import styles from "./Styles/optionalFields.styles";
 
-const useStyles = makeStyles(styles)
+const useStyles = makeStyles(styles);
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -24,7 +24,7 @@ const MenuProps = {
       width: 250
     }
   }
-}
+};
 
 function getStyles(name, realms, theme) {
   return {
@@ -32,27 +32,27 @@ function getStyles(name, realms, theme) {
       realms.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium
-  }
+  };
 }
 
 export default function OptionalFields(props) {
-  const classes = useStyles()
-  const theme = useTheme()
+  const classes = useStyles();
+  const theme = useTheme();
 
-  const [realms, setRealms] = useState([])
-  const [values, setValues] = useState('')
+  const [realms, setRealms] = useState([]);
+  const [values, setValues] = useState("");
 
-  const [comp, setComp] = useState('') // eslint-disable-line
-  const [realm, setRealm] = useState(null)
+  const [comp, setComp] = useState(""); // eslint-disable-line
+  const [realm, setRealm] = useState(null);
 
   function handleChange(event) {
-    setRealms(event.target.value)
-    props.newRealms(event.target.value.map(val => val.uuid))
+    setRealms(event.target.value);
+    props.newRealms(event.target.value.map(val => val.uuid));
   }
 
   function handleChangeCompany(event) {
-    setValues(event.target.value)
-    props.newCompany(event.target.value)
+    setValues(event.target.value);
+    props.newCompany(event.target.value);
   }
 
   useEffect(() => {
@@ -102,9 +102,9 @@ export default function OptionalFields(props) {
     //   setComp("");
     // }
     if (props.realms === undefined) {
-      setRealm(null)
+      setRealm(null);
     }
-  }, [props.realms])
+  }, [props.realms]);
 
   return (
     props.open && (
@@ -126,7 +126,7 @@ export default function OptionalFields(props) {
               value={values}
               onChange={handleChangeCompany}
               className={classes.select}
-              inputProps={{ name: 'name', id: 'company' }}
+              inputProps={{ name: "name", id: "company" }}
               SelectProps={{
                 MenuProps: {
                   className: classes.menu
@@ -148,7 +148,7 @@ export default function OptionalFields(props) {
               required
               readOnly
               label="Realms(Optional)"
-              value={realm ? realm : 'None'}
+              value={realm ? realm : "None"}
               className={classes.select}
               style={{ marginBottom: 0 }}
             />
@@ -169,7 +169,7 @@ export default function OptionalFields(props) {
                 value={realms}
                 onChange={handleChange}
                 renderValue={selected => {
-                  return selected.map(sel => sel.name).join(', ')
+                  return selected.map(sel => sel.name).join(", ");
                 }}
                 MenuProps={MenuProps}
                 input={
@@ -187,11 +187,11 @@ export default function OptionalFields(props) {
                     style={getStyles(data, realms, theme)}
                   >
                     <Checkbox
-                      style={{ color: '#1194f6' }}
+                      style={{ color: "#1194f6" }}
                       checked={
                         realms.map(val => val.name).indexOf(data.name) > -1
                       }
-                    />{' '}
+                    />{" "}
                     {data.name}
                   </MenuItem>
                 ))}
@@ -201,5 +201,5 @@ export default function OptionalFields(props) {
         </FormControl>
       </React.Fragment>
     )
-  )
+  );
 }

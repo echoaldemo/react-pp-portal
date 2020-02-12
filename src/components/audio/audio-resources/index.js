@@ -11,7 +11,8 @@ import {
   CssBaseline,
   Container,
   Grid,
-  Typography
+  Typography,
+  Paper
 } from "@material-ui/core";
 
 import AddAudioResource from "./components/AddAudioResource";
@@ -26,13 +27,14 @@ import {
   SearchBar,
   TableLoader,
   HeaderButton,
-  HeaderLink
+  HeaderLink,
+  SuccessModal
 } from "common-components";
 
 import useStyles from "./audioresource.styles";
 import AudioResourceTable from "./AudioResourceTable";
 
-//import { get, remove, post, patch } from "../../../utils/api";
+import { get, remove, post, patch } from "../../../utils/api";
 import { mock, profile } from "./mock";
 
 const theme = createMuiTheme({
@@ -66,7 +68,6 @@ class AudioResources extends Component {
       toastMessage: "",
       copiedUIID: "",
       profile: [],
-      user_group: 10,
       editRow: [],
       undo: false,
       filterlist: [],
@@ -116,7 +117,7 @@ class AudioResources extends Component {
   };
 
   saveAudioName = name => {
-    /* if (!this.state.currentResourceInfo) {
+    if (!this.state.currentResourceInfo) {
       this.setState({
         loadingAddAudioResource: true,
         addResourceModal: false,
@@ -169,11 +170,11 @@ class AudioResources extends Component {
             addResourceModal: false
           })
         );
-    } */
+    }
   };
 
   uploadResourceAudio = (file, modification, convert, fadeIn, fadeOut) => {
-    /* this.setState({
+    this.setState({
       uploadResourceModal: false,
       loadingAddAudioResource: true,
       loadingType: "audioFile"
@@ -207,33 +208,26 @@ class AudioResources extends Component {
           currentResourceInfo: null
         });
         alert("Error Uploading Audio File");
-      }); */
+      });
   };
 
   componentDidMount() {
     document.title = "Audio Resources";
-    /* get("/identity/user/profile/").then(profileData => {
-      this.setState({
-        profile: profileData.data,
-        user_group: profileData.data.groups[0]
-      });
-    });
     get("/pitch/global/audio/resources/").then(res => {
       this.setState({
         audioResourceData: [...res.data],
         filterlist: [...res.data],
         paginateList: [...res.data]
       });
-    }); */
-    /* mock */
-    this.setState({
-      profile: profile,
-      user_group: profile.groups[0],
-      audioResourceData: mock,
-      filterlist: mock,
-      paginateList: mock
     });
   }
+
+  handleUpdate = () => {
+    this.componentDidMount();
+    this.setState({
+      audioResourceCreated: false
+    });
+  };
 
   handleDelete = () => {
     let index = this.state.audioResourceData.findIndex(
@@ -259,7 +253,7 @@ class AudioResources extends Component {
   };
 
   finalDelete = () => {
-    /* remove(`/pitch/global/audio/resources/${this.state.editUUID}/`); */
+    remove(`/pitch/global/audio/resources/${this.state.editUUID}/`);
   };
 
   handleClick = event => {
@@ -310,13 +304,13 @@ class AudioResources extends Component {
       ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
     };
 
-    /* get("/pitch/global/audio/resources/", parameter).then(res => {
+    get("/pitch/global/audio/resources/", parameter).then(res => {
       this.setState({
         audioResourceData: [...res.data],
         filterlist: [...res.data],
         paginateList: [...res.data]
       });
-    }) */
+    });
   };
 
   paginate = (from, to) => {
@@ -328,96 +322,91 @@ class AudioResources extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <main className={classes.content}>
-            <Container maxWidth="xl" className={classes.container}>
-              <div className={classes.navwrapper}>
-                <HeaderLink
-                  menu={[
-                    {
-                      title: "Voice",
-                      path: "/manage/audio/pitch"
-                    }
-                  ]}
-                  title="Audio Resources"
-                />
-                <HeaderButton
-                  buttonText="New Audio Resource"
-                  openFunction={() => this.handleAddResourceModal("open")}
-                />
-              </div>
-              <div style={{ marginTop: 36 }}>
-                <SearchBar
-                  title="Audio Resource"
-                  userData={this.state.filterlist}
-                  headers={["name", "slug", "uuid"]}
-                />
-                <Divider />
+      <React.Fragment>
+        <Container maxWidth="xl" className={classes.container}>
+          <div className={classes.navwrapper}>
+            <HeaderLink
+              menu={[
+                {
+                  title: "Voice",
+                  path: "/manage/audio/pitch"
+                }
+              ]}
+              title="Audio Resources"
+            />
+            <HeaderButton
+              buttonText="New Audio Resource"
+              openFunction={() => this.handleAddResourceModal("open")}
+            />
+          </div>
 
-                <Divider />
-                <div style={{ overflow: "auto" }}>
-                  {this.state.audioResourceData.length !== 0 ? (
-                    <React.Fragment>
-                      <AudioResourceTable
-                        userData={this.state.audioResourceData}
-                        // handleUpdated={this.handleUpdate}
-                        // innerLoading={this.state.innerLoading}
-                        filterlist={this.state.filterlist}
-                        headers={["Name", "SLUG", "UUID", "Status", ""]}
-                        upload={campaign => {
-                          this.setState({
-                            currentResourceInfo: campaign,
-                            uploadResourceModal: true
-                          });
-                        }}
-                        edit={row => {
-                          this.setState({
-                            editRow: row,
-                            editUUID: row.uuid,
-                            currentResourceInfo: row
-                          });
-                        }}
-                        openModal={() => this.handleAddResourceModal("open")}
-                        handleCLose={() => this.handleClose()}
-                        deleteConfirmation={() => {
-                          this.setState({ deleteConfirmation: true });
-                        }}
-                        editUUID={this.state.editUUID}
-                      />
-                      <div style={{ width: "100%" }}>
-                        <Divider />
-                        {Boolean(this.state.paginateList.length) && (
-                          <Pagination
-                            paginateFn={this.paginate}
-                            totalItems={this.state.paginateList.length}
-                            paginateList={this.state.paginateList}
-                            itemsPerPage={7}
-                          />
-                        )}
-                      </div>
-                    </React.Fragment>
-                  ) : (
-                    <Grid item xs={12}>
-                      <div className={classes.largeTitle} id="table-title">
-                        <Typography
-                          variant="h3"
-                          className={classes.headerTitle}
-                        >
-                          {this.toTitleCase("Audio Resources")}
-                        </Typography>
-                      </div>
-                      <div className={classes.emptyPitch}>
-                        <TableLoader />
-                      </div>
-                    </Grid>
-                  )}
-                </div>
+          <Paper>
+            <div style={{ marginTop: 36 }}>
+              <SearchBar
+                title="Audio Resource"
+                userData={this.state.filterlist}
+                headers={["name", "slug", "uuid"]}
+              />
+              <Divider />
+
+              <Divider />
+              <div style={{ overflow: "auto" }}>
+                {this.state.audioResourceData.length !== 0 ? (
+                  <React.Fragment>
+                    <AudioResourceTable
+                      userData={this.state.audioResourceData}
+                      handleUpdated={this.handleUpdate}
+                      innerLoading={this.state.innerLoading}
+                      filterlist={this.state.filterlist}
+                      headers={["Name", "SLUG", "UUID", "Status", ""]}
+                      upload={campaign => {
+                        this.setState({
+                          currentResourceInfo: campaign,
+                          uploadResourceModal: true
+                        });
+                      }}
+                      edit={row => {
+                        this.setState({
+                          editRow: row,
+                          editUUID: row.uuid,
+                          currentResourceInfo: row
+                        });
+                      }}
+                      openModal={() => this.handleAddResourceModal("open")}
+                      handleCLose={() => this.handleClose()}
+                      deleteConfirmation={() => {
+                        this.setState({ deleteConfirmation: true });
+                      }}
+                      editUUID={this.state.editUUID}
+                    />
+                    <div style={{ width: "100%" }}>
+                      <Divider />
+                      {Boolean(this.state.paginateList.length) && (
+                        <Pagination
+                          paginateFn={this.paginate}
+                          totalItems={this.state.paginateList.length}
+                          paginateList={this.state.paginateList}
+                          itemsPerPage={7}
+                        />
+                      )}
+                    </div>
+                  </React.Fragment>
+                ) : (
+                  <Grid item xs={12}>
+                    <div className={classes.largeTitle} id="table-title">
+                      <Typography variant="h3" className={classes.headerTitle}>
+                        {this.toTitleCase("Audio Resources")}
+                      </Typography>
+                    </div>
+                    <div className={classes.emptyPitch}>
+                      <TableLoader />
+                    </div>
+                  </Grid>
+                )}
               </div>
-            </Container>
-          </main>
-        </ThemeProvider>
+            </div>
+          </Paper>
+        </Container>
 
         {this.state.addResourceModal ? (
           <AddAudioResource
@@ -438,10 +427,10 @@ class AudioResources extends Component {
         ) : null}
 
         {this.state.audioResourceCreated ? (
-          <AudioResourceCreated
-            currentResourceInfo={this.state.currentResourceInfo}
-            handleAudioResourceCreated={this.handleAudioResourceCreated}
-            handleUploadResourceModal={this.handleUploadResourceModal}
+          <SuccessModal
+            open={this.state.audioResourceCreated}
+            text={`You have created ${this.state.currentResourceInfo.name} audio resource`}
+            closeFn={() => this.handleUpdate()}
           />
         ) : null}
 
@@ -470,7 +459,7 @@ class AudioResources extends Component {
           vertical={"top"}
           horizontal={"right"}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

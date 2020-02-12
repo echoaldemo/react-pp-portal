@@ -90,120 +90,61 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
-function AudioUploadConfirmation(props) {
+export default function AudioResourceCreated(props) {
   const classes = useStyles();
   return (
-    <div>
-      {window.screen.width > 380 ? (
-        <Dialog
-          fullWidth
-          maxWidth="xs"
-          open={true}
-          aria-labelledby="alert-dialog-title"
-        >
-          <div className={classes.container}>
-            <div>
-              <CloseIcon
-                className={classes.closeIcon}
-                onClick={() => props.handleAudioResourceCreated("close")}
-              />
-            </div>
-            <DialogTitle
-              style={{ fontSize: "10px" }}
-              className={classes.center}
-            >
-              <div className={classes.divIcon}>
-                <Check className={classes.checkIcon} />
-              </div>
-              <Typography variant="h6" className={classes.title}>
-                <b>
-                  You have created {props.currentResourceInfo.name} audio
-                  resource
-                </b>
-              </Typography>
-            </DialogTitle>
-            <DialogContent className={classes.center}>
-              <DialogContentText>
-                <Typography variant="body1">
-                  What do you want to do next?
-                </Typography>
-              </DialogContentText>
-            </DialogContent>
-
-            <DialogActions className={classes.buttons}>
-              <Button
-                id="close-dialog"
-                color="primary"
-                variant="contained"
-                className={classes.cancelBtn}
-                onClick={() => props.handleAudioResourceCreated("close")}
-              >
-                Close
-              </Button>
-
-              <Button
-                color="primary"
-                variant="contained"
-                className={classes.confirmBtn}
-                onClick={() => props.handleUploadResourceModal("open")}
-              >
-                Upload File
-              </Button>
-            </DialogActions>
+    <React.Fragment>
+      <Dialog
+        fullWidth
+        maxWidth="xs"
+        open={true}
+        aria-labelledby="alert-dialog-title"
+      >
+        <div className={classes.container}>
+          <div>
+            <CloseIcon
+              className={classes.closeIcon}
+              // onClick={() => props.handleAudioResourceCreated("close")}
+            />
           </div>
-        </Dialog>
-      ) : (
-        <Dialog
-          fullScreen
-          maxWidth="xs"
-          open={true}
-          aria-labelledby="alert-dialog-title"
-        >
-          <div className={classes.container}>
-            <div>
-              <CloseIcon className={classes.closeIcon} />
+          <DialogTitle style={{ fontSize: "10px" }} className={classes.center}>
+            <div className={classes.divIcon}>
+              <Check className={classes.checkIcon} />
             </div>
-            <DialogTitle
-              style={{ fontSize: "10px" }}
-              className={classes.center}
-            >
-              <div className={classes.divIcon}>
-                <Check className={classes.checkIcon} />
-              </div>
-              ​
-              <Typography variant="h6" className={classes.title}>
-                <b>You have created Test01 audio resource</b>
+            <Typography variant="h6" className={classes.title}>
+              <b>You have created {"321"} audio resource</b>
+            </Typography>
+          </DialogTitle>
+          <DialogContent className={classes.center}>
+            <DialogContentText>
+              <Typography variant="body1">
+                What do you want to do next?
               </Typography>
-            </DialogTitle>
-            <DialogContent className={classes.center}>
-              <DialogContentText>
-                <Typography variant="body1">
-                  What do you want to do next?
-                </Typography>
-              </DialogContentText>
-            </DialogContent>
+            </DialogContentText>
+          </DialogContent>
 
-            <DialogActions className={classes.buttons} disableSpacing>
-              <Button
-                color="primary"
-                variant="contained"
-                className={classes.cancelBtn}
-              >
-                Close
-              </Button>
-              <br />
-              <Button
-                color="primary"
-                variant="contained"
-                className={classes.confirmBtn}
-              >
-                Upload File
-              </Button>
-            </DialogActions>
-          </div>
-        </Dialog>
-      )}
-    </div>
+          <DialogActions className={classes.buttons}>
+            <Button
+              id="close-dialog"
+              color="primary"
+              variant="contained"
+              className={classes.cancelBtn}
+              // onClick={() => props.handleAudioResourceCreated("close")}
+            >
+              Close
+            </Button>
+
+            <Button
+              color="primary"
+              variant="contained"
+              className={classes.confirmBtn}
+              // onClick={() => props.handleUploadResourceModal("open")}
+            >
+              Upload File
+            </Button>
+          </DialogActions>
+        </div>
+      </Dialog>
+    </React.Fragment>
   );
 }
-export default AudioUploadConfirmation;

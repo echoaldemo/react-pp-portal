@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 /*COMPONENTS*/
 import { TableLoader, BackButton, StatusLabel } from "common-components";
-import {
-  MockCampaigns,
-  MockRealmData
-} from "../components/contsVar";
+import { MockCampaigns, MockRealmData } from "../components/contsVar";
 // import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
 
 import RealmSettings from "./realmSettings";

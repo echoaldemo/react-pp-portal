@@ -1,21 +1,21 @@
 .container {
-	/* background-image: url('../../assets/images//404_image.svg'); */
-	background-repeat: no-repeat;
-	background-position: center;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  /* background-image: url('../../assets/images//404_image.svg'); */
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .text-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	padding: 35px;
-	color: #444851;
-	margin-top: 90px;
-	box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 35px;
+  color: #444851;
+  margin-top: 90px;
+  box-sizing: border-box;
 }
 .text-image {
-	width: 400px;
+  width: 400px;
 }
