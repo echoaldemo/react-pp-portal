@@ -30,6 +30,7 @@ const getAllList = dispatch => {
         realmList
       }
     });
+    return values;
   });
 };
 
