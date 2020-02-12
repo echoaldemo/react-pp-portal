@@ -16,10 +16,8 @@ export const mock = [
       size: 45714,
       recorded: "2019-11-05T01:25:27.084133Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=%2F8mDoa%2FpOgHeZJ2OI2xMjezjcRw%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=rVhKbu2gdsqiO5V16tt%2BiW3k80s%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -39,10 +37,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-08T08:45:36.732217Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new-2.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=9iqF87z26eKGyFcgScNYkm8mQMU%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new-2.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=yCXSnWRER%2FCEcD3iCHf17CsXe3E%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -62,10 +58,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-08T09:27:56.955137Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new-3.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=wY5w9f%2BRk%2B%2FMBEzqHr3cmL47C4k%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/echo-new-3.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=UoSSmxu40FsT6kE0WPHLWCl5oQ8%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -85,10 +79,8 @@ export const mock = [
       size: 40114,
       recorded: "2019-11-05T06:25:28.687982Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-final.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=eSOaCJX1Khahxt9ISv%2FhLuuCPcg%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-final.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=hFJFvbTKbBROUEOe7LUdh3u3Bdk%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -108,10 +100,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-11T03:02:39.604389Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=RUcvreodnDhBxuaKTF%2BEn9ZDF9g%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=9P3t59lLJwk%2FhfGVsev%2BItEfMW4%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -131,10 +121,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-11T03:02:52.038319Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-2.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=ZVb%2Fhmyuk79Vh8ML1KpePn%2FTCM4%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-2.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=m5VOmIQl8v46K3vsgNFzzKVEyno%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -154,10 +142,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-11T03:04:08.794215Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-3.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=t10Axzqh%2B3XXi7wLRK3S8Uhu6Uo%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-3.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=anXQxfW4%2BmQKHtarXyQv081A0Mk%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -177,10 +163,8 @@ export const mock = [
       size: 67378,
       recorded: "2019-11-11T03:13:03.292880Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-4.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=Weo3LUBk3pwGHwPBXk6nGYIerUM%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-4.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=U%2Bm3qhSqiXOhG0N3%2F494cBolKG8%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {
@@ -200,10 +184,8 @@ export const mock = [
       size: 40114,
       recorded: "2019-11-14T01:50:48.103037Z",
       encoding: "Signed Integer PCM",
-      processed_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-5.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=hzLcExGJMkgi1RPlqinP6qtlYXw%3D&Expires=1578907797",
-      original_url:
-        "https://dev-pp-pitch.s3.amazonaws.com/audio/resources/test-global-audio-resource-5.original.wav?AWSAccessKeyId=AKIAIFQT2HFSA25RA6PQ&Signature=GbqEyOiPxKUfnXUqYnvGBNAhOtU%3D&Expires=1578907797"
+      processed_url: "https://freesound.org/people/Kikomonzon/sounds/505652/",
+      original_url: "https://freesound.org/people/Kikomonzon/sounds/505652/"
     }
   },
   {

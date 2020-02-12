@@ -31,7 +31,7 @@ import { useStyles, theme, CustomText } from "./styles";
 import SnackNotif from "auth/component/snackbar/snackbar";
 
 //API UTIL
-import { get, post, patch, remove } from "utils/api";
+import { get, post, patch, remove, put } from "utils/api";
 import { logout } from "auth/controllers/controller";
 import { store } from "contexts/ManageComponent";
 
@@ -71,21 +71,21 @@ function Edit({ open, setOpen, data, update }: EditProps) {
   const classes = useStyles();
   const { state } = useContext(store);
   const [user, setUser] = useState<IState>({
-    uuid: data.uuid,
-    first_name: data.first_name,
-    last_name: data.last_name,
-    username: data.username,
-    email: data.email,
-    team: data.team,
-    company: data.company,
-    campaigns: data.campaigns,
-    groups: data.groups,
-    is_active: data.is_active,
+    uuid: "",
+    first_name: "",
+    last_name: "",
+    username: "",
+    email: "",
+    team: "",
+    company: "",
+    campaigns: [],
+    groups: [],
+    is_active: "",
     password: {
       original: "",
       confirm: ""
     },
-    hire_date: data.hire_date
+    hire_date: ""
   });
 
   const initialErrorState = {
@@ -255,24 +255,52 @@ function Edit({ open, setOpen, data, update }: EditProps) {
   };
 
   const saveEdit = () => {
+    const data = {
+      groups: user.groups,
+      company: user.company,
+      campaigns: [],
+      team: user.team,
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      is_active: user.is_active,
+      email: user.email,
+      hire_date: user.hire_date
+    };
     if (verifyInput("update")) {
       setMessage("One moment. We’re updating the user...");
       setLoading(true);
-      patch(`/identity/user/manage/${user.uuid}/`, user)
-        .then((res: any) => {
-          setMessage(`You have updated user ${user.username}`);
-          setLoading(false);
-          setSuccess(true);
-        })
-        .catch((err: any) => {
-          setLoading(false);
-          setOpenErrorMessage(true);
-          if (err.response.data.groups) {
-            return setErrorMessage(err.response.data.groups[0]);
-          } else if (err.response.data.company) {
-            return setErrorMessage(err.response.data.company[0]);
+      fetch(
+        `https://dev-api.perfectpitchtech.com/identity/user/manage/${user.uuid}/`,
+        {
+          method: `PATCH`,
+          body: JSON.stringify(data),
+          headers: {
+            "Content-type": "application/json;charset=UTF-8",
+            Authorization: "token " + localStorage.getItem("ngStorage-ppToken")
           }
-        });
+        }
+      ).then(response => {
+        setMessage(`You have updated user ${user.username}`);
+        setLoading(false);
+        setSuccess(true);
+      });
+
+      // put(`/identity/user/manage/${user.uuid}/`, data)
+      //   .then((res: any) => {
+      //     setMessage(`You have updated user ${user.username}`);
+      //     setLoading(false);
+      //     setSuccess(true);
+      //   })
+      //   .catch((err: any) => {
+      //     setLoading(false);
+      //     setOpenErrorMessage(true);
+      //     if (err.response.data.groups) {
+      //       return setErrorMessage(err.response.data.groups[0]);
+      //     } else if (err.response.data.company) {
+      //       return setErrorMessage(err.response.data.company[0]);
+      //     }
+      //   });
     }
   };
 
