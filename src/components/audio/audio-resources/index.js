@@ -117,60 +117,21 @@ class AudioResources extends Component {
   };
 
   saveAudioName = name => {
-    if (!this.state.currentResourceInfo) {
+    this.setState({
+      loadingAddAudioResource: true,
+      addResourceModal: false,
+      loadingType: "audioName"
+    });
+    post(`/pitch/global/audio/resources/`, {
+      name: name
+    }).then(res => {
       this.setState({
-        loadingAddAudioResource: true,
-        addResourceModal: false,
-        loadingType: "audioName"
+        loadingAddAudioResource: false,
+        audioResourceCreated: true,
+        currentResourceInfo: res.data,
+        audioResourceData: [res.data, ...this.state.audioResourceData]
       });
-      post(`/pitch/global/audio/resources/`, {
-        name: name
-      }).then(res => {
-        this.setState({
-          loadingAddAudioResource: false,
-          audioResourceCreated: true,
-          currentResourceInfo: res.data,
-          audioResourceData: [res.data, ...this.state.audioResourceData]
-        });
-      });
-    } else {
-      this.setState({
-        loadingAddAudioResource: true,
-        loadingType: "audioName"
-      });
-      patch(
-        `/pitch/global/audio/resources/${this.state.currentResourceInfo.uuid}/`,
-        {
-          name: name,
-          company: this.state.currentResourceInfo.company
-        }
-      )
-        .then(res => {
-          this.setState({
-            loadingAddAudioResource: false,
-            currentResourceInfo: null,
-            addResourceModal: false,
-            toast: true,
-            toastMessage: `Audio successfully updated`,
-            toastType: "check"
-          });
-          let index = this.state.audioResourceData.findIndex(
-            obj => obj.uuid == res.data.uuid
-          );
-          this.handleClose();
-          if (index !== -1) {
-            this.state.audioResourceData[index].name = res.data.name;
-            this.forceUpdate();
-          }
-        })
-        .catch(() =>
-          this.setState({
-            loadingAddAudioResource: false,
-            currentResourceInfo: null,
-            addResourceModal: false
-          })
-        );
-    }
+    });
   };
 
   uploadResourceAudio = (file, modification, convert, fadeIn, fadeOut) => {
@@ -215,7 +176,7 @@ class AudioResources extends Component {
     document.title = "Audio Resources";
     get("/pitch/global/audio/resources/").then(res => {
       this.setState({
-        audioResourceData: [...res.data],
+        audioResourceData: [...res.data.reverse()],
         filterlist: [...res.data],
         paginateList: [...res.data]
       });
@@ -223,9 +184,16 @@ class AudioResources extends Component {
   }
 
   handleUpdate = () => {
-    this.componentDidMount();
     this.setState({
-      audioResourceCreated: false
+      audioResourceCreated: false,
+      audioResourceData: []
+    });
+    get("/pitch/global/audio/resources/").then(res => {
+      this.setState({
+        audioResourceData: [...res.data.reverse()],
+        filterlist: [...res.data],
+        paginateList: [...res.data]
+      });
     });
   };
 
@@ -236,14 +204,18 @@ class AudioResources extends Component {
     let newArr = this.state.audioResourceData;
     newArr.splice(index, 1);
     this.forceUpdate();
-    this.setState({
-      audioResourceData: newArr,
-      currentResourceInfo: null,
-      toast: true,
-      toastMessage: "Audio Deleted",
-      toastType: "caution",
-      undo: true
-    });
+    remove(`/pitch/global/audio/resources/${this.state.editUUID}/`).then(
+      res => {
+        this.setState({
+          audioResourceData: newArr,
+          currentResourceInfo: null,
+          toast: true,
+          toastMessage: "Audio Deleted",
+          toastType: "caution",
+          undo: true
+        });
+      }
+    );
   };
 
   undoDelete = () => {
