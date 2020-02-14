@@ -115,24 +115,24 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
     this.setState({
       loading: true
     });
-    // get(`/pitch/global/rapid-response/segments/`).then((res: any) => {
-    // 	this.setState({
-    // 		globalSegment: res.data,
-    // 		innerLoading: false,
-    // 		loading: false,
-    // 		paginateList: res.data,
-    // 		filterlist: res.data
-    // 	})
-    // })
-    setTimeout(() => {
+    get(`/pitch/global/rapid-response/segments/`).then((res: any) => {
       this.setState({
-        globalSegment: mock,
+        globalSegment: res.data,
         innerLoading: false,
         loading: false,
-        paginateList: mock,
-        filterlist: mock
+        paginateList: res.data,
+        filterlist: res.data
       });
-    }, 1000);
+    });
+    // setTimeout(() => {
+    //   this.setState({
+    //     globalSegment: mock,
+    //     innerLoading: false,
+    //     loading: false,
+    //     paginateList: mock,
+    //     filterlist: mock
+    //   });
+    // }, 1000);
   };
 
   paginate = (from: number, to: number) => {

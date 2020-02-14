@@ -41,30 +41,30 @@ function EditTestsSettings(props: Props) {
   const [test, setTest] = React.useState({});
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    // if (!props.location.state) {
-    // 	get(
-    // 		`/pitch/global/rapid-response/tests/${props.match.params.test_uuid}/`
-    // 	).then((res: any) => {
-    // 		setLoading(false)
-    // 		setTest(res.data)
-    // 	})
-    // } else {
-    // 	if (props.location.state.rrtest) {
-    // 		setTest(props.location.state.rrtest)
-    // 		setLoading(false)
-    // 	} else {
-    // 		get(
-    // 			`/pitch/global/rapid-response/tests/${props.match.params.test_uuid}/`
-    // 		).then((res: any) => {
-    // 			setLoading(false)
-    // 			setTest(res.data)
-    // 		})
-    // 	}
-    // }
-    setTimeout(() => {
-      setLoading(false);
-      setTest(mock);
-    }, 1000);
+    if (!props.location.state) {
+      get(
+        `/pitch/global/rapid-response/tests/${props.match.params.test_uuid}/`
+      ).then((res: any) => {
+        setLoading(false);
+        setTest(res.data);
+      });
+    } else {
+      if (props.location.state.rrtest) {
+        setTest(props.location.state.rrtest);
+        setLoading(false);
+      } else {
+        get(
+          `/pitch/global/rapid-response/tests/${props.match.params.test_uuid}/`
+        ).then((res: any) => {
+          setLoading(false);
+          setTest(res.data);
+        });
+      }
+    }
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   setTest(mock);
+    // }, 1000);
   }, []);
   function handleUpdate(data: any) {
     setLoading(true);

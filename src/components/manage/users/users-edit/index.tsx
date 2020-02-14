@@ -258,7 +258,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
     const data = {
       groups: user.groups,
       company: user.company,
-      campaigns: [],
+      campaigns: user.campaigns,
       team: user.team,
       username: user.username,
       first_name: user.first_name,

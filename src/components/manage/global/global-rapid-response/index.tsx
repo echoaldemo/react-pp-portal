@@ -100,16 +100,16 @@ export default function GlobalRapidResponse() {
   });
 
   React.useEffect(() => {
-    // get('/pitch/global/rapid-response/tests/').then((res: any) => {
-    // 	setTests(res.data)
-    // 	setPaginateList(res.data)
-    // 	setLoading(false)
-    // })
-    setTimeout(() => {
-      setTests(mock);
-      setPaginateList(mock);
+    get("/pitch/global/rapid-response/tests/").then((res: any) => {
+      setTests(res.data);
+      setPaginateList(res.data);
       setLoading(false);
-    }, 1000);
+    });
+    // setTimeout(() => {
+    //   setTests(mock);
+    //   setPaginateList(mock);
+    //   setLoading(false);
+    // }, 1000);
   }, []);
 
   const handleUpdate = () => {
