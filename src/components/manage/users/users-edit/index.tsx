@@ -270,37 +270,21 @@ function Edit({ open, setOpen, data, update }: EditProps) {
     if (verifyInput("update")) {
       setMessage("One moment. We’re updating the user...");
       setLoading(true);
-      fetch(
-        `https://dev-api.perfectpitchtech.com/identity/user/manage/${user.uuid}/`,
-        {
-          method: `PATCH`,
-          body: JSON.stringify(data),
-          headers: {
-            "Content-type": "application/json;charset=UTF-8",
-            Authorization: "token " + localStorage.getItem("ngStorage-ppToken")
+      put(`/identity/user/manage/${user.uuid}/`, data)
+        .then((res: any) => {
+          setMessage(`You have updated user ${user.username}`);
+          setLoading(false);
+          setSuccess(true);
+        })
+        .catch((err: any) => {
+          setLoading(false);
+          setOpenErrorMessage(true);
+          if (err.response.data.groups) {
+            return setErrorMessage(err.response.data.groups[0]);
+          } else if (err.response.data.company) {
+            return setErrorMessage(err.response.data.company[0]);
           }
-        }
-      ).then(response => {
-        setMessage(`You have updated user ${user.username}`);
-        setLoading(false);
-        setSuccess(true);
-      });
-
-      // put(`/identity/user/manage/${user.uuid}/`, data)
-      //   .then((res: any) => {
-      //     setMessage(`You have updated user ${user.username}`);
-      //     setLoading(false);
-      //     setSuccess(true);
-      //   })
-      //   .catch((err: any) => {
-      //     setLoading(false);
-      //     setOpenErrorMessage(true);
-      //     if (err.response.data.groups) {
-      //       return setErrorMessage(err.response.data.groups[0]);
-      //     } else if (err.response.data.company) {
-      //       return setErrorMessage(err.response.data.company[0]);
-      //     }
-      //   });
+        });
     }
   };
 
