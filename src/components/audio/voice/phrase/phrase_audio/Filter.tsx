@@ -128,7 +128,6 @@ interface IProps {
   rerecord: any;
   recorded: any;
   filterData: any;
-  filtered: any;
   searched: any;
   refreshData?: any;
   checkIfGlobal?: any;
@@ -266,7 +265,6 @@ class Filter extends Component<IProps, {}> {
                       this.props.selectedCampaign,
                       this.props.selectedVersion
                     );
-                    filtered(true);
                   }}
                   disabled={this.disableButton(this.props.selectedVersion)}
                 >
@@ -360,7 +358,6 @@ class Filter extends Component<IProps, {}> {
                       this.props.selectedCampaign,
                       this.props.selectedVersion
                     );
-                    filtered(true);
                   }}
                   disabled={this.disableButton(this.props.selectedVersion)}
                 >

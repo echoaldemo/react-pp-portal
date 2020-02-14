@@ -29,5 +29,12 @@ function logout() {
   localStorage.clear();
   window.location.href = "/";
 }
+function typeChecker() {
+  if (localStorage.getItem("type") === "10") {
+    return true;
+  } else {
+    return false;
+  }
+}
 
-export { login, logout };
+export { login, logout, typeChecker };

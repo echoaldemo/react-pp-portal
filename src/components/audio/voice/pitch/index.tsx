@@ -29,16 +29,6 @@ import { TableLoader, HeaderLink } from "common-components";
 import UnrecordedCard from "../../common-components/cards/Unrecorded";
 import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
-import {
-  pitchMockData,
-  manageListMockData,
-  selectedVoiceData,
-  campaignMockData,
-  versionMockData,
-  UnrecordedVoicesPitchData,
-  RerecordedVoicesPitchData,
-  RecordVoicesPitchData
-} from "./pitchMockData";
 import { get, patch, post } from "utils/api";
 import { store } from "contexts/ManageComponent";
 import { getAllList } from "utils/getList";
@@ -180,7 +170,6 @@ const Pitch: React.FC<Props> = (props: any) => {
   });
 
   React.useEffect(() => {
-    getAllList(dispatch);
     document.title = "Pitch Audio";
     if (localStorage.getItem("error")) {
       setStates({
@@ -195,14 +184,7 @@ const Pitch: React.FC<Props> = (props: any) => {
     } else {
       get(`/identity/user/profile/`).then((profileData: any) => {
         if (profileData.data.groups[0] === 10) {
-          setStates({
-            ...states,
-            state1: "DATA_LOADED",
-            profile: profileData.data,
-            user_uuid: profileData.data.uuid,
-            user_group: profileData.data.groups[0]
-          });
-          recorderCamp(profileData.data.uuid);
+          recorderCamp(state.campaigns);
         } else {
           setStates({
             ...states,
@@ -216,31 +198,24 @@ const Pitch: React.FC<Props> = (props: any) => {
     }
   }, []);
 
-  const recorderCamp = async (uuid: any) => {
+  const recorderCamp = (camps: any) => {
     let campaigns: any = [],
       user_data: any = [];
-    const data1 = await get(`/identity/user/profile/`).then((user: any) => {
+    get(`/identity/user/profile/`).then((user: any) => {
       user_data = user.data.campaigns;
-      setStates({
-        ...states,
-        state1: "DATA_LOADED",
-        user_data: user.data
+      campaigns = camps.filter((camp: any) => {
+        return user_data.includes(camp.uuid);
       });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then((campaign: any) => {
-        state.campaigns = campaign.data.filter((camp: any) => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
       if (campaigns.length) {
         setStates({
           ...states,
-          campaigns
+          campaigns,
+          state1: "DATA_LOADED",
+          searchVoice: user.data.uuid,
+          user_data: user.data,
+          profile: user.data,
+          user_uuid: user.data.uuid,
+          user_group: user.data.groups[0]
         });
       } else {
         setStates({
@@ -249,7 +224,8 @@ const Pitch: React.FC<Props> = (props: any) => {
           toastType: "caution",
           message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
+          loaders: false
         });
       }
     });
@@ -337,14 +313,14 @@ const Pitch: React.FC<Props> = (props: any) => {
     });
   };
 
-  const filterData1 = (pitch_version: any) => {
-    const data1 = get(
+  const filterData1 = async (pitch_version: any) => {
+    const data1 = await get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/unrecorded/`
     );
-    const data2 = get(
+    const data2 = await get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/rerecord/`
     );
-    const data3 = get(
+    const data3 = await get(
       `/pitch/audio/version/${pitch_version}/voice/${states.user_data.uuid}/recorded/`
     );
     Promise.all([data1, data2, data3]).then(values => {

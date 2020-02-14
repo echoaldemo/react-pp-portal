@@ -2,7 +2,7 @@ export interface IState {
   loader: boolean;
   user: any;
   links: any;
-  state: string;
+  state1: string;
   campaigns: any;
   versions: any;
   tabSelected: any;
