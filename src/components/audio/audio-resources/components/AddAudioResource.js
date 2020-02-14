@@ -131,9 +131,7 @@ export default function AddAudioResource(props) {
                   input: classes.resize
                 }
               }}
-              defaultValue={
-                props.currentResourceInfo ? props.currentResourceInfo.name : ""
-              }
+              value={audioName}
             />
           </DialogContent>
           <DialogActions style={{ padding: "30px" }}>
