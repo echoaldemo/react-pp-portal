@@ -171,33 +171,31 @@ const Pitch: React.FC<Props> = (props: any) => {
 
   React.useEffect(() => {
     document.title = "Pitch Audio";
-    getAllList(dispatch).then(res => {
-      if (localStorage.getItem("error")) {
-        setStates({
-          ...states,
-          openToast: true,
-          toastType: "caution",
-          message: `Your user does not have access to that page. You may need to sign-in.`,
-          vertical: "top",
-          horizontal: "right"
-        });
-        localStorage.removeItem("error");
-      } else {
-        get(`/identity/user/profile/`).then((profileData: any) => {
-          if (profileData.data.groups[0] === 10) {
-            recorderCamp(res[2].data);
-          } else {
-            setStates({
-              ...states,
-              state1: "DATA_LOADED",
-              profile: profileData.data,
-              user_uuid: profileData.data.uuid,
-              user_group: profileData.data.groups[0]
-            });
-          }
-        });
-      }
-    });
+    if (localStorage.getItem("error")) {
+      setStates({
+        ...states,
+        openToast: true,
+        toastType: "caution",
+        message: `Your user does not have access to that page. You may need to sign-in.`,
+        vertical: "top",
+        horizontal: "right"
+      });
+      localStorage.removeItem("error");
+    } else {
+      get(`/identity/user/profile/`).then((profileData: any) => {
+        if (profileData.data.groups[0] === 10) {
+          recorderCamp(state.campaigns);
+        } else {
+          setStates({
+            ...states,
+            state1: "DATA_LOADED",
+            profile: profileData.data,
+            user_uuid: profileData.data.uuid,
+            user_group: profileData.data.groups[0]
+          });
+        }
+      });
+    }
   }, []);
 
   const recorderCamp = (camps: any) => {

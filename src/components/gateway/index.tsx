@@ -18,7 +18,7 @@ import SEO from "utils/seo";
 import Content from "./components/Content";
 import { Card, Container, Header } from "./style";
 import { Campaign } from "./types";
-import { logout } from "auth/controllers/controller";
+import { logout, typeChecker } from "auth/controllers/controller";
 import { loginChecker } from "auth/services/authService";
 import { store } from "contexts/ManageComponent";
 import { get } from "utils/api";
@@ -31,6 +31,9 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
+    if (typeChecker()) {
+      history.push("/manage/audio/pitch/");
+    }
     if (!loginChecker()) {
       history.push("/");
     }
