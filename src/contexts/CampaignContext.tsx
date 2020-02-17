@@ -11,6 +11,8 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
+	getCampaign: any,
+	activeCampaign: object
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
@@ -19,6 +21,7 @@ function CampaignsContextProvider({ children }: any) {
 	const [data, setData] = useState(mockData.campaigns);
 	const [paginateList, setPaginateList] = useState(mockData.campaigns);
 	const [loading, setLoading] = useState(false);
+	const [activeCampaign, setActiveCampaign] = useState({})
 
 	useEffect(() => getAllData(), []);
 
@@ -32,6 +35,12 @@ function CampaignsContextProvider({ children }: any) {
 			setData(res.data);
 			setLoading(false);
 		});
+	}
+
+	function getCampaign(UUID:  string){
+		let campaign = data.filter(item => item.uuid === UUID)
+		setActiveCampaign(campaign)
+		return campaign
 	}
 
 	function FilterApplyButton(params: any) {
@@ -71,7 +80,9 @@ function CampaignsContextProvider({ children }: any) {
 				paginate,
 				FilterApplyButton,
 				paginateList,
-				setPaginateList
+				setPaginateList,
+				getCampaign,
+				activeCampaign
 			}}
 		>
 			{children}

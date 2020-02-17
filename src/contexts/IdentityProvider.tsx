@@ -4,11 +4,11 @@ import mockData from './mockData.json';
 import { setTimeout } from 'timers';
 
 const initialState = {
-	realms: mockData.realms,
-	campaignDetails: mockData.campaignDetails,
+	realms: [],
+	campaignDetails: {},
 	loading: false,
-	campaignRealms: mockData.campaignRealms,
-	companies: mockData.companies,
+	campaignRealms: [],
+	companies: [],
 	deleteLoading: false,
 	openDeleteModal: false,
 	panels: [],
@@ -46,17 +46,61 @@ const IdentityProvider = ({ children }: any) => {
 
 	const handleSaveCampaignDetails = (val: any) => {
 		setLoading(true);
-		setTimeout(() => {
-			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: val } });
-			setLoading(false);
-		}, 1000);
+		if(val.dialingparams === null) val.dialingparams = {}
+		if(val.queue === null) val.queue = {}
+		if(val.warmtransfer === null) val.warmtransfer = {}
+		if(val.queue === null) val.queue = {}
+		if(val.callback === null) val.callback = {}
+		patch(`/identity/campaign/${val.uuid}/`,val)
+		.then((res:any) => {
+			setCampaignRealms(res.data)
+			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
+			setLoading(false)
+			})
+		};
+
+	const setCampaignRealms = (campaign: any) => {
+		console.log('realms: ', state.realms);
+		
+		let campaignRealms:any = []
+			state.realms.forEach((realm:any) => {
+				if (campaign.realms.indexOf(realm.uuid) > 0) campaignRealms.push(realm)
+			})
+			dispatch({ type: 'SAVE_CAMPAIGN_REALMS', payload: { campaignRealms: campaignRealms } })
 	};
+
+	const getCampaign = (slug: string):any => {
+		console.log('getCamp');
+		
+		get(`/identity/campaign/list/?slug=${slug}`)
+		.then((res:any) => {
+			console.log('res.data[0]: ', res.data[0]);
+			setCampaignRealms(res.data[0])
+			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data[0] } })
+		})
+	};
+
+
 
 	useEffect(() => {
 		setLoading(true);
 		setTimeout(() => {
 			setLoading(false);
 		}, 1000);
+
+		 //get companies
+    get("/identity/company/list/", {
+      editable: false
+    }).then((res:any )=> {
+      dispatch({ type: 'SAVE_COMPANIES', payload: { companies: res.data } });
+    })
+
+    //get realms
+    get("/identity/realm/list/", {
+      editable: false
+    }).then((res:any) => {
+      dispatch({ type: 'SAVE_REALMS', payload: { realms: res.data } });
+    })
 	}, []);
 
 	const [state, dispatch] = useReducer((state: any, action: any) => {
@@ -65,11 +109,25 @@ const IdentityProvider = ({ children }: any) => {
 				return { ...state, panel_tab: action.payload.panel_tab };
 			case 'LOADING':
 				return { ...state, loading: action.payload.loading };
-
+			case 'SAVE_CAMPAIGN_REALMS':
+				return {
+					...state,
+					campaignRealms: action.payload.campaignRealms
+				};
 			case 'SAVE_INFO':
 				return {
 					...state,
 					campaignDetails: action.payload.campaign_details
+				};
+			case 'SAVE_COMPANIES':
+				return {
+					...state,
+					companies: action.payload.companies
+				};
+			case 'SAVE_REALMS':
+				return {
+					...state,
+					realms: action.payload.realms
 				};
 			case 'NEW_PITCH':
 				return {
@@ -96,6 +154,7 @@ const IdentityProvider = ({ children }: any) => {
 				state,
 				dispatch,
 				handleSaveCampaignDetails,
+				getCampaign,
 				setLoading,
 				setTab,
 				tab,
