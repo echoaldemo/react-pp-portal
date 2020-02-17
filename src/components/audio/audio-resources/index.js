@@ -16,8 +16,8 @@ import {
 } from "@material-ui/core";
 
 import AddAudioResource from "./components/AddAudioResource";
+import EditAudioResource from "./components/EditAudioResource";
 import LoadingAddAudioResource from "./components/LoadingAddAudioResource";
-import AudioResourceCreated from "./components/AudioResourceCreated";
 import UploadAudioResource from "./components/UploadAudioResource";
 import DeleteConfirmation from "./components/DeleteConfirmation";
 import Toast from "../common-components/toast";
@@ -52,6 +52,8 @@ class AudioResources extends Component {
     super();
     this.state = {
       addResourceModal: false,
+      editResourceModal: false,
+      selectedUuid: "",
       loadingAddAudioResource: false,
       audioResourceCreated: false,
       currentResourceInfo: null,
@@ -75,6 +77,13 @@ class AudioResources extends Component {
     };
   }
 
+  modalFunc = uuid => {
+    this.setState({
+      editUUID: uuid,
+      editResourceModal: true
+    });
+  };
+
   handleCancelAddAudioResource = () => {
     source.cancel("Operation canceled by the user.");
     this.setState({
@@ -83,12 +92,6 @@ class AudioResources extends Component {
       currentResourceInfo: null
     });
     this.handleClose();
-  };
-
-  handleAudioResourceCreated = type => {
-    if (type === "close") {
-      this.setState({ audioResourceCreated: false, currentResourceInfo: null });
-    }
   };
 
   handleUploadResourceModal = type => {
@@ -123,6 +126,25 @@ class AudioResources extends Component {
       loadingType: "audioName"
     });
     post(`/pitch/global/audio/resources/`, {
+      name: name
+    }).then(res => {
+      this.setState({
+        loadingAddAudioResource: false,
+        audioResourceCreated: true,
+        currentResourceInfo: res.data,
+        audioResourceData: [res.data, ...this.state.audioResourceData]
+      });
+    });
+  };
+
+  saveEditAudio = name => {
+    this.setState({
+      editResourceModal: false,
+      loadingAddAudioResource: true,
+      addResourceModal: false,
+      loadingType: "audioName"
+    });
+    patch(`/pitch/global/audio/resources/${this.state.editUUID}/`, {
       name: name
     }).then(res => {
       this.setState({
@@ -182,6 +204,10 @@ class AudioResources extends Component {
       });
     });
   }
+
+  handleSelectedUuid = uuid => {
+    this.setState({ selectedUuid: uuid });
+  };
 
   handleUpdate = () => {
     this.setState({
@@ -318,6 +344,7 @@ class AudioResources extends Component {
                 title="Audio Resource"
                 userData={this.state.filterlist}
                 headers={["name", "slug", "uuid"]}
+                modalFunc={this.modalFunc}
               />
               <Divider />
 
@@ -344,8 +371,10 @@ class AudioResources extends Component {
                           currentResourceInfo: row
                         });
                       }}
-                      openModal={() => this.handleAddResourceModal("open")}
-                      handleCLose={() => this.handleClose()}
+                      openModal={() =>
+                        this.setState({ editResourceModal: true })
+                      }
+                      handleClose={() => this.handleClose()}
                       deleteConfirmation={() => {
                         this.setState({ deleteConfirmation: true });
                       }}
@@ -387,6 +416,14 @@ class AudioResources extends Component {
             saveAudioName={this.saveAudioName}
             currentResourceInfo={this.state.currentResourceInfo}
             handleClose={this.handleClose}
+          />
+        ) : null}
+
+        {this.state.editResourceModal ? (
+          <EditAudioResource
+            open={this.state.editResourceModal}
+            saveEditAudio={this.saveEditAudio}
+            handleClose={() => this.setState({ editResourceModal: false })}
           />
         ) : null}
 

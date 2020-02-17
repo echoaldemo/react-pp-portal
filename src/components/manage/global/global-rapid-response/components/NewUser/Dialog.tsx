@@ -399,7 +399,7 @@ function NewTestDialog(props: Props) {
             <SelectField
               error={formErrors.segments}
               data-cy="segments"
-              style={{ margin: "0", width: "360px" }}
+              style={{ margin: "0" }}
               label={"Segments"}
               select
               required
@@ -450,7 +450,7 @@ function NewTestDialog(props: Props) {
               error={formErrors.pv}
               required
               data-cy="prospect-voice"
-              style={{ margin: "0", width: "360px" }}
+              style={{ margin: "0" }}
               label={"Prospect Voice"}
               select
               SelectProps={{
