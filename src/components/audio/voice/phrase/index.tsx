@@ -37,7 +37,6 @@ import { TableLoader, HeaderLink } from "common-components";
 import { IProps, IState } from "./interfacePhrase";
 import { store } from "contexts/ManageComponent";
 
-const Phrase1 = () => {};
 const Phrase: React.FC<IProps> = props => {
   const { state } = useContext(store);
   const [states, setStates] = useState<IState>({
@@ -134,6 +133,7 @@ const Phrase: React.FC<IProps> = props => {
       showTable: false
     });
     if (states.user_group === "10") {
+      setStates({ ...states, voiceSelected: localStorage.getItem("uuid") });
       recorderSelectCampaign(states.user_uuid);
     } else {
       setStates({
@@ -160,14 +160,14 @@ const Phrase: React.FC<IProps> = props => {
       user_data: any = [];
     if (state.campaigns.length !== 0) {
       get(`/identity/user/profile/`, token).then((user: any) => {
-        user_data = user.data.campaigns;
+        user_data = user.data;
         campaigns1 = state.campaigns.filter((camp: any) => {
-          return user_data.includes(camp.uuid);
+          return user_data.campaigns.includes(camp.uuid);
         });
         if (campaigns1.length) {
           setStates({
             ...states,
-            campaigns
+            campaigns: campaigns1
           });
         } else {
           setStates({
@@ -199,9 +199,9 @@ const Phrase: React.FC<IProps> = props => {
     let campaigns1: any = [],
       user_data: any = [];
     get(`/identity/user/profile/`).then((user: any) => {
-      user_data = user.data.campaigns;
+      user_data = user.data;
       campaigns1 = state.campaigns.filter((camp: any) => {
-        return user_data.includes(camp.uuid);
+        return user_data.campaigns.includes(camp.uuid);
       });
       campaigns = campaigns.concat(campaigns1);
       if (campaigns1.length) {
@@ -223,23 +223,19 @@ const Phrase: React.FC<IProps> = props => {
     });
     setStates({ ...states, campaigns });
   };
-
   const toTitleCase = (str: any) => {
     return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
-
-  //tabs (unrecorded, rerecord, recorded) function
   const tabSelected = (val: any) => {
     setStates({ ...states, tabSelected: val });
   };
-
-  //voice selected
   const selectVoice = (val: any) => {
     setStates({ ...states, voiceSelected: val });
-
-    let campaigns: any = [];
+    let campaigns: any = [],
+      user_data: any = [],
+      campaigns1: any = [];
     const global = {
       uuid: "global1111",
       name: "Global (Globally3 required phrases)",
@@ -247,23 +243,18 @@ const Phrase: React.FC<IProps> = props => {
       slug: "global"
     };
     campaigns.push(global);
-
     get(`/identity/user/manage/${val}/`).then((user: any) => {
-      setStates({ ...states, state1: "DATA_LOADED", user_data: user.data });
-
-      get(`/identity/campaign/list/`).then((campaign: any) => {
-        user.data.campaigns.map((camps: any) => {
-          campaign.data.map((res: any) => {
-            if (res.uuid === camps) {
-              campaigns.push(res);
-            }
-            return null;
-          });
-          return null;
-        });
-
-        setStates({ ...states, campaigns });
-        return null;
+      user_data = user.data;
+      campaigns1 = state.campaigns.filter((camp: any) => {
+        return user_data.campaigns.includes(camp.uuid);
+      });
+      campaigns = campaigns.concat(campaigns1);
+      setStates({
+        ...states,
+        campaigns,
+        state1: "DATA_LOADED",
+        user_data: user.data,
+        user_uuid: val
       });
     });
   };
@@ -304,7 +295,6 @@ const Phrase: React.FC<IProps> = props => {
 
   const selectVoiceCampaign = (value: any, uuid: any) => {
     setStates({ ...states, campaignSelected: value });
-
     if (uuid === "global") {
       get(`/pitch/global/phrases/`).then((global: any) => {
         setStates({ ...states, versions: global.data, checkIfGlobal: true });
@@ -410,23 +400,23 @@ const Phrase: React.FC<IProps> = props => {
     });
     if (states.checkIfGlobal === true) {
       data1 = get(
-        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/unrecorded/`
+        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/unrecorded/`
       );
       data2 = get(
-        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/rerecord/`
+        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/rerecord/`
       );
       data3 = get(
-        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/recorded/`
+        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/recorded/`
       );
     } else {
       data1 = get(
-        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/unrecorded/`
+        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/unrecorded/`
       );
       data2 = get(
-        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/rerecord/`
+        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/rerecord/`
       );
       data3 = get(
-        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_uuid}/recorded/`
+        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/recorded/`
       );
     }
     Promise.all([data1, data2, data3]).then(values => {
@@ -460,52 +450,35 @@ const Phrase: React.FC<IProps> = props => {
   const resetFilters = (val: any) => {
     setStates({ ...states, display: [], filtered: false, showTable: val });
   };
-
   const handleChange = (key: any, val: any) => {
     setStates({ ...states, [key]: val });
   };
-
   const selectedVoice = (val: any) => {
-    setStates({ ...states, searchVoice: val });
-
-    let campaigns = [];
-
+    let campaigns: any = [],
+      user_data: any = [],
+      campaigns1: any = [];
     const global = {
       uuid: "global1111",
-      name: "Global (Globally Required Phrases)",
+      name: "Global (Globally3 required phrases)",
       company: "global",
       slug: "global"
     };
     campaigns.push(global);
-
-    setStates({ ...states, state1: "DATA_LOADED", campaigns: campaigns });
-
-    // get(`/identity/user/manage/${val}/`).then((user) => {
-    // 	setStates({ ...states,
-    // 		state: 'DATA_LOADED',
-    // 		user_data: user.data
-    // 	});
-    // 	// if (states.user_group === 10) {
-    // 	// }
-
-    // 	get(`/identity/campaign/list/`).then((campaign) => {
-    // 		user.data.campaigns.map((camps) => {
-    // 			campaign.data.map((res) => {
-    // 				if (res.uuid === camps) {
-    // 					campaigns.push(res);
-    // 				}
-    // 				return null;
-    // 			});
-    // 			return null;
-    //     });
-    //     console.log(campaigns);
-    // 		setStates({ ...states,
-    // 			campaigns
-    // 		});
-    // 	});
-    // });
+    get(`/identity/user/manage/${val}/`).then((user: any) => {
+      user_data = user.data;
+      campaigns1 = state.campaigns.filter((camp: any) => {
+        return user_data.campaigns.includes(camp.uuid);
+      });
+      campaigns = campaigns.concat(campaigns1);
+      setStates({
+        ...states,
+        campaigns,
+        state1: "DATA_LOADED",
+        user_data: user.data,
+        voiceSelected: val
+      });
+    });
   };
-
   const deleteAudio = (val: any) => {
     states.recorded.map((data: any, id: any) => {
       if (val === data.name) {
@@ -514,8 +487,6 @@ const Phrase: React.FC<IProps> = props => {
       return null;
     });
   };
-
-  // for uploading audio
   const handleAudio = (e: any) => {
     setStates({ ...states, audioFile: e.target.value });
 
@@ -524,11 +495,9 @@ const Phrase: React.FC<IProps> = props => {
     uploadFile.append("file", files[0]);
     setStates({ ...states, fileName: files[0].name, file: uploadFile });
   };
-
   const removeAudio = () => {
     setStates({ ...states, audioFile: "", fileName: "" });
   };
-
   const getRecordedName = (val: any) => {
     setStates({ ...states, recordedName: val });
 
@@ -539,8 +508,6 @@ const Phrase: React.FC<IProps> = props => {
       return null;
     });
   };
-
-  // table audio upload
   const uploadAudio = (
     voice: any,
     phrasebook: any,
@@ -566,7 +533,7 @@ const Phrase: React.FC<IProps> = props => {
 
       if (states.checkIfGlobal) {
         post(
-          `/pitch/global/audio/phrase-book/${phrasebook}/voice/${states.voiceSelected}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+          `/pitch/global/audio/phrase-book/${phrasebook}/voice/${states.voiceSelected}/phrase/${states.selectedVersion}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
           file
         )
           .then((res: any) => {
@@ -612,7 +579,6 @@ const Phrase: React.FC<IProps> = props => {
               });
             }
           })
-          // if there is no response we will show a failed upload message
           .catch((err: any) => {
             setStates({
               ...states,
@@ -647,8 +613,6 @@ const Phrase: React.FC<IProps> = props => {
               addNewVoiceModal: false
             });
             filterData();
-
-            // checks if status response was 201.
             if (res.status === 201 || res.status === 200) {
               setStates({
                 ...states,
@@ -673,7 +637,6 @@ const Phrase: React.FC<IProps> = props => {
               });
             }
           })
-          // if there is no response we will show a failed upload message
           .catch((err: any) => {
             setStates({
               ...states,
@@ -689,9 +652,6 @@ const Phrase: React.FC<IProps> = props => {
       }
     }
   };
-
-  //ANCHOR UPLOAD SESSION
-
   const uploadSession = (session: any) => {
     let requests;
     setStates({ ...states, uploadLoading: true });
@@ -731,7 +691,6 @@ const Phrase: React.FC<IProps> = props => {
             uploadLoading: false
           });
         })
-        // if there is no response we will show a failed upload message
         .catch(err => {
           setStates({
             ...states,
@@ -780,7 +739,6 @@ const Phrase: React.FC<IProps> = props => {
             uploadLoading: false
           });
         })
-        // if there is no response we will show a failed upload message
         .catch(err => {
           setStates({
             ...states,
@@ -795,7 +753,6 @@ const Phrase: React.FC<IProps> = props => {
         });
     }
   };
-
   const openAddNewVoiceModal = (bool: any, currentMode: any) => {
     if (bool === false) {
       setStates({
@@ -814,12 +771,9 @@ const Phrase: React.FC<IProps> = props => {
       });
     }
   };
-
   const handleCloseToast = () => {
     setStates({ ...states, openToast: false });
   };
-
-  //Transfer data to Rerecord
   const addToRerecord = (version: any, voice: any, val: any) => {
     setStates({
       ...states,
@@ -854,7 +808,6 @@ const Phrase: React.FC<IProps> = props => {
         `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
         { rerecord: true }
       ).then((res: any) => {
-        // checks if status response was 201.
         if (res.status === "201" || res.status === "200") {
           setStates({
             ...states,
@@ -878,13 +831,10 @@ const Phrase: React.FC<IProps> = props => {
             uploadLoading: false
           });
         }
-
         filterData();
       });
     }
   };
-
-  //transfer data back to recorded
   const addToRecorded = (val: any) => {
     setStates({
       ...states,
@@ -896,7 +846,6 @@ const Phrase: React.FC<IProps> = props => {
       fetchedRerecord: false,
       fetchedRecorded: false
     });
-
     if (states.checkIfGlobal === true) {
       patch(
         `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
@@ -933,12 +882,9 @@ const Phrase: React.FC<IProps> = props => {
       });
     }
   };
-
-  // main audio upload
   const openAddNewDialog = () => {
     setStates({ ...states, openAddNew: true });
   };
-
   const closeAddNewDialog = () => {
     setStates({
       ...states,
@@ -949,7 +895,6 @@ const Phrase: React.FC<IProps> = props => {
       unrecordedSelected: ""
     });
   };
-
   const changeAudioToBeUploaded = (e: any) => {
     setStates({ ...states, audioToBeUploaded: e.target.value });
 
@@ -959,7 +904,6 @@ const Phrase: React.FC<IProps> = props => {
     uploadFile.append("file", files[0]);
     setStates({ ...states, mainFileName: files[0].name, mainFile: uploadFile });
   };
-
   const mainUploadAudio = (
     voice: any,
     phrasebook: any,
@@ -991,7 +935,6 @@ const Phrase: React.FC<IProps> = props => {
       });
     } else {
       setStates({ ...states, mainUploadLoading: true });
-
       if (slug === "global") {
         post(
           `/pitch/global/audio/phrase-book/${phrasebook}/voice/${states.voiceSelected}/phrase/${phrase}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
@@ -1016,8 +959,6 @@ const Phrase: React.FC<IProps> = props => {
               mainUploadLoading: false
             });
             filterData();
-
-            // checks if status response was 201.
             if (res.status === 201 || res.status === 200) {
               setStates({
                 ...states,
@@ -1042,7 +983,6 @@ const Phrase: React.FC<IProps> = props => {
               });
             }
           })
-          // if there is no response we will show a failed upload message
           .catch((err: any) => {
             setStates({
               ...states,
@@ -1079,8 +1019,6 @@ const Phrase: React.FC<IProps> = props => {
               openAddNew: false
             });
             filterData();
-
-            // checks if status response was 201.
             if (res.status === 201 || res.status === 200) {
               setStates({
                 ...states,
@@ -1105,7 +1043,6 @@ const Phrase: React.FC<IProps> = props => {
               });
             }
           })
-          // if there is no response we will show a failed upload message
           .catch((err: any) => {
             setStates({
               ...states,
@@ -1149,7 +1086,6 @@ const Phrase: React.FC<IProps> = props => {
   const getUpdatedRecorded = (val: any) => {
     setStates({ ...states, recorded: val });
   };
-
   const playAudio = (version: any, voice: any, key: any, uuid: any) => {
     if (states.checkIfGlobal === true) {
       get(
@@ -1170,7 +1106,6 @@ const Phrase: React.FC<IProps> = props => {
       });
     }
   };
-
   const stopLoading = () => {
     setStates({ ...states, isAudioLoading: false });
   };
@@ -1198,7 +1133,6 @@ const Phrase: React.FC<IProps> = props => {
       horizontal: "right"
     });
   };
-
   const rerecordAudio = (version: any, voice: any, key: any) => {
     setStates({
       ...states,
@@ -1209,7 +1143,6 @@ const Phrase: React.FC<IProps> = props => {
       fetchedUnrecorded: false,
       fetchedRerecord: false
     });
-
     patch(`/pitch/audio/version/${version}/voice/${voice}/${key}/`, {
       rerecord: true
     })
@@ -1241,7 +1174,6 @@ const Phrase: React.FC<IProps> = props => {
           });
         }
       })
-      // if there is no response we will show a failed upload message
       .catch((err: any) => {
         setStates({
           ...states,
@@ -1255,7 +1187,6 @@ const Phrase: React.FC<IProps> = props => {
         });
       });
   };
-
   const { classes, width }: any = props;
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
