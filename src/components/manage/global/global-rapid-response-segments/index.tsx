@@ -124,15 +124,6 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
         filterlist: res.data
       });
     });
-    // setTimeout(() => {
-    //   this.setState({
-    //     globalSegment: mock,
-    //     innerLoading: false,
-    //     loading: false,
-    //     paginateList: mock,
-    //     filterlist: mock
-    //   });
-    // }, 1000);
   };
 
   paginate = (from: number, to: number) => {
@@ -552,9 +543,6 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
             }}
             message={<span id="message-id">{this.state.openSnackBar}</span>}
             action={[
-              // <Button key="undo" color="secondary" size="small" onClick={handleClose}>
-              //   UNDO
-              // </Button>,
               <IconButton
                 key="close"
                 aria-label="close"
