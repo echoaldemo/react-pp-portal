@@ -34,7 +34,7 @@ function AudioResourceTable({
   upload,
   edit,
   openModal,
-  handleCLose,
+  handleClose,
   deleteConfirmation,
   editUUID
 }) {
@@ -168,7 +168,7 @@ function AudioResourceTable({
         open={Boolean(popper)}
         onClose={() => {
           setPopper(null);
-          handleCLose();
+          handleClose();
         }}
         style={{ marginTop: 40 }}
       >
@@ -184,7 +184,7 @@ function AudioResourceTable({
         <MenuItem
           id="delete-menu"
           onClick={() => {
-            handleCLose();
+            handleClose();
             setPopper(null);
             deleteConfirmation();
           }}
