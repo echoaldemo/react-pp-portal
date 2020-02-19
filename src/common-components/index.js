@@ -54,4 +54,4 @@ export { CallMenu } from "./call-menu"
 export { EditText } from "./edit-text"
 export { CustomText, CustomInput } from "./custom-components"
 
-export { AlertgModal } from "./alert-modal/index.stories"
+export { AlertModal } from "./alert-modal"
