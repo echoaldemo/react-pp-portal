@@ -1,10 +1,23 @@
-import React, { useContext } from 'react'
-import { TableLoader, DeleteModal } from 'common-components'
-import EditForm from './EditForm'
-import { IdentityContext } from 'contexts/IdentityProvider'
+import React, { useContext, useState } from "react"
+import { TableLoader, DeleteModal, LoadingModal } from "common-components"
+import EditForm from "./EditForm"
+import { IdentityContext } from "contexts/IdentityProvider"
 
 export default function Info() {
-  const { state, openModal, setOpenModal } = useContext(IdentityContext)
+  const { state, openModal, setOpenModal, deleteCampaign } = useContext(
+    IdentityContext
+  )
+
+  const [loading, setLoading] = useState(false)
+
+  const handlerDelete = campaign => {
+    setLoading(true)
+    setOpenModal(false)
+    deleteCampaign(state.campaignDetails.slug)
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }
 
   return (
     <React.Fragment>
@@ -17,11 +30,9 @@ export default function Info() {
         closeFn={() => {
           setOpenModal(false)
         }}
-        delFn={() => {
-          // deleteCompany();
-          return null
-        }}
+        delFn={() => handlerDelete()}
       />
+      <LoadingModal open={loading} text="Deleting campaign, please wait..." />
     </React.Fragment>
   )
 }

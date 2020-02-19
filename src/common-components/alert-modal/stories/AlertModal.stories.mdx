@@ -1,0 +1,42 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { AlertModal, SaveButton as Button } from 'common-components'
+import { useState } from '@storybook/addons'
+const style={background: '#7c8a97'}
+
+<Meta title="MDX|Alert Modal" component={AlertModal} />
+
+### Alert Modal
+
+
+```
+import { AlertModal } from 'common-components'
+```
+
+<Preview>
+  <Story name="default">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            text={'One moment. We’re removing the campaign…'}
+            cancelFn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### Props
+
+| Name     | Type     | Default  | Description       |
+| -------- | -------- | -------- | ----------------- |
+| open     | boolean  | required | to open the modal |
+| text     | string   | required | loading message   |
+| cancelFn | function | required | cancel function   |
+

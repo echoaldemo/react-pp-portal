@@ -80,6 +80,14 @@ const IdentityProvider = ({ children }: any) => {
 		})
 	};
 
+	const deleteCampaign = (slug: string):any => {
+		setLoading(true)
+		setTimeout(() => {
+			console.log(slug);
+			setLoading(false)
+		}, 2000);
+	};
+
 
 
 	useEffect(() => {
@@ -155,6 +163,7 @@ const IdentityProvider = ({ children }: any) => {
 				dispatch,
 				handleSaveCampaignDetails,
 				getCampaign,
+				deleteCampaign,
 				setLoading,
 				setTab,
 				tab,
