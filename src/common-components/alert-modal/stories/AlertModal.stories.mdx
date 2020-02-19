@@ -12,7 +12,7 @@ const style={background: '#7c8a97'}
 import { AlertModal } from 'common-components'
 ```
 
-## Default
+## Loading
 
 <Preview>
   <Story name="default">
@@ -25,7 +25,77 @@ import { AlertModal } from 'common-components'
           <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
           <AlertModal
             open={open}
+            severity={'loading'}
             text={'One moment. We’re removing the campaign…'}
+            cancelFn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Info
+
+<Preview>
+  <Story name="Info">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'info'}
+            text={'Informative text for example…'}
+            cancelFn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Error
+
+<Preview>
+  <Story name="Error">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'error'}
+            text={'Something is wrong...'}
+            cancelFn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Success
+
+<Preview>
+  <Story name="Success">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'success'}
+            text={'Operation was completed succefully!'}
             cancelFn={() => setOpen(!open)}
           />
         </>
@@ -36,9 +106,12 @@ import { AlertModal } from 'common-components'
 
 ### Props
 
-| Name     | Type     | Default  | Description       |
-| -------- | -------- | -------- | ----------------- |
-| open     | boolean  | required | to open the modal |
-| text     | string   | required | loading message   |
-| cancelFn | function | required | cancel function   |
+| Name     | Type     | Default  | Description                                                    |
+| -------- | -------- | -------- | -----------------                                              |
+| open     | boolean  | required | to open the modal                                              |
+| severity | string   | required | severity of the alert                                          |
+| message  | string   | required | alert message                                                  |
+| showBtn  | boolean  |          | show button for default, if false don't show button            |
+| textBtn  | string   |          | set custom text for button label, default 'Cancel'             |
+| cancelFn | function | required | cancel function                                                |
 

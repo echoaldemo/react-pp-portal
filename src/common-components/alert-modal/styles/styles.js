@@ -1,5 +1,8 @@
-import styled from 'styled-components'
-import { CircularProgress } from '@material-ui/core'
+import styled from "styled-components"
+import { CircularProgress } from "@material-ui/core"
+import InfoIcon from "@material-ui/icons/Info"
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline"
+import ErrorIcon from "@material-ui/icons/Error"
 
 const Center = styled.div`
   display: flex;
@@ -24,12 +27,33 @@ const Text = styled.div`
   text-align: center;
   color: #7c8a97;
 `
-const LoadingIcon = styled(CircularProgress)`
-  color: #1194f6 !important;
+const WrapperIcon = `
   width: 45px !important;
   height: 45px !important;
-  margin: 35px 0;
+  margin-top: 15px;
+  margin-bottom: 42px;
 `
+
+const LoadingIcon = styled(CircularProgress)`
+  color: #1194f6 !important;
+  margin-top: 35px !important;
+  margin-bottom: 30px !important;
+  width: 45px !important;
+  height: 45px !important;
+`
+const StyledInfoIcon = styled(InfoIcon)`
+  color: #2196f3 !important;
+  ${WrapperIcon}
+`
+const StyledCheckIcon = styled(CheckCircleOutlineIcon)`
+  color: #4caf50 !important;
+  ${WrapperIcon}
+`
+const StyledErrorIcon = styled(ErrorIcon)`
+  color: #f44336 !important;
+  ${WrapperIcon}
+`
+
 const Button = styled.button`
   width: 165px;
   height: 40px;
@@ -50,4 +74,14 @@ const Cancel = styled.span`
   text-transform: uppercase;
 `
 
-export { Center, Card, Text, LoadingIcon, Button, Cancel }
+export {
+  Center,
+  Card,
+  Text,
+  LoadingIcon,
+  StyledInfoIcon,
+  StyledCheckIcon,
+  StyledErrorIcon,
+  Button,
+  Cancel
+}

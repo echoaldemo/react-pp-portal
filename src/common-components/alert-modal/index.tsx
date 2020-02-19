@@ -1,30 +1,50 @@
 import React from 'react'
 import { Dialog } from '@material-ui/core'
+
+
 import {
   Center,
   Card,
   Text,
   LoadingIcon,
+  StyledInfoIcon,
+  StyledCheckIcon,
+  StyledErrorIcon,
   Button,
   Cancel
 } from './styles/styles'
 
 interface Props {
   open: boolean
+  severity: string
+  showBtn: boolean
+  textBtn: string
   text: string
   cancelFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
-const AlertModal: React.FC<Props> = ({ open, text, cancelFn }) => {
+const AlertModal: React.FC<Props> = ({ open, severity, text, showBtn, textBtn, cancelFn }) => {
+
+  const getSeverityIcon = () => {
+    if(severity === 'loading')
+     return <LoadingIcon />
+    else if(severity === 'success')
+     return <StyledCheckIcon />
+    else if(severity === 'error')
+     return <StyledErrorIcon />
+     else return <StyledInfoIcon/>
+  }
+
   return (
     <Dialog open={open}>
       <Center data-cy="loading-modal">
         <Card>
           <Text>{text}</Text>
-          <LoadingIcon />
+            {getSeverityIcon()}
+          {showBtn && 
           <Button onClick={cancelFn}>
-            <Cancel>cancel</Cancel>
-          </Button>
+            <Cancel>{textBtn}</Cancel>
+          </Button>}
         </Card>
       </Center>
     </Dialog>
@@ -33,7 +53,10 @@ const AlertModal: React.FC<Props> = ({ open, text, cancelFn }) => {
 
 AlertModal.defaultProps = {
   open: false,
-  text: ''
+  severity: 'info' ,
+  showBtn: true,
+  textBtn: 'Close',
+  message: ''
 } as Partial<Props>
 
 export { AlertModal }
