@@ -133,7 +133,6 @@ const Phrase: React.FC<IProps> = props => {
       showTable: false
     });
     if (states.user_group === "10") {
-      setStates({ ...states, voiceSelected: localStorage.getItem("uuid") });
       recorderSelectCampaign(states.user_uuid);
     } else {
       setStates({
@@ -454,6 +453,13 @@ const Phrase: React.FC<IProps> = props => {
     setStates({ ...states, [key]: val });
   };
   const selectedVoice = (val: any) => {
+    setStates({
+      ...states,
+      campaigns: [],
+      versions: [],
+      selectedCampaign: "",
+      selectedVersion: ""
+    });
     let campaigns: any = [],
       user_data: any = [],
       campaigns1: any = [];
@@ -470,13 +476,31 @@ const Phrase: React.FC<IProps> = props => {
         return user_data.campaigns.includes(camp.uuid);
       });
       campaigns = campaigns.concat(campaigns1);
-      setStates({
-        ...states,
-        campaigns,
-        state1: "DATA_LOADED",
-        user_data: user.data,
-        voiceSelected: val
-      });
+      if (campaigns.length !== 0) {
+        setStates({
+          ...states,
+          campaigns,
+          selectedCampaign: "",
+          selectedVersion: "",
+          versions: [],
+          state1: "DATA_LOADED",
+          user_data: user.data,
+          voiceSelected: val
+        });
+      } else {
+        setStates({
+          ...states,
+          openToast: true,
+          campaigns: [],
+          versions: [],
+          selectedCampaign: "",
+          selectedVersion: "",
+          toastType: "caution",
+          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
+          vertical: "top",
+          horizontal: "right"
+        });
+      }
     });
   };
   const deleteAudio = (val: any) => {
@@ -788,7 +812,7 @@ const Phrase: React.FC<IProps> = props => {
 
     if (states.checkIfGlobal === true) {
       patch(
-        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
+        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/phrase/${val.uuid}/file/`,
         { rerecord: true }
       ).then((audio: any) => {
         filterData();
@@ -805,7 +829,7 @@ const Phrase: React.FC<IProps> = props => {
       });
     } else {
       patch(
-        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
+        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/phrase/${val.uuid}/file/`,
         { rerecord: true }
       ).then((res: any) => {
         if (res.status === "201" || res.status === "200") {
@@ -848,7 +872,7 @@ const Phrase: React.FC<IProps> = props => {
     });
     if (states.checkIfGlobal === true) {
       patch(
-        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
+        `/pitch/global/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/phrase/${val.uuid}/file/`,
         { rerecord: false }
       ).then((audio: any) => {
         filterData();
@@ -865,7 +889,7 @@ const Phrase: React.FC<IProps> = props => {
       });
     } else {
       patch(
-        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.user_data.uuid}/phrase/${val.uuid}/file/`,
+        `/pitch/company/${states.companySlug}/audio/phrase-book/${states.selectedVersion}/voice/${states.voiceSelected}/phrase/${val.uuid}/file/`,
         { rerecord: false }
       ).then((audio: any) => {
         filterData();
@@ -1143,9 +1167,12 @@ const Phrase: React.FC<IProps> = props => {
       fetchedUnrecorded: false,
       fetchedRerecord: false
     });
-    patch(`/pitch/audio/version/${version}/voice/${voice}/${key}/`, {
-      rerecord: true
-    })
+    patch(
+      `/pitch/audio/version/${version}/voice/${states.voiceSelected}/${key}/`,
+      {
+        rerecord: true
+      }
+    )
       .then((res: any) => {
         filterData();
 

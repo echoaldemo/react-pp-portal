@@ -169,14 +169,7 @@ class Filter extends Component<IProps, {}> {
     }
   };
   render() {
-    const {
-      classes,
-      campaigns,
-      versions,
-      tab,
-      filterData,
-      filtered
-    }: any = this.props;
+    const { classes, campaigns, versions, tab, filterData }: any = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
