@@ -1,5 +1,5 @@
 import React from "react";
-import { split as SplitEditor } from "react-ace";
+import AceEditor from "react-ace";
 
 import "brace/mode/java";
 import "brace/theme/chrome";
@@ -31,7 +31,7 @@ class Editor extends React.Component {
       // Render editor
       <React.Fragment>
         {this.state.xml !== null ? (
-          <SplitEditor
+          <AceEditor
             onChange={newValue => {
               this.handleChangeXml(newValue);
             }}
@@ -40,8 +40,7 @@ class Editor extends React.Component {
             height="800px"
             mode="xml"
             theme={`${this.props.theme}`}
-            splits={1}
-            value={[`${this.state.xml}`]}
+            value={`${this.state.xml}`}
             name="UNIQUE_ID_OF_DIV"
             setOptions={{ showInvisibles: true }}
             editorProps={{ $blockScrolling: true }}
