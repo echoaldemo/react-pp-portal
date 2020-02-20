@@ -387,7 +387,7 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
                             paddingBottom: 0
                           }}
                         >
-                          <CodeIcon />{" "}
+                          <CodeIcon />
                           <Typography style={{ marginLeft: 40 }}>
                             XML
                           </Typography>
@@ -401,7 +401,7 @@ export default class GRapidResponseSegments extends Component<IProps, IState> {
                             paddingBottom: 0
                           }}
                         >
-                          <DeleteIcon />{" "}
+                          <DeleteIcon />
                           <Typography style={{ marginLeft: 40 }}>
                             Delete
                           </Typography>

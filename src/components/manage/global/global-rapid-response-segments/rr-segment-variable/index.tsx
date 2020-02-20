@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, { Component } from "react";
+import SwapIcon from "@material-ui/icons/SwapHoriz";
+import DeleteIcon from "@material-ui/icons/Delete";
 // import NewSegment from "./components/NewSegment";
 import {
   Paper,
@@ -7,7 +9,8 @@ import {
   Snackbar,
   IconButton,
   Typography,
-  Dialog
+  Dialog,
+  MenuItem
 } from "@material-ui/core";
 
 //Header
@@ -329,6 +332,39 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                     userData={this.state.searchData}
                     headers={["key", "values", "name"]}
                     loading={this.state.loading}
+                    setActiveDataMethod={this.setActiveDataMethod}
+                    settings={
+                      <>
+                        <MenuItem
+                          onClick={() => this.setState({ open: true })}
+                          style={{
+                            color: "#777777",
+                            width: 250,
+                            paddingTop: 0,
+                            paddingBottom: 0
+                          }}
+                        >
+                          <SwapIcon />
+                          <Typography style={{ marginLeft: 40 }}>
+                            Change Values
+                          </Typography>
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => this.setState({ openDelete: true })}
+                          style={{
+                            color: "#777777",
+                            width: 250,
+                            paddingTop: 0,
+                            paddingBottom: 0
+                          }}
+                        >
+                          <DeleteIcon />
+                          <Typography style={{ marginLeft: 40 }}>
+                            Delete
+                          </Typography>
+                        </MenuItem>
+                      </>
+                    }
                   />
                 </div>
 

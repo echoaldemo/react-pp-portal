@@ -3,9 +3,7 @@ import { AsyncTable, UnderlineCell } from "common-components";
 import TableRow from "@material-ui/core/TableRow";
 import { FileCopyOutlined as Icon } from "@material-ui/icons";
 import SwapIcon from "@material-ui/icons/SwapHoriz";
-
 import DeleteIcon from "@material-ui/icons/Delete";
-
 import TableCell from "@material-ui/core/TableCell";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -163,7 +161,7 @@ function SegmentTable({
                 paddingBottom: 0
               }}
             >
-              <SwapIcon />{" "}
+              <SwapIcon />
               <Typography style={{ marginLeft: 40 }}>Change Values</Typography>
             </MenuItem>
             <MenuItem
