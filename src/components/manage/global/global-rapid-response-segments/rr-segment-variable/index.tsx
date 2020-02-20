@@ -52,21 +52,6 @@ interface IState {
   openSuccess1: boolean;
 }
 
-const mock = {
-  uuid: "a279ae2c-7866-11e7-83d7-02420a000608",
-  name: "test segment",
-  company: null,
-  slug: "test-segment",
-  active: true,
-  type: "failures",
-  xml:
-    '<failures>\n  <prospect-audio namespace="prospect" key="failure-1">I don\'t have time for this!</prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-2">\n        Sorry, getting on the elevator. I will call back, I promise.\n    </prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-3">You guys suck, stop calling me!</prospect-audio>\n</failures>',
-  variables: {
-    "3": "0",
-    fff: "asd"
-  }
-};
-
 export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
@@ -100,24 +85,10 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
       loading: true
     });
     var arrVar: any = [];
-    // get(
-    // 	`/pitch/global/rapid-response/segments/${this.props.match.params.uuid}`
-    // ).then((res: any) => {
-    // 	for (let [key, value] of Object.entries(res.data.variables)) {
-    // 		arrVar.push({ name: key, key: `{{global.${key}}}`, values: value })
-    // 	}
-    // 	this.setState({
-    // 		segmentVariables: arrVar,
-    // 		innerLoading: false,
-    // 		loading: false,
-    // 		paginateList: arrVar,
-    // 		filterlist: arrVar,
-    // 		searchData: arrVar,
-    // 		segmentData: res.data
-    // 	})
-    // })
-    setTimeout(() => {
-      for (let [key, value] of Object.entries(mock.variables)) {
+    get(
+      `/pitch/global/rapid-response/segments/${this.props.match.params.uuid}`
+    ).then((res: any) => {
+      for (let [key, value] of Object.entries(res.data.variables)) {
         arrVar.push({ name: key, key: `{{global.${key}}}`, values: value });
       }
       this.setState({
@@ -127,9 +98,9 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
         paginateList: arrVar,
         filterlist: arrVar,
         searchData: arrVar,
-        segmentData: mock
+        segmentData: res.data
       });
-    }, 1000);
+    });
   };
 
   paginate = (from: number, to: number) => {
