@@ -1,4 +1,5 @@
-const useStyles: any = (theme: any) => ({
+import { makeStyles } from "@material-ui/core";
+const useStyles: any = makeStyles(theme => ({
   root: {
     width: "100%",
     display: "flex"
@@ -64,7 +65,7 @@ const useStyles: any = (theme: any) => ({
       height: "auto"
     },
     "@media (min-width: 492px) and (max-width: 959px)": {
-      textAlign: "-webkit-center"
+      textAlign: "center"
     }
   },
   filterWrapper: {
@@ -195,6 +196,6 @@ const useStyles: any = (theme: any) => ({
       display: "none"
     }
   }
-});
+}));
 
 export default useStyles;

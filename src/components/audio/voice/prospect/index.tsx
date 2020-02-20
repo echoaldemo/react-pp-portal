@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
-  withStyles,
   CssBaseline,
   Container,
   Grid,
@@ -28,11 +27,12 @@ import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
 import { get, patch, post } from "utils/api";
 import { TableLoader, HeaderLink } from "common-components";
+import { store } from "contexts/ManageComponent";
 interface State {
   loader?: boolean;
   user: number;
   links: any;
-  state: string;
+  state1: string;
   campaigns: any;
   versions: any;
   selected: any;
@@ -95,88 +95,81 @@ interface State {
   prospect_campaigns: any;
   defaultVoice: any;
 }
-class Prospect extends Component<{ location: any }, State> {
-  constructor(props: any) {
-    super(props);
+const Prospect: React.FC<{ location: any }> = ({ location }) => {
+  const { state } = useContext(store);
+  const classes = useStyles();
+  const [states, setState] = useState<State>({
+    user: 1,
+    links: [
+      { name: "prospect audio", link: "/prospect" },
+      { name: "pitch audio", link: "/pitch" },
+      { name: "phrase audio", link: "/phrase" }
+    ],
+    state1: "DATA_LOADED",
+    campaigns: [],
+    versions: [],
+    selected: "",
+    tabSelected: 0,
 
-    this.state = {
-      user: 1,
-      links: [
-        { name: "prospect audio", link: "/prospect" },
-        { name: "pitch audio", link: "/pitch" },
-        { name: "phrase audio", link: "/phrase" }
-      ],
-      state: "DATA_LOADED",
-      campaigns: [],
-      versions: [],
-      selected: "",
-      tabSelected: 0,
-
-      unrecorded: [],
-      rerecord: [],
-      recorded: [],
-      unrecordedTblName: ["Name", "Dialog", "Action"],
-      rerecordTblName: ["Name", "Dialog", "Action"],
-      recordedTblName: ["Name", "Audio", "Action"],
-      display: [],
-      displayRerecord: [],
-      displayRecorded: [],
-      filtered: false,
-      searchVoice: null,
-      searchDialogRecord: "",
-      searchDialogRerecord: "",
-      searchDialogUnrecord: "",
-      openAddNew: false,
-      showTable: false,
-      audioFile: "",
-      recordedName: "",
-      fileName: "",
-      voices: [],
-      user_data: [],
-      selectedCampaign: [],
-      selectedVersion: "",
-      audio: [],
-      fetchedUploadAudio: false,
-      fetchedUnrecorded: false,
-      fetchedRerecord: false,
-      fetchedRecorded: false,
-      isAudioLoading: false,
-      campaignSelected: "",
-      versionSelected: "",
-      openToast: false,
-      toastType: "",
-      message: "",
-      vertical: "top",
-      horizontal: "right",
-      campaignList: [],
-      unrecordedList: [],
-      unrecordedSelected: "",
-      token: "",
-      error: false,
-      file: null,
-      campaign_uuids: [],
-      prospect_campaigns: [],
-      addNewVoiceModal: false,
-      uploadLoading: false,
-      user_group: 10,
-      profile: [],
-      user_uuid: "",
-      currentMode: null,
-      isAudioLoadingRerec: false,
-      defaultVoice: null
-    };
-  }
-  async componentDidMount() {
-    if (this.props.location.state) {
-      this.setState({
-        defaultVoice: this.props.location.state
-      });
-      await this.selectedVoice(this.props.location.state.uuid);
-    }
+    unrecorded: [],
+    rerecord: [],
+    recorded: [],
+    unrecordedTblName: ["Name", "Dialog", "Action"],
+    rerecordTblName: ["Name", "Dialog", "Action"],
+    recordedTblName: ["Name", "Audio", "Action"],
+    display: [],
+    displayRerecord: [],
+    displayRecorded: [],
+    filtered: false,
+    searchVoice: null,
+    searchDialogRecord: "",
+    searchDialogRerecord: "",
+    searchDialogUnrecord: "",
+    openAddNew: false,
+    showTable: false,
+    audioFile: "",
+    recordedName: "",
+    fileName: "",
+    voices: [],
+    user_data: [],
+    selectedCampaign: [],
+    selectedVersion: "",
+    audio: [],
+    fetchedUploadAudio: false,
+    fetchedUnrecorded: false,
+    fetchedRerecord: false,
+    fetchedRecorded: false,
+    isAudioLoading: false,
+    campaignSelected: "",
+    versionSelected: "",
+    openToast: false,
+    toastType: "",
+    message: "",
+    vertical: "top",
+    horizontal: "right",
+    campaignList: [],
+    unrecordedList: [],
+    unrecordedSelected: "",
+    token: "",
+    error: false,
+    file: null,
+    campaign_uuids: [],
+    prospect_campaigns: [],
+    addNewVoiceModal: false,
+    uploadLoading: false,
+    user_group: localStorage.getItem("type"),
+    profile: [],
+    user_uuid: state.roles.length !== 0 ? localStorage.getItem("uuid") : "",
+    currentMode: null,
+    isAudioLoadingRerec: false,
+    defaultVoice: null
+  });
+  useEffect(() => {
     document.title = "Prospect Audio";
     var tokenLogin = localStorage.getItem("ngStorage-ppToken");
     if (localStorage.getItem("error")) {
-      this.setState({
+      setState({
+        ...states,
         openToast: true,
         toastType: "caution",
         message: `Your user does not have access to that page. You may need to sign-in.`,
@@ -185,57 +178,41 @@ class Prospect extends Component<{ location: any }, State> {
       });
       localStorage.removeItem("error");
     }
-    this.setState({ token: tokenLogin });
-    get("/identity/user/profile/").then((profileData: any) => {
-      this.setState({
-        state: "DATA_LOADED",
-        profile: profileData.data,
-        user_uuid: profileData.data.uuid,
-        user_group: profileData.data.groups[0]
+    setState({
+      ...states,
+      state1: "DATA_LOADED",
+      token: tokenLogin,
+      loader: true,
+      showTable: false
+    });
+    if (states.user_group === "10") {
+      recorderCamp(states.user_uuid);
+    } else {
+      setState({
+        ...states,
+        state1: "DATA_LOADED",
+        voices: state.users
       });
-      if (profileData.data.groups[0] === 10) {
-        this.recorderCamp(profileData.data.uuid);
-      } else {
-        get("/identity/user/manage/list/?groups=10&limit=100").then(
-          (voiceData: any) => {
-            this.setState({
-              state: "DATA_LOADED",
-              voices: voiceData.data.results
-            });
-          }
-        );
-      }
-    });
-  }
-  recorderCamp = async (uuid: any) => {
-    this.setState({
-      searchVoice: uuid
-    });
+    }
+  }, []);
+  const recorderCamp = async (uuid: any) => {
+    setState({ ...states, voiceSelected: uuid });
     let campaigns: any = [],
       user_data: any = [];
-    const data1 = await get(`/identity/user/profile/`).then((user: any) => {
+    get(`/identity/user/profile/`).then((user: any) => {
       user_data = user.data.campaigns;
-      this.setState({
-        state: "DATA_LOADED",
-        user_data: user.data
+      campaigns = state.campaigns.filter((camp: any) => {
+        return user_data.includes(camp.uuid);
       });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then((campaign: any) => {
-        campaigns = campaign.data.filter((camp: any) => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
       if (campaigns.length) {
-        this.setState({
-          campaigns
+        setState({
+          ...states,
+          campaigns,
+          voiceSelected: uuid
         });
       } else {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
           toastType: "caution",
           message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
@@ -244,61 +221,70 @@ class Prospect extends Component<{ location: any }, State> {
         });
       }
     });
+    setState({ ...states, campaigns });
   };
-  toTitleCase = (str: any) => {
+  const toTitleCase = (str: any) => {
     return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
-  tabSelected = (val: any) => {
-    this.setState({
-      tabSelected: val
-    });
+  const tabSelected = (val: any) => {
+    setState({ ...states, tabSelected: val });
   };
-  selectCampaign = (value: any, uuid: any) => {
-    this.setState({
-      error: false,
+  const selectCampaign = (value: any, uuids: any) => {
+    const dataCampaigns: any = state.campaigns.filter(
+      (camp: any) => camp.slug === value
+    );
+    const uuid = dataCampaigns[0].company;
+    const dataCompanies: any = state.companies.filter(
+      (comp: any) => comp.uuid === uuid
+    );
+    setState({
+      ...states,
+      selectedVersion: "",
       selectedCampaign: value
     });
-    get(`/identity/company/${uuid}/`).then((res: any) => {
-      get(`/pitch/company/${res.data.slug}/campaign/${value}/`)
-        .then((versions: any) => {
-          if (versions.data.versions.length > 0) {
-            this.setState({
-              versions: versions.data.versions.reverse()
-            });
-          } else {
-            this.setState({
-              openToast: true,
-              toastType: "caution",
-              message: `There are no pitch versions available for this campaign.`,
-              vertical: "top",
-              horizontal: "right"
-            });
-          }
-        })
-        .catch((err: any) => {
-          this.setState({
+    get(`/pitch/company/${dataCompanies[0].slug}/campaign/${value}/`)
+      .then((versions: any) => {
+        if (versions.data.versions.length > 0) {
+          setState({
+            ...states,
+            selectedVersion: "",
+            versions: versions.data.versions.reverse(),
+            selectedCampaign: value
+          });
+          console.log(versions.data.versions);
+        } else {
+          setState({
+            ...states,
             openToast: true,
+            selectedVersion: "",
+            selectedCampaign: value,
             toastType: "caution",
             message: `There are no pitch versions available for this campaign.`,
             vertical: "top",
             horizontal: "right"
           });
+        }
+      })
+      .catch((err: any) => {
+        setState({
+          ...states,
+          openToast: true,
+          toastType: "caution",
+          message: `There are no pitch versions available for this campaign.`,
+          vertical: "top",
+          horizontal: "right"
         });
-    });
+      });
   };
 
-  selectVoiceCampaign = (value: any, uuid: any) => {
-    this.setState({
-      campaignSelected: value
-    });
+  const selectVoiceCampaign = (value: any, uuid: any) => {
+    setState({ ...states, campaignSelected: value });
     get(`/identity/company/${uuid}/`).then((res: any) => {
       get(`/pitch/company/${res.data.slug}/campaign/${value}/`).then(
         (ver: any) => {
-          this.setState({
-            versions: ver.data.versions.reverse()
-          });
+          setState({ ...states, versions: ver.data.versions.reverse() });
         }
       );
     });
@@ -306,110 +292,97 @@ class Prospect extends Component<{ location: any }, State> {
 
   // this function is used for main adding of audio
 
-  selectVersion = (value: any) => {
-    this.setState({
-      selectedVersion: value
-    });
-    get(
-      `/pitch/audio/version/${value}/prospect/${this.state.user_data.uuid}/unrecorded/`
-    ).then((unrecorded: any) => {
-      this.setState({
-        unrecordedList: unrecorded.data
-      });
-    });
+  const selectVersion = (value: any) => {
+    setState({ ...states, selectedVersion: value });
   };
 
-  selectUnrecorded = (value: any) => {
-    this.setState({
-      unrecordedSelected: value
-    });
+  const selectUnrecorded = (value: any) => {
+    setState({ ...states, unrecordedSelected: value });
   };
 
-  filterData = (pitch_version: any) => {
-    this.setState({
+  const filterData = (pitch_version: any) => {
+    var data1, data2, data3;
+    setState({
+      ...states,
+      loader: true,
       showTable: false,
-      loader: true
+      display: [],
+      displayRerecord: [],
+      fetchedRecorded: false,
+      fetchedRerecord: false,
+      fetchedUnrecorded: false
     });
-    //UNCOMMENT FOR ACTUAL DATA
-    const data1 = get(
-      `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/unrecorded/`
-    ).then((unrecorded: any) => {
-      this.setState({
-        display: unrecorded.data,
-        fetchedUnrecorded: unrecorded.status === 200 ? true : false
-      });
-    });
+    ///pitch/audio/version/${states.selectedVersion}/prospect/${states.voiceSelected}/recorded/
+    data1 = get(
+      `/pitch/audio/version/${states.selectedVersion}/prospect/${states.voiceSelected}/unrecorded/`
+    );
+    data2 = get(
+      `/pitch/audio/version/${states.selectedVersion}/prospect/${states.voiceSelected}/rerecord/`
+    );
+    data3 = get(
+      `/pitch/audio/version/${states.selectedVersion}/prospect/${states.voiceSelected}/recorded/`
+    );
 
-    const data2 = get(
-      `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/rerecord/`
-    ).then((rerecord: any) => {
-      this.setState({
-        displayRerecord: rerecord.data,
-        fetchedRerecord: rerecord.status === 200 ? true : false
-      });
-    });
-    const data3 = get(
-      `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/recorded/`
-    ).then((recorded: any) => {
-      this.setState({
-        displayRecorded: recorded.data,
-        fetchedRecorded: recorded.status === 200 ? true : false
-      });
-    });
-    Promise.all([data1, data2, data3]).then(() => {
-      this.setState({
+    Promise.all([data1, data2, data3]).then(values => {
+      setState({
+        ...states,
+        loader: false,
         showTable: true,
-        loader: false
+        display: values[0].data,
+        fetchedUnrecorded: values[0].status === 200 ? true : false,
+        displayRerecord: values[1].data,
+        fetchedRerecord: values[1].status === 200 ? true : false,
+        displayRecorded: values[2].data,
+        fetchedRecorded: values[2].status === 200 ? true : false,
+        filtered: true
       });
     });
   };
-  resetFilters = (val: any) => {
-    this.setState({
+  const resetFilters = (val: any) => {
+    setState({
+      ...states,
       display: [],
       //filtered: false,
       showTable: val
     });
   };
-  handleChange = (key: any, val: any) => {
-    this.setState({
-      [key]: val
-    });
+  const handleChange = (key: any, val: any) => {
+    setState({ ...states, [key]: val });
   };
-  selectedVoice = async (val: any) => {
-    this.setState({
-      searchVoice: val,
+  const selectedVoice = async (val: any) => {
+    setState({
+      ...states,
       campaigns: [],
       versions: [],
-      voiceSelected: val
+      selectedCampaign: "",
+      selectedVersion: ""
     });
-    let campaigns: any = [],
-      user_data: any = [];
-    const data1 = await get(`/identity/user/manage/${val}/`).then(
-      (user: any) => {
-        user_data = user.data.campaigns;
-        this.setState({
-          state: "DATA_LOADED",
-          user_data: user.data
-        });
-      }
-    );
-    const data2 = await get(`/identity/campaign/list/`)
-      .then((campaign: any) => {
-        campaigns = campaign.data.filter((camp: any) => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch((err: any) => {
-        console.log(err);
+    let user_data: any = [],
+      campaigns: any = [];
+    get(`/identity/user/manage/${val}/`).then((user: any) => {
+      user_data = user.data;
+      campaigns = state.campaigns.filter((camp: any) => {
+        return user_data.campaigns.includes(camp.uuid);
       });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
-        this.setState({
-          campaigns
+      if (campaigns.length !== 0) {
+        setState({
+          ...states,
+          campaigns,
+          selectedCampaign: "",
+          selectedVersion: "",
+          versions: [],
+          state1: "DATA_LOADED",
+          user_data: user.data,
+          voiceSelected: val
         });
       } else {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
+          campaigns: [],
+          versions: [],
+          selectedCampaign: "",
+          selectedVersion: "",
           toastType: "caution",
           message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
           vertical: "top",
@@ -417,45 +390,53 @@ class Prospect extends Component<{ location: any }, State> {
         });
       }
     });
+
+    // Promise.all([data1, data2]).then(() => {
+    //   if (campaigns.length) {
+    //     setState({ ...states, campaigns });
+    //   } else {
+    // setState({
+    //   ...states,
+    //   openToast: true,
+    //   toastType: "caution",
+    //   message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
+    //   vertical: "top",
+    //   horizontal: "right"
+    // });
+    //   }
+    // });
   };
 
-  deleteAudio = (val: any) => {
-    this.state.recorded.map((data: any, id: any) => {
+  const deleteAudio = (val: any) => {
+    states.recorded.map((data: any, id: any) => {
       if (val === data.name) {
-        this.state.recorded.splice(id, 1);
+        states.recorded.splice(id, 1);
       }
       return null;
     });
   };
-  handleAudio = (e: any) => {
-    this.setState({ audioFile: e.target.value });
+  const handleAudio = (e: any) => {
+    setState({ ...states, audioFile: e.target.value });
     let files = e.target.files;
     var uploadFile = new FormData();
     uploadFile.append("file", files[0]);
-    this.setState({
-      fileName: files[0].name,
-      file: uploadFile
-    });
+    setState({ ...states, fileName: files[0].name, file: uploadFile });
   };
-  removeAudio = () => {
-    this.setState({
-      audioFile: "",
-      fileName: ""
-    });
+  const removeAudio = () => {
+    setState({ ...states, audioFile: "", fileName: "" });
   };
-  getRecordedName = (val: any) => {
-    this.setState({
-      recordedName: val
-    });
-    this.state.unrecorded.map((data: any, id: any) => {
+  const getRecordedName = (val: any) => {
+    setState({ ...states, recordedName: val });
+    states.unrecorded.map((data: any, id: any) => {
       if (val === data.name) {
-        this.state.unrecorded.splice(id, 1);
+        states.unrecorded.splice(id, 1);
       }
       return null;
     });
   };
-  addToRerecord = (version: any, voice: any, key: any) => {
-    this.setState({
+  const addToRerecord = (version: any, voice: any, key: any) => {
+    setState({
+      ...states,
       loader: true,
       display: [],
       displayRerecord: [],
@@ -464,13 +445,17 @@ class Prospect extends Component<{ location: any }, State> {
       fetchedRerecord: false,
       fetchedRecorded: false
     });
-    patch(`/pitch/audio/version/${version}/prospect/${voice}/${key.key}/`, {
-      rerecord: true
-    })
+    patch(
+      `/pitch/audio/version/${version}/prospect/${states.voiceSelected}/${key.key}/`,
+      {
+        rerecord: true
+      }
+    )
       .then((res: any) => {
-        this.filterData(this.state.selectedVersion);
+        filterData(states.selectedVersion);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "check",
             message: `Successfully uploaded`,
@@ -480,7 +465,8 @@ class Prospect extends Component<{ location: any }, State> {
             uploadLoading: false
           });
         } else {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "caution",
             message: `Request failed`,
@@ -492,7 +478,8 @@ class Prospect extends Component<{ location: any }, State> {
         }
       })
       .catch((err: any) => {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
           toastType: "caution",
           message: `Request failed`,
@@ -503,60 +490,56 @@ class Prospect extends Component<{ location: any }, State> {
         });
       });
   };
-  openAddNewDialog() {
-    this.setState({
-      openAddNew: true
-    });
+  function openAddNewDialog() {
+    setState({ ...states, openAddNew: true });
   }
-  closeAddNewDialog() {
-    this.setState({
+  function closeAddNewDialog() {
+    setState({
+      ...states,
       openAddNew: false,
       selectedCampaign: "",
       selectedVersion: "",
       unrecordedSelected: ""
     });
   }
-  savingAudio = () => {
-    this.setState(
-      prevState => ({
-        openAddNew: !prevState.openAddNew
-      })
-      // () => this.showSuccessBar()
+  const savingAudio = () => {
+    setState(
+      prevState => ({ ...states, openAddNew: !prevState.openAddNew })
+      // () => showSuccessBar()
     );
   };
-  getUpdatedRecorded = (val: any) => {
-    this.setState({
-      recorded: val
-    });
-    this.state.unrecorded.map((data: any, id: any) => {
+  const getUpdatedRecorded = (val: any) => {
+    setState({ ...states, recorded: val });
+    states.unrecorded.map((data: any, id: any) => {
       if (val.name === data.name) {
-        this.state.unrecorded.splice(id, 1);
+        states.unrecorded.splice(id, 1);
       }
       return null;
     });
   };
-  playAudio = (version: any, voice: any, key: any) => {
-    get(`/pitch/audio/version/${version}/prospect/${voice}/${key}/`).then(
-      (res: any) => {
-        this.setState({ audio: res.data, isAudioLoading: false });
-      }
-    );
+  const playAudio = (version: any, voice: any, key: any) => {
+    get(
+      `/pitch/audio/version/${version}/prospect/${states.voiceSelected}/${key}/`
+    ).then((res: any) => {
+      setState({ ...states, audio: res.data, isAudioLoading: false });
+    });
   };
-  stopLoading = () => {
-    this.setState({ isAudioLoading: false });
+  const stopLoading = () => {
+    setState({ ...states, isAudioLoading: false });
   };
-  showLoader = (type: any) => {
+  const showLoader = (type: any) => {
     if (type === "recorded") {
-      this.setState({ isAudioLoading: true });
+      setState({ ...states, isAudioLoading: true });
     } else {
-      this.setState({ isAudioLoadingRerec: true });
+      setState({ ...states, isAudioLoadingRerec: true });
     }
   };
-  removeAudioPlayed = () => {
-    this.setState({ audio: [] });
+  const removeAudioPlayed = () => {
+    setState({ ...states, audio: [] });
   };
-  rerecordAudio = (version: any, voice: any, key: any) => {
-    this.setState({
+  const rerecordAudio = (version: any, voice: any, key: any) => {
+    setState({
+      ...states,
       display: [],
       displayRerecord: [],
       displayRecorded: [],
@@ -564,13 +547,17 @@ class Prospect extends Component<{ location: any }, State> {
       fetchedRerecord: false,
       fetchedRecorded: false
     });
-    patch(`/pitch/audio/version/${version}/prospect/${voice}/${key}/`, {
-      rerecord: true
-    })
+    patch(
+      `/pitch/audio/version/${version}/prospect/${states.voiceSelected}/${key}/`,
+      {
+        rerecord: true
+      }
+    )
       .then((res: any) => {
-        this.filterData(this.state.selectedVersion);
+        filterData(states.selectedVersion);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "check",
             message: `Successfully added to rerecord`,
@@ -580,7 +567,8 @@ class Prospect extends Component<{ location: any }, State> {
             uploadLoading: false
           });
         } else {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "caution",
             message: `Request failed`,
@@ -592,7 +580,8 @@ class Prospect extends Component<{ location: any }, State> {
         }
       })
       .catch((err: any) => {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
           toastType: "caution",
           message: `Request failed`,
@@ -603,7 +592,7 @@ class Prospect extends Component<{ location: any }, State> {
         });
       });
   };
-  uploadAudio = (
+  const uploadAudio = (
     voice: any,
     version: any,
     slug: any,
@@ -615,7 +604,8 @@ class Prospect extends Component<{ location: any }, State> {
     convert: any
   ) => {
     if (file == null) {
-      this.setState({
+      setState({
+        ...states,
         openToast: true,
         toastType: "caution",
         message: `Please Select Audio File`,
@@ -623,15 +613,14 @@ class Prospect extends Component<{ location: any }, State> {
         horizontal: "right"
       });
     } else {
-      this.setState({
-        uploadLoading: true
-      });
+      setState({ ...states, uploadLoading: true });
       post(
-        `/pitch/audio/version/${version}/prospect/${voice}/${key}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+        `/pitch/audio/version/${version}/prospect/${states.voiceSelected}/${key}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
         file
       )
         .then((res: any) => {
-          this.setState({
+          setState({
+            ...states,
             display: [],
             displayRerecord: [],
             displayRecorded: [],
@@ -644,9 +633,10 @@ class Prospect extends Component<{ location: any }, State> {
             uploadLoading: false,
             openAddNew: false
           });
-          this.filterData(version);
           if (res.status === 201 || res.status === 200) {
-            this.setState({
+            filterData(version);
+            setState({
+              ...states,
               openToast: true,
               toastType: "check",
               message: `Successfully uploaded`,
@@ -656,7 +646,8 @@ class Prospect extends Component<{ location: any }, State> {
               uploadLoading: false
             });
           } else {
-            this.setState({
+            setState({
+              ...states,
               openToast: true,
               toastType: "caution",
               message: `Failed to upload file`,
@@ -668,7 +659,8 @@ class Prospect extends Component<{ location: any }, State> {
           }
         })
         .catch((err: any) => {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "caution",
             message: `Error uploading file`,
@@ -680,20 +672,18 @@ class Prospect extends Component<{ location: any }, State> {
         });
     }
   };
-  uploadSession = (session: any) => {
-    console.log(session);
-    this.setState({
-      uploadLoading: true
-    });
+  const uploadSession = (session: any) => {
+    setState({ ...states, uploadLoading: true });
     const requests = session.map((audio: any) => {
       return post(
-        `/pitch/audio/version/${audio.version}/prospect/${audio.voice}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
+        `/pitch/audio/version/${audio.version}/prospect/${states.voiceSelected}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
         audio.file
       );
     });
     Promise.all(requests)
       .then(() => {
-        this.setState({
+        setState({
+          ...states,
           display: [],
           displayRerecord: [],
           displayRecorded: [],
@@ -706,8 +696,9 @@ class Prospect extends Component<{ location: any }, State> {
           uploadLoading: false,
           openAddNew: false
         });
-        this.filterData(this.state.selectedVersion);
-        this.setState({
+        filterData(states.selectedVersion);
+        setState({
+          ...states,
           openToast: true,
           toastType: "check",
           message: `Successfully uploaded`,
@@ -718,7 +709,8 @@ class Prospect extends Component<{ location: any }, State> {
         });
       })
       .catch(err => {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
           toastType: "caution",
           message: `Error uploading file`,
@@ -729,8 +721,9 @@ class Prospect extends Component<{ location: any }, State> {
         });
       });
   };
-  undoProspectAudio = (version: any, voice: any, key: any) => {
-    this.setState({
+  const undoProspectAudio = (version: any, voice: any, key: any) => {
+    setState({
+      ...states,
       loader: true,
       display: [],
       displayRerecord: [],
@@ -740,15 +733,16 @@ class Prospect extends Component<{ location: any }, State> {
       fetchedRecorded: false
     });
     patch(
-      `/pitch/audio/version/${this.state.selectedVersion}/prospect/${this.state.user_data.uuid}/${key}/`,
+      `/pitch/audio/version/${states.selectedVersion}/prospect/${states.voiceSelected}/${key}/`,
       {
         rerecord: false
       }
     )
       .then((res: any) => {
-        this.filterData(this.state.selectedVersion);
         if (res.status === 201 || res.status === 200) {
-          this.setState({
+          filterData(states.selectedVersion);
+          setState({
+            ...states,
             openToast: true,
             toastType: "check",
             message: `Undo successful`,
@@ -758,7 +752,8 @@ class Prospect extends Component<{ location: any }, State> {
             uploadLoading: false
           });
         } else {
-          this.setState({
+          setState({
+            ...states,
             openToast: true,
             toastType: "caution",
             message: `Request failed`,
@@ -770,7 +765,8 @@ class Prospect extends Component<{ location: any }, State> {
         }
       })
       .catch((err: any) => {
-        this.setState({
+        setState({
+          ...states,
           openToast: true,
           toastType: "caution",
           message: `Request failed`,
@@ -781,29 +777,30 @@ class Prospect extends Component<{ location: any }, State> {
         });
       });
   };
-  openAddNewVoiceModal = (bool: any, currentMode: any) => {
+  const openAddNewVoiceModal = (bool: any, currentMode: any) => {
     if (bool === false) {
-      this.setState({
+      setState({
+        ...states,
         addNewVoiceModal: false,
         audioFile: "",
         fileName: "",
         file: ""
       });
     } else {
-      this.setState({
+      setState({
+        ...states,
         currentMode,
         addNewVoiceModal: true,
         anchorEl: null
       });
     }
   };
-  handleCloseToast = () => {
-    this.setState({
-      openToast: false
-    });
+  const handleCloseToast = () => {
+    setState({ ...states, openToast: false });
   };
-  refreshData = (version: any) => {
-    this.setState({
+  const refreshData = (version: any) => {
+    setState({
+      ...states,
       display: [],
       displayRerecord: [],
       displayRecorded: [],
@@ -811,13 +808,14 @@ class Prospect extends Component<{ location: any }, State> {
       fetchedUnrecorded: false,
       fetchedRerecord: false
     });
-    this.filterData(version);
+    filterData(version);
   };
-  handleUnrecordedSelected = (val: any) => {
-    this.setState({ unrecordedSelected: val });
+  const handleUnrecordedSelected = (val: any) => {
+    setState({ ...states, unrecordedSelected: val });
   };
-  showToastSession = (type: any, message: any) => {
-    this.setState({
+  const showToastSession = (type: any, message: any) => {
+    setState({
+      ...states,
       openToast: true,
       toastType: type,
       message: message,
@@ -825,92 +823,295 @@ class Prospect extends Component<{ location: any }, State> {
       horizontal: "right"
     });
   };
-  render() {
-    const { classes }: any = this.props;
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <CssBaseline />
-          {/* Navbar */}
-          <main className={classes.content}>
-            <Container maxWidth="xl" className={classes.container}>
-              <Grid container spacing={3}>
-                {/* Header */}
-                <Grid container className={classes.navBar}>
-                  {/* HEADER - DESKTOP VERSION START */}
-                  <Grid
-                    item
-                    xs={12}
-                    sm={3}
-                    md={5}
-                    lg={5}
-                    className={classes.desktopCon}
-                  >
-                    {localStorage.getItem("type") !== "10" && (
-                      <HeaderLink
-                        menu={[
-                          {
-                            title: "Audio Resources",
-                            path: "/manage/audio/resources"
-                          }
-                        ]}
-                        title="Voice"
-                      />
-                    )}
-                  </Grid>
-                  {/* HEADER - DESKTOP VERSION END */}
-
-                  {/* HEADER - MOBILE VERSION START */}
-                  <Grid container className={classes.mobileConDropdown}>
-                    <Grid item xs={7} sm={8}>
-                      <DropdownDesktop />
-                    </Grid>
-                    <Grid item xs={5} sm={4}>
-                      <Dropdown
-                        links={this.state.links}
-                        refreshData={this.refreshData}
-                        version={this.state.selectedVersion}
-                        fetchedRecorded={this.state.fetchedRecorded}
-                        fetchedUnrecorded={this.state.fetchedUnrecorded}
-                        fetchedRerecord={this.state.fetchedRerecord}
-                      />
-                    </Grid>
-                  </Grid>
-                  {/* HEADER - MOBILE VERSION START */}
-
-                  {/* TABS - DESKTOP VERSION START */}
-                  <Grid
-                    item
-                    xs={12}
-                    sm={9}
-                    md={7}
-                    lg={7}
-                    className={classes.desktopCon}
-                  >
-                    <TabsDesktop
-                      tabSelected={this.tabSelected}
-                      reset={this.resetFilters}
-                      defaultValue={2}
+  return (
+    <React.Fragment>
+      <div className={classes.root}>
+        <CssBaseline />
+        {/* Navbar */}
+        <main className={classes.content}>
+          <Container maxWidth="xl" className={classes.container}>
+            <Grid container spacing={3}>
+              {/* Header */}
+              <Grid container className={classes.navBar}>
+                {/* HEADER - DESKTOP VERSION START */}
+                <Grid
+                  item
+                  xs={12}
+                  sm={3}
+                  md={5}
+                  lg={5}
+                  className={classes.desktopCon}
+                >
+                  {localStorage.getItem("type") !== "10" && (
+                    <HeaderLink
+                      menu={[
+                        {
+                          title: "Audio Resources",
+                          path: "/manage/audio/resources"
+                        }
+                      ]}
+                      title="Voice"
                     />
-                  </Grid>
-                  {/* TABS - DESKTOP VERSION END */}
-
-                  {/* TABS - MOBILE VERSION START */}
-                  <Grid item xs={12} sm={12} className={classes.mobileCon}>
-                    <Tabs
-                      tabSelected={this.tabSelected}
-                      reset={this.resetFilters}
-                    />
-                  </Grid>
-                  {/* TABS - MOBILE VERSION END */}
+                  )}
                 </Grid>
+                {/* HEADER - DESKTOP VERSION END */}
 
-                {/* Main Content - DESKTOP VERSION START*/}
-                <React.Fragment>
-                  <Grid item xs={12} className={classes.desktopCon}>
-                    <Paper className={classes.filterWrapper}>
-                      {/* Search and FilterToolbar */}
-                      <Grid container className={classes.header}>
+                {/* HEADER - MOBILE VERSION START */}
+                <Grid container className={classes.mobileConDropdown}>
+                  <Grid item xs={7} sm={8}>
+                    <DropdownDesktop />
+                  </Grid>
+                  <Grid item xs={5} sm={4}>
+                    <Dropdown
+                      links={states.links}
+                      refreshData={refreshData}
+                      version={states.selectedVersion}
+                      fetchedRecorded={states.fetchedRecorded}
+                      fetchedUnrecorded={states.fetchedUnrecorded}
+                      fetchedRerecord={states.fetchedRerecord}
+                    />
+                  </Grid>
+                </Grid>
+                {/* HEADER - MOBILE VERSION START */}
+
+                {/* TABS - DESKTOP VERSION START */}
+                <Grid
+                  item
+                  xs={12}
+                  sm={9}
+                  md={7}
+                  lg={7}
+                  className={classes.desktopCon}
+                >
+                  <TabsDesktop
+                    tabSelected={tabSelected}
+                    reset={resetFilters}
+                    defaultValue={2}
+                  />
+                </Grid>
+                {/* TABS - DESKTOP VERSION END */}
+
+                {/* TABS - MOBILE VERSION START */}
+                <Grid item xs={12} sm={12} className={classes.mobileCon}>
+                  <Tabs tabSelected={tabSelected} reset={resetFilters} />
+                </Grid>
+                {/* TABS - MOBILE VERSION END */}
+              </Grid>
+
+              {/* Main Content - DESKTOP VERSION START*/}
+              <React.Fragment>
+                <Grid item xs={12} className={classes.desktopCon}>
+                  <Paper className={classes.filterWrapper}>
+                    {/* Search and FilterToolbar */}
+                    <Grid container className={classes.header}>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={4}
+                        className={classes.searchMargin}
+                      >
+                        {localStorage.getItem("type") !== "10" && (
+                          <Search
+                            searchFunction={selectedVoice}
+                            voices={states.voices}
+                            defaultVoice={states.defaultVoice}
+                          />
+                        )}
+                      </Grid>
+
+                      <Grid
+                        item
+                        xs={12}
+                        sm={localStorage.getItem("type") === "10" ? 12 : 8}
+                      >
+                        <Filter
+                          campaigns={states.campaigns}
+                          versions={states.versions}
+                          tab={states.tabSelected}
+                          unrecorded={states.unrecorded}
+                          rerecord={states.rerecord}
+                          recorded={states.recorded}
+                          filterData={filterData}
+                          user={states.user}
+                          searched={states.searchVoice}
+                          selectCampaign={selectCampaign}
+                          selectVersion={selectVersion}
+                          selectedCampaign={states.selectedCampaign}
+                          selectedVersion={states.selectedVersion}
+                          refreshData={refreshData}
+                        />
+                      </Grid>
+                    </Grid>
+                  </Paper>
+
+                  <Paper
+                    className={classes.tableWrapper}
+                    style={
+                      states.showTable
+                        ? { background: "white" }
+                        : { background: "#fafafa" }
+                    }
+                  >
+                    {states.loader ? (
+                      <TableLoader />
+                    ) : states.showTable ? (
+                      <Grid container className={classes.pitchTable}>
+                        <Grid item sm={12} xs={12} md={4} lg={4}>
+                          <UnrecordedCard
+                            unrecorded={states.display}
+                            tblName={"Unrecorded"}
+                            rows={states.unrecorded}
+                            columns={states.unrecordedTblName}
+                            displayData={states.display}
+                            filtered={states.filtered}
+                            handleChange={handleChange}
+                            searchPhrase={states.searchDialogUnrecord}
+                            searchKey={"searchDialogUnrecord"}
+                            fetched={states.fetchedUnrecorded}
+                            // for adding audio
+                            handleAudio={handleAudio}
+                            removeAudio={removeAudio}
+                            getRecordedName={getRecordedName}
+                            fileName={states.fileName}
+                            user_id={states.user}
+                            file={states.file}
+                            uploadAudio={uploadAudio}
+                            version={states.selectedVersion}
+                            voice={states.searchVoice}
+                            audio={states.audio}
+                            openAddNewVoiceModal={openAddNewVoiceModal}
+                            addNewVoiceModal={
+                              states.currentMode === "Unrecorded"
+                                ? states.addNewVoiceModal
+                                : false
+                            }
+                            typeOfAudio="prospect"
+                            uploadLoading={states.uploadLoading}
+                            refreshData={refreshData}
+                            //toast
+                            showToast={showToastSession}
+                            //upload session
+                            uploadSession={uploadSession}
+                          />
+                        </Grid>
+                        {/* ANCHOR Rerecord */}
+                        <Grid item sm={12} xs={12} md={4} lg={4}>
+                          <RerecordCard
+                            undoProspectAudio={undoProspectAudio}
+                            rerecord={states.displayRerecord}
+                            tblName={"Rerecord"}
+                            rows={states.rerecord}
+                            columns={states.rerecordTblName}
+                            openAddNewVoiceModal={openAddNewVoiceModal}
+                            filtered={states.filtered}
+                            handleChange={handleChange}
+                            searchPhrase={states.searchDialogRerecord}
+                            searchKey={"searchDialogRerecord"}
+                            user_id={states.user}
+                            fetched={states.fetchedRerecord}
+                            refreshData={refreshData}
+                            version={states.selectedVersion}
+                            handleAudio={handleAudio}
+                            audio={states.audioFile}
+                            removeAudio={removeAudio}
+                            getRecordedName={getRecordedName}
+                            fileName={states.fileName}
+                            file={states.file}
+                            uploadAudio={uploadAudio}
+                            voice={states.searchVoice}
+                            addNewVoiceModal={
+                              states.currentMode === "Rerecord"
+                                ? states.addNewVoiceModal
+                                : false
+                            }
+                            uploadLoading={states.uploadLoading}
+                            addToRecorded={undoProspectAudio}
+                            rerecordAudio={rerecordAudio}
+                            //playing audio
+                            preview={states.audio}
+                            showLoader={showLoader}
+                            playAudio={playAudio}
+                            isLoading={states.isAudioLoadingRerec}
+                            //debugging
+                            typeOfAudio="prospect"
+                            //toast
+                            showToast={showToastSession}
+                            //upload session
+                            uploadSession={uploadSession}
+                          />
+                        </Grid>
+                        {/* ANCHOR Recorded */}
+                        <Grid item sm={12} xs={12} md={4} lg={4}>
+                          <RecordedCard
+                            //rerecordAudio={rerecordAudio}
+                            recorded={states.displayRecorded}
+                            tblName={"Recorded"}
+                            rows={states.recorded}
+                            columns={states.recordedTblName}
+                            openAddNewVoiceModal={openAddNewVoiceModal}
+                            displayData={states.displayRecorded}
+                            filtered={states.filtered}
+                            handleChange={handleChange}
+                            searchPhrase={states.searchDialogRecord}
+                            searchKey={"searchDialogRecord"}
+                            deleteAudio={deleteAudio}
+                            user_id={states.user}
+                            rerecordAudio={addToRerecord}
+                            playAudio={playAudio}
+                            version={states.selectedVersion}
+                            voice={states.searchVoice}
+                            audio={states.audio}
+                            fetched={states.fetchedRecorded}
+                            isLoading={states.isAudioLoading}
+                            showLoader={showLoader}
+                            removeAudio={removeAudioPlayed}
+                            refreshData={refreshData}
+                            uploadLoading={states.uploadLoading}
+                            //undoPitchAudio={undoPitchAudio}
+                            handleAudio={handleAudio}
+                            getRecordedName={getRecordedName}
+                            fileName={states.fileName}
+                            file={states.file}
+                            //addNewVoiceModal={states.addNewVoiceModal}
+                          />
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12}>
+                        <div className={classes.largeTitle} id="table-title">
+                          <Typography
+                            variant="h3"
+                            className={classes.headerTitle}
+                          >
+                            {toTitleCase("prospect audio recordings")}
+                          </Typography>
+                        </div>
+                        {states.user_uuid ? (
+                          <div className={classes.emptyPitch}>
+                            <b> No prospect selected </b>
+                            <br />
+                            Select voice, campaign and pitch version to view
+                            prospect audio
+                          </div>
+                        ) : (
+                          <div className={classes.emptyPitch}>
+                            <TableLoader />
+                          </div>
+                        )}
+                      </Grid>
+                    )}
+                  </Paper>
+                </Grid>
+                {/* Main Content - DESKTOP VERSION END */}
+
+                {/* Main Content - MOBILE VERSION START*/}
+                <Grid item xs={12} className={classes.mobileCon}>
+                  <Paper className={classes.filterWrapper}>
+                    {/* Search and FilterToolbar */}
+                    <Grid container className={classes.header}>
+                      {states.user_group === 10 ? (
+                        <React.Fragment></React.Fragment>
+                      ) : (
                         <Grid
                           item
                           xs={12}
@@ -919,462 +1120,247 @@ class Prospect extends Component<{ location: any }, State> {
                         >
                           {localStorage.getItem("type") !== "10" && (
                             <Search
-                              searchFunction={this.selectedVoice}
-                              voices={this.state.voices}
-                              defaultVoice={this.state.defaultVoice}
+                              searchFunction={selectedVoice}
+                              voices={states.voices}
+                              defaultVoice={states.defaultVoice}
                             />
                           )}
                         </Grid>
+                      )}
 
-                        <Grid
-                          item
-                          xs={12}
-                          sm={localStorage.getItem("type") === "10" ? 12 : 8}
-                        >
-                          <Filter
-                            campaigns={this.state.campaigns}
-                            versions={this.state.versions}
-                            tab={this.state.tabSelected}
-                            unrecorded={this.state.unrecorded}
-                            rerecord={this.state.rerecord}
-                            recorded={this.state.recorded}
-                            filterData={this.filterData}
-                            filtered={(val: any) =>
-                              this.setState({ filtered: val })
-                            }
-                            user={this.state.user}
-                            searched={this.state.searchVoice}
-                            selectCampaign={this.selectCampaign}
-                            selectVersion={this.selectVersion}
-                            selectedCampaign={this.state.selectedCampaign}
-                            selectedVersion={this.state.selectedVersion}
-                            refreshData={this.refreshData}
-                          />
-                        </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={localStorage.getItem("type") === "10" ? 12 : 8}
+                      >
+                        <Filter
+                          campaigns={states.campaigns}
+                          versions={states.versions}
+                          tab={states.tabSelected}
+                          unrecorded={states.unrecorded}
+                          rerecord={states.rerecord}
+                          recorded={states.recorded}
+                          filterData={filterData}
+                          user={states.user}
+                          searched={states.searchVoice}
+                          selectCampaign={selectCampaign}
+                          selectVersion={selectVersion}
+                          selectedCampaign={states.selectedCampaign}
+                          selectedVersion={states.selectedVersion}
+                          uploadLoading={states.uploadLoading}
+                          refreshData={refreshData}
+                        />
                       </Grid>
-                    </Paper>
+                    </Grid>
+                  </Paper>
 
-                    <Paper
-                      className={classes.tableWrapper}
-                      style={
-                        this.state.showTable
-                          ? { background: "white" }
-                          : { background: "#fafafa" }
-                      }
-                    >
-                      {this.state.loader ? (
-                        <TableLoader />
-                      ) : this.state.showTable ? (
-                        <Grid container className={classes.pitchTable}>
-                          <Grid item sm={12} xs={12} md={4} lg={4}>
-                            <UnrecordedCard
-                              unrecorded={this.state.display}
+                  <Divider />
+
+                  <Paper
+                    className={classes.tableWrapper}
+                    style={
+                      states.showTable
+                        ? { background: "white" }
+                        : { background: "#fafafa" }
+                    }
+                  >
+                    {/* Pitch Audio Recordings Title*/}
+                    {states.showTable ? (
+                      <Grid item xs={12}>
+                        {states.tabSelected === 0 ? (
+                          <React.Fragment>
+                            <Table
                               tblName={"Unrecorded"}
-                              rows={this.state.unrecorded}
-                              columns={this.state.unrecordedTblName}
-                              displayData={this.state.display}
-                              filtered={this.state.filtered}
-                              handleChange={this.handleChange}
-                              searchPhrase={this.state.searchDialogUnrecord}
+                              rows={states.unrecorded}
+                              columns={states.unrecordedTblName}
+                              displayData={states.display}
+                              filtered={states.filtered}
+                              handleChange={handleChange}
+                              searchPhrase={states.searchDialogUnrecord}
                               searchKey={"searchDialogUnrecord"}
-                              fetched={this.state.fetchedUnrecorded}
+                              fetched={states.fetchedUnrecorded}
                               // for adding audio
-                              handleAudio={this.handleAudio}
-                              removeAudio={this.removeAudio}
-                              getRecordedName={this.getRecordedName}
-                              fileName={this.state.fileName}
-                              user_id={this.state.user}
-                              file={this.state.file}
-                              uploadAudio={this.uploadAudio}
-                              version={this.state.selectedVersion}
-                              voice={this.state.searchVoice}
-                              audio={this.state.audio}
-                              openAddNewVoiceModal={this.openAddNewVoiceModal}
+                              handleAudio={handleAudio}
+                              removeAudio={removeAudio}
+                              fileName={states.fileName}
+                              user_id={states.user}
+                              //for uploading audio
+                              upload={uploadAudio}
+                              file={states.file}
+                              version={states.selectedVersion}
+                              voice={states.searchVoice}
+                              audio={states.audio}
+                              openAddNewVoiceModal={openAddNewVoiceModal}
                               addNewVoiceModal={
-                                this.state.currentMode === "Unrecorded"
-                                  ? this.state.addNewVoiceModal
+                                states.currentMode === "UnrecTable"
+                                  ? states.addNewVoiceModal
                                   : false
                               }
-                              typeOfAudio="prospect"
-                              uploadLoading={this.state.uploadLoading}
-                              refreshData={this.refreshData}
-                              //toast
-                              showToast={this.showToastSession}
-                              //upload session
-                              uploadSession={this.uploadSession}
+                              uploadLoading={states.uploadLoading}
+                              refreshData={refreshData}
                             />
-                          </Grid>
-                          {/* ANCHOR Rerecord */}
-                          <Grid item sm={12} xs={12} md={4} lg={4}>
-                            <RerecordCard
-                              undoProspectAudio={this.undoProspectAudio}
-                              rerecord={this.state.displayRerecord}
+                          </React.Fragment>
+                        ) : states.tabSelected === 1 ? (
+                          <React.Fragment>
+                            <Table
                               tblName={"Rerecord"}
-                              rows={this.state.rerecord}
-                              columns={this.state.rerecordTblName}
-                              openAddNewVoiceModal={this.openAddNewVoiceModal}
-                              filtered={this.state.filtered}
-                              handleChange={this.handleChange}
-                              searchPhrase={this.state.searchDialogRerecord}
+                              rows={states.rerecord}
+                              columns={states.rerecordTblName}
+                              displayData={states.displayRerecord}
+                              filtered={states.filtered}
+                              handleChange={handleChange}
+                              searchPhrase={states.searchDialogRerecord}
                               searchKey={"searchDialogRerecord"}
-                              user_id={this.state.user}
-                              fetched={this.state.fetchedRerecord}
-                              refreshData={this.refreshData}
-                              version={this.state.selectedVersion}
-                              handleAudio={this.handleAudio}
-                              audio={this.state.audioFile}
-                              removeAudio={this.removeAudio}
-                              getRecordedName={this.getRecordedName}
-                              fileName={this.state.fileName}
-                              file={this.state.file}
-                              uploadAudio={this.uploadAudio}
-                              voice={this.state.searchVoice}
+                              fetched={states.fetchedRerecord}
+                              uploadFetched={states.fetchedUploadAudio}
+                              // for adding audio
+                              handleAudio={handleAudio}
+                              removeAudio={removeAudio}
+                              fileName={states.fileName}
+                              user_id={states.user}
+                              //for uploading audio
+                              upload={uploadAudio}
+                              file={states.file}
+                              version={states.selectedVersion}
+                              voice={states.searchVoice}
+                              audio={states.audio}
+                              openAddNewVoiceModal={openAddNewVoiceModal}
                               addNewVoiceModal={
-                                this.state.currentMode === "Rerecord"
-                                  ? this.state.addNewVoiceModal
+                                states.currentMode === "RerecTable"
+                                  ? states.addNewVoiceModal
                                   : false
-                              }
-                              uploadLoading={this.state.uploadLoading}
-                              addToRecorded={this.undoProspectAudio}
-                              rerecordAudio={this.rerecordAudio}
-                              //playing audio
-                              preview={this.state.audio}
-                              showLoader={this.showLoader}
-                              playAudio={this.playAudio}
-                              isLoading={this.state.isAudioLoadingRerec}
-                              //debugging
-                              typeOfAudio="prospect"
-                              //toast
-                              showToast={this.showToastSession}
-                              //upload session
-                              uploadSession={this.uploadSession}
+                              } // dagdag para sa prospect
+                              undoProspectAudio={undoProspectAudio}
+                              uploadLoading={states.uploadLoading}
+                              refreshData={refreshData}
                             />
-                          </Grid>
-                          {/* ANCHOR Recorded */}
-                          <Grid item sm={12} xs={12} md={4} lg={4}>
-                            <RecordedCard
-                              //rerecordAudio={this.rerecordAudio}
-                              recorded={this.state.displayRecorded}
+                          </React.Fragment>
+                        ) : states.tabSelected === 2 ? (
+                          <React.Fragment>
+                            <Table
                               tblName={"Recorded"}
-                              rows={this.state.recorded}
-                              columns={this.state.recordedTblName}
-                              openAddNewVoiceModal={this.openAddNewVoiceModal}
-                              displayData={this.state.displayRecorded}
-                              filtered={this.state.filtered}
-                              handleChange={this.handleChange}
-                              searchPhrase={this.state.searchDialogRecord}
+                              rows={states.recorded}
+                              columns={states.recordedTblName}
+                              displayData={states.displayRecorded}
+                              filtered={states.filtered}
+                              handleChange={handleChange}
+                              searchPhrase={states.searchDialogRecord}
                               searchKey={"searchDialogRecord"}
-                              deleteAudio={this.deleteAudio}
-                              user_id={this.state.user}
-                              rerecordAudio={this.addToRerecord}
-                              playAudio={this.playAudio}
-                              version={this.state.selectedVersion}
-                              voice={this.state.searchVoice}
-                              audio={this.state.audio}
-                              fetched={this.state.fetchedRecorded}
-                              isLoading={this.state.isAudioLoading}
-                              showLoader={this.showLoader}
-                              removeAudio={this.removeAudioPlayed}
-                              refreshData={this.refreshData}
-                              uploadLoading={this.state.uploadLoading}
-                              //undoPitchAudio={this.undoPitchAudio}
-                              handleAudio={this.handleAudio}
-                              getRecordedName={this.getRecordedName}
-                              fileName={this.state.fileName}
-                              file={this.state.file}
-                              //addNewVoiceModal={this.state.addNewVoiceModal}
+                              deleteAudio={deleteAudio}
+                              user_id={states.user}
+                              addToRerecord={addToRerecord}
+                              playAudio={playAudio}
+                              version={states.selectedVersion}
+                              voice={states.searchVoice}
+                              audio={states.audio}
+                              fetched={states.fetchedRecorded}
+                              isLoading={states.isAudioLoading}
+                              showLoader={showLoader}
+                              removeAudio={removeAudioPlayed}
+                              rerecordAudio={rerecordAudio}
+                              openAddNewVoiceModal={openAddNewVoiceModal}
+                              addNewVoiceModal={states.addNewVoiceModal}
+                              refreshData={refreshData}
                             />
-                          </Grid>
-                        </Grid>
-                      ) : (
-                        <Grid item xs={12}>
-                          <div className={classes.largeTitle} id="table-title">
-                            <Typography
-                              variant="h3"
-                              className={classes.headerTitle}
-                            >
-                              {this.toTitleCase("prospect audio recordings")}
-                            </Typography>
-                          </div>
-                          {this.state.user_uuid ? (
-                            <div className={classes.emptyPitch}>
-                              <b> No prospect selected </b>
-                              <br />
-                              Select voice, campaign and pitch version to view
-                              prospect audio
-                            </div>
-                          ) : (
-                            <div className={classes.emptyPitch}>
-                              <TableLoader />
-                            </div>
-                          )}
-                        </Grid>
-                      )}
-                    </Paper>
-                  </Grid>
-                  {/* Main Content - DESKTOP VERSION END */}
-
-                  {/* Main Content - MOBILE VERSION START*/}
-                  <Grid item xs={12} className={classes.mobileCon}>
-                    <Paper className={classes.filterWrapper}>
-                      {/* Search and FilterToolbar */}
-                      <Grid container className={classes.header}>
-                        {this.state.user_group === 10 ? (
-                          <React.Fragment></React.Fragment>
-                        ) : (
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            className={classes.searchMargin}
-                          >
-                            {localStorage.getItem("type") !== "10" && (
-                              <Search
-                                searchFunction={this.selectedVoice}
-                                voices={this.state.voices}
-                                defaultVoice={this.state.defaultVoice}
-                              />
-                            )}
-                          </Grid>
-                        )}
-
-                        <Grid
-                          item
-                          xs={12}
-                          sm={localStorage.getItem("type") === "10" ? 12 : 8}
-                        >
-                          <Filter
-                            campaigns={this.state.campaigns}
-                            versions={this.state.versions}
-                            tab={this.state.tabSelected}
-                            // unrecorded={this.state.unrecorded}
-                            // rerecord={this.state.rerecord}
-                            // recorded={this.state.recorded}
-                            filterData={this.filterData}
-                            filtered={(val: any) =>
-                              this.setState({ filtered: val })
-                            }
-                            user={this.state.user}
-                            searched={this.state.searchVoice}
-                            selectCampaign={this.selectCampaign}
-                            selectVersion={this.selectVersion}
-                            selectedCampaign={this.state.selectedCampaign}
-                            selectedVersion={this.state.selectedVersion}
-                            uploadLoading={this.state.uploadLoading}
-                            refreshData={this.refreshData}
-                          />
-                        </Grid>
+                          </React.Fragment>
+                        ) : null}
                       </Grid>
-                    </Paper>
-
-                    <Divider />
-
-                    <Paper
-                      className={classes.tableWrapper}
-                      style={
-                        this.state.showTable
-                          ? { background: "white" }
-                          : { background: "#fafafa" }
-                      }
-                    >
-                      {/* Pitch Audio Recordings Title*/}
-                      {this.state.showTable ? (
-                        <Grid item xs={12}>
-                          {this.state.tabSelected === 0 ? (
-                            <React.Fragment>
-                              <Table
-                                tblName={"Unrecorded"}
-                                rows={this.state.unrecorded}
-                                columns={this.state.unrecordedTblName}
-                                displayData={this.state.display}
-                                filtered={this.state.filtered}
-                                handleChange={this.handleChange}
-                                searchPhrase={this.state.searchDialogUnrecord}
-                                searchKey={"searchDialogUnrecord"}
-                                fetched={this.state.fetchedUnrecorded}
-                                // for adding audio
-                                handleAudio={this.handleAudio}
-                                removeAudio={this.removeAudio}
-                                fileName={this.state.fileName}
-                                user_id={this.state.user}
-                                //for uploading audio
-                                upload={this.uploadAudio}
-                                file={this.state.file}
-                                version={this.state.selectedVersion}
-                                voice={this.state.searchVoice}
-                                audio={this.state.audio}
-                                openAddNewVoiceModal={this.openAddNewVoiceModal}
-                                addNewVoiceModal={
-                                  this.state.currentMode === "UnrecTable"
-                                    ? this.state.addNewVoiceModal
-                                    : false
-                                }
-                                uploadLoading={this.state.uploadLoading}
-                                refreshData={this.refreshData}
-                              />
-                            </React.Fragment>
-                          ) : this.state.tabSelected === 1 ? (
-                            <React.Fragment>
-                              <Table
-                                tblName={"Rerecord"}
-                                rows={this.state.rerecord}
-                                columns={this.state.rerecordTblName}
-                                displayData={this.state.displayRerecord}
-                                filtered={this.state.filtered}
-                                handleChange={this.handleChange}
-                                searchPhrase={this.state.searchDialogRerecord}
-                                searchKey={"searchDialogRerecord"}
-                                fetched={this.state.fetchedRerecord}
-                                uploadFetched={this.state.fetchedUploadAudio}
-                                // for adding audio
-                                handleAudio={this.handleAudio}
-                                removeAudio={this.removeAudio}
-                                fileName={this.state.fileName}
-                                user_id={this.state.user}
-                                //for uploading audio
-                                upload={this.uploadAudio}
-                                file={this.state.file}
-                                version={this.state.selectedVersion}
-                                voice={this.state.searchVoice}
-                                audio={this.state.audio}
-                                openAddNewVoiceModal={this.openAddNewVoiceModal}
-                                addNewVoiceModal={
-                                  this.state.currentMode === "RerecTable"
-                                    ? this.state.addNewVoiceModal
-                                    : false
-                                } // dagdag para sa prospect
-                                undoProspectAudio={this.undoProspectAudio}
-                                uploadLoading={this.state.uploadLoading}
-                                refreshData={this.refreshData}
-                              />
-                            </React.Fragment>
-                          ) : this.state.tabSelected === 2 ? (
-                            <React.Fragment>
-                              <Table
-                                tblName={"Recorded"}
-                                rows={this.state.recorded}
-                                columns={this.state.recordedTblName}
-                                displayData={this.state.displayRecorded}
-                                filtered={this.state.filtered}
-                                handleChange={this.handleChange}
-                                searchPhrase={this.state.searchDialogRecord}
-                                searchKey={"searchDialogRecord"}
-                                deleteAudio={this.deleteAudio}
-                                user_id={this.state.user}
-                                addToRerecord={this.addToRerecord}
-                                playAudio={this.playAudio}
-                                version={this.state.selectedVersion}
-                                voice={this.state.searchVoice}
-                                audio={this.state.audio}
-                                fetched={this.state.fetchedRecorded}
-                                isLoading={this.state.isAudioLoading}
-                                showLoader={this.showLoader}
-                                removeAudio={this.removeAudioPlayed}
-                                rerecordAudio={this.rerecordAudio}
-                                openAddNewVoiceModal={this.openAddNewVoiceModal}
-                                addNewVoiceModal={this.state.addNewVoiceModal}
-                                refreshData={this.refreshData}
-                              />
-                            </React.Fragment>
-                          ) : null}
-                        </Grid>
-                      ) : (
-                        <Grid item xs={12}>
-                          <div className={classes.largeTitle} id="table-title">
-                            <Typography
-                              variant="h3"
-                              className={classes.headerTitle}
-                            >
-                              {this.toTitleCase("phrase audio recordings")}
-                            </Typography>
+                    ) : (
+                      <Grid item xs={12}>
+                        <div className={classes.largeTitle} id="table-title">
+                          <Typography
+                            variant="h3"
+                            className={classes.headerTitle}
+                          >
+                            {toTitleCase("phrase audio recordings")}
+                          </Typography>
+                        </div>
+                        {states.user_uuid ? (
+                          <div className={classes.emptyPitch}>
+                            <b> No prospect selected </b>
+                            <br />
+                            Select voice, campaign and pitch version to view
+                            prospect audio
                           </div>
-                          {this.state.user_uuid ? (
-                            <div className={classes.emptyPitch}>
-                              <b> No prospect selected </b>
-                              <br />
-                              Select voice, campaign and pitch version to view
-                              prospect audio
-                            </div>
-                          ) : (
-                            <div className={classes.emptyPitch}>
-                              <TableLoader />
-                            </div>
-                          )}
-                        </Grid>
-                      )}
-                    </Paper>
-                  </Grid>
-                </React.Fragment>
-                {/* Main Content - MOBILE VERSION START*/}
-              </Grid>
-            </Container>
-          </main>
-          {localStorage.getItem("type") !== "10" && (
-            <Tooltip title="Add New Audio" placement="top">
-              <Fab
-                color="secondary"
-                size="large"
-                aria-label="add"
-                className={classes.addBtn}
-                onClick={() => {
-                  this.openAddNewDialog();
-                }}
-              >
-                <AddIcon fontSize="large" className={classes.resIcon} />
-              </Fab>
-            </Tooltip>
-          )}
-        </div>
-        {/* Dialogs */}
+                        ) : (
+                          <div className={classes.emptyPitch}>
+                            <TableLoader />
+                          </div>
+                        )}
+                      </Grid>
+                    )}
+                  </Paper>
+                </Grid>
+              </React.Fragment>
+              {/* Main Content - MOBILE VERSION START*/}
+            </Grid>
+          </Container>
+        </main>
+        {localStorage.getItem("type") !== "10" && (
+          <Tooltip title="Add New Audio" placement="top">
+            <Fab
+              color="secondary"
+              size="large"
+              aria-label="add"
+              className={classes.addBtn}
+              onClick={() => {
+                openAddNewDialog();
+              }}
+            >
+              <AddIcon fontSize="large" className={classes.resIcon} />
+            </Fab>
+          </Tooltip>
+        )}
+      </div>
+      {/* Dialogs */}
 
-        <MainAddNewAudio
-          label1="Select Campaign"
-          label2="Select Version"
-          onClose={() => this.closeAddNewDialog()}
-          voices={this.state.voices}
-          campaigns={this.state.campaigns}
-          versions={this.state.versions}
-          audio={this.state.unrecordedList}
-          selectVoice={this.selectedVoice}
-          selectCampaign={this.selectCampaign}
-          selectVersion={this.selectVersion}
-          selectUnrecorded={this.selectUnrecorded}
-          voiceSelected={this.state.searchVoice}
-          versionSelected={this.state.selectedVersion}
-          unrecordedSelected={this.state.unrecordedSelected}
-          mainFile={this.state.file}
-          mainFileName={this.state.fileName}
-          audioToBeUploaded={this.state.audioToBeUploaded}
-          changeAudioToBeUploaded={this.handleAudio}
-          // recorded={this.state.recorded}
-          getUpdatedRecorded={this.getUpdatedRecorded}
-          getRecordedName={this.getRecordedName}
-          // savingAudio={this.savingAudio}
-          // token={this.state.token}
-          // savedAudio={this.savedAudio}
-          mainUploadAudio={this.uploadAudio}
-          loading={this.state.uploadLoading}
-          campaignSelected={this.state.selectedCampaign}
-          user_group={this.state.user_group}
-          handleUnrecordedSelected={this.handleUnrecordedSelected}
-          selectedVoice={this.state.searchVoice}
-          token={this.state.token}
-          open={this.state.openAddNew}
-          typeOfAudio="prospect"
-          showToast={this.showToastSession}
-        />
+      <MainAddNewAudio
+        label1="Select Campaign"
+        label2="Select Version"
+        onClose={() => closeAddNewDialog()}
+        voices={states.voices}
+        campaigns={states.campaigns}
+        versions={states.versions}
+        audio={states.unrecordedList}
+        selectVoice={selectedVoice}
+        selectCampaign={selectCampaign}
+        selectVersion={selectVersion}
+        selectUnrecorded={selectUnrecorded}
+        voiceSelected={states.searchVoice}
+        versionSelected={states.selectedVersion}
+        unrecordedSelected={states.unrecordedSelected}
+        mainFile={states.file}
+        mainFileName={states.fileName}
+        audioToBeUploaded={states.audioToBeUploaded}
+        changeAudioToBeUploaded={handleAudio}
+        // recorded={states.recorded}
+        getUpdatedRecorded={getUpdatedRecorded}
+        getRecordedName={getRecordedName}
+        // savingAudio={savingAudio}
+        // token={states.token}
+        // savedAudio={savedAudio}
+        mainUploadAudio={uploadAudio}
+        loading={states.uploadLoading}
+        campaignSelected={states.selectedCampaign}
+        user_group={states.user_group}
+        handleUnrecordedSelected={handleUnrecordedSelected}
+        selectedVoice={states.searchVoice}
+        token={states.token}
+        open={states.openAddNew}
+        typeOfAudio="prospect"
+        showToast={showToastSession}
+      />
 
-        <Toast
-          open={this.state.openToast}
-          handleClose={this.handleCloseToast}
-          toastType={this.state.toastType}
-          message={this.state.message}
-          vertical={this.state.vertical}
-          horizontal={this.state.horizontal}
-        />
-      </React.Fragment>
-    );
-  }
-}
+      <Toast
+        open={states.openToast}
+        handleClose={handleCloseToast}
+        toastType={states.toastType}
+        message={states.message}
+        vertical={states.vertical}
+        horizontal={states.horizontal}
+      />
+    </React.Fragment>
+  );
+};
 
-export default withStyles(useStyles)(Prospect);
+export default Prospect;

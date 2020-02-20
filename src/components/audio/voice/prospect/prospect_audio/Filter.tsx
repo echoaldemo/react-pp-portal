@@ -126,7 +126,6 @@ interface IProps {
   rerecord?: any;
   recorded?: any;
   filterData?: any;
-  filtered?: any;
   searched?: any;
   refreshData?: any;
   user_group?: any;
@@ -174,14 +173,7 @@ class Filter extends Component<IProps, IState> {
     }
   };
   render() {
-    const {
-      classes,
-      campaigns,
-      versions,
-      tab,
-      filterData,
-      filtered
-    }: any = this.props;
+    const { classes, campaigns, versions, tab, filterData }: any = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -194,7 +186,7 @@ class Filter extends Component<IProps, IState> {
                     id="phrase-campaign-label"
                     className={classes.fontRes}
                   >
-                    Phrases (Global or Choose Campaign)
+                    Campaign
                   </InputLabel>
                   <Select
                     id="phrase-select-campaign"
@@ -235,7 +227,7 @@ class Filter extends Component<IProps, IState> {
                     id="phrase-campaign-label"
                     className={classes.fontRes}
                   >
-                    Phrase Book
+                    Pitch Version
                   </InputLabel>
                   <Select
                     classes={{ select: classes.select }}
@@ -254,7 +246,7 @@ class Filter extends Component<IProps, IState> {
                         key={version.uuid}
                         value={version.uuid}
                       >
-                        {version.name}
+                        {version.version}
                       </MenuItem>
                     ))}
                   </Select>
@@ -271,7 +263,6 @@ class Filter extends Component<IProps, IState> {
                       this.props.selectedCampaign,
                       this.props.selectedVersion
                     );
-                    filtered(true);
                   }}
                   disabled={this.disableButton(this.props.selectedVersion)}
                 >
@@ -287,7 +278,7 @@ class Filter extends Component<IProps, IState> {
                     id="phrase-campaign-label"
                     className={classes.fontRes}
                   >
-                    Phrases (Global or Choose Campaign)
+                    Campaign
                   </InputLabel>
                   <Select
                     id="phrase-select-campaign"
@@ -328,7 +319,7 @@ class Filter extends Component<IProps, IState> {
                     id="phrase-campaign-label"
                     className={classes.fontRes}
                   >
-                    Phrase Book
+                    Pitch Version
                   </InputLabel>
                   <Select
                     classes={{ select: classes.select }}
@@ -347,7 +338,7 @@ class Filter extends Component<IProps, IState> {
                         key={version.uuid}
                         value={version.uuid}
                       >
-                        {version.name}
+                        {version.version}
                       </MenuItem>
                     ))}
                   </Select>
@@ -365,7 +356,6 @@ class Filter extends Component<IProps, IState> {
                       this.props.selectedCampaign,
                       this.props.selectedVersion
                     );
-                    filtered(true);
                   }}
                   disabled={this.disableButton(this.props.selectedVersion)}
                 >
