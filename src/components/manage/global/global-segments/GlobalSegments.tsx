@@ -21,7 +21,7 @@ import {
   SuccessModal
 } from "common-components";
 import SegmentTable from "./components/SegmentTable";
-import { get, patch, post, remove, cancel } from "../../../../utils/api";
+import { get, patch, post, remove, cancel } from "utils/api";
 import SEO from "../../../../utils/seo";
 import XMLDialog from "./components/Form";
 import { Clear } from "@material-ui/icons";
@@ -64,25 +64,16 @@ const GlobalSegments: React.FC<Props> = () => {
   });
 
   useEffect(() => {
-    // get(`/identity/location/list`).then((res: any) => {
-    // 	setState({
-    // 		...state,
-    // 		globalSegment: res.data,
-    // 		innerLoading: false,
-    // 		loading: false,
-    // 		paginateList: res.data,
-    // 		filterlist: res.data
-    // 	});
-    // });
-    setState({
-      ...state,
-      globalSegment: GlobalSegmentsData,
-      innerLoading: false,
-      loading: false,
-      paginateList: GlobalSegmentsData,
-      filterlist: GlobalSegmentsData
+    get(`/pitch/global/segments`).then((res: any) => {
+      setState({
+        ...state,
+        globalSegment: res.data,
+        innerLoading: false,
+        loading: false,
+        paginateList: res.data,
+        filterlist: res.data
+      });
     });
-
     // eslint-disable-next-line
   }, []);
 
