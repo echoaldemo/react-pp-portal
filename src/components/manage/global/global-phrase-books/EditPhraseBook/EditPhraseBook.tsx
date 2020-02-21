@@ -13,6 +13,7 @@ import { useStyles } from "../styles/EditPhraseBook.style";
 import EditPhraseBookForm from "../components/EditPhraseBookForm/EditPhraseBookForm";
 import PhrasesTable from "../components/PhrasesTable/PhrasesTable";
 import CreatePhraseModal from "../components/CreatePhraseModal/CreatePhraseModal";
+import { get, post, patch } from "utils/api";
 
 interface Obj {
   [index: string]: any;
@@ -38,15 +39,11 @@ const EditPhraseBook = ({
   }, []); // eslint-disable-line
 
   const getPhraseBook = () => {
-    fetch(
-      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${uuid}`
-    )
-      .then((res: any) => res.json())
-      .then((res: any) => {
-        setAllPhrases(res.phrases);
-        setEditData(res);
-        setPaginateList(res);
-      });
+    get(`/pitch/global/phrases/${uuid}`).then((res: any) => {
+      setAllPhrases(res.data);
+      setEditData(res.data);
+      setPaginateList(res.data);
+    });
   };
 
   const save = (data: Obj, fn: (data: any) => void) =>
@@ -110,9 +107,11 @@ const EditPhraseBook = ({
       <div className={classes.editContainer}>
         <>
           <span className={classes.phrasebookName}>{name}</span>
-          <Paper className={classes.formContainer} square={true}>
+          <Paper className={classes.container} square={true}>
             {editData !== null ? (
-              <EditPhraseBookForm editData={editData} save={save} />
+              <div className={classes.formContainer}>
+                <EditPhraseBookForm editData={editData} save={save} />
+              </div>
             ) : (
               <TableLoader />
             )}
