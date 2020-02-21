@@ -77,26 +77,22 @@ export default class RRSegments extends Component<Props, State> {
       loading: true
     });
     var arrVar: any[] = [];
-    // get(`/pitch/global/segments/${this.props.match.params.uuid}`).then(
-    // 	(res: any) => {
-    setTimeout(() => {
-      for (let [key, value] of Object.entries(
-        GlobalSegmentsData[0].variables
-      )) {
-        arrVar.push({ name: key, key: `{{global.${key}}}`, values: value });
+    get(`/pitch/global/segments/${this.props.match.params.id}`).then(
+      (res: any) => {
+        for (let [key, value] of Object.entries(res.data.variables)) {
+          arrVar.push({ name: key, key: `{{global.${key}}}`, values: value });
+        }
+        return this.setState({
+          segmentVariables: arrVar,
+          innerLoading: false,
+          loading: false,
+          paginateList: arrVar,
+          filterlist: arrVar,
+          searchData: arrVar,
+          segmentData: res.data
+        });
       }
-      return this.setState({
-        segmentVariables: arrVar,
-        innerLoading: false,
-        loading: false,
-        paginateList: arrVar,
-        filterlist: arrVar,
-        searchData: arrVar,
-        segmentData: GlobalSegmentsData[0]
-      });
-    }, 1000);
-    // 	}
-    // );
+    );
   }
 
   fetchData = () => {
@@ -104,7 +100,7 @@ export default class RRSegments extends Component<Props, State> {
       loading: true
     });
     var arrVar: any[] = [];
-    get(`/pitch/global/segments/${this.props.match.params.uuid}`).then(
+    get(`/pitch/global/segments/${this.props.match.params.id}`).then(
       (res: any) => {
         for (let [key, value] of Object.entries(res.data.variables)) {
           arrVar.push({ name: key, key: `{{global.${key}}}`, values: value });
