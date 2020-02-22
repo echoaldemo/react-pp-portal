@@ -19,11 +19,11 @@ interface Props {
   severity: string
   showBtn: boolean
   textBtn: string
-  text: string
-  cancelFn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
+  message: string
+  onClick: (e: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
-const AlertModal: React.FC<Props> = ({ open, severity, text, showBtn, textBtn, cancelFn }) => {
+const AlertModal: React.FC<Props> = ({ open, severity, message, showBtn, textBtn, onClick }) => {
 
   const getSeverityIcon = () => {
     if(severity === 'loading')
@@ -39,10 +39,10 @@ const AlertModal: React.FC<Props> = ({ open, severity, text, showBtn, textBtn, c
     <Dialog open={open}>
       <Center data-cy="loading-modal">
         <Card>
-          <Text>{text}</Text>
+          <Text>{message}</Text>
             {getSeverityIcon()}
           {showBtn && 
-          <Button onClick={cancelFn}>
+          <Button onClick={onClick}>
             <Cancel>{textBtn}</Cancel>
           </Button>}
         </Card>

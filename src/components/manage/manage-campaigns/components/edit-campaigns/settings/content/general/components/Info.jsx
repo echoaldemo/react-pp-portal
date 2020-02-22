@@ -1,22 +1,40 @@
-import React, { useContext, useState } from "react"
-import { TableLoader, DeleteModal, LoadingModal } from "common-components"
-import EditForm from "./EditForm"
+import React, { useContext, useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import { TableLoader, DeleteModal, AlertModal } from "common-components"
 import { IdentityContext } from "contexts/IdentityProvider"
+import { remove } from "utils/api"
+import EditForm from "./EditForm"
 
 export default function Info() {
-  const { state, openModal, setOpenModal, deleteCampaign } = useContext(
-    IdentityContext
-  )
+  const history = useHistory()
+  const { state, openModal, setOpenModal } = useContext(IdentityContext)
+  const [alert, setAlert] = useState({
+    open: false,
+    severity: "loading",
+    message: "Deleting campaign, please wait...",
+    showBtn: false
+  })
 
-  const [loading, setLoading] = useState(false)
-
-  const handlerDelete = campaign => {
-    setLoading(true)
+  const handlerDelete = uuid => {
     setOpenModal(false)
-    deleteCampaign(state.campaignDetails.slug)
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
+    setAlert({ ...alert, open: true })
+    remove(`/identity/campaign/${uuid}`)
+      .then(() =>
+        setAlert({
+          open: true,
+          severity: "success",
+          message: "Campaign was deleted!",
+          onClick: () => history.push("/manage/campaigns")
+        })
+      )
+      .catch(() => {
+        setAlert({
+          open: true,
+          severity: "error",
+          message: "Oops!, Something went wrong!",
+          onClick: () => setAlert({ ...alert, open: false })
+        })
+      })
   }
 
   return (
@@ -27,12 +45,11 @@ export default function Info() {
         header="Delete Campaign"
         name={state.campaignDetails.name}
         msg="campaign"
-        closeFn={() => {
-          setOpenModal(false)
-        }}
-        delFn={() => handlerDelete()}
+        closeFn={() => setOpenModal(false)}
+        delFn={() => handlerDelete(state.campaignDetails.uuid)}
       />
-      <LoadingModal open={loading} text="Deleting campaign, please wait..." />
+
+      <AlertModal {...alert} />
     </React.Fragment>
   )
 }

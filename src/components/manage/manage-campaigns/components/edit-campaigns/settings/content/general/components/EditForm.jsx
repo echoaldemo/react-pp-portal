@@ -47,9 +47,13 @@ const EditForm = () => {
   const [addRealms, setAddRealms] = useState(campaignRealms)
 
   useEffect(() => {
+    let path = window.location.pathname
+    let splitedPath = path.split("/")
+    let uuid = splitedPath[5]
+
     if (realms.length > 0) {
-      let campaign = JSON.parse(localStorage.getItem("campaignData"))
-      getCampaign(campaign.slug)
+      //let campaign = JSON.parse(localStorage.getItem("campaignData"))
+      getCampaign(uuid)
     }
   }, [realms])
 

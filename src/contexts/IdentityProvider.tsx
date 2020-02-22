@@ -69,25 +69,16 @@ const IdentityProvider = ({ children }: any) => {
 			dispatch({ type: 'SAVE_CAMPAIGN_REALMS', payload: { campaignRealms: campaignRealms } })
 	};
 
-	const getCampaign = (slug: string):any => {
+	const getCampaign = (uuid: string):any => {
 		console.log('getCamp');
 		
-		get(`/identity/campaign/list/?slug=${slug}`)
+		get(`/identity/campaign/${uuid}`)
 		.then((res:any) => {
-			console.log('res.data[0]: ', res.data[0]);
-			setCampaignRealms(res.data[0])
-			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data[0] } })
+			console.log('campaign: ', res.data);
+			setCampaignRealms(res.data)
+			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
 		})
 	};
-
-	const deleteCampaign = (slug: string):any => {
-		setLoading(true)
-		setTimeout(() => {
-			console.log(slug);
-			setLoading(false)
-		}, 2000);
-	};
-
 
 
 	useEffect(() => {
@@ -163,7 +154,6 @@ const IdentityProvider = ({ children }: any) => {
 				dispatch,
 				handleSaveCampaignDetails,
 				getCampaign,
-				deleteCampaign,
 				setLoading,
 				setTab,
 				tab,
