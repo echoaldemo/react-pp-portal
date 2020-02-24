@@ -58,7 +58,7 @@ const DIDTable = ({ headers, data, history }: Props) => {
               <TableCell className={cell} align="right">
                 <Link
                   to={{
-                    pathname: `/manage/phrase-book/global/edit/${phrase.id}`
+                    pathname: `/manage/phrase-book/global/edit/${phrase.uuid}`
                   }}
                   style={{ color: "#777777" }}
                 >
@@ -66,7 +66,7 @@ const DIDTable = ({ headers, data, history }: Props) => {
                     text="Edit"
                     onClickFunc={() => {
                       history.push(
-                        `/manage/phrase-book/global/edit/${phrase.id}`
+                        `/manage/phrase-book/global/edit/${phrase.uuid}`
                       );
                       localStorage.setItem("edit_pb_dataname", phrase.name);
                     }}

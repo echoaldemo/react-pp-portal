@@ -70,7 +70,6 @@ const CreatePhraseBook = ({
         setCreation({ ...creation, creating: true });
         addPhraseBook(data, () => {
           setCreation({ ...creation, creating: false, created: true });
-          reset();
         });
       }
     }
@@ -101,7 +100,7 @@ const CreatePhraseBook = ({
       />
       <SuccessModal
         open={creation.created}
-        text={"Phrase book was added"}
+        text={`${phrasebookName} 1Phrase book was added`}
         btnText="OK"
         closeFn={() => setCreation({ ...creation, created: false })}
         btnFn={() => {

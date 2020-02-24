@@ -9,6 +9,7 @@ import {
 } from "common-components";
 import PBTable from "./components/PBTable/PBTable";
 import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
+import { get, post, patch } from "utils/api";
 
 const GlobalPhraseBooks = ({ history }: any) => {
   const [pb, setpb] = useState<any>([]);
@@ -22,29 +23,19 @@ const GlobalPhraseBooks = ({ history }: any) => {
   }, []);
 
   const getPhraseBooks = () => {
-    fetch("http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books")
-      .then(res => res.json())
-      .then(res => {
-        setpb(res);
-        setPaginateList(res);
-        setLoading(false);
-      });
+    get("/pitch/global/phrases").then((res: any) => {
+      setpb(res.data);
+      setPaginateList(res.data.reverse());
+      setLoading(false);
+    });
   };
 
   const addPhraseBook = (data: any, fn: any) => {
-    fetch(`http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(res => {
-        fn();
-      });
+    post("/pitch/global/phrases/", {
+      name: data.name
+    }).then((res: any) => {
+      fn();
+    });
   };
 
   const paginate = (from: number, to: number) => {
