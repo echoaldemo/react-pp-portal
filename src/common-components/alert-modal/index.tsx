@@ -1,7 +1,6 @@
 import React from 'react'
 import { Dialog } from '@material-ui/core'
 
-
 import {
   Center,
   Card,
@@ -20,29 +19,35 @@ interface Props {
   showBtn: boolean
   textBtn: string
   message: string
-  onClick: (e: React.SyntheticEvent<HTMLButtonElement>) => void
+  handlerClickBtn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
-const AlertModal: React.FC<Props> = ({ open, severity, message, showBtn, textBtn, onClick }) => {
+const AlertModal: React.FC<Props> = ({ open, severity, message, showBtn, textBtn, handlerClickBtn }) => {
 
-  const getSeverityIcon = () => {
-    if(severity === 'loading')
-     return <LoadingIcon />
-    else if(severity === 'success')
-     return <StyledCheckIcon />
-    else if(severity === 'error')
-     return <StyledErrorIcon />
-     else return <StyledInfoIcon/>
+  interface Icons {
+    [loading:string]: React.ReactNode,
+    success: React.ReactNode,
+    error: React.ReactNode,
+    info: React.ReactNode
   }
+
+  const IconList: Icons = {
+    loading: <LoadingIcon />,
+    success: <StyledCheckIcon />,
+    error: <StyledErrorIcon/>,
+    info: <StyledInfoIcon/>
+  }
+
+  const getSeverityIcon = (icon:string) => IconList[icon]
 
   return (
     <Dialog open={open}>
       <Center data-cy="loading-modal">
         <Card>
           <Text>{message}</Text>
-            {getSeverityIcon()}
+            {getSeverityIcon(severity)}
           {showBtn && 
-          <Button onClick={onClick}>
+          <Button onClick={handlerClickBtn}>
             <Cancel>{textBtn}</Cancel>
           </Button>}
         </Card>

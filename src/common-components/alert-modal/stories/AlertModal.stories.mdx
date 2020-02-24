@@ -26,8 +26,8 @@ import { AlertModal } from 'common-components'
           <AlertModal
             open={open}
             severity={'loading'}
-            text={'One moment. We’re removing the campaign…'}
-            cancelFn={() => setOpen(!open)}
+            message={'One moment. We’re removing the campaign…'}
+            handlerClickBtn={() => setOpen(!open)}
           />
         </>
       )
@@ -49,8 +49,8 @@ import { AlertModal } from 'common-components'
           <AlertModal
             open={open}
             severity={'info'}
-            text={'Informative text for example…'}
-            cancelFn={() => setOpen(!open)}
+            message={'Informative text for example…'}
+            handlerClickBtn={() => setOpen(!open)}
           />
         </>
       )
@@ -72,8 +72,8 @@ import { AlertModal } from 'common-components'
           <AlertModal
             open={open}
             severity={'error'}
-            text={'Something is wrong...'}
-            cancelFn={() => setOpen(!open)}
+            message={'Something is wrong...'}
+            handlerClickBtn={() => setOpen(!open)}
           />
         </>
       )
@@ -95,8 +95,8 @@ import { AlertModal } from 'common-components'
           <AlertModal
             open={open}
             severity={'success'}
-            text={'Operation was completed succefully!'}
-            cancelFn={() => setOpen(!open)}
+            message={'Operation was completed succefully!'}
+            handlerClickBtn={() => setOpen(!open)}
           />
         </>
       )
@@ -106,12 +106,12 @@ import { AlertModal } from 'common-components'
 
 ### Props
 
-| Name     | Type     | Default  | Description                                                    |
-| -------- | -------- | -------- | -----------------                                              |
-| open     | boolean  | required | to open the modal                                              |
-| severity | string   | required | severity of the alert                                          |
-| message  | string   | required | alert message                                                  |
-| showBtn  | boolean  |          | show button for default, if false don't show button            |
-| textBtn  | string   |          | set custom text for button label, default 'Cancel'             |
-| cancelFn | function | required | cancel function                                                |
+| Name            | Type     | Default  | Description                                                    |
+| --------        | -------- | -------- | -----------------                                              |
+| open            | boolean  | required | to open the modal                                              |
+| severity        | string   | required | severity of the alert                                          |
+| message         | string   | required | alert message                                                  |
+| showBtn         | boolean  |          | show button for default, if false don't show button            |
+| textBtn         | string   |          | set custom text for button label, default 'Cancel'             |
+| handlerClickBtn | function | required | cancel function                                                |
 
