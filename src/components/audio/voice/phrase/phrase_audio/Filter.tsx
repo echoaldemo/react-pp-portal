@@ -10,9 +10,9 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core";
 
 // fixed height for selects
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+const ITEM_HEIGHT: any = 48;
+const ITEM_PADDING_TOP: any = 8;
+const MenuProps: any = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -22,7 +22,7 @@ const MenuProps = {
   }
 };
 
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   formControl: {
     width: "100%",
     margin: theme.spacing(2)
@@ -114,16 +114,35 @@ const theme = createMuiTheme({
   }
 });
 
-class Filter extends Component {
-  constructor() {
-    super();
+interface IProps {
+  versions: any;
+  user: any;
+  campaigns: any;
+  user_group?: any;
+  selectedCampaign: any;
+  selectCampaign: any;
+  selectedVersion: any;
+  selectVersion: any;
+  tab: any;
+  unrecorded: any;
+  rerecord: any;
+  recorded: any;
+  filterData: any;
+  filtered: any;
+  searched: any;
+  refreshData?: any;
+  checkIfGlobal?: any;
+}
+class Filter extends Component<IProps, {}> {
+  constructor(props: any) {
+    super(props);
 
     this.state = {
       open: false
     };
   }
-  toTitleCase = str => {
-    return str.replace(/\w\S*/g, function(txt) {
+  toTitleCase = (str: any) => {
+    return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
@@ -143,7 +162,7 @@ class Filter extends Component {
       }
     }
   };
-  disableButton = res => {
+  disableButton = (res: any) => {
     if (res !== "") {
       return false;
     } else {
@@ -158,7 +177,7 @@ class Filter extends Component {
       tab,
       filterData,
       filtered
-    } = this.props;
+    }: any = this.props;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -179,21 +198,19 @@ class Filter extends Component {
                     value={this.props.selectedCampaign}
                     onChange={e => {
                       this.props.selectCampaign(
-                        e.target.value,
-                        e.currentTarget.getAttribute("uuid"),
-                        e.currentTarget.getAttribute("slug")
+                        e.target.value
+                        // e.currentTarget.getAttribute("uuid"),
+                        // e.currentTarget.getAttribute("slug")
                       );
                     }}
                     MenuProps={MenuProps}
                     disabled={this.disableCampaign()}
                   >
-                    {campaigns.map(campaign => {
+                    {campaigns.map((campaign: any) => {
                       return (
                         <MenuItem
                           className={classes.listItem}
                           key={campaign.uuid}
-                          id={"select"}
-                          uuid={campaign.company}
                           value={campaign.slug}
                         >
                           {campaign.name}
@@ -205,7 +222,10 @@ class Filter extends Component {
               </Grid>
 
               <Grid item xs={12} sm={5}>
-                <FormControl id="phrase-select-book" className={classes.formControl}>
+                <FormControl
+                  id="phrase-select-book"
+                  className={classes.formControl}
+                >
                   <InputLabel
                     id="phrase-campaign-label"
                     className={classes.fontRes}
@@ -223,7 +243,7 @@ class Filter extends Component {
                     MenuProps={MenuProps}
                     disabled={this.disablePitchVersion()}
                   >
-                    {versions.map(version => (
+                    {versions.map((version: any) => (
                       <MenuItem
                         className={classes.listItem}
                         key={version.uuid}
@@ -270,21 +290,20 @@ class Filter extends Component {
                     value={this.props.selectedCampaign}
                     onChange={e => {
                       this.props.selectCampaign(
-                        e.target.value,
-                        e.currentTarget.getAttribute("uuid"),
-                        e.currentTarget.getAttribute("slug")
+                        e.target.value
+                        // e.currentTarget.getAttribute("uuid"),
+                        // e.currentTarget.getAttribute("slug")
                       );
                     }}
                     MenuProps={MenuProps}
                     disabled={this.disableCampaign()}
                   >
-                    {campaigns.map(campaign => {
+                    {campaigns.map((campaign: any) => {
                       return (
                         <MenuItem
                           className={classes.listItem}
                           key={campaign.uuid}
                           id={"select"}
-                          uuid={campaign.company}
                           value={campaign.slug}
                         >
                           {campaign.name}
@@ -296,7 +315,10 @@ class Filter extends Component {
               </Grid>
 
               <Grid item xs={12} sm={5}>
-                <FormControl id="phrase-select-book" className={classes.formControl}>
+                <FormControl
+                  id="phrase-select-book"
+                  className={classes.formControl}
+                >
                   <InputLabel
                     id="phrase-campaign-label"
                     className={classes.fontRes}
@@ -314,7 +336,7 @@ class Filter extends Component {
                     MenuProps={MenuProps}
                     disabled={this.disablePitchVersion()}
                   >
-                    {versions.map(version => (
+                    {versions.map((version: any) => (
                       <MenuItem
                         className={classes.listItem}
                         key={version.uuid}

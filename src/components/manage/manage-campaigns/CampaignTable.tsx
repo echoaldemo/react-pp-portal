@@ -47,7 +47,7 @@ const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, se
 								<UnderlineCell
 									className={cell}
 									onClick={() =>
-										history.push(
+										history.history.push(
 											`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
 										)}
 								>
@@ -84,7 +84,7 @@ const CampaignTable: React.FC<Props> = ({ data, setLoading, loading, history, se
 									<EditButton
 										text="Edit"
 										onClickFunc={() => {
-											history.push(
+											history.history.push(
 												`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
 											);
 											localStorage.setItem(`campaignData`, JSON.stringify(campaign));

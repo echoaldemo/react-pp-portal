@@ -1,0 +1,117 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
+import { AlertModal, SaveButton as Button } from 'common-components'
+import { useState } from '@storybook/addons'
+const style={background: '#7c8a97'}
+
+<Meta title="MDX|Alert Modal" component={AlertModal} />
+
+### Alert Modal
+
+
+```
+import { AlertModal } from 'common-components'
+```
+
+## Loading
+
+<Preview>
+  <Story name="default">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'loading'}
+            message={'One moment. We’re removing the campaign…'}
+            handlerClickBtn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Info
+
+<Preview>
+  <Story name="Info">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'info'}
+            message={'Informative text for example…'}
+            handlerClickBtn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Error
+
+<Preview>
+  <Story name="Error">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'error'}
+            message={'Something is wrong...'}
+            handlerClickBtn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+## Success
+
+<Preview>
+  <Story name="Success">
+    {() => {
+      const [open, setOpen] = useState(false)
+      const handleCancel = () => setOpen(!open)
+      
+      return (
+        <>
+          <Button style={style} onClick={() => setOpen(true)}>Open Modal</Button>
+          <AlertModal
+            open={open}
+            severity={'success'}
+            message={'Operation was completed succefully!'}
+            handlerClickBtn={() => setOpen(!open)}
+          />
+        </>
+      )
+    }}
+  </Story>
+</Preview>
+
+### Props
+
+| Name            | Type     | Default  | Description                                                    |
+| --------        | -------- | -------- | -----------------                                              |
+| open            | boolean  | required | to open the modal                                              |
+| severity        | string   | required | severity of the alert                                          |
+| message         | string   | required | alert message                                                  |
+| showBtn         | boolean  |          | show button for default, if false don't show button            |
+| textBtn         | string   |          | set custom text for button label, default 'Cancel'             |
+| handlerClickBtn | function | required | cancel function                                                |
+

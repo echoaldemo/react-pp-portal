@@ -106,7 +106,7 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
 				}}
 			>
 				<Divider />
-				<div style={{ marginTop: 62 }}>
+				<div className={classes.iconSection}>
 					{/* start remove from recorder */}
 					{type !== "10" ? (
 						<React.Fragment>

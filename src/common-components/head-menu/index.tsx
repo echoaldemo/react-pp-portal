@@ -20,43 +20,40 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { Face as FaceIcon } from "@material-ui/icons";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
-// import logout from '../../../auth/controllers/logout'
+import { logout } from "auth/controllers/controller";
 // import getData from '../../../auth/controllers/getUserData'
 import { SideNav, DashboardSidenav } from "common-components";
 import logo from "assets/images/pp_logo_white_font.png";
 import { useStyles, StyledLink, Img, NotifIcon, WelcomeName } from "./style";
+import { loginChecker } from "auth/services/authService";
 
 interface HeadMenuProps {
   location: Obj;
-  logout: Function;
-  getData: Function;
-  history?: any;
+  history: any;
 }
 
 interface Obj {
   [index: string]: any;
 }
 
-const HeadMenu: React.FC<HeadMenuProps> = ({
-  location,
-  logout,
-  getData,
-  history
-}) => {
+const HeadMenu: React.FC<HeadMenuProps> = ({ location, history }) => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [wholeName, setWholeName] = useState<string>("Loading...");
   const [name, setName] = useState<string>("");
 
   React.useEffect(() => {
+    if (!loginChecker()) {
+      history.push("/");
+    }
     result();
   }, []); // eslint-disable-line
 
   const result = async () => {
-    const res = await getData();
-    if (res) {
-      setWholeName(`${res.first_name} ${res.last_name}`);
-      setName(res.first_name);
+    const name = localStorage.getItem("user");
+    if (name) {
+      setWholeName(`${name}`);
+      setName(name);
     }
   };
 
@@ -102,7 +99,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({
           ) : null}
           <NotifIcon />
           <AccountCircleIcon fontSize="large" />
-          <Typography>{wholeName}</Typography>
+          <Typography> {wholeName}</Typography>
           <IconButton
             ref={anchorRef}
             onClick={handleToggle}
@@ -149,8 +146,7 @@ const HeadMenu: React.FC<HeadMenuProps> = ({
                       </StyledLink>
                       <MenuItem
                         onClick={() => {
-                          //   logout();
-                          history.push("/");
+                          logout();
                         }}
                       >
                         <ListItemIcon>
@@ -189,11 +185,9 @@ const HeadMenu: React.FC<HeadMenuProps> = ({
 
 HeadMenu.defaultProps = {
   location: { pathname: "/manage/user" },
-  getData: () => {
-    return { first_name: "StoryBook", last_name: "User" };
-  },
+
   logout: () => {
-    // alert("Logouts");
+    alert("Logout");
   }
 } as Partial<HeadMenuProps>;
 

@@ -1,4 +1,4 @@
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   root: {
     width: "100%",
     display: "flex"
@@ -87,7 +87,6 @@ const useStyles = theme => ({
     alignItems: "center",
     marginBottom: 18,
     marginTop: 28,
-    marginTop: "15px",
     marginLeft: "12px",
     "@media (max-width: 425px)": {
       marginTop: 15
@@ -109,6 +108,7 @@ const useStyles = theme => ({
     }
   },
   pitchTable: {
+    zIndex: 0,
     padding: "30px 0px 30px 21px",
     flexDirection: "row",
     "@media (max-width: 425px)": {

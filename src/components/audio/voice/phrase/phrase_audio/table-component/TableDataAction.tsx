@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+
 import TableCell from "@material-ui/core/TableCell";
 import Settings from "@material-ui/icons/Settings";
 import Menu from "@material-ui/core/Menu";
@@ -12,11 +13,19 @@ import Tooltip from "@material-ui/core/Tooltip";
 import UndoIcon from "@material-ui/icons/Undo";
 import EditDialog from "../dialog/edit";
 
-const StyledMenu = withStyles({
+const useStyles: any = {
+  resIcon: {
+    "@media (max-width: 425px)": {
+      fontSize: 18
+    }
+  }
+};
+
+const StyledMenu: any = withStyles({
   paper: {
     border: "1px solid #d3d4d5"
   }
-})(props => (
+})((props: any) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
@@ -43,22 +52,34 @@ const StyledMenuItem = withStyles(theme => ({
   }
 }))(MenuItem);
 
-const useStyles = theme => ({
-  resIcon: {
-    "@media (max-width: 425px)": {
-      fontSize: 18
-    }
-  },
-  resTextMenu: {
-    "@media (max-width: 425px)": {
-      fontSize: 13
-    }
-  }
-});
-
-class TableDataCell extends React.Component {
+interface IProps {
+  tblName: any;
+  handleClickWithName: any;
+  name: any;
+  uuid?: any;
+  selecteInddex?: any;
+  setAudioDetails: any;
+  handleBackButton: any;
+  detectMic: any;
+  selectedIndex: any;
+  anchorEl: any;
+  handleClose: any;
+  openAddNewVoiceModal: any;
+  handleClickRecord: any;
+  row: any;
+  dialog: any;
+  undoAudioOpen: any;
+  open: any;
+  handleClickOpenDialog: any;
+  handleCloseDialog: any;
+  rerecordAudioOpen: any;
+  recordAudioDialog: any;
+  handleClick: any;
+  deleteAudioOpen: any;
+}
+class TableDataCell extends React.Component<IProps, {}> {
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <TableCell align="center">
         {this.props.tblName === "Unrecorded" ? (
@@ -69,15 +90,17 @@ class TableDataCell extends React.Component {
                   this.props.handleClickWithName(
                     event,
                     this.props.name,
-                    this.props.row.key,
-                    this.props.selectedIndex
+                    this.props.uuid,
+                    this.props.selecteInddex
                   );
                   this.props.setAudioDetails(
-                    this.props.row.name,
-                    this.props.row.text
+                    this.props.name,
+                    this.props.dialog,
+                    this.props.uuid
                   );
+
                   this.props.handleBackButton(this.props.selectedIndex);
-                  this.props.hasMic();
+                  this.props.detectMic();
                 }}
               >
                 <Settings className={classes.resIcon} />
@@ -92,27 +115,20 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.hasMic();
-                  this.props.openAddNewVoiceModal();
+                  this.props.openAddNewVoiceModal(null, "UnrecTable");
                   this.props.handleClose();
                 }}
               >
                 <ListItemIcon>
-                  <CloudUpload className={classes.resIcon} />
+                  <CloudUpload />
                 </ListItemIcon>
-                <ListItemText
-                  className={classes.resTextMenu}
-                  primary="Upload / Record Audio"
-                />
+                <ListItemText primary="Upload / Record Audio" />
               </StyledMenuItem>
               {/* <StyledMenuItem onClick={this.props.recordAudioDialog}>
                 <ListItemIcon>
-                  <MicIcon className={classes.resIcon} />
+                  <MicIcon />
                 </ListItemIcon>
-                <ListItemText
-                  className={classes.resTextMenu}
-                  primary="Record Audio"
-                />
+                <ListItemText primary="Record Audio" />
               </StyledMenuItem> */}
             </StyledMenu>
           </React.Fragment>
@@ -120,19 +136,26 @@ class TableDataCell extends React.Component {
           <div>
             <Tooltip title="More actions" placement="right">
               <IconButton
-                onClick={event => {
-                  this.props.handleClickWithName(
-                    event,
+                onClick={e => {
+                  this.props.handleClickRecord(
+                    e,
                     this.props.name,
-                    this.props.row.key,
+                    this.props.row
+                  );
+                  this.props.handleClickWithName(
+                    e,
+                    this.props.name,
+                    this.props.uuid,
                     this.props.selectedIndex
                   );
                   this.props.setAudioDetails(
-                    this.props.row.name,
-                    this.props.row.text
+                    this.props.name,
+                    this.props.dialog,
+                    this.props.uuid
                   );
-                  this.props.handleBackButton(this.props.index);
-                  this.props.hasMic();
+
+                  this.props.handleBackButton(this.props.selectedIndex);
+                  this.props.detectMic();
                 }}
               >
                 <Settings className={classes.resIcon} />
@@ -147,25 +170,18 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.openAddNewVoiceModal();
+                  this.props.openAddNewVoiceModal(null, "RerecTable");
                   this.props.handleClose();
                 }}
               >
                 <ListItemIcon>
-                  <CloudUpload className={classes.resIcon} />
+                  <CloudUpload />
                 </ListItemIcon>
-                <ListItemText
-                  className={classes.resTextMenu}
-                  primary="Reupload Audio"
-                />
+                <ListItemText primary="Reupload Audio" />
               </StyledMenuItem>
               <StyledMenuItem
                 onClick={() => {
-                  this.props.undoPitchAudio(
-                    this.props.version,
-                    this.props.voice,
-                    this.props.audio_key
-                  );
+                  this.props.undoAudioOpen();
                   this.props.handleClose();
                 }}
                 data-testid={"undo"}
@@ -173,7 +189,7 @@ class TableDataCell extends React.Component {
                 <ListItemIcon>
                   <UndoIcon className={classes.resIcon} />
                 </ListItemIcon>
-                <ListItemText className={classes.resTextMenu} primary="Undo" />
+                <ListItemText primary="Undo" />
               </StyledMenuItem>
             </StyledMenu>
             <EditDialog
@@ -189,7 +205,7 @@ class TableDataCell extends React.Component {
                 onClick={e =>
                   this.props.handleClickRecord(
                     e,
-                    this.props.row.name,
+                    this.props.name,
                     this.props.row
                   )
                 }
@@ -205,26 +221,19 @@ class TableDataCell extends React.Component {
               onClose={this.props.handleClose}
             >
               <StyledMenuItem
-                onClick={this.props.rerecordAudioOpen}
+                onClick={() => this.props.rerecordAudioOpen()}
                 data-testid={"rerecord"}
               >
                 <ListItemIcon>
-                  <CloudUpload className={classes.resIcon} />
+                  <CloudUpload />
                 </ListItemIcon>
-                <ListItemText
-                  className={classes.resTextMenu}
-                  primary="Rerecord Audio"
-                />
+                <ListItemText primary="Rerecord Audio" />
               </StyledMenuItem>
               {/* <StyledMenuItem onClick={this.props.deleteAudioOpen}>
                 <ListItemIcon>
-                  <DeleteIcon className={classes.resIcon} />
+                  <DeleteIcon />
                 </ListItemIcon>
-                <ListItemText
-                  className={classes.resTextMenu}
-                  primary="Delete Audio"
-                  data-testid={"delete"}
-                />
+                <ListItemText primary="Delete Audio" data-testid={"delete"} />
               </StyledMenuItem> */}
             </StyledMenu>
           </React.Fragment>

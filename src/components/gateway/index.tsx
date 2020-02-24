@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   IconButton,
   InputBase,
@@ -18,8 +18,13 @@ import SEO from "utils/seo";
 import Content from "./components/Content";
 import { Card, Container, Header } from "./style";
 import { Campaign } from "./types";
+import { logout } from "auth/controllers/controller";
+import { loginChecker } from "auth/services/authService";
+import { store } from "contexts/ManageComponent";
+import { get } from "utils/api";
 
 const Gateway: React.FC<{ history: any }> = ({ history }) => {
+  const { state, dispatch } = useContext(store);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -27,28 +32,35 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
 
   useEffect(() => {
-    let mock: any = [];
-    for (let i = 0; i < 20; i++) {
-      mock.push({ name: `Demo ${i}`, uuid: `${i}`, slug: `slug-${i}` });
+    if (!loginChecker()) {
+      history.push("/");
     }
-    setCampaigns(mock);
-    setTimeout(() => {
+
+    get("/identity/campaign/list/").then((res: any) => {
       setLoading(false);
-    }, 1000);
-  }, []);
+
+      dispatch({
+        type: "manage-campaigns",
+        payload: {
+          campaignList: res.data
+        }
+      });
+      setLoading(false);
+    });
+  }, [history, dispatch]);
 
   return (
     <Container>
       <SEO title="Gateway" />
       <span>
         <Tooltip title="Manage Settings" placement="right">
-          <IconButton onClick={() => history.push("/manage/users")}>
+          <IconButton onClick={() => (window.location.href = "/manage/users")}>
             <Settings />
           </IconButton>
         </Tooltip>
         <h1>Welcome to the Perfect Pitch Portal</h1>
         <Tooltip title="Logout" placement="right">
-          <IconButton onClick={() => history.push("/")}>
+          <IconButton onClick={() => logout()}>
             <ExitToApp />
           </IconButton>
         </Tooltip>
@@ -99,7 +111,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
         ) : (
           <Collapse in={!hide}>
             <Content
-              campaigns={campaigns}
+              campaigns={state.campaigns.length !== 0 ? state.campaigns : []}
               searchText={searchText}
               history={history}
             />

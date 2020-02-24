@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Typography from "@material-ui/core/Typography";
 
-const useStyles = theme => ({
+const useStyles: any = (theme: any) => ({
   root: {
     margin: 0,
     padding: theme.spacing(2),
@@ -30,10 +30,14 @@ const useStyles = theme => ({
     width: "auto"
   }
 });
-
-class EditDialog extends React.Component {
+interface IProps {
+  open: any;
+  handleClickOpenDialog: any;
+  handleCloseDialog: any;
+}
+class EditDialog extends React.Component<IProps, {}> {
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <div>
         <Dialog

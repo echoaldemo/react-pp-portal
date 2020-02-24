@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import SEO from "../../utils/seo";
-// import { post, cancel } from "../../utils/api";
+import { post, cancel } from "../../utils/api";
 import styled from "styled-components";
-// import getData, { userData } from "./controllers/getUserData";
-// import logout from "./controllers/logout";
+import getData, { userData } from "auth/controllers/getUserData";
+import { logout } from "auth/controllers/controller";
 
 import {
   SuccessModal,
@@ -15,10 +15,6 @@ import {
 } from "common-components";
 import handleInput from "./handleChange";
 
-const userData = {
-  name: "Sample Name",
-  password: "Sample Password"
-};
 const Header = styled.p`
   font-size: 24px;
   color: #444851;
@@ -68,48 +64,50 @@ const ChangePassword = ({ history }: any) => {
         loading: false
       });
     } else {
-      // getUser();
+      getUser();
     }
     // eslint-disable-next-line
   }, []);
 
-  // const getUser = async () => {
-  //   const user = await getData();
-  //   setState({
-  //     ...state,
-  //     user,
-  //     loading: false
-  //   });
-  // }; // https://dev-api.perfectpitchtech.com/identity/user/set_password/
+  const getUser = async () => {
+    const user = await getData();
+    setState({
+      ...state,
+      user,
+      loading: false
+    });
+  }; // https://dev-api.perfectpitchtech.com/identity/user/set_password/
 
   const handleChange = (e: any) => {
     handleInput(e, state, setState);
   };
   const handleChangePass = () => {
     setState({ ...state, load: true });
-    // post("/identity/user/set_password/", {
-    //   current_password: state.current_password,
-    //   new_password: state.new_password,
-    //   re_new_password: state.re_new_password
-    // })
-    //   .then(() => setState({ ...state, load: false, done: true }))
-    //   .catch((err: any) => {
-    //     try {
-    setState({
-      ...state,
-      done: false
-      // error: {
-      //   ...state.error,
-      //   current: err.response.data.current_password[0]
-      // }
-    });
-    //     } catch {
-    //       console.log(err);
-    //     }
-    //   });
+    post("/identity/user/set_password/", {
+      current_password: state.current_password,
+      new_password: state.new_password,
+      re_new_password: state.re_new_password
+    })
+      .then(() => {
+        setState({ ...state, load: false, done: true });
+      })
+      .catch((err: any) => {
+        try {
+          setState({
+            ...state,
+            done: false,
+            error: {
+              ...state.error,
+              current: err.response.data.current_password[0]
+            }
+          });
+        } catch {
+          console.log(err);
+        }
+      });
   };
   const handleCancel = () => {
-    // cancel();
+    cancel();
     setState({ ...state, load: false });
   };
 
@@ -192,7 +190,7 @@ const ChangePassword = ({ history }: any) => {
         open={state.done}
         text={"Password Changed Successfully"}
         closeFn={() => {
-          // logout();
+          logout();
         }}
       />
     </>

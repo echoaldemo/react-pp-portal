@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import IconButton from "@material-ui/core/IconButton";
+import {
+	Card,
+	CardHeader,
+	CardContent,
+	Grid,
+	Typography,
+	IconButton,
+	TextField,
+	Link,
+	Dialog,
+  Table,
+  TableHead,
+	TableBody,
+	TableCell,
+	TableRow
+} from '@material-ui/core';
 import SearchIcon from "@material-ui/icons/Search";
-import Dialog from "@material-ui/core/Dialog";
-import Grid from "@material-ui/core/Grid";
-//Tables
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-
 import DesktopAddNewVoice from "../record-new-voice";
 import Loader from "../loader";
 import AddNewVoiceModal from "../add-new-voice";

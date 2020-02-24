@@ -25,7 +25,7 @@ const StyledMenu = withStyles({
   paper: {
     border: "1px solid #d3d4d5"
   }
-})(props => (
+})((props: any) => (
   <Menu
     elevation={0}
     getContentAnchorEl={null}
@@ -51,10 +51,43 @@ const StyledMenuItem = withStyles(theme => ({
     }
   }
 }))(MenuItem);
-
-class TableDataCell extends React.Component {
+interface IProps {
+  uuid?: any;
+  selecteInddex?: any;
+  dialog?: any;
+  detectMic?: any;
+  version?: any;
+  voice?: any;
+  audio_key?: any;
+  rerecordAudioOpen?: any;
+  handleClose?: any;
+  anchorEl?: any;
+  row?: any;
+  handleClickRecord?: any;
+  handleCloseDialog?: any;
+  handleClickOpenDialog?: any;
+  open?: any;
+  undoPitchAudio?: any;
+  openAddNewVoiceModal?: any;
+  hasMic?: any;
+  handleBackButton?: any;
+  setAudioDetails?: any;
+  handleClickWithName?: any;
+  index?: any;
+  selectedIndex?: any;
+  name?: any;
+  tblName?: any;
+  recordAudioDialog?: any;
+  handleClick?: any;
+  undoAudioOpen?: any;
+  deleteAudioOpen?: any;
+  setRecordedName?: any;
+  uploadLoading?: any;
+  rerecordAudio?: any;
+}
+class TableDataCell extends React.Component<IProps, {}> {
   render() {
-    const { classes } = this.props;
+    const { classes }: any = this.props;
     return (
       <TableCell align="center">
         {this.props.tblName === "Unrecorded" ? (
@@ -90,7 +123,7 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.openAddNewVoiceModal(null, 'UnrecTable');
+                  this.props.openAddNewVoiceModal(null, "UnrecTable");
                   this.props.handleClose();
                 }}
               >
@@ -145,7 +178,7 @@ class TableDataCell extends React.Component {
             >
               <StyledMenuItem
                 onClick={() => {
-                  this.props.openAddNewVoiceModal(null, 'RerecTable');
+                  this.props.openAddNewVoiceModal(null, "RerecTable");
                   this.props.handleClose();
                 }}
               >

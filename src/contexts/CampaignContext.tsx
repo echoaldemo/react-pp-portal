@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import mockData from './mockData.json';
 import { get } from 'utils/api';
 
@@ -11,6 +11,8 @@ type ContextProps = {
 	setPaginateList: any;
 	paginate: any;
 	FilterApplyButton: any;
+	getCampaign: any,
+	activeCampaign: object
 };
 
 const AppContext = React.createContext<Partial<ContextProps>>({});
@@ -19,24 +21,27 @@ function CampaignsContextProvider({ children }: any) {
 	const [data, setData] = useState(mockData.campaigns);
 	const [paginateList, setPaginateList] = useState(mockData.campaigns);
 	const [loading, setLoading] = useState(false);
+	const [activeCampaign, setActiveCampaign] = useState({})
 
-	// useEffect(() => {
-	// 	setLoading(true);
-	// 	setTimeout(() => {
-	// 		setLoading(false);
-	// 	}, 1000);
+	useEffect(() => getAllData(), []);
 
-	// 	// getAllData()
-	// }, []);
+	function getAllData() {
+		// eslint-disable-line
+		setLoading(true);
+		get('/identity/campaign/list/', {
+			editable:true,
+			order_by: "-datetime_modified"
+		}).then((res: any) => {
+			setData(res.data);
+			setLoading(false);
+		});
+	}
 
-	// function getAllData() {
-	// 	// eslint-disable-line
-	// 	setLoading(true);
-	// 	get('/identity/campaign/list/').then((res: any) => {
-	// 		setData(res.data);
-	// 		setLoading(false);
-	// 	});
-	// }
+	function getCampaign(UUID:  string){
+		let campaign = data.filter(item => item.uuid === UUID)
+		setActiveCampaign(campaign)
+		return campaign
+	}
 
 	function FilterApplyButton(params: any) {
 		var parameter = {
@@ -75,7 +80,9 @@ function CampaignsContextProvider({ children }: any) {
 				paginate,
 				FilterApplyButton,
 				paginateList,
-				setPaginateList
+				setPaginateList,
+				getCampaign,
+				activeCampaign
 			}}
 		>
 			{children}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  withWidth,
   withStyles,
   CssBaseline,
   Container,
@@ -18,37 +17,115 @@ import DropdownDesktop from "../../common-components/dropdown/Desktop";
 import Tabs from "../../common-components/tabs/Mobile";
 import TabsDesktop from "../../common-components/tabs/Desktop";
 import useStyles from "./styles";
-import Filter from "./pitch_audio/Filter";
-import Search from "./pitch_audio/Search";
-import Table from "./pitch_audio/Table";
-
+import Filter from "./prospect_audio/Filter";
+import Search from "./prospect_audio/Search";
+import Table from "./prospect_audio/Table";
 import Toast from "../../common-components/toast";
+import MainAddNewAudio from "../../common-components/add-new-voice/MainAddNewVoice";
+// import Loader from '../../common-components/loader';
 
-import { TableLoader, HeaderLink } from "common-components";
-
+//CARDS
 import UnrecordedCard from "../../common-components/cards/Unrecorded";
 import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
 
 import { get, patch, post } from "../../utils/api";
+import { TableLoader, HeaderLink } from "common-components";
 
-class Pitch extends Component {
-  constructor() {
-    super();
+//MOCK DATA
+import {
+  prospectMockData,
+  manageListMockData,
+  campaignMockData,
+  versionMockData,
+  UnrecordedVoicesProspectData,
+  RerecordedVoicesProspectData,
+  RecordVoicesProspectData
+} from "./prospectMockData";
+interface State {
+  loader?: boolean;
+  user: number;
+  links: any;
+  state: string;
+  campaigns: any;
+  versions: any;
+  selected: any;
+  tabSelected: any;
+  audioToBeUploaded?: any;
+  unrecorded: any;
+  rerecord: any;
+  recorded: any;
+  unrecordedTblName: any;
+  rerecordTblName: any;
+  recordedTblName: any;
+  display: any;
+  displayRerecord: any;
+  displayRecorded: any;
+  filtered: boolean;
+  searchVoice: any;
+  searchDialogRecord: any;
+  searchDialogRerecord: any;
+  searchDialogUnrecord: any;
+  openAddNew: boolean;
+  showTable: boolean;
+  audioFile: any;
+  recordedName: any;
+  fileName: any;
+  voices: any;
+  user_data: any;
+  selectedCampaign: any;
+  selectedVersion: any;
+  token?: any;
+  audio: any;
+  fetchedUnrecorded: boolean;
+  fetchedRerecord: boolean;
+  fetchedRecorded: boolean;
+  isAudioLoading: boolean;
+  campaignSelected: any;
+  versionSelected: any;
+  openToast: boolean;
+  toastType: any;
+  message: any;
+  vertical: any;
+  horizontal: any;
+  campaignList: any;
+  unrecordedList: any;
+  unrecordedSelected: any;
+  error: boolean;
+  file: any;
+  addNewVoiceModal: boolean;
+  uploadLoading: boolean;
+  user_group: any;
+  profile: any;
+  user_uuid: any;
+  currentMode: any;
+  isAudioLoadingRerec: boolean;
+  addNewVoiceModal_Desktop?: boolean;
+  [x: number]: any;
+  voiceSelected?: any;
+  anchorEl?: any;
+  fetchedUploadAudio: any;
+  campaign_uuids: any;
+  prospect_campaigns: any;
+  defaultVoice: any;
+}
+class Prospect extends Component<{ location: any }, State> {
+  constructor(props: any) {
+    super(props);
 
     this.state = {
-      loader: false,
       user: 1,
       links: [
+        { name: "prospect audio", link: "/prospect" },
         { name: "pitch audio", link: "/pitch" },
-        { name: "phrase audio", link: "/phrase" },
-        { name: "prospect audio", link: "/prospect" }
+        { name: "phrase audio", link: "/phrase" }
       ],
       state: "DATA_LOADED",
       campaigns: [],
       versions: [],
       selected: "",
       tabSelected: 0,
+
       unrecorded: [],
       rerecord: [],
       recorded: [],
@@ -72,8 +149,8 @@ class Pitch extends Component {
       user_data: [],
       selectedCampaign: [],
       selectedVersion: "",
-      token: "",
       audio: [],
+      fetchedUploadAudio: false,
       fetchedUnrecorded: false,
       fetchedRerecord: false,
       fetchedRecorded: false,
@@ -88,24 +165,32 @@ class Pitch extends Component {
       campaignList: [],
       unrecordedList: [],
       unrecordedSelected: "",
+      token: "",
       error: false,
       file: null,
+      // mga dagdag ko for prospect
+      campaign_uuids: [],
+      prospect_campaigns: [],
       addNewVoiceModal: false,
       uploadLoading: false,
-      user_group: 1,
+      user_group: 10,
       profile: [],
       user_uuid: "",
-      hasMic: null,
       currentMode: null,
       isAudioLoadingRerec: false,
-      addNewVoiceModal_Desktop: true
+      defaultVoice: null
     };
   }
 
-  componentDidMount() {
-    document.title = "Pitch Audio";
+  async componentDidMount() {
+    if (this.props.location.state) {
+      this.setState({
+        defaultVoice: this.props.location.state
+      });
+      await this.selectedVoice(this.props.location.state.uuid);
+    }
+    document.title = "Prospect Audio";
     var tokenLogin = localStorage.getItem("ngStorage-ppToken");
-    console.log(tokenLogin);
     if (localStorage.getItem("error")) {
       this.setState({
         openToast: true,
@@ -117,226 +202,293 @@ class Pitch extends Component {
       localStorage.removeItem("error");
     }
     this.setState({ token: tokenLogin });
-    get(`/identity/user/profile/`).then(profileData => {
+
+    setTimeout(() => {
       this.setState({
         state: "DATA_LOADED",
-        profile: profileData.data,
-        user_uuid: profileData.data.uuid,
-        user_group: profileData.data.groups[0]
+        profile: prospectMockData,
+        user_uuid: prospectMockData.uuid,
+        user_group: prospectMockData.groups[0],
+        voices: manageListMockData.results
       });
-      if (profileData.data.groups[0] === 10) {
-        this.recorderCamp(profileData.data.uuid, tokenLogin);
-      } else {
-        get("/identity/user/manage/list/?groups=10&limit=100").then(
-          voiceData => {
-            this.setState({
-              state: "DATA_LOADED",
-              voices: voiceData.data.results
-            });
-          }
-        );
-      }
-    });
+    }, 1000);
+
+    // UNCOMMENT FOR ACTUAL DATA
+    // get("/identity/user/profile/").then(profileData => {
+    //   this.setState({
+    //     state: "DATA_LOADED",
+    //     profile: profileData.data,
+    //     user_uuid: profileData.data.uuid,
+    //     user_group: profileData.data.groups[0]
+    //   });
+    //   if (profileData.data.groups[0] === 10) {
+    //     this.recorderCamp(profileData.data.uuid, tokenLogin);
+    //   } else {
+    //     get("/identity/user/manage/list/?groups=10&limit=100").then(
+    //       voiceData => {
+    //         this.setState({
+    //           state: "DATA_LOADED",
+    //           voices: voiceData.data.results
+    //         });
+    //       }
+    //     );
+    //   }
+    // });
+    // });
   }
 
-  recorderCamp = async uuid => {
+  recorderCamp = async (uuid: any) => {
     this.setState({
       searchVoice: uuid
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/profile/`).then(user => {
-      user_data = user.data.campaigns;
-      this.setState({
-        state: "DATA_LOADED",
-        user_data: user.data
-      });
-    });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then(campaign => {
-        campaigns = campaign.data.filter(camp => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
-        this.setState({
-          campaigns
-        });
-      } else {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
-          vertical: "top",
-          horizontal: "right"
-        });
-      }
-    });
+    // let campaigns: any = [],
+    //   user_data: any = [];
+    // const data1 = await get(`/identity/user/profile/`).then(user => {
+    //   user_data = user.data.campaigns;
+    //   this.setState({
+    //     state: "DATA_LOADED",
+    //     user_data: user.data
+    //   });
+    // });
+    // const data2 = await get(`/identity/campaign/list/`)
+    //   .then(campaign => {
+    //     campaigns = campaign.data.filter(camp => {
+    //       return user_data.indexOf(camp.uuid) > -1;
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // Promise.all([data1, data2]).then(() => {
+    //   if (campaigns.length) {
+    //     this.setState({
+    //       campaigns
+    //     });
+    //   } else {
+    //     this.setState({
+    //       openToast: true,
+    //       toastType: "caution",
+    //       message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
+    //       vertical: "top",
+    //       horizontal: "right"
+    //     });
+    //   }
+    // });
   };
 
-  toTitleCase = str => {
-    return str.replace(/\w\S*/g, function(txt) {
+  toTitleCase = (str: any) => {
+    return str.replace(/\w\S*/g, function(txt: any) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   };
 
-  tabSelected = val => {
+  tabSelected = (val: any) => {
     this.setState({
       tabSelected: val
     });
   };
 
-  selectCampaign = (value, uuid) => {
+  selectCampaign = (value: any, uuid: any) => {
     this.setState({
+      error: false,
       selectedCampaign: value
     });
 
-    get(`/identity/company/${uuid}/`).then(res => {
-      get(`/pitch/company/${res.data.slug}/campaign/${value}/`)
-        .then(versions => {
-          if (versions.data.versions.length > 0) {
-            this.setState({
-              versions: versions.data.versions.reverse()
-            });
-          } else {
-            this.setState({
-              openToast: true,
-              toastType: "caution",
-              message: `There are no pitch versions available for this campaign.`,
-              vertical: "top",
-              horizontal: "right"
-            });
-          }
-        })
-        .catch(err => {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `There are no pitch versions available for this campaign.`,
-            vertical: "top",
-            horizontal: "right"
-          });
-        });
+    this.setState({
+      versions: versionMockData.versions
     });
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // get(`/identity/company/${uuid}/`).then(res => {
+    //   get(`/pitch/company/${res.data.slug}/campaign/${value}/`)
+    //     .then(versions => {
+    //       if (versions.data.versions.length > 0) {
+    //         this.setState({
+    //           versions: versions.data.versions.reverse()
+    //         });
+    //       } else {
+    //         this.setState({
+    //           openToast: true,
+    //           toastType: "caution",
+    //           message: `There are no pitch versions available for this campaign.`,
+    //           vertical: "top",
+    //           horizontal: "right"
+    //         });
+    //       }
+    //     })
+    //     .catch(err => {
+    //       this.setState({
+    //         openToast: true,
+    //         toastType: "caution",
+    //         message: `There are no pitch versions available for this campaign.`,
+    //         vertical: "top",
+    //         horizontal: "right"
+    //       });
+    //     });
+    // });
   };
 
-  selectVersion = value => {
+  selectVoiceCampaign = (value: any, uuid: any) => {
+    this.setState({
+      campaignSelected: value
+    });
+
+    this.setState({
+      versions: versionMockData.versions
+    });
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // get(`/identity/company/${uuid}/`).then(res => {
+    //   get(`/pitch/company/${res.data.slug}/campaign/${value}/`).then(ver => {
+    //     this.setState({
+    //       versions: ver.data.versions.reverse()
+    //     });
+    //   });
+    // });
+  };
+
+  // this function is used for main adding of audio
+
+  selectVersion = (value: any) => {
     this.setState({
       selectedVersion: value
     });
-    get(
-      `/pitch/audio/version/${value}/voice/${this.state.user_data.uuid}/unrecorded/`
-    ).then(pitchunrecorded => {
-      this.setState({
-        unrecordedList: pitchunrecorded.data
-      });
+
+    this.setState({
+      unrecordedList: UnrecordedVoicesProspectData
     });
+
+    // get(
+    //   `/pitch/audio/version/${value}/prospect/${this.state.user_data.uuid}/unrecorded/`
+    // ).then(unrecorded => {
+    //   this.setState({
+    //     unrecordedList: unrecorded.data
+    //   });
+    // });
   };
 
-  selectUnrecorded = value => {
+  selectUnrecorded = (value: any) => {
     this.setState({
       unrecordedSelected: value
     });
   };
 
-  filterData = pitch_version => {
+  filterData = (pitch_version: any) => {
     this.setState({
       showTable: false,
       loader: true
     });
-    const data1 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/unrecorded/`
-    ).then(unrecorded => {
-      this.setState({
-        display: unrecorded.data,
-        fetchedUnrecorded: unrecorded.status === 200 ? true : false
-      });
+
+    this.setState({
+      display: UnrecordedVoicesProspectData,
+      displayRerecord: RerecordedVoicesProspectData,
+      displayRecorded: RecordVoicesProspectData,
+      fetchedUnrecorded: true,
+      fetchedRerecord: true,
+      fetchedRecorded: true,
+      showTable: true,
+      loader: false
     });
-    const data2 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/rerecord/`
-    ).then(rerecord => {
-      this.setState({
-        displayRerecord: rerecord.data,
-        fetchedRerecord: rerecord.status === 200 ? true : false
-      });
-    });
-    const data3 = get(
-      `/pitch/audio/version/${pitch_version}/voice/${this.state.user_data.uuid}/recorded/`
-    ).then(recorded => {
-      this.setState({
-        displayRecorded: recorded.data,
-        fetchedRecorded: recorded.status === 200 ? true : false
-      });
-    });
-    Promise.all([data1, data2, data3]).then(() => {
-      this.setState({
-        showTable: true,
-        loader: false
-      });
-    });
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // const data1 = get(
+    //   `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/unrecorded/`
+    // ).then(unrecorded => {
+    //   this.setState({
+    //     display: unrecorded.data,
+    //     fetchedUnrecorded: unrecorded.status === 200 ? true : false
+    //   });
+    // });
+
+    // const data2 = get(
+    //   `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/rerecord/`
+    // ).then(rerecord => {
+    //   this.setState({
+    //     displayRerecord: rerecord.data,
+    //     fetchedRerecord: rerecord.status === 200 ? true : false
+    //   });
+    // });
+    // const data3 = get(
+    //   `/pitch/audio/version/${pitch_version}/prospect/${this.state.user_data.uuid}/recorded/`
+    // ).then(recorded => {
+    //   this.setState({
+    //     displayRecorded: recorded.data,
+    //     fetchedRecorded: recorded.status === 200 ? true : false
+    //   });
+    // });
+    // Promise.all([data1, data2, data3]).then(() => {
+    //   this.setState({
+    //     showTable: true,
+    //     loader: false
+    //   });
+    // });
   };
 
-  resetFilters = val => {
+  resetFilters = (val: any) => {
     this.setState({
       display: [],
+      //filtered: false,
       showTable: val
     });
   };
 
-  handleChange = (key, val) => {
+  handleChange = (key: any, val: any) => {
     this.setState({
       [key]: val
     });
   };
 
-  selectedVoice = async val => {
+  selectedVoice = async (val: any) => {
     this.setState({
+      searchVoice: val,
       campaigns: [],
       versions: [],
-      voiceSelected: val,
-      searchVoice: val
+      voiceSelected: val
     });
-    let campaigns = [],
-      user_data = [];
-    const data1 = await get(`/identity/user/manage/${val}/`).then(user => {
-      user_data = user.data.campaigns;
-      this.setState({
-        state: "DATA_LOADED",
-        user_data: user.data
-      });
+
+    this.setState({
+      campaigns: campaignMockData
     });
-    const data2 = await get(`/identity/campaign/list/`)
-      .then(campaign => {
-        campaigns = campaign.data.filter(camp => {
-          return user_data.indexOf(camp.uuid) > -1;
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    Promise.all([data1, data2]).then(() => {
-      if (campaigns.length) {
-        this.setState({
-          campaigns
-        });
-      } else {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
-          vertical: "top",
-          horizontal: "right"
-        });
-      }
-    });
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // let campaigns = [],
+    //   user_data = [];
+    // const data1 = await get(`/identity/user/manage/${val}/`).then(user => {
+    //   user_data = user.data.campaigns;
+    //   this.setState({
+    //     state: "DATA_LOADED",
+    //     user_data: user.data
+    //   });
+    // });
+
+    // const data2 = await get(`/identity/campaign/list/`)
+    //   .then(campaign => {
+    //     campaigns = campaign.data.filter(camp => {
+    //       return user_data.indexOf(camp.uuid) > -1;
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // Promise.all([data1, data2]).then(() => {
+    //   if (campaigns.length) {
+    //     this.setState({
+    //       campaigns
+    //     });
+    //   } else {
+    //     this.setState({
+    //       openToast: true,
+    //       toastType: "caution",
+    //       message: `This voice hasn't been assigned to any campaigns, so no recordings are available. Please contact a Perfect Pitch Administrator to request access`,
+    //       vertical: "top",
+    //       horizontal: "right"
+    //     });
+    //   }
+    // });
   };
 
-  deleteAudio = val => {
-    this.state.recorded.map((data, id) => {
+  deleteAudio = (val: any) => {
+    this.state.recorded.map((data: any, id: any) => {
       if (val === data.name) {
         this.state.recorded.splice(id, 1);
       }
@@ -344,34 +496,31 @@ class Pitch extends Component {
     });
   };
 
-  // for uploading audio
-  handleAudio = e => {
-    if (e.target.files && e.target.value) {
-      this.setState({ audioFile: e.target.value });
-      let files = e.target.files;
-      var uploadFile = new FormData();
-      uploadFile.append("file", files[0]);
-      this.setState({
-        fileName: files[0].name,
-        file: uploadFile
-      });
-    }
+  // for uploading audio, this is also used by main adding of prospect audio
+  handleAudio = (e: any) => {
+    this.setState({ audioFile: e.target.value });
+    let files = e.target.files;
+    var uploadFile = new FormData();
+    uploadFile.append("file", files[0]);
+    this.setState({
+      fileName: files[0].name,
+      file: uploadFile
+    });
   };
 
   removeAudio = () => {
     this.setState({
-      file: "",
       audioFile: "",
       fileName: ""
     });
   };
 
-  getRecordedName = val => {
+  getRecordedName = (val: any) => {
     this.setState({
       recordedName: val
     });
 
-    this.state.unrecorded.map((data, id) => {
+    this.state.unrecorded.map((data: any, id: any) => {
       if (val === data.name) {
         this.state.unrecorded.splice(id, 1);
       }
@@ -380,7 +529,8 @@ class Pitch extends Component {
   };
   // end for uploading audio
 
-  addToRerecord = (version, voice, val) => {
+  addToRerecord = (version: any, voice: any, key: any) => {
+    // empty the state to show loader
     this.setState({
       loader: true,
       display: [],
@@ -391,42 +541,61 @@ class Pitch extends Component {
       fetchedRecorded: false
     });
 
-    if (this.state.checkIfGlobal === true) {
-      patch(
-        `/pitch/global/audio/phrase-book/${this.state.selectedVersion}/voice/${this.state.user_data.uuid}/phrase/${val.uuid}/file/`,
-        { rerecord: true }
-      ).then(audio => {
-        this.filterData();
+    setTimeout(() => {
+      this.setState({
+        display: UnrecordedVoicesProspectData,
+        fetchedUnrecorded: true,
+        displayRerecord: RecordVoicesProspectData,
+        fetchedRerecord: true,
+        displayRecorded: RerecordedVoicesProspectData,
+        fetchedRecorded: false,
+        showTable: true,
+        loader: false
       });
-    } else {
-      patch(`/pitch/audio/version/${version}/voice/${voice}/${val.key}/`, {
-        rerecord: true
-      }).then(res => {
-        if (res.status === 201 || res.status === 200) {
-          this.setState({
-            openToast: true,
-            toastType: "check",
-            message: `Successfully added to rerecord`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false,
-            loader: false
-          });
-        } else {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `Error uploading file`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        }
-        this.filterData(version);
-      });
-    }
+    }, 1000);
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // make a patch request
+    // patch(`/pitch/audio/version/${version}/prospect/${voice}/${key.key}/`, {
+    //   rerecord: true
+    // })
+    //   .then(res => {
+    //     this.filterData(this.state.selectedVersion);
+    //     // checks if status response was 201.
+    //     if (res.status === 201 || res.status === 200) {
+    //       this.setState({
+    //         openToast: true,
+    //         toastType: "check",
+    //         message: `Successfully uploaded`,
+    //         vertical: "top",
+    //         horizontal: "right",
+    //         addNewVoiceModal: false,
+    //         uploadLoading: false
+    //       });
+    //     } else {
+    //       this.setState({
+    //         openToast: true,
+    //         toastType: "caution",
+    //         message: `Request failed`,
+    //         vertical: "top",
+    //         horizontal: "right",
+    //         addNewVoiceModal: false,
+    //         uploadLoading: false
+    //       });
+    //     }
+    //   })
+    //   // if there is no response we will show a failed upload message
+    //   .catch(err => {
+    //     this.setState({
+    //       openToast: true,
+    //       toastType: "caution",
+    //       message: `Request failed`,
+    //       vertical: "top",
+    //       horizontal: "right",
+    //       addNewVoiceModal: false,
+    //       uploadLoading: false
+    //     });
+    //   });
   };
 
   // main audio adding
@@ -439,14 +608,9 @@ class Pitch extends Component {
   closeAddNewDialog() {
     this.setState({
       openAddNew: false,
-      voiceSelected: "",
-      campaignSelected: "",
-      versionSelected: "",
       selectedCampaign: "",
       selectedVersion: "",
-      unrecordedSelected: "",
-      versions: [],
-      unrecordedList: []
+      unrecordedSelected: ""
     });
   }
 
@@ -454,79 +618,111 @@ class Pitch extends Component {
     this.setState(
       prevState => ({
         openAddNew: !prevState.openAddNew
-      }),
-      () => this.showSuccessBar()
+      })
+      // () => this.showSuccessBar()
     );
   };
 
-  showSuccessBar = () => {
-    this.setState({
-      openToast: true,
-      toastType: "check",
-      message: `Successfully uploaded`,
-      vertical: "top",
-      horizontal: "right",
-      campaignSelected: "",
-      versionSelected: "",
-      unrecordedSelected: ""
-    });
-  };
-
-  handleCloseToast = () => {
-    this.setState({
-      openToast: false
-    });
-  };
-
-  getUpdatedRecorded = val => {
+  getUpdatedRecorded = (val: any) => {
     this.setState({
       recorded: val
     });
 
-    this.state.unrecorded.map((data, id) => {
+    this.state.unrecorded.map((data: any, id: any) => {
       if (val.name === data.name) {
         this.state.unrecorded.splice(id, 1);
       }
       return null;
     });
   };
-
-  playAudio = (version, voice, key) => {
-    get(`/pitch/audio/version/${version}/voice/${voice}/${key}/`).then(res => {
-      this.setState({
-        audio: res.data,
-        isAudioLoading: false,
-        isAudioLoadingRerec: false
-      });
-    });
+  playAudio = (version: any, voice: any, key: any) => {
+    get(`/pitch/audio/version/${version}/prospect/${voice}/${key}/`).then(
+      res => {
+        this.setState({ audio: res.data, isAudioLoading: false });
+      }
+    );
   };
-
   stopLoading = () => {
     this.setState({ isAudioLoading: false });
   };
-
-  showLoader = type => {
+  showLoader = (type: any) => {
     if (type === "recorded") {
       this.setState({ isAudioLoading: true });
     } else {
       this.setState({ isAudioLoadingRerec: true });
     }
   };
-
   removeAudioPlayed = () => {
     this.setState({ audio: [] });
   };
 
+  // function for changing the status to rerecordAudio
+  rerecordAudio = (version: any, voice: any, key: any) => {
+    // empty the state to show loader
+    this.setState({
+      display: [],
+      displayRerecord: [],
+      displayRecorded: [],
+      fetchedUnrecorded: false,
+      fetchedRerecord: false,
+      fetchedRecorded: false
+    });
+
+    // make a patch request
+    patch(`/pitch/audio/version/${version}/prospect/${voice}/${key}/`, {
+      rerecord: true
+    })
+      .then(res => {
+        this.filterData(this.state.selectedVersion);
+
+        // checks if status response was 201.
+        if (res.status === 201 || res.status === 200) {
+          this.setState({
+            openToast: true,
+            toastType: "check",
+            message: `Successfully added to rerecord`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        } else {
+          this.setState({
+            openToast: true,
+            toastType: "caution",
+            message: `Request failed`,
+            vertical: "top",
+            horizontal: "right",
+            addNewVoiceModal: false,
+            uploadLoading: false
+          });
+        }
+      })
+      // if there is no response we will show a failed upload message
+      .catch(err => {
+        this.setState({
+          openToast: true,
+          toastType: "caution",
+          message: `Request failed`,
+          vertical: "top",
+          horizontal: "right",
+          addNewVoiceModal: false,
+          uploadLoading: false
+        });
+      });
+  };
+
+  // function for uploading audio file
   uploadAudio = (
-    voice,
-    version,
-    slug,
-    key,
-    file,
-    modification,
-    fadein,
-    fadeout,
-    convert
+    voice: any,
+    version: any,
+    slug: any,
+    key: any,
+    file: any,
+    modification: any,
+    fadein: any,
+    fadeout: any,
+    convert: any
   ) => {
     if (file == null) {
       this.setState({
@@ -541,7 +737,7 @@ class Pitch extends Component {
         uploadLoading: true
       });
       post(
-        `/pitch/audio/version/${version}/voice/${voice}/${key}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
+        `/pitch/audio/version/${version}/prospect/${voice}/${key}/upload/?convert=${convert}&fadeIn=${fadein}&fadeOut=${fadeout}&noModification=${modification}`,
         file
       )
         .then(res => {
@@ -549,9 +745,9 @@ class Pitch extends Component {
             display: [],
             displayRerecord: [],
             displayRecorded: [],
-            fetchedRecorded: false,
             fetchedUnrecorded: false,
             fetchedRerecord: false,
+            fetchedRecorded: false,
             audio: [],
             fileName: "",
             file: null,
@@ -592,22 +788,22 @@ class Pitch extends Component {
             vertical: "top",
             horizontal: "right",
             addNewVoiceModal: false,
-            uploadLoading: false,
-            openAddNew: false
+            uploadLoading: false
           });
         });
     }
   };
 
-  //ANCHOR UPLOAD SESSION START
+  //ANCHOR UPLOAD SESSION
 
-  uploadSession = session => {
+  uploadSession = (session: any) => {
+    console.log(session);
     this.setState({
       uploadLoading: true
     });
-    const requests = session.map(audio => {
+    const requests = session.map((audio: any) => {
       return post(
-        `/pitch/audio/version/${audio.version}/voice/${audio.voice}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
+        `/pitch/audio/version/${audio.version}/prospect/${audio.voice}/${audio.audioKey}/upload/?convert=${audio.convert}&fadeIn=${audio.fadein}&fadeOut=${audio.fadeout}&noModification=${audio.modification}`,
         audio.file
       );
     });
@@ -617,9 +813,9 @@ class Pitch extends Component {
           display: [],
           displayRerecord: [],
           displayRecorded: [],
-          fetchedRecorded: false,
           fetchedUnrecorded: false,
           fetchedRerecord: false,
+          fetchedRecorded: false,
           audio: [],
           fileName: "",
           file: null,
@@ -646,134 +842,92 @@ class Pitch extends Component {
           vertical: "top",
           horizontal: "right",
           addNewVoiceModal: false,
-          uploadLoading: false,
-          openAddNew: false
-        });
-      });
-  };
-
-  rerecordAudio = (version, voice, key) => {
-    this.setState({
-      display: [],
-      displayRecorded: [],
-      displayRerecord: [],
-      fetchedRecorded: false,
-      fetchedUnrecorded: false,
-      fetchedRerecord: false
-    });
-
-    patch(`/pitch/audio/version/${version}/voice/${voice}/${key}/`, {
-      rerecord: true
-    })
-      .then(res => {
-        this.filterData(version);
-
-        // checks if status response was 201.
-        if (res.status === 201 || res.status === 200) {
-          this.setState({
-            openToast: true,
-            toastType: "check",
-            message: `Successfully added to rerecord`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        } else {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `Request failed`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        }
-      })
-      // if there is no response we will show a failed upload message
-      .catch(err => {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `Request failed`,
-          vertical: "top",
-          horizontal: "right",
-          addNewVoiceModal: false,
           uploadLoading: false
         });
       });
   };
 
-  //Update a specific pitch audio
-  undoPitchAudio = (version, voice, key) => {
+  // undo rerecord audio || transfer rerecord audio to recorded again
+  undoProspectAudio = (version: any, voice: any, key: any) => {
+    // empty first the state to show loader
     this.setState({
       loader: true,
       display: [],
-      displayRecorded: [],
       displayRerecord: [],
-      fetchedRecorded: false,
+      displayRecorded: [],
       fetchedUnrecorded: false,
-      fetchedRerecord: false
+      fetchedRerecord: false,
+      fetchedRecorded: false
     });
-    patch(
-      `/pitch/audio/version/${this.state.selectedVersion}/voice/${this.state.searchVoice}/${key}/`,
-      { rerecord: false }
-    )
-      .then(res => {
-        //added
-        this.filterData(this.state.selectedVersion);
 
-        // checks if status response was 201.
-        if (res.status === 201 || res.status === 200) {
-          this.setState({
-            openToast: true,
-            toastType: "check",
-            message: `Undo successful`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        } else {
-          this.setState({
-            openToast: true,
-            toastType: "caution",
-            message: `Request failed`,
-            vertical: "top",
-            horizontal: "right",
-            addNewVoiceModal: false,
-            uploadLoading: false
-          });
-        }
-      })
-      // if there is no response we will show a failed upload message
-      .catch(err => {
-        this.setState({
-          openToast: true,
-          toastType: "caution",
-          message: `Request failed`,
-          vertical: "top",
-          horizontal: "right",
-          addNewVoiceModal: false,
-          uploadLoading: false
-        });
+    setTimeout(() => {
+      this.setState({
+        display: UnrecordedVoicesProspectData,
+        fetchedUnrecorded: true,
+        displayRerecord: RerecordedVoicesProspectData,
+        fetchedRerecord: false,
+        displayRecorded: RecordVoicesProspectData,
+        fetchedRecorded: true,
+        showTable: true,
+        loader: false
       });
+    }, 1000);
+
+    //UNCOMMENT FOR ACTUAL DATA
+    // make a patch request
+    // patch(
+    //   `/pitch/audio/version/${this.state.selectedVersion}/prospect/${this.state.user_data.uuid}/${key}/`,
+    //   {
+    //     rerecord: false
+    //   }
+    // )
+    //   .then(res => {
+    //     this.filterData(this.state.selectedVersion);
+
+    //     // checks if status response was 201.
+    //     if (res.status === 201 || res.status === 200) {
+    //       this.setState({
+    //         openToast: true,
+    //         toastType: "check",
+    //         message: `Undo successful`,
+    //         vertical: "top",
+    //         horizontal: "right",
+    //         addNewVoiceModal: false,
+    //         uploadLoading: false
+    //       });
+    //     } else {
+    //       this.setState({
+    //         openToast: true,
+    //         toastType: "caution",
+    //         message: `Request failed`,
+    //         vertical: "top",
+    //         horizontal: "right",
+    //         addNewVoiceModal: false,
+    //         uploadLoading: false
+    //       });
+    //     }
+    //   })
+    //   // if there is no response we will show a failed upload message
+    //   .catch(err => {
+    //     this.setState({
+    //       openToast: true,
+    //       toastType: "caution",
+    //       message: `Request failed`,
+    //       vertical: "top",
+    //       horizontal: "right",
+    //       addNewVoiceModal: false,
+    //       uploadLoading: false
+    //     });
+    //   });
   };
 
-  closeModal = () => {
-    this.setState(
-      prevState => ({
-        addNewVoiceModal: !prevState.addNewVoiceModal
-      }),
-      () => this.successfulUpload()
-    );
-  };
-
-  openAddNewVoiceModal = (bool, currentMode) => {
+  openAddNewVoiceModal = (bool: any, currentMode: any) => {
     if (bool === false) {
       this.setState({
-        addNewVoiceModal: false
+        addNewVoiceModal: false,
+        audioFile: "",
+        fileName: "",
+        file: ""
       });
     } else {
       this.setState({
@@ -790,7 +944,8 @@ class Pitch extends Component {
     });
   };
 
-  refreshData = version => {
+  // refresh the table
+  refreshData = (version: any) => {
     this.setState({
       display: [],
       displayRerecord: [],
@@ -801,21 +956,10 @@ class Pitch extends Component {
     });
     this.filterData(version);
   };
-  detectMic = () => {
-    navigator.mediaDevices
-      .getUserMedia({ audio: true })
-      .then(stream => {
-        // Code for success
-        this.setState({ hasMic: true });
-      })
-      .catch(err => {
-        this.setState({ hasMic: false });
-      });
-  };
-  handleUnrecordedSelected = val => {
+  handleUnrecordedSelected = (val: any) => {
     this.setState({ unrecordedSelected: val });
   };
-  showToastSession = (type, message) => {
+  showToastSession = (type: any, message: any) => {
     this.setState({
       openToast: true,
       toastType: type,
@@ -826,7 +970,7 @@ class Pitch extends Component {
   };
 
   render() {
-    const { classes, width } = this.props;
+    const { classes }: any = this.props;
     return (
       <React.Fragment>
         <div className={classes.root}>
@@ -842,8 +986,8 @@ class Pitch extends Component {
                     item
                     xs={12}
                     sm={3}
-                    md={3}
-                    lg={3}
+                    md={5}
+                    lg={5}
                     className={classes.desktopCon}
                   >
                     {localStorage.getItem("type") !== "10" && (
@@ -862,10 +1006,10 @@ class Pitch extends Component {
 
                   {/* HEADER - MOBILE VERSION START */}
                   <Grid container className={classes.mobileConDropdown}>
-                    <Grid item xs={8} sm={8}>
-                      <DropdownDesktop groupID={this.state.user_group} />
+                    <Grid item xs={7} sm={8}>
+                      <DropdownDesktop />
                     </Grid>
-                    <Grid item xs={4} sm={4}>
+                    <Grid item xs={5} sm={4}>
                       <Dropdown
                         links={this.state.links}
                         refreshData={this.refreshData}
@@ -883,14 +1027,14 @@ class Pitch extends Component {
                     item
                     xs={12}
                     sm={9}
-                    md={9}
+                    md={7}
                     lg={7}
                     className={classes.desktopCon}
                   >
                     <TabsDesktop
                       tabSelected={this.tabSelected}
                       reset={this.resetFilters}
-                      defaultValue={0}
+                      defaultValue={2}
                     />
                   </Grid>
                   {/* TABS - DESKTOP VERSION END */}
@@ -909,48 +1053,49 @@ class Pitch extends Component {
                 <React.Fragment>
                   <Grid item xs={12} className={classes.desktopCon}>
                     <Paper className={classes.filterWrapper}>
-                      {width === "xl" || width === "lg" || width === "md" ? (
-                        /* Search and FilterToolbar */
-                        <Grid container className={classes.header}>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={4}
-                            className={classes.searchMargin}
-                          >
-                            {localStorage.getItem("type") !== "10" && (
-                              <Search
-                                searchFunction={this.selectedVoice}
-                                voices={this.state.voices}
-                              />
-                            )}
-                          </Grid>
-
-                          <Grid
-                            item
-                            xs={12}
-                            sm={localStorage.getItem("type") === "10" ? 12 : 8}
-                          >
-                            <Filter
-                              campaigns={this.state.campaigns}
-                              versions={this.state.versions}
-                              tab={this.state.tabSelected}
-                              unrecorded={this.state.unrecorded}
-                              rerecord={this.state.rerecord}
-                              recorded={this.state.recorded}
-                              filterData={this.filterData}
-                              filtered={val => this.setState({ filtered: val })}
-                              user={this.state.user}
-                              searched={this.state.searchVoice}
-                              selectCampaign={this.selectCampaign}
-                              selectVersion={this.selectVersion}
-                              selectedCampaign={this.state.selectedCampaign}
-                              selectedVersion={this.state.selectedVersion}
-                              refreshData={this.refreshData}
+                      {/* Search and FilterToolbar */}
+                      <Grid container className={classes.header}>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={4}
+                          className={classes.searchMargin}
+                        >
+                          {localStorage.getItem("type") !== "10" && (
+                            <Search
+                              searchFunction={this.selectedVoice}
+                              voices={this.state.voices}
+                              defaultVoice={this.state.defaultVoice}
                             />
-                          </Grid>
+                          )}
                         </Grid>
-                      ) : null}
+
+                        <Grid
+                          item
+                          xs={12}
+                          sm={localStorage.getItem("type") === "10" ? 12 : 8}
+                        >
+                          <Filter
+                            campaigns={this.state.campaigns}
+                            versions={this.state.versions}
+                            tab={this.state.tabSelected}
+                            unrecorded={this.state.unrecorded}
+                            rerecord={this.state.rerecord}
+                            recorded={this.state.recorded}
+                            filterData={this.filterData}
+                            filtered={(val: any) =>
+                              this.setState({ filtered: val })
+                            }
+                            user={this.state.user}
+                            searched={this.state.searchVoice}
+                            selectCampaign={this.selectCampaign}
+                            selectVersion={this.selectVersion}
+                            selectedCampaign={this.state.selectedCampaign}
+                            selectedVersion={this.state.selectedVersion}
+                            refreshData={this.refreshData}
+                          />
+                        </Grid>
+                      </Grid>
                     </Paper>
 
                     <Paper
@@ -994,6 +1139,7 @@ class Pitch extends Component {
                                   ? this.state.addNewVoiceModal
                                   : false
                               }
+                              typeOfAudio="prospect"
                               uploadLoading={this.state.uploadLoading}
                               refreshData={this.refreshData}
                               //toast
@@ -1005,7 +1151,7 @@ class Pitch extends Component {
                           {/* ANCHOR Rerecord */}
                           <Grid item sm={12} xs={12} md={4} lg={4}>
                             <RerecordCard
-                              addToRecorded={this.undoPitchAudio}
+                              undoProspectAudio={this.undoProspectAudio}
                               rerecord={this.state.displayRerecord}
                               tblName={"Rerecord"}
                               rows={this.state.rerecord}
@@ -1033,14 +1179,15 @@ class Pitch extends Component {
                                   : false
                               }
                               uploadLoading={this.state.uploadLoading}
-                              //undoAudio={this.undoPitchAudio}
+                              addToRecorded={this.undoProspectAudio}
                               rerecordAudio={this.rerecordAudio}
                               //playing audio
                               preview={this.state.audio}
                               showLoader={this.showLoader}
                               playAudio={this.playAudio}
                               isLoading={this.state.isAudioLoadingRerec}
-                              typeOfAudio="pitch"
+                              //debugging
+                              typeOfAudio="prospect"
                               //toast
                               showToast={this.showToastSession}
                               //upload session
@@ -1074,7 +1221,7 @@ class Pitch extends Component {
                               removeAudio={this.removeAudioPlayed}
                               refreshData={this.refreshData}
                               uploadLoading={this.state.uploadLoading}
-                              undoPitchAudio={this.undoPitchAudio}
+                              //undoPitchAudio={this.undoPitchAudio}
                               handleAudio={this.handleAudio}
                               getRecordedName={this.getRecordedName}
                               fileName={this.state.fileName}
@@ -1090,15 +1237,15 @@ class Pitch extends Component {
                               variant="h3"
                               className={classes.headerTitle}
                             >
-                              {this.toTitleCase("pitch audio recordings")}
+                              {this.toTitleCase("prospect audio recordings")}
                             </Typography>
                           </div>
                           {this.state.user_uuid ? (
                             <div className={classes.emptyPitch}>
-                              <b> No pitch selected </b>
+                              <b> No prospect selected </b>
                               <br />
                               Select voice, campaign and pitch version to view
-                              pitch audio
+                              prospect audio
                             </div>
                           ) : (
                             <div className={classes.emptyPitch}>
@@ -1114,9 +1261,11 @@ class Pitch extends Component {
                   {/* Main Content - MOBILE VERSION START*/}
                   <Grid item xs={12} className={classes.mobileCon}>
                     <Paper className={classes.filterWrapper}>
-                      {width === "xs" || width === "sm" ? (
-                        /* Search and FilterToolbar */
-                        <Grid container className={classes.header}>
+                      {/* Search and FilterToolbar */}
+                      <Grid container className={classes.header}>
+                        {this.state.user_group === 10 ? (
+                          <React.Fragment></React.Fragment>
+                        ) : (
                           <Grid
                             item
                             xs={12}
@@ -1127,35 +1276,39 @@ class Pitch extends Component {
                               <Search
                                 searchFunction={this.selectedVoice}
                                 voices={this.state.voices}
+                                defaultVoice={this.state.defaultVoice}
                               />
                             )}
                           </Grid>
+                        )}
 
-                          <Grid
-                            item
-                            xs={12}
-                            sm={localStorage.getItem("type") === "10" ? 12 : 8}
-                          >
-                            <Filter
-                              campaigns={this.state.campaigns}
-                              versions={this.state.versions}
-                              tab={this.state.tabSelected}
-                              unrecorded={this.state.unrecorded}
-                              rerecord={this.state.rerecord}
-                              recorded={this.state.recorded}
-                              filterData={this.filterData}
-                              filtered={val => this.setState({ filtered: val })}
-                              user={this.state.user}
-                              searched={this.state.searchVoice}
-                              selectCampaign={this.selectCampaign}
-                              selectVersion={this.selectVersion}
-                              selectedCampaign={this.state.selectedCampaign}
-                              selectedVersion={this.state.selectedVersion}
-                              refreshData={this.refreshData}
-                            />
-                          </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          sm={localStorage.getItem("type") === "10" ? 12 : 8}
+                        >
+                          <Filter
+                            campaigns={this.state.campaigns}
+                            versions={this.state.versions}
+                            tab={this.state.tabSelected}
+                            // unrecorded={this.state.unrecorded}
+                            // rerecord={this.state.rerecord}
+                            // recorded={this.state.recorded}
+                            filterData={this.filterData}
+                            filtered={(val: any) =>
+                              this.setState({ filtered: val })
+                            }
+                            user={this.state.user}
+                            searched={this.state.searchVoice}
+                            selectCampaign={this.selectCampaign}
+                            selectVersion={this.selectVersion}
+                            selectedCampaign={this.state.selectedCampaign}
+                            selectedVersion={this.state.selectedVersion}
+                            uploadLoading={this.state.uploadLoading}
+                            refreshData={this.refreshData}
+                          />
                         </Grid>
-                      ) : null}
+                      </Grid>
                     </Paper>
 
                     <Divider />
@@ -1186,11 +1339,11 @@ class Pitch extends Component {
                                 // for adding audio
                                 handleAudio={this.handleAudio}
                                 removeAudio={this.removeAudio}
-                                getRecordedName={this.getRecordedName}
                                 fileName={this.state.fileName}
                                 user_id={this.state.user}
-                                file={this.state.file}
+                                //for uploading audio
                                 upload={this.uploadAudio}
+                                file={this.state.file}
                                 version={this.state.selectedVersion}
                                 voice={this.state.searchVoice}
                                 audio={this.state.audio}
@@ -1210,37 +1363,33 @@ class Pitch extends Component {
                                 tblName={"Rerecord"}
                                 rows={this.state.rerecord}
                                 columns={this.state.rerecordTblName}
-                                openAddNewVoiceModal={this.openAddNewVoiceModal}
                                 displayData={this.state.displayRerecord}
                                 filtered={this.state.filtered}
                                 handleChange={this.handleChange}
                                 searchPhrase={this.state.searchDialogRerecord}
                                 searchKey={"searchDialogRerecord"}
-                                user_id={this.state.user}
                                 fetched={this.state.fetchedRerecord}
-                                refreshData={this.refreshData}
-                                version={this.state.selectedVersion}
+                                uploadFetched={this.state.fetchedUploadAudio}
+                                // for adding audio
                                 handleAudio={this.handleAudio}
-                                audio={this.state.audioFile}
                                 removeAudio={this.removeAudio}
-                                getRecordedName={this.getRecordedName}
                                 fileName={this.state.fileName}
-                                file={this.state.file}
+                                user_id={this.state.user}
+                                //for uploading audio
                                 upload={this.uploadAudio}
+                                file={this.state.file}
+                                version={this.state.selectedVersion}
                                 voice={this.state.searchVoice}
+                                audio={this.state.audio}
+                                openAddNewVoiceModal={this.openAddNewVoiceModal}
                                 addNewVoiceModal={
                                   this.state.currentMode === "RerecTable"
                                     ? this.state.addNewVoiceModal
                                     : false
-                                }
+                                } // dagdag para sa prospect
+                                undoProspectAudio={this.undoProspectAudio}
                                 uploadLoading={this.state.uploadLoading}
-                                undoPitchAudio={this.undoPitchAudio}
-                                rerecordAudio={this.rerecordAudio}
-                                //playing audio
-                                showLoader={this.showLoader}
-                                playAudio={this.playAudio}
-                                isLoading={this.state.isAudioLoading}
-                                //upload session
+                                refreshData={this.refreshData}
                               />
                             </React.Fragment>
                           ) : this.state.tabSelected === 2 ? (
@@ -1249,7 +1398,6 @@ class Pitch extends Component {
                                 tblName={"Recorded"}
                                 rows={this.state.recorded}
                                 columns={this.state.recordedTblName}
-                                openAddNewVoiceModal={this.openAddNewVoiceModal}
                                 displayData={this.state.displayRecorded}
                                 filtered={this.state.filtered}
                                 handleChange={this.handleChange}
@@ -1266,15 +1414,10 @@ class Pitch extends Component {
                                 isLoading={this.state.isAudioLoading}
                                 showLoader={this.showLoader}
                                 removeAudio={this.removeAudioPlayed}
-                                refreshData={this.refreshData}
                                 rerecordAudio={this.rerecordAudio}
-                                uploadLoading={this.state.uploadLoading}
-                                undoPitchAudio={this.undoPitchAudio}
-                                handleAudio={this.handleAudio}
-                                getRecordedName={this.getRecordedName}
-                                fileName={this.state.fileName}
-                                file={this.state.file}
+                                openAddNewVoiceModal={this.openAddNewVoiceModal}
                                 addNewVoiceModal={this.state.addNewVoiceModal}
+                                refreshData={this.refreshData}
                               />
                             </React.Fragment>
                           ) : null}
@@ -1286,15 +1429,15 @@ class Pitch extends Component {
                               variant="h3"
                               className={classes.headerTitle}
                             >
-                              {this.toTitleCase("pitch audio recordings")}
+                              {this.toTitleCase("phrase audio recordings")}
                             </Typography>
                           </div>
                           {this.state.user_uuid ? (
                             <div className={classes.emptyPitch}>
-                              <b> No pitch selected </b>
+                              <b> No prospect selected </b>
                               <br />
                               Select voice, campaign and pitch version to view
-                              pitch audio
+                              prospect audio
                             </div>
                           ) : (
                             <div className={classes.emptyPitch}>
@@ -1306,7 +1449,7 @@ class Pitch extends Component {
                     </Paper>
                   </Grid>
                 </React.Fragment>
-                {/* Main Content - MOBILE VERSION END*/}
+                {/* Main Content - MOBILE VERSION START*/}
               </Grid>
             </Container>
           </main>
@@ -1316,7 +1459,6 @@ class Pitch extends Component {
                 color="secondary"
                 size="large"
                 aria-label="add"
-                float="right"
                 className={classes.addBtn}
                 onClick={() => {
                   this.openAddNewDialog();
@@ -1329,11 +1471,9 @@ class Pitch extends Component {
         </div>
         {/* Dialogs */}
 
-        {/* <MainAddNewAudio
-          addNewVoiceModal={this.props.addNewVoiceModal}
-          openAddNewVoiceModal={this.props.openAddNewVoiceModal}
+        <MainAddNewAudio
           label1="Select Campaign"
-          label2="Select Pitch Version"
+          label2="Select Version"
           onClose={() => this.closeAddNewDialog()}
           voices={this.state.voices}
           campaigns={this.state.campaigns}
@@ -1344,7 +1484,6 @@ class Pitch extends Component {
           selectVersion={this.selectVersion}
           selectUnrecorded={this.selectUnrecorded}
           voiceSelected={this.state.searchVoice}
-          campaignSelected={this.state.selectedCampaign}
           versionSelected={this.state.selectedVersion}
           unrecordedSelected={this.state.unrecordedSelected}
           mainFile={this.state.file}
@@ -1354,17 +1493,20 @@ class Pitch extends Component {
           // recorded={this.state.recorded}
           getUpdatedRecorded={this.getUpdatedRecorded}
           getRecordedName={this.getRecordedName}
+          // savingAudio={this.savingAudio}
+          // token={this.state.token}
+          // savedAudio={this.savedAudio}
           mainUploadAudio={this.uploadAudio}
           loading={this.state.uploadLoading}
-          hasMic={this.state.hasMic}
+          campaignSelected={this.state.selectedCampaign}
           user_group={this.state.user_group}
           handleUnrecordedSelected={this.handleUnrecordedSelected}
           selectedVoice={this.state.searchVoice}
           token={this.state.token}
           open={this.state.openAddNew}
-          typeOfAudio="pitch"
+          typeOfAudio="prospect"
           showToast={this.showToastSession}
-        /> */}
+        />
 
         <Toast
           open={this.state.openToast}
@@ -1379,4 +1521,4 @@ class Pitch extends Component {
   }
 }
 
-export default withWidth()(withStyles(useStyles)(Pitch));
+export default withStyles(useStyles)(Prospect);
