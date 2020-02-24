@@ -24,67 +24,45 @@ const EditOption = () => {
         edit: { ...state.edit, load: true, edit: false }
       }
     });
-    // patch(
-    // 	`/pitch/global/gui/field-option-group/${state.group.uuid}/options/${state.edit.editData.uuid}/`,
-    // 	{
-    // 		...state.edit.editData
-    // 	}
-    // )
-    // 	.then((res: any) => {
-    // 		dispatch({
-    // 			type: 'GROUP', payload: {
-    // 				group: {
-    // 					...state.group,
-    // 					options: state.group.options.map((op: any) =>
-    // 						op.uuid === state.edit.editData.uuid ? res.data : op
-    // 					)
-    // 				}
-    // 			}
-    // 		})
-    // 		dispatch({
-    // 			type: 'EDIT', payload: {
-    // 				edit: { ...state.edit, load: false, edit: false }
-    // 			}
-    // 		})
-    // 	})
-    // 	.catch((err: any) => {
-    // 		try {
-    // 			if (err.response.data) {
-    // 				dispatch({
-    // 					type: 'EDIT', payload: {
-    // 						edit: { ...state.edit, snackErr: err.response.data.value[0] }
-    // 					}
-    // 				})
-    // 			}
-    // 		} catch {
-    // 			console.log(err);
-    // 		}
-    // 	});
-    //mock
-    setTimeout(() => {
-      dispatch({
-        type: "GROUP",
-        payload: {
-          group: {
-            ...state.group,
-            options: state.group.options.map((op: any) => {
-              if (op.uuid === state.edit.editData.uuid) {
-                return { ...op, ...state.edit.editData };
-              } else {
-                return op;
-              }
-            })
+    patch(
+      `/pitch/global/gui/field-option-group/${state.group.uuid}/options/${state.edit.editData.uuid}/`,
+      {
+        ...state.edit.editData
+      }
+    )
+      .then((res: any) => {
+        dispatch({
+          type: "GROUP",
+          payload: {
+            group: {
+              ...state.group,
+              options: state.group.options.map((op: any) =>
+                op.uuid === state.edit.editData.uuid ? res.data : op
+              )
+            }
           }
+        });
+        dispatch({
+          type: "EDIT",
+          payload: {
+            edit: { ...state.edit, load: false, edit: false }
+          }
+        });
+      })
+      .catch((err: any) => {
+        try {
+          if (err.response.data) {
+            dispatch({
+              type: "EDIT",
+              payload: {
+                edit: { ...state.edit, snackErr: err.response.data.value[0] }
+              }
+            });
+          }
+        } catch {
+          console.log(err);
         }
       });
-      dispatch({
-        type: "EDIT",
-        payload: {
-          edit: { ...state.edit, load: false, edit: false }
-        }
-      });
-    }, 1000);
-    console.log(state.edit.editData);
   };
 
   const handleChange = (e: any) => {

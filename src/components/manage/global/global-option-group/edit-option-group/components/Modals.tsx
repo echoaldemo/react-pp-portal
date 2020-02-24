@@ -21,20 +21,16 @@ const Modals = ({ history }: any) => {
       type: "EDIT",
       payload: { edit: { ...state.edit, load: true } }
     });
-    // remove(`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}/`)
-    // 	.then(() =>
-    // 		dispatch({ type: 'EDIT', payload: { edit: { ...state.edit, load: false, done2: true, delete: false } } })
-    // 	)
-    // 	.catch((err: any) => console.log(err));
-    //mock
-    setTimeout(() => {
-      dispatch({
-        type: "EDIT",
-        payload: {
-          edit: { ...state.edit, load: false, done2: true, delete: false }
-        }
-      });
-    }, 1000);
+    remove(`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}/`)
+      .then(() =>
+        dispatch({
+          type: "EDIT",
+          payload: {
+            edit: { ...state.edit, load: false, done2: true, delete: false }
+          }
+        })
+      )
+      .catch((err: any) => console.log(err));
   };
 
   const handleDeleteOption = () => {
@@ -42,31 +38,9 @@ const Modals = ({ history }: any) => {
       type: "EDIT",
       payload: { edit: { ...state.edit, load: true } }
     });
-    // remove(
-    // 	`/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}%2Foptions/${state.current.uuid}/`
-    // ).then(() => {
-    // 	dispatch({
-    // 		type: 'EDIT', payload: {
-    // 			edit: {
-    // 				...state.edit, load: false,
-    // 				done3: true,
-    // 				delete2: false
-    // 			}
-    // 		}
-    // 	})
-    // 	dispatch({
-    // 		type: 'GROUP', payload: {
-    // 			group: {
-    // 				...state.group,
-    // 				options: state.group.options.filter(
-    // 					(op: any) => op.uuid !== state.current.uuid
-    // 				)
-    // 			}
-    // 		}
-    // 	})
-    // })
-    //mock
-    setTimeout(() => {
+    remove(
+      `/pitch/global/gui%2Ffield-option-group%2F${state.group.uuid}%2Foptions/${state.current.uuid}/`
+    ).then(() => {
       dispatch({
         type: "EDIT",
         payload: {
@@ -89,7 +63,7 @@ const Modals = ({ history }: any) => {
           }
         }
       });
-    }, 1000);
+    });
   };
 
   const handleCancel = () => {
