@@ -13,6 +13,7 @@ interface Props {
   btnFn?: () => void;
   user?: boolean;
   warning?: boolean;
+  noDoNext?: boolean;
 }
 
 const SuccessModal: React.FC<Props> = ({
@@ -24,7 +25,8 @@ const SuccessModal: React.FC<Props> = ({
   closeFn,
   btnFn,
   user,
-  warning
+  warning,
+  noDoNext
 }) => {
   return (
     <Dialog open={open}>
@@ -66,6 +68,8 @@ const SuccessModal: React.FC<Props> = ({
               </Styled.P>
             ) : warning ? (
               <Styled.P />
+            ) : noDoNext ? (
+              <Styled.P></Styled.P>
             ) : (
               <Styled.P>What do you want to do next?</Styled.P>
             )}
