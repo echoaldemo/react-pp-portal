@@ -13,7 +13,8 @@ interface Props {
   open: boolean;
   onClose: () => void;
   openFn: () => void;
-  handleAdd: (data: Obj, fn: any) => void;
+  handleAdd: (data: Obj, error: Function, success: Function) => void;
+  uuid: string;
 }
 interface Obj {
   [index: string]: any;
@@ -30,7 +31,13 @@ const defaultState: Obj = {
   errorMessage: ""
 };
 
-const CreatePhraseModal = ({ open, onClose, openFn, handleAdd }: Props) => {
+const CreatePhraseModal = ({
+  open,
+  onClose,
+  openFn,
+  handleAdd,
+  uuid
+}: Props) => {
   const classes = useStyles();
   const [state, setState] = useState<Obj>({
     ...defaultState,
@@ -93,6 +100,7 @@ const CreatePhraseModal = ({ open, onClose, openFn, handleAdd }: Props) => {
           setState({
             createSuccess: false
           });
+          window.location.href = `/manage/phrase-book/global/edit/${uuid}`;
         }}
         btnFn={() => {
           setState({ ...defaultState, createSuccess: false });
@@ -116,8 +124,12 @@ const CreatePhraseModal = ({ open, onClose, openFn, handleAdd }: Props) => {
             handleAdd(
               {
                 name: state.phrase_name,
-                phrase: state.phrase,
-                slug: state.phrase_name.replace("-", " ")
+                phrase: state.phrase
+              },
+              () => {
+                setState({
+                  createSuccess: false
+                });
               },
               () => {
                 setState({
@@ -144,9 +156,7 @@ const CreatePhraseModal = ({ open, onClose, openFn, handleAdd }: Props) => {
           <div style={{ paddingBottom: 15 }}>
             <CustomButton
               type="submit"
-              handleClick={e => {
-                console.log(e);
-              }}
+              handleClick={e => {}}
               disabled={!state.phrase_nameValid || !state.phraseValid}
             >
               Create Phrase

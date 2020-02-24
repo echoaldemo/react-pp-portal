@@ -16,8 +16,8 @@ const PhrasesTable = ({ tableData }: Props) => {
       <AsyncTable
         headers={["Name", "Phrase", "Slug"]}
         tableData={tableData}
-        render={(phrasebooks: Array<Obj>, { row, cell, icon }: any) => {
-          return phrasebooks.map((phrase, i) => (
+        render={(tableData: Array<Obj>, { row, cell, icon }: any) => {
+          return tableData.map((phrase, i) => (
             <TableRow key={i} className={row}>
               <TableCell className={cell}>
                 <Link to="#" style={{ color: "#777777" }}>

@@ -13,6 +13,8 @@ import {
   materialTheme
 } from "../../styles/EditPhraseBookForm.style";
 
+import { post, remove } from "utils/api";
+
 interface Props {
   editData: Obj;
   save: any;
@@ -77,21 +79,15 @@ const EditPhraseBookForm = ({ editData, save }: Props) => {
   };
 
   const handleDelete = () => {
-    fetch(
-      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${phrase.id}`,
-      {
-        method: "DELETE"
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
+    remove(`/pitch/global/phrases/${phrase.uuid}`)
+      .then((data: any) => {
         setDeletion({
           ...deletion,
           deleting: false,
           deleted: true
         });
       })
-      .catch(error => {
+      .catch((error: any) => {
         console.error("Error:", error);
       });
   };
@@ -194,12 +190,9 @@ const EditPhraseBookForm = ({ editData, save }: Props) => {
         />
         <SuccessModal
           open={deletion.deleted}
-          closeFn={() => {
-            setDeletion({ ...deletion, deleted: false });
-          }}
-          btnText="OK"
           text="Successfully deleted!"
-          btnFn={() =>
+          noDoNext={true}
+          closeFn={() =>
             (window.location.href = "/manage/global-pitch-phrasebooks")
           }
         />

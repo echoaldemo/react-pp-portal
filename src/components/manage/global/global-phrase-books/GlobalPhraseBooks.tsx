@@ -9,7 +9,7 @@ import {
 } from "common-components";
 import PBTable from "./components/PBTable/PBTable";
 import CreatePhraseBook from "./components/CreatePhraseBookModal/CreatePhraseBookModal";
-import { get, post, patch } from "utils/api";
+import { get, post } from "utils/api";
 
 const GlobalPhraseBooks = ({ history }: any) => {
   const [pb, setpb] = useState<any>([]);

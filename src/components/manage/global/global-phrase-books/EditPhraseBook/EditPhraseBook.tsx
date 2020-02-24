@@ -14,6 +14,7 @@ import EditPhraseBookForm from "../components/EditPhraseBookForm/EditPhraseBookF
 import PhrasesTable from "../components/PhrasesTable/PhrasesTable";
 import CreatePhraseModal from "../components/CreatePhraseModal/CreatePhraseModal";
 import { get, post, patch } from "utils/api";
+import SnackNotif from "auth/component/snackbar/snackbar";
 
 interface Obj {
   [index: string]: any;
@@ -32,6 +33,8 @@ const EditPhraseBook = ({
   const [name, setName] = useState<string>(
     localStorage.getItem("edit_pb_dataname") || ""
   );
+  const [errorMessage, setErrorMessage] = useState("");
+  const [openErrorMessage, setOpenErrorMessage] = useState(false);
 
   useEffect(() => {
     setName(localStorage.getItem("edit_pb_dataname") || "");
@@ -40,26 +43,23 @@ const EditPhraseBook = ({
 
   const getPhraseBook = () => {
     get(`/pitch/global/phrases/${uuid}`).then((res: any) => {
-      setAllPhrases(res.data);
+      if (res.data.phrases.length !== 0) {
+        get(`/pitch/global/phrases/${uuid}/phrases`).then((res: any) => {
+          setAllPhrases(res.data);
+        });
+      } else {
+        setAllPhrases([]);
+      }
       setEditData(res.data);
       setPaginateList(res.data);
     });
   };
 
   const save = (data: Obj, fn: (data: any) => void) =>
-    editData &&
-    fetch(
-      `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }
-    )
-      .then((response: any) => response.json())
-      .then((data: any) => {
+    patch(`/pitch/global/phrases/${uuid}/`, {
+      name: data.name
+    })
+      .then((result: any) => {
         fn(data);
         setName(data.name);
         setEditData(data);
@@ -67,6 +67,7 @@ const EditPhraseBook = ({
       .catch((error: any) => {
         console.error("Error:", error);
       });
+
   const paginate = (from: number, to: number) => {
     setEditData({
       ...editData,
@@ -74,26 +75,22 @@ const EditPhraseBook = ({
     });
   };
 
-  const handleAdd = (data: Obj, fn: any) => {
-    editData &&
-      fetch(
-        `http://5e12f35c6e229f0014678f56.mockapi.io/global-phrase-books/${editData.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ phrases: paginateList.phrases.concat(data) })
-        }
-      )
-        .then(response => response.json())
-        .then(() => {
-          fn();
-          getPhraseBook();
-        })
-        .catch(error => {
-          console.error("Error:", error);
-        });
+  const handleAdd = (data: Obj, error: Function, success: Function) => {
+    post(`/pitch/global/phrases/${uuid}/phrases/`, {
+      name: data.name,
+      phrase: data.phrase
+    }).then((result: any) => {
+      getPhraseBook();
+      if (!result.status) {
+        error();
+        setErrorMessage(
+          `Phrase with name ${data.name} already exists in phrase-book`
+        );
+        setOpenErrorMessage(true);
+      } else {
+        success();
+      }
+    });
   };
 
   return (
@@ -104,6 +101,11 @@ const EditPhraseBook = ({
           text="Back to Phrase Books"
         />
       </div>
+      <SnackNotif
+        snackbar={openErrorMessage}
+        handleClose={() => setOpenErrorMessage(false)}
+        message={errorMessage}
+      />
       <div className={classes.editContainer}>
         <>
           <span className={classes.phrasebookName}>{name}</span>
@@ -132,11 +134,11 @@ const EditPhraseBook = ({
         </div>
 
         <Paper square={true} className={classes.container}>
-          {editData === null ? (
+          {allPhrases === null ? (
             <TableLoader />
           ) : (
             <>
-              {editData.phrases.length > 0 ? (
+              {allPhrases.length !== 0 ? (
                 <>
                   <div>
                     <SearchBar
@@ -145,7 +147,7 @@ const EditPhraseBook = ({
                       headers={["name", "slug"]}
                     />
                   </div>
-                  <PhrasesTable tableData={editData.phrases} />
+                  <PhrasesTable tableData={allPhrases} />
                   <Divider />
                   {paginateList !== null && (
                     <Pagination
@@ -181,6 +183,7 @@ const EditPhraseBook = ({
           onClose={() => setOpen(false)}
           openFn={() => setOpen(true)}
           handleAdd={handleAdd}
+          uuid={editData ? editData.uuid : null}
         />
       </div>
     </>

@@ -100,7 +100,7 @@ const CreatePhraseBook = ({
       />
       <SuccessModal
         open={creation.created}
-        text={`${phrasebookName} 1Phrase book was added`}
+        text={`${phrasebookName} Phrase book was added`}
         btnText="OK"
         closeFn={() => setCreation({ ...creation, created: false })}
         btnFn={() => {
