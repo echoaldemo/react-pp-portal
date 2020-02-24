@@ -24,49 +24,26 @@ const EditComponent = ({ match, history }: any) => {
   }, []); // eslint-disable-line
 
   const handleSaveName = (name: any) => {
-    // patch(`/pitch/global/gui/field-option-group/${match.params.uuid}/`, {
-    // 	name
-    // })
-    // 	.then(getData)
-    // 	.catch((err: any) => console.log(err));
-    // mock
-    dispatch({
-      type: "MOCK",
-      payload: {
-        mockData: { ...state.mockData, name }
-      }
-    });
+    patch(`/pitch/global/gui/field-option-group/${match.params.uuid}/`, {
+      name
+    })
+      .then(getData)
+      .catch((err: any) => console.log(err));
     dispatch({ type: "LOADING", payload: { loading: true } });
-    setTimeout(() => {
-      dispatch({
-        type: "GROUP",
-        payload: { group: { ...state.mockData, name } }
-      });
-      dispatch({ type: "LOADING", payload: { loading: false } });
-    }, 1000);
   };
 
   const getData = () => {
     dispatch({ type: "LOADING", payload: { loading: true } });
-    // get(`/pitch/global/gui/field-option-group/${match.params.uuid}/`).then(
-    // 	(res: any) => {
-    // 		dispatch({ type: 'GROUP', payload: { group: res.data } })
-    // 		dispatch({
-    // 			type: 'EDIT',
-    // 			payload: { edit: { ...state.edit, uuid: res.data.uuid } }
-    // 		})
-    // 		dispatch({ type: 'LOADING', payload: { loading: false } })
-    // 	}
-    // );
-    // mock
-    setTimeout(() => {
-      dispatch({ type: "GROUP", payload: { group: state.mockData } });
-      dispatch({
-        type: "EDIT",
-        payload: { edit: { ...state.edit, uuid: state.mockData.uuid } }
-      });
-      dispatch({ type: "LOADING", payload: { loading: false } });
-    }, 1000);
+    get(`/pitch/global/gui/field-option-group/${match.params.uuid}/`).then(
+      (res: any) => {
+        dispatch({ type: "GROUP", payload: { group: res.data } });
+        dispatch({
+          type: "EDIT",
+          payload: { edit: { ...state.edit, uuid: res.data.uuid } }
+        });
+        dispatch({ type: "LOADING", payload: { loading: false } });
+      }
+    );
   };
 
   return (

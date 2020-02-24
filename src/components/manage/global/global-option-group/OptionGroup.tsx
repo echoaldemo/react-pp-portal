@@ -31,18 +31,11 @@ const OptionGroup = ({ history }: any) => {
 
   const fetchData = () => {
     setLoading(true);
-    // get('/pitch/global/gui/field-option-group/')
-    // 	.then((res: any) => {
-    // 		dispatch({ type: 'GROUP_LIST', payload: { groupList: res.data } })
-    // 		dispatch({ type: 'PAGINATE', payload: { paginateList: res.data } })
-    // 		setLoading(false)
-    // 	})
-    //mock
-    setTimeout(() => {
-      dispatch({ type: "GROUP_LIST", payload: { groupList: state.mockData } });
-      dispatch({ type: "PAGINATE", payload: { paginateList: state.mockData } });
+    get("/pitch/global/gui/field-option-group/").then((res: any) => {
+      dispatch({ type: "GROUP_LIST", payload: { groupList: res.data } });
+      dispatch({ type: "PAGINATE", payload: { paginateList: res.data } });
       setLoading(false);
-    }, 1000);
+    });
   };
 
   const handleDelete = (uuid: string) => {
@@ -52,21 +45,7 @@ const OptionGroup = ({ history }: any) => {
         groupState: { ...state.groupState, load2: true }
       }
     });
-    // remove(`/pitch/global/gui/field-option-group/${uuid}/`).then(() => {
-    // 	dispatch({
-    // 		type: 'GROUP_STATE', payload: {
-    // 			groupState: { ...state.groupState, load2: false, delete: false, done2: true }
-    // 		}
-    // 	})
-    // })
-    //mock
-    setTimeout(() => {
-      dispatch({
-        type: "MOCK",
-        payload: {
-          mockData: state.mockData.filter((mock: any) => mock.uuid !== uuid)
-        }
-      });
+    remove(`/pitch/global/gui/field-option-group/${uuid}/`).then(() => {
       dispatch({
         type: "GROUP_STATE",
         payload: {
@@ -78,7 +57,7 @@ const OptionGroup = ({ history }: any) => {
           }
         }
       });
-    }, 1000);
+    });
   };
 
   const paginate = (from: number, to: number) => {
@@ -109,42 +88,18 @@ const OptionGroup = ({ history }: any) => {
         groupState: { ...state.groupState, load: true }
       }
     });
-    // post('/pitch/global/gui/field-option-group/', {
-    // 	name: state.groupState.name
-    // }).then(() => {
-    // 	fetchData()
-    // 	dispatch({
-    // 		type: 'GROUP_STATE', payload: {
-    // 			groupState: { ...state.groupState, load: false, done: true }
-    // 		}
-    // 	})
-    // })
-    //mock
-    const mock = [
-      ...state.mockData,
-      {
-        uuid: uuidv4(),
-        slug: "test-slug",
-        name: state.groupState.name,
-        company: "company 5",
-        options: []
-      }
-    ];
-    setLoading(true);
-    setTimeout(() => {
-      dispatch({ type: "MOCK", payload: { mockData: mock } });
-      dispatch({ type: "GROUP_LIST", payload: { groupList: mock } });
-      dispatch({ type: "PAGINATE", payload: { paginateList: mock } });
-      setLoading(false);
-    }, 1000);
-    setTimeout(() => {
+    post("/pitch/global/gui/field-option-group/", {
+      name: state.groupState.name
+    }).then(() => {
+      fetchData();
       dispatch({
         type: "GROUP_STATE",
         payload: {
           groupState: { ...state.groupState, load: false, done: true }
         }
       });
-    }, 2000);
+    });
+    setLoading(true);
   };
 
   return (

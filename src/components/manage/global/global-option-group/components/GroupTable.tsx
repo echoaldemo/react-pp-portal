@@ -85,6 +85,7 @@ const GroupTable: React.FC<Props> = ({ handleDelete, history, fetchData }) => {
         }}
         //change id to uuid
         delFn={() => {
+          console.log("object");
           handleDelete(current.uuid);
         }}
       />
