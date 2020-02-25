@@ -26,6 +26,8 @@ import {
 import { Add } from "@material-ui/icons";
 import ReamlTable from "./components/RealmTable";
 import SEO from "utils/seo";
+import { get, post } from "utils/api";
+import slugify from "slugify";
 
 interface RealmProps {
   history: any;
@@ -46,21 +48,13 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
   //   console.log("cancel api");
   // };
   const getData = () => {
-    setLoading(true);
-    setCreate(constCreate);
-    setTimeout(() => {
-      setRealms(MockRealm);
-      setPaginateList(MockRealm);
-      setLoading(false);
-    }, 2000);
-
-    // get('/identity/realm/list/', { order_by: '-datetime_modified' })
-    //   .then(res => {
-    //     setRealms(res.data)
-    //     setPaginateList(res.data)
-    //     setLoading(false)
-    //   })
-    //   .catch(err => console.log(err))
+    get("/identity/realm/list/", { order_by: "-datetime_modified" })
+      .then((res: any) => {
+        setRealms(res.data);
+        setPaginateList(res.data);
+        setLoading(false);
+      })
+      .catch((err: any) => console.log(err));
   };
 
   const paginate = (from: number, to: number) => {
@@ -69,37 +63,20 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
 
   const FilterApplyButton = (params: any) => {
     setLoading(true);
-    // var parameter = {
-    //   ...(params.sortby !== " " && { order_by: params.sortby }),
-    //   ...(params.active !== " " && { is_active: params.active }),
-    //   ...(params.company !== " " && { company: params.company }),
-    //   ...(params.campaign !== " " && { campaigns: params.campaign }),
-    //   ...(params.roles !== " " && { groups: params.roles }),
-    //   ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
-    // };
+    var parameter = {
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { is_active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
-    setTimeout(() => {
-      const tempData: any = [
-        {
-          uuid: "994dceb8-5062-11e7-a132-02420a000304",
-          leader: null,
-          slug: "external_rec",
-          datetime_created: "2017-06-13T18:03:26.715623Z",
-          datetime_modified: "2019-11-05T09:18:19.641105Z",
-          name: "arman locas",
-          active: false
-        }
-      ];
-      setRealms(tempData);
-      setPaginateList(tempData);
+    get("/identity/realm/list/", parameter).then((res: any) => {
+      setRealms(res.data);
+      setPaginateList(res.data);
       setLoading(false);
-    }, 2000);
-
-    // get('/identity/realm/list/', parameter).then(res => {
-    //   setRealms(res.data)
-    //   setPaginateList(res.data)
-    //   setLoading(false)
-    // })
+    });
   };
 
   const handleClose = () => {
@@ -119,31 +96,27 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
   };
   const handleCreate = () => {
     setCreate({ ...create, load: true });
-    setTimeout(() => {
-      setCreate({ ...create, load: false, done: true });
-    }, 1500);
-
-    // post('/identity/realm/create/', {
-    //   name: create.name,
-    //   active: create.active,
-    //   slug: slugify(create.name)
-    // })
-    //   .then(() => {
-    //     setCreate({ ...create, load: false, done: true })
-    //   })
-    //   .catch(err => {
-    //     try {
-    //       if (err.response.data) {
-    //         setCreate({
-    //           ...create,
-    //           load: false,
-    //           nameErr: 'realm with this name/slug already exists.'
-    //         })
-    //       }
-    //     } catch {
-    //       console.log(err)
-    //     }
-    //   })
+    post("/identity/realm/create/", {
+      name: create.name,
+      active: create.active,
+      slug: slugify(create.name)
+    })
+      .then(() => {
+        setCreate({ ...create, load: false, done: true });
+      })
+      .catch((err: any) => {
+        try {
+          if (err.response.data) {
+            setCreate({
+              ...create,
+              load: false,
+              nameErr: "realm with this name/slug already exists."
+            });
+          }
+        } catch {
+          console.log(err);
+        }
+      });
   };
 
   return (
@@ -174,8 +147,7 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
             mainMessage="No realm have been created"
             subMessage="Would you like to creat one? Just hit the “New Realm” button."
             renderButton={
-              // <SaveButton onClick={() => setCreate({ ...create, open: true })}>
-              <SaveButton>
+              <SaveButton onClick={() => setCreate({ ...create, open: true })}>
                 <Add />
                 New Realm
               </SaveButton>
