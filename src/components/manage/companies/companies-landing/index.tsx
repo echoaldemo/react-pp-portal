@@ -13,6 +13,7 @@ import { CompanyTable } from "../components/table";
 import { mock } from "../mock";
 import AddCompanyForm from "../components/add-company-form";
 import SEO from "utils/seo";
+import { get } from "utils/api";
 
 interface IProps {}
 
@@ -40,25 +41,25 @@ class Companies extends Component<IProps, IState> {
   handleUpdate = () => {
     this.setState({ loading: true });
     //start mock
-    setTimeout(() => {
-      this.setState({
-        userData: mock,
-        filterlist: mock,
-        paginateList: mock,
-        loading: false
-      });
-    }, 2000);
+    // setTimeout(() => {
+    //   this.setState({
+    //     userData: mock,
+    //     filterlist: mock,
+    //     paginateList: mock,
+    //     loading: false
+    //   });
+    // }, 2000);
 
     //end mock
 
-    /* get("/identity/company/list/").then(res => {
+    get("/identity/company/list/").then((res: any) => {
       this.setState({
         userData: res.data,
         filterlist: res.data,
         paginateList: res.data,
         loading: false
       });
-    }); */
+    });
   };
   componentDidMount() {
     this.handleUpdate();
