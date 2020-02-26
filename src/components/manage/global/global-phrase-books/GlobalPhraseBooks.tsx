@@ -42,6 +42,10 @@ const GlobalPhraseBooks = ({ history }: any) => {
     setpb(paginateList.slice(from, to));
   };
 
+  const handleEdit = (id: any) => {
+    window.location.href = `/manage/phrase-book/global/edit/${id}`;
+  };
+
   return (
     <>
       <div className="header-container">
@@ -74,6 +78,7 @@ const GlobalPhraseBooks = ({ history }: any) => {
           userData={pb}
           headers={["name", "uuid", "slug"]}
           loading={loading}
+          modalFunc={handleEdit}
         />
         <Divider />
         {loading ? (
