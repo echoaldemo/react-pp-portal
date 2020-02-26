@@ -106,7 +106,8 @@ const TableComponent: React.FC<Props> = ({
                   style={{
                     color: "#777777",
                     height: "100%",
-                    maxWidth: 200
+                    maxWidth: 200,
+                    wordBreak: "break-word"
                   }}
                 >
                   {company.website !== null

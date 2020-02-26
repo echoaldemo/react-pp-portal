@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import { Collapse, FormHelperText, withStyles } from "@material-ui/core";
 import { InputField, LoadingModal, SuccessModal } from "common-components";
 import { styles, Btn, Cancel, CreateBtn, CreateText, Disabled } from "./styles";
+import SnackNotif from "auth/component/snackbar/snackbar";
+import { post } from "utils/api";
 
 const companyBasicInfo = {
   companyName: "",
@@ -133,41 +135,59 @@ class AddCompanyForm extends Component<IProps, IState> {
     this.setState({
       loadingState: true
     });
-    /* post("/identity/company/create/", {
+    post("/identity/company/create/", {
       name: this.state.companyName,
       email: this.state.companyEmail,
       website: this.state.companyWebsite
-    })
-      .then(res => {
-        this.setState({
-          loadingState: false,
-          creationSuccess: true,
-          creationError: false
-        });
+    }).then((res: any) => {
+      this.setState({
+        loadingState: false,
+        creationSuccess: true,
+        creationError: false
+      });
 
-        this.props.handleUpdate();
-      })
-      .catch(err => {
-        console.log(err);
-
-        if (err.response.data.website) {
+      this.props.handleUpdate();
+      if (res.response !== undefined) {
+        if (
+          res.response.data.email !== undefined &&
+          res.response.data.name !== undefined
+        ) {
           this.setState({
-            errorMessage: "Please enter a valid URL!",
+            creationSuccess: false,
+            errorMessage:
+              res.response.data.name[0].charAt(0).toUpperCase() +
+              res.response.data.name[0].slice(1).replace(".", "") +
+              " and " +
+              res.response.data.email[0].charAt(0).toLowerCase() +
+              res.response.data.email[0].slice(1),
             loadingState: false,
-            companyBasicInfo,
             creationError: true,
-            companyWebsiteError: true
+            companyNameError: true,
+            companyEmailError: true
           });
-        } else if (err.response.data.name) {
+        } else if (res.response.data.name !== undefined) {
           this.setState({
-            errorMessage: "Company with this name already exist",
+            creationSuccess: false,
+            errorMessage:
+              res.response.data.name[0].charAt(0).toUpperCase() +
+              res.response.data.name[0].slice(1),
             loadingState: false,
-            companyBasicInfo,
             creationError: true,
             companyNameError: true
           });
+        } else if (res.response.data.email !== undefined) {
+          this.setState({
+            creationSuccess: false,
+            errorMessage:
+              res.response.data.email[0].charAt(0).toLowerCase() +
+              res.response.data.email[0].slice(1),
+            loadingState: false,
+            creationError: true,
+            companyEmailError: true
+          });
         }
-      }); */
+      }
+    });
   };
 
   handleBlur = (e: any) => {
@@ -211,7 +231,7 @@ class AddCompanyForm extends Component<IProps, IState> {
       fullWidth: true
     };
     let companyEmailProps = {
-      autoComplete: "off",
+      required: true,
       error: this.state.companyNameError,
       label: "Company email",
       name: "companyEmail",
@@ -223,7 +243,8 @@ class AddCompanyForm extends Component<IProps, IState> {
       },
       className: classes.textField,
       value: this.state.companyEmail,
-      fullWidth: true
+      fullWidth: true,
+      type: "email"
     };
     let companyWebProps = {
       autoComplete: "off",
@@ -238,6 +259,11 @@ class AddCompanyForm extends Component<IProps, IState> {
     };
     return (
       <>
+        <SnackNotif
+          snackbar={this.state.creationError}
+          handleClose={() => this.setState({ creationError: false })}
+          message={this.state.errorMessage}
+        />
         <SuccessModal
           open={this.state.creationSuccess}
           text={`You have created ${this.state.companyName}`}
@@ -245,7 +271,9 @@ class AddCompanyForm extends Component<IProps, IState> {
           closeFn={() => {
             this.setState({
               creationSuccess: false
-            });
+            }),
+              this.props.closeModal(),
+              this.props.handleUpdate();
           }}
           btnFn={() => {
             this.handleCreateNew();
@@ -290,14 +318,15 @@ class AddCompanyForm extends Component<IProps, IState> {
             </Collapse>
           </div>
           <div className={classes.buttonContainer}>
-            <Btn>
+            <Btn type="button">
               <Cancel onClick={this.props.closeModal}>Cancel</Cancel>
             </Btn>
 
             {this.state.companyNameValid &&
             !this.state.companyEmailError &&
-            !this.state.companyWebsiteError ? (
-              <CreateBtn data-cy="create-button">
+            !this.state.companyWebsiteError &&
+            this.state.companyEmail !== "" ? (
+              <CreateBtn data-cy="create-button" type="submit">
                 <CreateText>Create Campaign</CreateText>
               </CreateBtn>
             ) : (
