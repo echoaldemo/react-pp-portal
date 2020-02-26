@@ -40,18 +40,6 @@ class Companies extends Component<IProps, IState> {
   }
   handleUpdate = () => {
     this.setState({ loading: true });
-    //start mock
-    // setTimeout(() => {
-    //   this.setState({
-    //     userData: mock,
-    //     filterlist: mock,
-    //     paginateList: mock,
-    //     loading: false
-    //   });
-    // }, 2000);
-
-    //end mock
-
     get("/identity/company/list/").then((res: any) => {
       this.setState({
         userData: res.data,
@@ -67,23 +55,23 @@ class Companies extends Component<IProps, IState> {
   //Needed this method for the filtertoolbar component
   FilterApplyButton = (params: any) => {
     this.setState({ loading: true });
-    // var parameter = {
-    //   ...(params.sortby !== " " && { order_by: params.sortby }),
-    //   ...(params.active !== " " && { active: params.active }),
-    //   ...(params.company !== " " && { company: params.company }),
-    //   ...(params.campaign !== " " && { campaigns: params.campaign }),
-    //   ...(params.roles !== " " && { groups: params.roles }),
-    //   ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
-    // };
+    var parameter = {
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
-    /* get("/identity/company/list/", parameter).then(res => {
+    get("/identity/company/list/", parameter).then((res: any) => {
       this.setState({
         userData: res.data,
         filterlist: res.data,
         paginateList: res.data,
         loading: false
       });
-    }); */
+    });
   };
 
   //Functions for creating new companies
