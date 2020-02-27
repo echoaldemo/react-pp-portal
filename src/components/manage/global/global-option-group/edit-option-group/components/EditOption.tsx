@@ -31,23 +31,35 @@ const EditOption = () => {
       }
     )
       .then((res: any) => {
-        dispatch({
-          type: "GROUP",
-          payload: {
-            group: {
-              ...state.group,
-              options: state.group.options.map((op: any) =>
-                op.uuid === state.edit.editData.uuid ? res.data : op
-              )
+        if (res.status !== undefined) {
+          dispatch({
+            type: "GROUP",
+            payload: {
+              group: {
+                ...state.group,
+                options: state.group.options.map((op: any) =>
+                  op.uuid === state.edit.editData.uuid ? res.data : op
+                )
+              }
             }
-          }
-        });
-        dispatch({
-          type: "EDIT",
-          payload: {
-            edit: { ...state.edit, load: false, edit: false }
-          }
-        });
+          });
+          dispatch({
+            type: "EDIT",
+            payload: {
+              edit: { ...state.edit, load: false, edit: false }
+            }
+          });
+        } else {
+          dispatch({
+            type: "EDIT",
+            payload: {
+              edit: {
+                ...state.edit,
+                snackErr: "Error encountered. Please try again"
+              }
+            }
+          });
+        }
       })
       .catch((err: any) => {
         try {
