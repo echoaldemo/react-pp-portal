@@ -81,7 +81,6 @@ class Companies extends Component<IProps, IState> {
   };
 
   handleClose = () => {
-    console.log("asdfsdfadf");
     this.setState({ openDrawer: false });
   };
 
