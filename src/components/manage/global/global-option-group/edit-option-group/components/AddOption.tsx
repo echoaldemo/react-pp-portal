@@ -18,27 +18,39 @@ const AddOption = () => {
       value: state.edit.value
     })
       .then((res: any) => {
-        dispatch({
-          type: "EDIT",
-          payload: {
-            edit: {
-              ...state.edit,
-              load: false,
-              done: true,
-              open: false,
-              name: state.edit.description
+        if (res.status !== undefined) {
+          dispatch({
+            type: "EDIT",
+            payload: {
+              edit: {
+                ...state.edit,
+                load: false,
+                done: true,
+                open: false,
+                name: state.edit.description
+              }
             }
-          }
-        });
-        dispatch({
-          type: "GROUP",
-          payload: {
-            group: {
-              ...state.group,
-              options: [...state.group.options, res.data]
+          });
+          dispatch({
+            type: "GROUP",
+            payload: {
+              group: {
+                ...state.group,
+                options: [...state.group.options, res.data]
+              }
             }
-          }
-        });
+          });
+        } else {
+          dispatch({
+            type: "EDIT",
+            payload: {
+              edit: {
+                ...state.edit,
+                snackErr: "Option already exists in field option group"
+              }
+            }
+          });
+        }
       })
       .catch((err: any) => {
         try {

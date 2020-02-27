@@ -159,7 +159,7 @@ export default function CampaignSettings(props: any) {
       setOpenDelete(true);
     }, 500);
     const data = await addCampaign(camps);
-    if (data.status) {
+    if (data === 200) {
       setText("Successfully added campaigns");
       setModalType("success");
     }

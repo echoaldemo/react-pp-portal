@@ -10,7 +10,7 @@ import { store, StateProvider } from "contexts/EditOptionGroupContext";
 import Header from "./components/Header";
 import NewOptionHeader from "./components/NewOptionHeader";
 import Modals from "./components/Modals";
-import { TableRow, TableCell, Button } from "@material-ui/core";
+import { TableRow, TableCell, Button, Paper } from "@material-ui/core";
 import { Add, Settings } from "@material-ui/icons";
 import SEO from "utils/seo";
 import { get, patch } from "utils/api"; // eslint-disable-line
@@ -54,7 +54,9 @@ const EditComponent = ({ match, history }: any) => {
         to="/manage/global-option-group/"
       />
       {state.loading ? (
-        <TableLoader />
+        <Paper>
+          <TableLoader />
+        </Paper>
       ) : (
         <>
           <span style={{ fontSize: 24, color: "#444851" }}>
