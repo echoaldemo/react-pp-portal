@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import {
   Grid,
@@ -19,9 +19,7 @@ import {
   CustomCard,
   CardBody
 } from "common-components";
-import { MockCampaigns } from "../../components/contsVar";
-
-// import { get } from "../../../../../../utils/api.js";
+import { store } from "contexts/ManageComponent";
 
 const useStyles: any = makeStyles(theme => ({
   table: {
@@ -42,41 +40,20 @@ const useStyles: any = makeStyles(theme => ({
 }));
 
 function AddCampaignModal(props: any) {
+  const { state } = useContext(store);
   const [selectC, setSelectC] = useState<any>([]);
   const [campaignData, setCampaignData] = useState<any>([]);
   const [campaignDataSearchOrig, setCampaignDataOrig] = useState<any>([]);
   const classes = useStyles();
 
   useEffect(() => {
-    //api fetch here
-    if (props.data.length !== 0) {
-      // get("/identity/campaign/list/").then(res => {
-      //   setCampaignData(
-      //     res.data.filter(
-      //       dataCamp =>
-      //         props.data.filter(campData => campData.name === dataCamp.name)
-      //           .length === 0
-      //     )
-      //   );
-      //   setCampaignDataOrig(
-      //     res.data.filter(
-      //       dataCamp =>
-      //         props.data.filter(campData => campData.name === dataCamp.name)
-      //           .length === 0
-      //     )
-      //   );
-      // });
-      setCampaignDataOrig(MockCampaigns);
-      setCampaignData(MockCampaigns);
-    } else {
-      // get("/identity/campaign/list/").then(res => {
-      //   setCampaignDataOrig(res.data);
-      //   setCampaignData(res.data);
-      // });
-      setCampaignDataOrig(MockCampaigns);
-      setCampaignData(MockCampaigns);
-    }
-  }, [props]);
+    let tempArr = props.data.map((tem: any) => tem.uuid);
+    let arrCamp = state.campaigns.filter(
+      (camp: any) => !tempArr.includes(camp.uuid)
+    );
+    setCampaignDataOrig(arrCamp);
+    setCampaignData(arrCamp);
+  }, []);
 
   // eslint-disable-next-line
   const classicSearch = (result: any) => {
