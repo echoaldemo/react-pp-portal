@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 /*COMPONENTS*/
 import { TableLoader, BackButton, StatusLabel } from "common-components";
 import { MockCampaigns, MockRealmData } from "../components/contsVar";
-// import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
+import { get, patch, post, cancel } from "../../../../utils/api";
 
 import RealmSettings from "./realmSettings";
+import slugify from "slugify";
 
-const RealmSettingsPage = () => {
+const RealmSettingsPage = (props: any) => {
   const [dataLoaded, setDataLoaded] = useState<any>(false);
   const [realm, setRealm] = useState<any>(null);
   const [active, setActive] = useState<any>(null);
@@ -16,110 +17,70 @@ const RealmSettingsPage = () => {
   const [paginateList, setPaginateList] = useState<any>([]);
   const [campaignsOrig, setCampaignsOrig] = useState<any>([]);
   let initialData: any = {};
-
-  // async componentDidMount() {
-  //   let active, name;
-  //   await get(`/identity/realm/${this.props.match.params.uuid}/`).then(
-  //     result => {
-  //       active = result.data.active;
-  //       name = result.data.name;
-  //       this.setState({
-  //         realm: result.data,
-  //         active,
-  //         name,
-  //         campaigns: result.data.campaigns,
-  //         campaignsOrig: result.data.campaigns,
-  //         paginateList: result.data.campaigns
-  //       });
-  //     }
-  //   );
-  //   this.initialData = { active, name };
-  //   this.setState({ dataLoaded: true });
-  // }
-
   useEffect(() => {
-    // activeTemp = result.data.active;
-    setRealm(MockRealmData);
-    setActive(true);
-    setName("Test");
-    setCampaigns(MockCampaigns);
-    setCampaignsOrig(MockCampaigns);
-    setPaginateList(MockCampaigns);
-    // this.initialData = { active, name };
-    setTimeout(() => {
+    get(`/identity/realm/${props.match.params.uuid}/`).then((result: any) => {
+      setRealm(result.data);
+      setActive(result.data.active);
+      setName(result.data.name);
+      setCampaigns(result.data.campaigns);
+      setCampaignsOrig(result.data.campaigns);
+      setPaginateList(result.data.campaigns);
       setDataLoaded(true);
-    }, 1500);
+    });
   }, []);
-
   const handleActive = () => {
     setActive(!active);
   };
-
   const handleName = (value: any) => {
     setName(value);
   };
-
   const updateRealm = () => {
-    // const { active, name, campaigns, paginateList } = this.state;
-    // this.setState({ saveLoader: true });
-    // patch(`/identity/realm/${this.props.match.params.uuid}/`, {
-    //   active,
-    //   name,
-    //   campaigns: paginateList
-    // }).then(res => {
-    //   this.initialData = { active: res.data.active, name: res.data.name };
-    //   this.setState({
-    //     realm: res.data,
-    //     saveLoader: false,
-    //     active: res.data.active,
-    //     name: res.data.name
-    //   });
-    // });
-
     setSaveLoader(true);
-    setTimeout(() => {
+    patch(`/identity/realm/${props.match.params.uuid}/`, {
+      active,
+      name,
+      campaigns: paginateList,
+      slug: slugify(name)
+    }).then((result: any) => {
+      setRealm(result.data);
+      setActive(result.data.active);
+      setName(result.data.name);
+      setCampaigns(result.data.campaigns);
+      setCampaignsOrig(result.data.campaigns);
+      setPaginateList(result.data.campaigns);
       setSaveLoader(false);
-    }, 1500);
+    });
   };
-
   const addCampaign = async (campaign: any) => {
-    // let arrCamp = [...campaign, ...this.state.campaignsOrig];
-    // /* campaign.map(camp => {
-    //   arrCamp.push(camp);
-    // }); */
-    // this.setState({
-    //   campaigns: arrCamp,
-    //   campaignsOrig: arrCamp,
-    //   paginateList: arrCamp
-    // });
-    // const update = await patch(
-    //   `/identity/realm/${this.props.match.params.uuid}/`,
-    //   {
-    //     campaigns: arrCamp
-    //   }
-    // );
-    // return update;
-    return { status: 200 };
-  };
+    let arrCamp = [...campaign, ...campaignsOrig];
+    setCampaigns(arrCamp);
+    setCampaignsOrig(arrCamp);
+    setPaginateList(arrCamp);
 
+    return Promise.all(
+      arrCamp.map(
+        async camp =>
+          await patch(`/identity/campaign/${camp.uuid}/`, {
+            realms: [`${props.match.params.uuid}`]
+          })
+      )
+    ).then(res => res[0].status);
+  };
   const removeCampaign = async (uuid: string) => {
-    // var campaigns = this.state.paginateList.filter(camp => {
-    //   return camp.uuid !== uuid;
-    // });
-    // this.setState({ campaigns, paginateList: campaigns });
-    // const update = await patch(
-    //   `/identity/realm/${this.props.match.params.uuid}/`,
-    //   { campaigns }
-    // );
-    // return update;
-    return { status: 200 };
+    var campaigns = paginateList.filter((camp: any) => {
+      return camp.uuid !== uuid;
+    });
+    setCampaigns(campaigns);
+    setPaginateList(campaigns);
+    const update = await patch(`/identity/realm/${props.match.params.uuid}/`, {
+      campaigns
+    });
+    return update;
   };
-
   const paginate = (from: number, to: number) => {
     const campaignsTemp = paginateList.slice(from, to);
     setCampaigns(campaignsTemp);
   };
-
   var edit =
     JSON.stringify(initialData) === JSON.stringify({ active, name })
       ? false
@@ -129,6 +90,7 @@ const RealmSettingsPage = () => {
   if (dataLoaded) {
     return (
       <>
+        {console.log(campaigns)}
         <BackButton text="Back to realms" to="/manage/realms/" />
         <div
           style={{ display: "flex", alignItems: "center", margin: "25px 0" }}
