@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 import DNDCards from "../cards/DNDCards";
-import { company, global } from "./Mock";
 import { TableLoader } from "common-components";
 import { phrase } from "./styles";
-
-/* import {
-  getAllPhraseBook,
-  getGlobalPhraseBook
-} from '../../../../actions/PhraseBook' */
+import { get } from "utils/api";
 
 import CreatePhraseBook from "./add-company-phrase-book/CreatePhraseBook";
 
@@ -55,54 +50,51 @@ class PhraseBooks extends Component<IProps, IState> {
     };
   }
 
+  sleeper = () => {
+    return new Promise(resolve => setTimeout(resolve, 1000));
+  };
+
+  getGlobalPhraseBook = () => {
+    return get("/pitch/global/phrases/")
+      .then((response: any) => {
+        return response.data;
+      })
+      .then(this.sleeper())
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
+
   getAllData = () => {
     try {
       this.setState({
         loadingState: true
       });
-      /* getGlobalPhraseBook()
-        .then(data => {
+      this.getGlobalPhraseBook()
+        .then((data: any) => {
           this.setState({
             globalPhraseBooksData: data,
-            loadingText: 'Loading global phrase books..'
-          })
+            loadingText: "Loading global phrase books.."
+          });
         })
         .then(() => {
-          this.setState({ loadingText: 'Loading companies phrase books  ' })
-          getAllPhraseBook(this.props.company.slug).then(result => {
-            this.setState({ phraseBooksData: result, loadingState: false })
-          })
-        }) */
-
-      /* start mock */
-      if (document.cookie !== "") {
-        setTimeout(() => {
-          this.setState({
-            globalPhraseBooksData: global,
-            phraseBooksData: [
-              ...company,
-              {
-                company: "ce92941c-f92c-11e9-8ffa-0242ac110014",
-                name: "new",
-                phrases: [],
-                slug: "new",
-                uuid: "66d770d8-31ba-11ea-a4c3-0242ac110008"
-              }
-            ],
-            loadingState: false
+          this.setState({ loadingText: "Loading companies phrase books  " });
+          this.getAllPhraseBook(this.props.company.slug).then((result: any) => {
+            this.setState({ phraseBooksData: result, loadingState: false });
           });
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          this.setState({
-            globalPhraseBooksData: global,
-            phraseBooksData: company,
-            loadingState: false
-          });
-        }, 1000);
-      }
-      /* end mock */
+        });
     } catch (err) {}
+  };
+
+  getAllPhraseBook = async (slug: any) => {
+    return await get(`/pitch/company/${slug}/phrases/`)
+      .then((response: any) => {
+        return response.data;
+      })
+      .then(this.sleeper())
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
 
   componentDidMount() {
@@ -123,11 +115,6 @@ class PhraseBooks extends Component<IProps, IState> {
   saveActiveSegment = (data: any) => {
     //API request here for updating activeSegments
     this.setState({ activePhraseBookData: data });
-  };
-
-  //TEMPORARY METHOD FOR ADDING PHRASEBOOK
-  addNewPhraseBook = () => {
-    document.cookie = "add=true";
   };
 
   render() {
@@ -159,7 +146,6 @@ class PhraseBooks extends Component<IProps, IState> {
                 companySlug={this.props.company.slug}
                 onClose={this.closeCreateModal}
                 openModal={this.openCreateModal}
-                addFunction={this.addNewPhraseBook} //temporary for adding new phrase
               />
             )}
           </div>
