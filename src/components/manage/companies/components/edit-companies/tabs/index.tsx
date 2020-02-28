@@ -21,6 +21,7 @@ interface Props {
   companyData: any;
   params: any;
   companySettingsData: any;
+  handleUpdateHeader: Function;
 }
 
 const TabPanel = (props: ITabPanel) => {
@@ -50,7 +51,8 @@ const a11yProps = (index: number) => {
 const TabComponent: React.FC<Props> = ({
   companyData,
   params,
-  companySettingsData
+  companySettingsData,
+  handleUpdateHeader
 }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -96,7 +98,10 @@ const TabComponent: React.FC<Props> = ({
         </CustomTabs>
       </div>
       <TabPanel value={value} index={0} className={classes.panelContainer}>
-        <CompanySettings params={params} />
+        <CompanySettings
+          params={params}
+          handleUpdateHeader={handleUpdateHeader}
+        />
       </TabPanel>
       <TabPanel value={value} index={1} className={classes.panelContainer}>
         <PhraseBooks company={companyData} />

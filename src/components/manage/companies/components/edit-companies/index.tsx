@@ -5,6 +5,7 @@ import { Paper } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
 import { styles } from "./style";
 import { get } from "utils/api";
+import { company } from "components/manage/manage-campaigns/components/edit-campaigns/pitch/components/phrase-books/Mock";
 
 interface IProps {
   match: any;
@@ -37,6 +38,13 @@ class EditCompaniesComponent extends Component<IProps, IState> {
       }
     );
   };
+
+  handleUpdateHeader = (data: any) => {
+    this.setState({
+      company: data
+    });
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -52,6 +60,7 @@ class EditCompaniesComponent extends Component<IProps, IState> {
               companyData={this.state.company}
               params={this.props.match.params}
               companySettingsData={this.state.company}
+              handleUpdateHeader={this.handleUpdateHeader}
             />
           ) : (
             <TableLoader />
