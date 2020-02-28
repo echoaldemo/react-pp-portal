@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BackButton, StatusLabel } from "common-components";
+import { BackButton, StatusLabel, TableLoader } from "common-components";
 import { TabComponent } from "./tabs";
 import { Paper } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
@@ -47,11 +47,15 @@ class EditCompaniesComponent extends Component<IProps, IState> {
           <StatusLabel status={this.state.company.active} />
         </div>
         <Paper square={true} style={{ paddingTop: 15 }}>
-          <TabComponent
-            companyData={this.state.company}
-            params={this.props.match.params}
-            companySettingsData={this.state.company}
-          />
+          {this.state.company.uuid !== undefined ? (
+            <TabComponent
+              companyData={this.state.company}
+              params={this.props.match.params}
+              companySettingsData={this.state.company}
+            />
+          ) : (
+            <TableLoader />
+          )}
         </Paper>
       </div>
     );
