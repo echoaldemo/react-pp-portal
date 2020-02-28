@@ -47,13 +47,18 @@ function AddCampaignModal(props: any) {
   const classes = useStyles();
 
   useEffect(() => {
+    let arrCamp = fetchCampaigns();
+    setCampaignDataOrig(arrCamp);
+    setCampaignData(arrCamp);
+  }, []);
+
+  const fetchCampaigns = () => {
     let tempArr = props.data.map((tem: any) => tem.uuid);
     let arrCamp = state.campaigns.filter(
       (camp: any) => !tempArr.includes(camp.uuid)
     );
-    setCampaignDataOrig(arrCamp);
-    setCampaignData(arrCamp);
-  }, []);
+    return arrCamp;
+  };
 
   // eslint-disable-next-line
   const classicSearch = (result: any) => {
@@ -69,14 +74,16 @@ function AddCampaignModal(props: any) {
   };
 
   const AddCampaignFunc: any = () => {
+    let arrCamp = fetchCampaigns();
+    setCampaignData(arrCamp);
     props.addCampaign(selectC);
-    setCampaignData(campaignDataSearchOrig);
     setSelectC([]);
     props.openFunc();
   };
 
   const CancelCampaignFunc: any = () => {
-    setCampaignData(campaignDataSearchOrig);
+    let arrCamp = fetchCampaigns();
+    setCampaignData(arrCamp);
     setSelectC([]);
     props.openFunc();
   };
