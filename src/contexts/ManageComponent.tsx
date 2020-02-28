@@ -6,7 +6,8 @@ const initialState = {
   campaigns: [],
   roles: [],
   teams: [],
-  realms: []
+  realms: [],
+  location: []
 };
 
 const store = createContext<any>(initialState);
@@ -23,7 +24,8 @@ const StateProvider = ({ children }: any) => {
           campaigns: action.payload.campaignList,
           roles: action.payload.roleList,
           teams: action.payload.teamList,
-          realms: action.payload.realmList
+          realms: action.payload.realmList,
+          location: action.payload.locationList
         };
       case "manage-users":
         return {
