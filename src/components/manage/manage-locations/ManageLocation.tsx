@@ -12,7 +12,6 @@ import {
   FilterToolBar
 } from "common-components";
 import { get } from "utils/api";
-import { LocationData } from "./mockData";
 import { store } from "contexts/ManageComponent";
 function ManageLocation(props: any) {
   const { state } = useContext(store);

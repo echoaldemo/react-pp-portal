@@ -29,7 +29,7 @@ import Teams from "../teams/Teams";
 import NewTeam from "./addNewTeam";
 
 // import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
-import { get, patch, post, cancel } from "../../../../utils/api"; // eslint-disable-line
+import { get, patch, post, cancel } from "utils/api"; // eslint-disable-line
 import { LocationEditData, TeamsData } from "../mockData";
 import styles from "./LocationSettings.styles.js";
 
@@ -63,113 +63,113 @@ class LocationSettings extends Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      location: LocationEditData,
-      originalData: {
-        name: LocationEditData.name,
-        leader: LocationEditData.leader,
-        active: LocationEditData.active
-      },
-      updateData: {
-        name: LocationEditData.name,
-        leader: LocationEditData.leader,
-        active: LocationEditData.active
-      },
-      locationsTeams: TeamsData
-    });
-    //   await get(`/identity/location/${this.props.match.params.uuid}/`).then(
-    //     result => {
-    //       this.setState({
-    //         location: result.data,
-    //         originalData: {
-    //           name: result.data.name,
-    //           leader: result.data.leader,
-    //           active: result.data.active
-    //         },
-    //         updateData: {
-    //           name: result.data.name,
-    //           leader: result.data.leader,
-    //           active: result.data.active
-    //         }
-    //       });
-    //       if (result.data.leader) {
-    //         get(`/identity/user/manage/${result.data.leader}`).then(res => {
-    //           this.setState({
-    //             locationLeader: res.data
-    //           });
-    //         });
-    //       }
-    //     }
-    //   );
-    // await get(`/identity/team/list`, {
-    //   location: this.props.match.params.uuid
-    // }).then(result => {
-    //   this.setState({
-    //     locationsTeams: result.data
-    //   });
+    // this.setState({
+    //   location: LocationEditData,
+    //   originalData: {
+    //     name: LocationEditData.name,
+    //     leader: LocationEditData.leader,
+    //     active: LocationEditData.active
+    //   },
+    //   updateData: {
+    //     name: LocationEditData.name,
+    //     leader: LocationEditData.leader,
+    //     active: LocationEditData.active
+    //   },
+    //   locationsTeams: TeamsData
     // });
-    //   await getGroups(
-    //     `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
-    //   ).then(result => {
-    //     this.setState({
-    //       leader: result.data.results,
-    //       dataLoaded: true
-    //     });
-    //   });
+    await get(`/identity/location/${this.props.match.params.uuid}/`).then(
+      result => {
+        this.setState({
+          location: result.data,
+          originalData: {
+            name: result.data.name,
+            leader: result.data.leader,
+            active: result.data.active
+          },
+          updateData: {
+            name: result.data.name,
+            leader: result.data.leader,
+            active: result.data.active
+          }
+        });
+        if (result.data.leader) {
+          get(`/identity/user/manage/${result.data.leader}`).then(res => {
+            this.setState({
+              locationLeader: res.data
+            });
+          });
+        }
+      }
+    );
+    await get(`/identity/team/list`, {
+      location: this.props.match.params.uuid
+    }).then(result => {
+      this.setState({
+        locationsTeams: result.data
+      });
+    });
+    await get(
+      `/identity/user/manage/list/?editable=true&groups=1&groups=2&groups=3&groups=6`
+    ).then(result => {
+      this.setState({
+        leader: result.data.results,
+        dataLoaded: true
+      });
+    });
   }
 
   fetchLocationsTeams = () => {
-    // get(`/identity/team/list/`, {
-    //   location: this.props.match.params.uuid
-    // }).then(result => {
-    //   this.setState({
-    //     locationsTeams: result.data
-    //   });
-    // });
+    get(`/identity/team/list/`, {
+      location: this.props.match.params.uuid
+    }).then(result => {
+      this.setState({
+        locationsTeams: result.data
+      });
+    });
   };
 
   fetchLocations = () => {
-    // get(`/identity/location/${this.props.match.params.uuid}`).then(result => {
-    //   this.setState({
-    //     location: result.data,
-    //     originalData: {
-    //       name: result.data.name,
-    //       leader: result.data.leader,
-    //       active: result.data.active
-    //     },
-    //     updateData: {
-    //       name: result.data.name,
-    //       leader: result.data.leader,
-    //       active: result.data.active
-    //     }
-    //   });
-    //   get(`/identity/user/manage/${result.data.leader}`).then(res => {
-    //     this.setState({
-    //       locationLeader: res.data
-    //     });
-    //   });
-    // });
+    get(`/identity/location/${this.props.match.params.uuid}`).then(result => {
+      this.setState({
+        location: result.data,
+        originalData: {
+          name: result.data.name,
+          leader: result.data.leader,
+          active: result.data.active
+        },
+        updateData: {
+          name: result.data.name,
+          leader: result.data.leader,
+          active: result.data.active
+        }
+      });
+      get(`/identity/user/manage/${result.data.leader}`).then(res => {
+        this.setState({
+          locationLeader: res.data
+        });
+      });
+    });
   };
 
   selectedVoice = val => {
-    // var temp = this.state.updateData;
-    // temp.leader = val.uuid;
-    // get(`/identity/user/manage/${val.uuid}`).then(res => {
-    //   this.setState({
-    //     locationLeader: res.data,
-    //     updateData: temp
-    //   });
-    // });
+    var temp = this.state.updateData;
+    temp.leader = val.uuid;
+    get(`/identity/user/manage/${val.uuid}`).then(res => {
+      this.setState({
+        locationLeader: res.data,
+        updateData: temp
+      });
+    });
   };
 
   updateLocation = () => {
-    // patch(
-    //   `/identity/location/${this.props.match.params.uuid}/`,
-    //   this.state.updateData
-    // ).then(res => {
-    //   this.handleOpenToast();
-    //   this.fetchLocations();
-    // });
+    patch(
+      `/identity/location/${this.props.match.params.uuid}/`,
+      this.state.updateData
+    ).then(res => {
+      this.handleOpenToast();
+      this.fetchLocations();
+    });
   };
 
   hancleCloseNewTeam = () => {
@@ -198,23 +198,23 @@ class LocationSettings extends Component {
   };
 
   addNewTeam = (name, leader) => {
-    // this.setState({
-    //   openNewTeam: false,
-    //   load: true
-    // });
-    // post(`/identity/team/create/`, {
-    //   location: this.props.match.params.uuid,
-    //   leader: leader,
-    //   name: name
-    // }).then(res => {
-    //   this.setState({ load: false, nameMsg: name, success: true });
-    //   this.fetchLocationsTeams();
-    // });
+    this.setState({
+      openNewTeam: false,
+      load: true
+    });
+    post(`/identity/team/create/`, {
+      location: this.props.match.params.uuid,
+      leader: leader,
+      name: name
+    }).then(res => {
+      this.setState({ load: false, nameMsg: name, success: true });
+      this.fetchLocationsTeams();
+    });
   };
 
   handleCancel = () => {
-    // cancel();
-    // this.setState({ load: false });
+    cancel();
+    this.setState({ load: false });
   };
   handleCloseSuccess = () => {
     this.setState({ open: false, success: false });
@@ -237,7 +237,9 @@ class LocationSettings extends Component {
         <div>
           <BackButton text="Back to location" to="/manage/locations/" />
           <div className="title-container">
-            <Typography className="edit-title">test-location</Typography>
+            <Typography className="edit-title">
+              {this.state.updateData.name}
+            </Typography>
             &emsp;
             <StatusLabel status={false} />
           </div>
