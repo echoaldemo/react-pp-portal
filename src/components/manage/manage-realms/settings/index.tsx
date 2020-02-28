@@ -67,13 +67,19 @@ const RealmSettingsPage = (props: any) => {
     ).then(res => res[0].status);
   };
   const removeCampaign = async (uuid: string) => {
+    let campaignData = await get(`/identity/campaign/${uuid}`).then(
+      (res: any) => res.data
+    );
+    let updateCampaignRealms = campaignData.realms.filter(
+      (realm: any) => realm !== props.match.params.uuid
+    );
     var campaigns = paginateList.filter((camp: any) => {
       return camp.uuid !== uuid;
     });
     setCampaigns(campaigns);
     setPaginateList(campaigns);
-    const update = await patch(`/identity/realm/${props.match.params.uuid}/`, {
-      campaigns
+    const update = await patch(`/identity/campaign/${uuid}/`, {
+      realms: [...updateCampaignRealms]
     });
     return update;
   };
