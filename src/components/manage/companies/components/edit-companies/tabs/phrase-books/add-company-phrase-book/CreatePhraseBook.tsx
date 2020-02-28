@@ -30,7 +30,6 @@ const defaultState = {
 
 interface IProps {
   onClose: any;
-  addFunction: any;
   openModal: any;
   refresh: any;
   open: any;
@@ -81,16 +80,6 @@ export default class CreatePhraseBook extends Component<IProps, IState> {
     //   .then(() => {
     //     this.setState({ createSuccess: true });
     //   });
-
-    // REMOVE THIS WHEN ACTUAL DATA IS WORKING
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        createSuccess: true
-      });
-      this.props.addFunction();
-      console.log(this.props.phraseBooksData);
-    }, 3000);
   };
 
   render() {

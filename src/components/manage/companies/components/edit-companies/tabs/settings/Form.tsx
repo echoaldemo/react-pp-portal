@@ -13,9 +13,8 @@ import {
 } from "@material-ui/core";
 import { validateEmail, validateWebsite } from "../utils";
 import { settings as useStyles, CustomSwitch } from "../styles";
-//import { remove } from '../../../../../utils/api';
-//import Modal from './Dialog';
-import { DeleteModal } from "common-components";
+import { remove } from "utils/api";
+import { DeleteModal, LoadingModal, SuccessModal } from "common-components";
 
 interface Props {
   company: any;
@@ -97,12 +96,13 @@ const Form: React.FC<Props> = ({ company, handleFormSubmit, history }) => {
       ...value,
       deleting: true
     });
-    /* remove(`/identity/company/${companyDetails.uuid}/`).then(() => {
+    remove(`/identity/company/${companyDetails.uuid}/`).then(() => {
       setValue({
         ...value,
+        deleting: false,
         deleted: true
       });
-    }); */
+    });
   };
   const handleDialogOpen = () => {
     setOpen(true);
@@ -113,6 +113,21 @@ const Form: React.FC<Props> = ({ company, handleFormSubmit, history }) => {
 
   return (
     <>
+      <SuccessModal
+        open={value.deleted}
+        text="Successfully deleted!"
+        noDoNext={true}
+        closeFn={() => {
+          window.location.href = "/manage/companies";
+        }}
+      />
+      <LoadingModal
+        open={value.deleting}
+        text="One moment. We're deleting the company......"
+        cancelFn={() => {
+          setValue({ ...value, deleting: false });
+        }}
+      />
       <div className={classes.container}>
         <div className={classes.formContainer}>
           <form

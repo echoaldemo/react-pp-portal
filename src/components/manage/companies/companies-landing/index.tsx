@@ -10,9 +10,9 @@ import {
   TableLoader
 } from "common-components";
 import { CompanyTable } from "../components/table";
-import { mock } from "../mock";
 import AddCompanyForm from "../components/add-company-form";
 import SEO from "utils/seo";
+import { get } from "utils/api";
 
 interface IProps {}
 
@@ -26,8 +26,8 @@ interface IState {
 }
 
 class Companies extends Component<IProps, IState> {
-  constructor() {
-    super({});
+  constructor(props: any) {
+    super(props);
     this.state = {
       openDrawer: false,
       loading: false,
@@ -39,26 +39,16 @@ class Companies extends Component<IProps, IState> {
   }
   handleUpdate = () => {
     this.setState({ loading: true });
-    //start mock
-    setTimeout(() => {
-      this.setState({
-        userData: mock,
-        filterlist: mock,
-        paginateList: mock,
-        loading: false
-      });
-    }, 2000);
-
-    //end mock
-
-    /* get("/identity/company/list/").then(res => {
-      this.setState({
-        userData: res.data,
-        filterlist: res.data,
-        paginateList: res.data,
-        loading: false
-      });
-    }); */
+    get("/identity/company/list/?order_by=-datetime_modified").then(
+      (res: any) => {
+        this.setState({
+          userData: res.data,
+          filterlist: res.data,
+          paginateList: res.data,
+          loading: false
+        });
+      }
+    );
   };
   componentDidMount() {
     this.handleUpdate();
@@ -66,32 +56,34 @@ class Companies extends Component<IProps, IState> {
   //Needed this method for the filtertoolbar component
   FilterApplyButton = (params: any) => {
     this.setState({ loading: true });
-    // var parameter = {
-    //   ...(params.sortby !== " " && { order_by: params.sortby }),
-    //   ...(params.active !== " " && { active: params.active }),
-    //   ...(params.company !== " " && { company: params.company }),
-    //   ...(params.campaign !== " " && { campaigns: params.campaign }),
-    //   ...(params.roles !== " " && { groups: params.roles }),
-    //   ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
-    // };
+    var parameter = {
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
-    /* get("/identity/company/list/", parameter).then(res => {
+    get("/identity/company/list/", parameter).then((res: any) => {
       this.setState({
         userData: res.data,
         filterlist: res.data,
         paginateList: res.data,
         loading: false
       });
-    }); */
+    });
   };
 
   //Functions for creating new companies
   openDrawerHandler = () => {
     this.setState({ openDrawer: true });
   };
-  closeDrawerHandler = () => {
+
+  handleClose = () => {
     this.setState({ openDrawer: false });
   };
+
   paginate = (from: number, to: number) => {
     this.setState({
       userData: this.state.paginateList.slice(from, to)
@@ -158,10 +150,9 @@ class Companies extends Component<IProps, IState> {
             <div style={{ width: "100%" }}>
               <SearchBar
                 title="Company"
-                userData={mock}
+                userData={this.state.userData}
                 headers={["name", "slug", "uuid"]}
                 active={true}
-                //loading={true}
                 link={true}
                 pathnameData={{
                   firstLink: `/manage/companies/edit/`,
@@ -183,9 +174,7 @@ class Companies extends Component<IProps, IState> {
               ) : (
                 <>
                   <CompanyTable
-                    //DataNotFound={this.state.filterlist}
                     userData={this.state.userData}
-                    //handleUpdated={this.handleUpdate}
                     innerLoading={this.state.innerLoading}
                     headers={[
                       "Name",
@@ -203,7 +192,6 @@ class Companies extends Component<IProps, IState> {
                       <Pagination
                         paginateFn={this.paginate}
                         totalItems={this.state.paginateList.length}
-                        //paginateList={this.state.paginateList}
                         itemsPerPage={6}
                       />
                     )}
@@ -216,13 +204,12 @@ class Companies extends Component<IProps, IState> {
 
         <Modal
           open={this.state.openDrawer}
-          //closeDrawer={this.closeDrawerHandler}
           title={<b>Create new company</b>}
-          onClose={this.closeDrawerHandler}
+          onClose={() => this.setState({ openDrawer: false })}
         >
           <AddCompanyForm
             handleUpdate={this.handleUpdate}
-            closeModal={this.closeDrawerHandler}
+            closeModal={() => this.setState({ openDrawer: false })}
             openModal={this.openDrawerHandler}
           />
         </Modal>

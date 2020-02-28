@@ -95,22 +95,25 @@ const TabComponent: React.FC<Props> = ({
           {renderTabs()}
         </CustomTabs>
       </div>
-
       <TabPanel value={value} index={0} className={classes.panelContainer}>
         <CompanySettings params={params} />
       </TabPanel>
-      <TabPanel value={value} index={1} className={classes.panelContainer}>
-        <PhraseBooks company={companyData} />
-      </TabPanel>
-      <TabPanel value={value} index={2} className={classes.panelContainer}>
-        <RapidResponseTests company={companyData} />
-      </TabPanel>
-      <TabPanel value={value} index={3} className={classes.panelContainer}>
-        <RapidResponseSegments company={companyData} />
-      </TabPanel>
-      <TabPanel value={value} index={4} className={classes.panelContainer}>
-        <AudioResources company={companyData} />
-      </TabPanel>
+      {companyData.uuid !== undefined ? (
+        <React.Fragment>
+          <TabPanel value={value} index={1} className={classes.panelContainer}>
+            <PhraseBooks company={companyData} />
+          </TabPanel>
+          <TabPanel value={value} index={2} className={classes.panelContainer}>
+            <RapidResponseTests company={companyData} />
+          </TabPanel>
+          <TabPanel value={value} index={3} className={classes.panelContainer}>
+            <RapidResponseSegments company={companyData} />
+          </TabPanel>
+          <TabPanel value={value} index={4} className={classes.panelContainer}>
+            <AudioResources company={companyData} />
+          </TabPanel>
+        </React.Fragment>
+      ) : null}
     </div>
   );
 };
