@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 //material-ui imports
 import LocationTable from "./LocationTable";
 import Paper from "@material-ui/core/Paper";
@@ -11,10 +11,11 @@ import {
   Pagination,
   FilterToolBar
 } from "common-components";
-// import { get } from "utils/api";
-import { LocationData } from "./mockData";
+import { get } from "utils/api";
+import { store } from "contexts/ManageComponent";
 function ManageLocation(props: any) {
-  const [state, setState] = useState({
+  const { state } = useContext(store);
+  const [states, setState] = useState({
     loading: true,
     popper: false,
     open: false,
@@ -28,7 +29,8 @@ function ManageLocation(props: any) {
     realmsData: [],
     companyData: [],
     paginateList: [],
-    innerLoading: false
+    innerLoading: false,
+    rolesData: []
   });
 
   useEffect(() => {
@@ -38,44 +40,19 @@ function ManageLocation(props: any) {
 
   // https://{{url_base}}/identity/location/list/
   const handleUpdate = () => {
-    setState(state => {
-      return { ...state, loading: true };
-    });
+    setState({ ...states, loading: true });
     setTimeout(() => {
-      return setState({
-        ...state,
-        userData: LocationData,
-        filterlist: LocationData,
-        paginateList: LocationData,
-        loading: false
+      setState({
+        ...states,
+        userData: state.location,
+        filterlist: state.location,
+        paginateList: state.location,
+        loading: false,
+        rolesData: state.roles,
+        realmsData: state.realms,
+        companyData: state.companies
       });
     }, 1000);
-
-    // get("/identity/location/list", {
-    //   order_by: "-datetime_modified"
-    // }).then((res: any) =>
-    //   setState({
-    //     ...state,
-    //     userData: res.data,
-    //     filterlist: res.data,
-    //     paginateList: res.data,
-    //     loading: false
-    //   })
-    // );
-    // get(
-    //   `http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`
-    // ).then(res => {
-    //   setState({ ...state, rolesData: res.data });
-    // });
-    // get(
-    //   "http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list"
-    // ).then(res => setState({ ...state, realmsData: res.data }));
-
-    // get(
-    //   `http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list`
-    // ).then(res => {
-    //   setState({ ...state, companyData: res.data });
-    // });
   };
 
   // handleFilter = url => {
@@ -92,44 +69,41 @@ function ManageLocation(props: any) {
   // }
 
   const FilterApplyButton = (params: any) => {
-    setState({ ...state, loading: true });
-    // var parameter = {
-    //   ...(params.sortby !== " " && { order_by: params.sortby }),
-    //   ...(params.active !== " " && { active: params.active }),
-    //   ...(params.company !== " " && { company: params.company }),
-    //   ...(params.realm !== " " && { realms: params.realm }),
-    //   ...(params.campaign !== " " && { campaigns: params.campaign }),
-    //   ...(params.roles !== " " && { groups: params.roles }),
-    //   ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
-    // };
+    setState({ ...states, loading: true });
+    var parameter = {
+      ...(params.sortby !== " " && { order_by: params.sortby }),
+      ...(params.active !== " " && { active: params.active }),
+      ...(params.company !== " " && { company: params.company }),
+      ...(params.realm !== " " && { realms: params.realm }),
+      ...(params.campaign !== " " && { campaigns: params.campaign }),
+      ...(params.roles !== " " && { groups: params.roles }),
+      ...(params.hasCompany !== " " && { no_company: !params.hasCompany })
+    };
 
-    // get(
-    //   "http://5e0ea3d79576aa0014665fbe.mockapi.io/identity/location/list",
-    //   parameter
-    // ).then((res: any) => {
-    //   setState({
-    //     ...state,
-    //     userData: res.data,
-    //     filterlist: res.data,
-    //     paginateList: res.data,
-    //     loading: false
-    //   });
-    // });
-    setTimeout(() => {
-      return setState({
-        ...state,
-        userData: LocationData,
-        filterlist: LocationData,
-        paginateList: LocationData,
+    get("/identity/location/list", parameter).then((res: any) => {
+      setState({
+        ...states,
+        userData: res.data,
+        filterlist: res.data,
+        paginateList: res.data,
         loading: false
       });
-    }, 1000);
+    });
+    // setTimeout(() => {
+    //   return setState({
+    //     ...states,
+    //     userData: LocationData,
+    //     filterlist: LocationData,
+    //     paginateList: LocationData,
+    //     loading: false
+    //   });
+    // }, 1000);
   };
 
   const paginate = (from: any, to: any) => {
     setState({
-      ...state,
-      userData: state.paginateList.slice(from, to)
+      ...states,
+      userData: states.paginateList.slice(from, to)
     });
   };
 
@@ -178,10 +152,10 @@ function ManageLocation(props: any) {
           <div style={{ width: "100%" }}>
             <SearchBar
               title="Location"
-              userData={state.filterlist}
+              userData={states.filterlist}
               headers={["name", "slug", "uuid"]}
               active={true}
-              loading={state.loading}
+              loading={states.loading}
               link={true}
               pathnameData={{
                 firstLink: `/manage/locations/edit/`,
@@ -196,29 +170,29 @@ function ManageLocation(props: any) {
               sortBy={true}
               activeStatus={true}
               realm={false}
-              // realmData={state.realmsData}
+              // realmData={states.realmsData}
               company={false}
-              // companyData={state.companyData}
+              // companyData={states.companyData}
             />
 
-            {state.loading ? (
+            {states.loading ? (
               <TableLoader />
             ) : (
               <LocationTable
-                userData={state.userData}
+                userData={states.userData}
                 handleUpdated={handleUpdate}
-                innerLoading={state.innerLoading}
-                filterlist={state.filterlist}
+                innerLoading={states.innerLoading}
+                filterlist={states.filterlist}
                 headers={["Name", "Slug", "UUID", "Status", ""]}
               />
             )}
 
             <div style={{ width: "100%" }}>
               <Divider />
-              {Boolean(state.paginateList.length) && (
+              {Boolean(states.paginateList.length) && (
                 <Pagination
                   paginateFn={paginate}
-                  totalItems={state.paginateList.length}
+                  totalItems={states.paginateList.length}
                   itemsPerPage={6}
                 />
               )}
