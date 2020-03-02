@@ -2,17 +2,12 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core";
 import { TableLoader } from "common-components";
 import DNDCards from "../cards/DNDCards";
-
 import { styles } from "./styles";
-
-//MOCK DATA
-import { global, company } from "./Mock";
-
-// import { get } from "../../../../utils/api";
+import { get } from "utils/api";
 
 interface IProps {
   classes: any;
-  company: Array<Object>;
+  company: any;
 }
 
 interface IState {
@@ -31,8 +26,8 @@ const defaultState = {
     { uuid: 3, name: "First-names-sentence" },
     { uuid: 4, name: "First-names-questions" }
   ],
-  globalTestData: global,
-  companyTestData: company,
+  globalTestData: [],
+  companyTestData: [],
   activeData: []
 };
 class RRTest extends Component<IProps, IState> {
@@ -44,28 +39,28 @@ class RRTest extends Component<IProps, IState> {
     };
   }
 
-  // componentDidMount() {
-  // this.getAllData();
-  // }
+  componentDidMount() {
+    this.getAllData();
+  }
 
-  // getAllData = () => {
-  // this.setState({ loadingState: true });
-  // get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
-  //   .then(res => {
-  //     this.setState({ companyTestData: res.data });
-  //   })
-  //   .then(() => {
-  //     get(`/pitch/global/rapid-response/tests/`).then(globalRes => {
-  //       this.setState({
-  //         globalTestData: globalRes.data,
-  //         loadingState: false
-  //       });
-  //     });
-  //   })
-  //   .catch(err => {
-  //     alert("Failed to load data");
-  //   });
-  // };
+  getAllData = () => {
+    this.setState({ loadingState: true });
+    get(`/pitch/company/${this.props.company.slug}/rapid-response/tests/`)
+      .then((res: any) => {
+        this.setState({ companyTestData: res.data });
+      })
+      .then(() => {
+        get(`/pitch/global/rapid-response/tests/`).then((globalRes: any) => {
+          this.setState({
+            globalTestData: globalRes.data,
+            loadingState: false
+          });
+        });
+      })
+      .catch((err: any) => {
+        alert("Failed to load data");
+      });
+  };
 
   setActiveData = (data: any) => {
     this.setState({
