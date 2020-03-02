@@ -7,6 +7,7 @@ import SEO from "utils/seo";
 interface IProps {
   history?: any;
   params: any;
+  handleUpdateHeader: Function;
 }
 
 interface IState {
@@ -42,8 +43,8 @@ class ManageCompanies extends Component<IProps, IState> {
           company: res.data,
           loading: false
         });
-
         this.getCompanyData();
+        this.props.handleUpdateHeader(companyDetails);
       }
     );
   };
