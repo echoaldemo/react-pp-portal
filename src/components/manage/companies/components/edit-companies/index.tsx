@@ -51,8 +51,14 @@ class EditCompaniesComponent extends Component<IProps, IState> {
       <div>
         <BackButton text="Back to companies" to="/manage/companies" />
         <div className={classes.nameContainer}>
-          <p>{this.state.company.name}</p>
-          <StatusLabel status={this.state.company.active} />
+          {this.state.company.uuid !== undefined ? (
+            <>
+              <p>{this.state.company.name}</p>
+              <StatusLabel status={this.state.company.active} />
+            </>
+          ) : (
+            <p>{"Loading..."}</p>
+          )}
         </div>
         <Paper square={true} style={{ paddingTop: 15 }}>
           {this.state.company.uuid !== undefined ? (
