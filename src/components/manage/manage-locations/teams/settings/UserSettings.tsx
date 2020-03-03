@@ -12,9 +12,9 @@ import styles from "./TeamSettings.styles.js";
 interface Props {
   team: any;
   classes: any;
+  userList: any;
 }
 interface State {
-  userList: any;
   dataLoaded: boolean;
   userQueue: any;
   teamMembers: any;
@@ -25,8 +25,7 @@ class UserSettings extends Component<Props, State> {
     super(props);
 
     this.state = {
-      userList: [],
-      dataLoaded: true,
+      dataLoaded: false,
       userQueue: [],
       teamMembers: [],
       removeQueue: []
@@ -35,18 +34,12 @@ class UserSettings extends Component<Props, State> {
 
   async componentDidMount() {
     //get all users
-    const data = await get("/identity/user/manage/list/", {
-      editable: true,
-      limit: 1000
-    }).then((users: any) => {
-      this.setState({ userList: users.data.results });
-    });
     const data2 = await get(`/identity/user/manage/list/`, {
       team: this.props.team
     }).then((members: any) => {
       this.setState({ teamMembers: members.data.results });
     });
-    Promise.all([data, data2]).then(() => {
+    Promise.all([data2]).then(() => {
       this.setState({
         dataLoaded: true
       });
@@ -112,7 +105,8 @@ class UserSettings extends Component<Props, State> {
 
   render() {
     const { classes } = this.props;
-    const { userList, userQueue, dataLoaded } = this.state;
+    const { userQueue, dataLoaded } = this.state;
+    const { userList } = this.props;
     if (dataLoaded) {
       return (
         <React.Fragment>
