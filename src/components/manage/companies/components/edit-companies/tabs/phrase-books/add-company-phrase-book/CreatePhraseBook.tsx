@@ -6,6 +6,7 @@ import {
   SuccessModal
 } from "common-components";
 import { Dialog, Button } from "@material-ui/core";
+import { post } from "utils/api";
 
 const classes = {
   textField: {
@@ -66,20 +67,17 @@ export default class CreatePhraseBook extends Component<IProps, IState> {
   submitPhraseBook = async (e: any) => {
     this.setState({ loading: true });
     this.props.onClose();
-
-    // ACTUAL FUNCTION
-    // await createPhraseBook({
-    //   slug: this.props.companySlug,
-    //   name: this.state.phrase_name
-    // })
-    //   .then(result => {
-    //     this.setState({
-    //       loading: false
-    //     });
-    //   })
-    //   .then(() => {
-    //     this.setState({ createSuccess: true });
-    //   });
+    post(`/pitch/company/${this.props.companySlug}/phrases/`, {
+      name: this.state.phrase_name
+    })
+      .then((result: any) => {
+        this.setState({
+          loading: false
+        });
+      })
+      .then(() => {
+        this.setState({ createSuccess: true });
+      });
   };
 
   render() {
