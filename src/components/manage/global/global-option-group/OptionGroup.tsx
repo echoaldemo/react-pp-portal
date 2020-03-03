@@ -16,7 +16,7 @@ import {
 import { store, StateProvider } from "contexts/OptionGroupContext";
 import SEO from "utils/seo";
 import { get, remove, post, cancel } from "utils/api"; //eslint-disable-line
-import { menu, uuidv4 } from "./utils/const-var";
+import { menu } from "./utils/const-var";
 import "./style/style.scss";
 import GroupTable from "./components/GroupTable";
 import NewOptionGroup from "./components/NewOptionGroup";

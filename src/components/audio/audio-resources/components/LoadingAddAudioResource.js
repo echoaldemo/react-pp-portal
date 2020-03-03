@@ -11,15 +11,6 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 export default function LoadingAddAudioResource(props) {
   const [open, setOpen] = React.useState(true); // eslint-disable-line
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const themes = createMuiTheme({
     palette: {
       primary: {

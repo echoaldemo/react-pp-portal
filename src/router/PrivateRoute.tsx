@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useContext } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { Manage } from "../views";

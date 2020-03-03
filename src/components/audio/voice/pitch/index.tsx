@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useState } from "react";
 import {
   withWidth,
@@ -12,26 +13,20 @@ import {
   Typography
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-
 import Dropdown from "../../common-components/dropdown/Mobile";
-// import DropdownDesktop from "../../common-components/dropdown/Desktop";
 import Tabs from "../../common-components/tabs/Mobile";
 import TabsDesktop from "../../common-components/tabs/Desktop";
 import useStyles from "./styles";
 import Filter from "./pitch_audio/Filter";
 import Search from "./pitch_audio/Search";
 import Table from "./pitch_audio/Table";
-
 import Toast from "../../common-components/toast";
-
 import { TableLoader, HeaderLink } from "common-components";
-
 import UnrecordedCard from "../../common-components/cards/Unrecorded";
 import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
 import { get, patch, post } from "utils/api";
 import { store } from "contexts/ManageComponent";
-import { getAllList } from "utils/getList";
 
 interface IState {
   user: number;
@@ -102,7 +97,7 @@ interface Props {
   width: any;
 }
 const Pitch: React.FC<Props> = (props: any) => {
-  const { state, dispatch } = useContext(store);
+  const { state } = useContext(store);
   const [states, setStates] = useState<IState>({
     user: 1,
     asd: "asd",

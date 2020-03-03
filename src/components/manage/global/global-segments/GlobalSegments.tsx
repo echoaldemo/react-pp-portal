@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import NewSegment from "./components/NewSegment";
 import {
   Paper,
   Divider,
@@ -8,8 +7,6 @@ import {
   MenuItem,
   Typography
 } from "@material-ui/core";
-
-//Header
 import {
   HeaderLink,
   HeaderButton,
@@ -27,7 +24,6 @@ import XMLDialog from "./components/Form";
 import { Clear } from "@material-ui/icons";
 import CodeIcon from "@material-ui/icons/Code";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { GlobalSegmentsData } from "./GlobalSegmentsData";
 
 interface Props {}
 interface State {

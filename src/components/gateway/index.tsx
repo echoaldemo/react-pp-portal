@@ -17,7 +17,6 @@ import {
 import SEO from "utils/seo";
 import Content from "./components/Content";
 import { Card, Container, Header } from "./style";
-import { Campaign } from "./types";
 import { logout, typeChecker } from "auth/controllers/controller";
 import { loginChecker } from "auth/services/authService";
 import { store } from "contexts/ManageComponent";
