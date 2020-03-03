@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useContext } from "react";
 import { Card, Divider, CircularProgress } from "@material-ui/core";
 import {
@@ -28,19 +29,15 @@ const UserLanding = () => {
   const [activeUserData, setActiveUserData] = useState([]);
 
   const classes = useStyles();
-
-  // *** FETCHING DATA USING API UTIL
   useEffect(() => {
     setLoading(true);
     if (state.roles.length !== 0) {
       setLoading(false);
     }
   }, []);
-
   const paginate: Function = (from: any, to: any) => {
     setUserData(users.slice(from, to));
   };
-
   const editUser = (id: any) => {
     setLoadingModal(true);
     get(`/identity/user/manage/${id}`).then((activeUser: any) => {
@@ -49,8 +46,6 @@ const UserLanding = () => {
       setIsUserEdit(true);
     });
   };
-
-  //Needed this method for the filtertoolbar component
   const FilterApplyButton = (params: any) => {
     setLoading(true);
     const parameter = {

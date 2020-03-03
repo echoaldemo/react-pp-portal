@@ -13,7 +13,7 @@ import {
   materialTheme
 } from "../../styles/EditPhraseBookForm.style";
 
-import { post, remove } from "utils/api";
+import { remove } from "utils/api";
 
 interface Props {
   editData: Obj;

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component, useEffect, useState, useContext } from "react";
 import clsx from "clsx";
 import {
@@ -13,7 +14,6 @@ import {
   Typography
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-
 import Dropdown from "../../common-components/dropdown/Mobile";
 import DropdownDesktop from "../../common-components/dropdown/Desktop";
 import Tabs from "../../common-components/tabs/Mobile";
@@ -22,21 +22,15 @@ import useStyles from "./styles";
 import Filter from "./phrase_audio/Filter";
 import Search from "./phrase_audio/Search";
 import Table from "./phrase_audio/Table";
-
 import Toast from "../../common-components/toast";
 import MainAddNewAudio from "../../common-components/add-new-voice/MainAddNewVoice";
-// import Loader from '../../common-components/loader';
-
-//CARDS
 import UnrecordedCard from "../../common-components/cards/Unrecorded";
 import RerecordCard from "../../common-components/cards/Rerecord";
 import RecordedCard from "../../common-components/cards/Recorded";
-
 import { get, patch, post } from "utils/api";
 import { TableLoader, HeaderLink } from "common-components";
 import { IProps, IState } from "./interfacePhrase";
 import { store } from "contexts/ManageComponent";
-
 const Phrase: React.FC<IProps> = props => {
   const { state } = useContext(store);
   const [states, setStates] = useState<IState>({
@@ -104,7 +98,6 @@ const Phrase: React.FC<IProps> = props => {
     manage_user: [],
     selectedVersion: "",
     user_group: localStorage.getItem("type"),
-    //modal fix
     currentMode: null,
     isAudioLoadingRerec: false
   });
@@ -339,15 +332,6 @@ const Phrase: React.FC<IProps> = props => {
           }
         ]
       });
-
-      //UNCOMMENT FOR ACTUAL DATA
-      // get(
-      // 	`/pitch/global/audio/phrase-book/${value}/voice/${states.user_data.uuid}/unrecorded/`
-      // ).then((unrec) => {
-      // 	setStates({ ...states,
-      // 		unrecordedList: unrec.data
-      // 	});
-      // });
     } else {
       setStates({
         ...states,
@@ -368,16 +352,6 @@ const Phrase: React.FC<IProps> = props => {
           }
         ]
       });
-
-      //UNCOMMENT FOR ACTUAL DATA
-      // get(
-      // 	`/pitch/company/${states.campaignSelected}/audio/phrase-book/${value}/voice/${states.user_data
-      // 		.uuid}/unrecorded/`
-      // ).then((unrec) => {
-      // 	setStates({ ...states,
-      // 		unrecordedList: unrec.data
-      // 	});
-      // });
     }
   };
 
@@ -1082,31 +1056,6 @@ const Phrase: React.FC<IProps> = props => {
       }
     }
   };
-
-  // const savedAudio = () => {
-  //   setStates(
-  //     (prevState:any) => ({
-  //       openAddNew: !prevState.openAddNew
-  //     }),
-  //     // () => showSuccessBar()
-  //   );
-  // };
-
-  // const showSuccessBar = () => {
-  //   setStates({
-  //     ...states,
-  //     openToast: true,
-  //     toastType: "check",
-  //     message: `Successfully uploaded`,
-  //     vertical: "top",
-  //     horizontal: "right",
-  //     voiceSelected: "",
-  //     campaignSelected: "",
-  //     versionSelected: "",
-  //     unrecordedSelected: ""
-  //   });
-  // };
-
   const getUpdatedRecorded = (val: any) => {
     setStates({ ...states, recorded: val });
   };

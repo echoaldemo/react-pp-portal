@@ -85,10 +85,6 @@ const CreatePhraseBook = ({
       return v.toString(16);
     });
   };
-  const reset = () => {
-    setPhraseBookName("");
-  };
-
   return (
     <div>
       <LoadingModal

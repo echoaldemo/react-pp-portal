@@ -120,6 +120,7 @@ const UserCard: React.FC<Props> = ({ userList, addToQueue, members }) => {
                       </>
                     );
                   }
+                  return null;
                 })}
               </TableBody>
             </Table>

@@ -1,9 +1,7 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
-/*COMPONENTS*/
 import { TableLoader, BackButton, StatusLabel } from "common-components";
-import { MockCampaigns, MockRealmData } from "../components/contsVar";
-import { get, patch, post, cancel } from "../../../../utils/api";
-
+import { get, patch } from "utils/api";
 import RealmSettings from "./realmSettings";
 import slugify from "slugify";
 

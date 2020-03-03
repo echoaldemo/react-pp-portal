@@ -27,10 +27,7 @@ import Search from "../common-components/Search";
 import Toast from "../common-components/Toast";
 import Teams from "../teams/Teams";
 import NewTeam from "./addNewTeam";
-
-// import { get, patch, post, cancel, getGroups } from "../../../../utils/api";
-import { get, patch, post, cancel } from "utils/api"; // eslint-disable-line
-import { LocationEditData, TeamsData } from "../mockData";
+import { get, patch, post, cancel } from "utils/api";
 import styles from "./LocationSettings.styles.js";
 
 class LocationSettings extends Component {
@@ -63,20 +60,6 @@ class LocationSettings extends Component {
   }
 
   async componentDidMount() {
-    // this.setState({
-    //   location: LocationEditData,
-    //   originalData: {
-    //     name: LocationEditData.name,
-    //     leader: LocationEditData.leader,
-    //     active: LocationEditData.active
-    //   },
-    //   updateData: {
-    //     name: LocationEditData.name,
-    //     leader: LocationEditData.leader,
-    //     active: LocationEditData.active
-    //   },
-    //   locationsTeams: TeamsData
-    // });
     await get(`/identity/location/${this.props.match.params.uuid}/`).then(
       result => {
         this.setState({
