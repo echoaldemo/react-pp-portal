@@ -22,9 +22,10 @@ const styles = {
 };
 
 function renderInput(inputProps: any) {
-  const { InputProps, classes, ref, ...other } = inputProps;
+  const { leader, InputProps, classes, ref, ...other } = inputProps;
   return (
     <TextField
+      value={"hey"}
       color="primary"
       InputProps={{
         inputRef: ref,
@@ -116,6 +117,7 @@ interface Props {
   searchFunction: any;
   voices?: any;
   searchOption?: string;
+  leader?: any;
 }
 interface State {}
 class Search extends Component<Props, State> {
@@ -154,7 +156,7 @@ class Search extends Component<Props, State> {
   };
   render() {
     let popperNode: any;
-    const { classes }: any = this.props;
+    const { classes, leader }: any = this.props;
     return (
       <div style={{ width: "100%" }}>
         <Downshift
@@ -194,6 +196,7 @@ class Search extends Component<Props, State> {
                     onBlur,
                     onFocus,
                     onChange,
+                    leader,
                     clearSelection
                   },
                   //  getLabelProps({ shrink: true })

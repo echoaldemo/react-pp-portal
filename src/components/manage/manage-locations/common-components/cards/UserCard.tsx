@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,6 +15,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Group from "@material-ui/icons/Group";
 import useStyles from "./CardStyle.js";
+import { store } from "contexts/ManageComponent";
 
 interface Props {
   userList: any;
@@ -27,7 +28,8 @@ interface State {
 }
 
 const UserCard: React.FC<Props> = ({ userList, addToQueue, members }) => {
-  const [state, setState] = React.useState({ search: "", showSearch: false });
+  const [states, setState] = React.useState({ search: "", showSearch: false });
+  const { state } = useContext(store);
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -39,7 +41,7 @@ const UserCard: React.FC<Props> = ({ userList, addToQueue, members }) => {
           <IconButton
             aria-label="settings"
             onClick={() =>
-              setState({ ...state, showSearch: !state.showSearch })
+              setState({ ...states, showSearch: !states.showSearch })
             }
           >
             <SearchIcon />
@@ -57,36 +59,37 @@ const UserCard: React.FC<Props> = ({ userList, addToQueue, members }) => {
             placeholder="Search by first name, last name and username"
             className={classes.textField}
             InputProps={{ classes: { underline: classes.inputUnderline } }}
-            onChange={e => setState({ ...state, search: e.target.value })}
-            value={state.search}
+            onChange={e => setState({ ...states, search: e.target.value })}
+            value={states.search}
           />
           <div style={{ marginTop: "21px" }}>
             <Link
               className={classes.cancel}
-              onClick={() => setState({ ...state, search: "" })}
+              onClick={() => setState({ ...states, search: "" })}
             >
               Cancel
             </Link>
           </div>
         </div>
-        {state.search !== "" ? (
+        {states.search !== "" ? (
           <div className={classes.scroll}>
             <Table stickyHeader={true}>
               <TableBody>
-                {userList.forEach((user: any, i: number) => {
-                  if (state.search !== "") {
-                    if (
-                      user.username
-                        .toLowerCase()
-                        .includes(state.search.toLowerCase()) ||
-                      user.first_name
-                        .toLowerCase()
-                        .includes(state.search.toLowerCase()) ||
-                      user.last_name
-                        .toLowerCase()
-                        .includes(state.search.toLowerCase())
-                    ) {
-                      return (
+                {state.users.map((user: any, i: number) => {
+                  if (
+                    user.username
+                      .toLowerCase()
+                      .includes(states.search.toLowerCase()) ||
+                    user.first_name
+                      .toLowerCase()
+                      .includes(states.search.toLowerCase()) ||
+                    user.last_name
+                      .toLowerCase()
+                      .includes(states.search.toLowerCase())
+                  ) {
+                    return (
+                      <>
+                        <span>{user.name}</span>
                         <TableRow
                           onClick={() => addToQueue(user)}
                           key={i}
@@ -114,9 +117,10 @@ const UserCard: React.FC<Props> = ({ userList, addToQueue, members }) => {
                             />
                           </TableCell>
                         </TableRow>
-                      );
-                    }
+                      </>
+                    );
                   }
+                  return null;
                 })}
               </TableBody>
             </Table>

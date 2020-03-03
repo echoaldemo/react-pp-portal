@@ -20,8 +20,7 @@ import {
   Switch,
   SaveButton,
   CancelBtn,
-  constCreate,
-  MockRealm
+  constCreate
 } from "./components/contsVar";
 import { Add } from "@material-ui/icons";
 import ReamlTable from "./components/RealmTable";
@@ -42,11 +41,6 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
   useEffect(() => {
     getData();
   }, []);
-
-  // const cancel = () => {
-  //   // api cancel
-  //   console.log("cancel api");
-  // };
   const getData = () => {
     get("/identity/realm/list/", { order_by: "-datetime_modified" })
       .then((res: any) => {

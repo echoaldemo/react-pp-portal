@@ -3,7 +3,6 @@ import { SaveButton } from "common-components";
 import { InputField } from "../../utils/const-var";
 import { store } from "contexts/EditOptionGroupContext";
 import { post } from "utils/api"; // eslint-disable-line
-import { uuidv4 } from "../../utils/const-var";
 
 const AddOption = () => {
   const { state, dispatch } = useContext(store);

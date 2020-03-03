@@ -5,7 +5,6 @@ import {
   Grid,
   Button,
   CircularProgress,
-  FormHelperText,
   Select,
   MenuItem,
   Collapse,
@@ -73,7 +72,7 @@ class TeamSettings extends Component<Props, State> {
       team: [],
       userList: [],
       teamLeader: [],
-      dataLoaded: true,
+      dataLoaded: false,
       locationList: [],
       leaderList: [],
       teamName: "",
@@ -131,7 +130,7 @@ class TeamSettings extends Component<Props, State> {
       });
     });
     //get all users
-    const data7 = await get("/identity/user/manage/list/", {
+    const data7 = await get("/identity/user/manage/list/?limit=9999", {
       editable: true
     }).then((users: any) => {
       this.setState({ userList: users.data.results });
@@ -201,7 +200,7 @@ class TeamSettings extends Component<Props, State> {
             to={`/manage/locations/edit/${location.uuid}`}
           />
           <div className="title-container">
-            <Typography className="edit-title">team</Typography>
+            <Typography className="edit-title">{team.name}</Typography>
             &emsp;
             <StatusLabel status={false} />
           </div>
@@ -216,9 +215,8 @@ class TeamSettings extends Component<Props, State> {
                   lg={12}
                   className={classes.inputContainer}
                 >
-                  <FormControl error={this.state.nameError} fullWidth>
+                  <FormControl fullWidth>
                     <InputLabel
-                      className={classes.textField}
                       classes={{
                         root: classes.inputLabel,
                         shrink: classes.shrink,
@@ -230,35 +228,20 @@ class TeamSettings extends Component<Props, State> {
                       Team name
                     </InputLabel>
                     <Input
-                      // inputRef={nameInput => (this.nameInput = nameInput)}
-                      onChange={e => {
-                        if (e.target.value.length === 0) {
-                          this.setState({
-                            nameError: true
-                          });
-                        } else {
-                          this.setState({
-                            nameError: false
-                          });
-                        }
-                        this.setState({
-                          teamName: e.target.value
-                        });
-                        this.handleSaveBtn();
-                        this.setState({ collapse: true });
-                      }}
                       classes={{
                         root: classes.input,
                         underline: classes.textField
                       }}
-                      autoComplete="off"
                       id="name"
-                      defaultValue={team.name}
-                      required
+                      value={`${this.state.team.name}`}
+                      onChange={event => {
+                        var temp = this.state.team;
+                        temp.name = event.target.value;
+                        this.setState({
+                          team: temp
+                        });
+                      }}
                     />
-                    <FormHelperText>
-                      {this.state.nameError ? "A team name is required" : null}
-                    </FormHelperText>
                   </FormControl>
                 </Grid>
 
@@ -327,7 +310,7 @@ class TeamSettings extends Component<Props, State> {
                       }}
                       autoComplete="off"
                       id="uuid"
-                      value={team.uuid}
+                      value={`${this.state.location.uuid}`}
                       disabled={true}
                     />
                   </FormControl>
@@ -384,6 +367,11 @@ class TeamSettings extends Component<Props, State> {
                       data={this.state.leaderList}
                       searchFunction={this.selectLeader}
                       voices={this.state.voices}
+                      leader={
+                        selectedLeader
+                          ? `${selectedLeader.username} | ${selectedLeader.first_name} ${selectedLeader.last_name}`
+                          : ""
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -480,7 +468,10 @@ class TeamSettings extends Component<Props, State> {
             </div>
           </Paper>
 
-          <UserSettings team={this.props.match.params.uuid} />
+          <UserSettings
+            team={this.props.match.params.uuid}
+            userList={this.state.userList}
+          />
           <Toast
             toastType={"check"}
             open={this.state.openToast}

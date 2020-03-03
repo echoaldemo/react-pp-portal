@@ -5,7 +5,6 @@ import { Paper } from "@material-ui/core";
 import { withStyles } from "@material-ui/core";
 import { styles } from "./style";
 import { get } from "utils/api";
-import { company } from "components/manage/manage-campaigns/components/edit-campaigns/pitch/components/phrase-books/Mock";
 
 interface IProps {
   match: any;

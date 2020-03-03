@@ -10,7 +10,8 @@ const getAllList = dispatch => {
     get("/identity/campaign/list/"),
     get("/identity/group/list/"),
     get("/identity/team/list/"),
-    get("/identity/realm/list/")
+    get("/identity/realm/list/"),
+    get("/identity/location/list/")
   ]).then(function(values) {
     const userList = values[0].data.results;
     const companyList = values[1].data;
@@ -18,6 +19,7 @@ const getAllList = dispatch => {
     const roleList = values[3].data;
     const teamList = values[4].data;
     const realmList = values[5].data;
+    const locationList = values[6].data;
 
     dispatch({
       type: "manage-list",
@@ -27,7 +29,8 @@ const getAllList = dispatch => {
         campaignList,
         roleList,
         teamList,
-        realmList
+        realmList,
+        locationList
       }
     });
     return values;

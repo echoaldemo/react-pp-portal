@@ -169,14 +169,7 @@ class Filter extends Component<IProps, IState> {
     this.setState({ filterModal: false });
   };
   render() {
-    const {
-      classes,
-      campaigns,
-      versions,
-      filterData,
-      filtered,
-      refreshData
-    }: any = this.props;
+    const { classes, campaigns, versions, filterData }: any = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <Grid container>

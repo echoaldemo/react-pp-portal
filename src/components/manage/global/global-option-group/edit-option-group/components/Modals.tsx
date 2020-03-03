@@ -7,7 +7,7 @@ import {
   DeleteModal
 } from "common-components";
 import { Menu, MenuItem } from "@material-ui/core";
-import { Settings, DeleteOutline, Close } from "@material-ui/icons";
+import { Settings, DeleteOutline } from "@material-ui/icons";
 import AddOption from "./AddOption";
 import EditOption from "./EditOption";
 import { remove, cancel } from "utils/api"; //eslint-disable-line

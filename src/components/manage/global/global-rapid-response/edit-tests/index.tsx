@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import Header from "./components/Header";
 import MenuTabs from "./components/Tabs";
