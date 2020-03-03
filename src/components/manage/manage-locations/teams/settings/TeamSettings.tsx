@@ -73,7 +73,7 @@ class TeamSettings extends Component<Props, State> {
       team: [],
       userList: [],
       teamLeader: [],
-      dataLoaded: true,
+      dataLoaded: false,
       locationList: [],
       leaderList: [],
       teamName: "",
@@ -131,7 +131,7 @@ class TeamSettings extends Component<Props, State> {
       });
     });
     //get all users
-    const data7 = await get("/identity/user/manage/list/", {
+    const data7 = await get("/identity/user/manage/list/?limit=9999", {
       editable: true
     }).then((users: any) => {
       this.setState({ userList: users.data.results });
@@ -362,34 +362,17 @@ class TeamSettings extends Component<Props, State> {
                   className={classes.inputContainer}
                 >
                   <FormControl fullWidth disabled>
-                    <InputLabel
-                      classes={{
-                        root: classes.inputLabel,
-                        shrink: classes.shrink,
-                        focused: classes.focused
-                      }}
-                      htmlFor="status"
-                    >
-                      Location status
-                    </InputLabel>
-                  </FormControl>
-                </Grid>
-
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  lg={12}
-                  className={classes.inputContainer}
-                >
-                  <FormControl fullWidth disabled>
                     <Search
                       // setRef={this.setDownshift}
                       searchText="Search for team leader"
                       data={this.state.leaderList}
                       searchFunction={this.selectLeader}
                       voices={this.state.voices}
+                      leader={
+                        selectedLeader
+                          ? `${selectedLeader.username} | ${selectedLeader.first_name} ${selectedLeader.last_name}`
+                          : ""
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -486,7 +469,10 @@ class TeamSettings extends Component<Props, State> {
             </div>
           </Paper>
 
-          <UserSettings team={this.props.match.params.uuid} />
+          <UserSettings
+            team={this.props.match.params.uuid}
+            userList={this.state.userList}
+          />
           <Toast
             toastType={"check"}
             open={this.state.openToast}
