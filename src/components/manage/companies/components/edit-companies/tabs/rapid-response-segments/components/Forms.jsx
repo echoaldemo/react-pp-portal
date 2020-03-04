@@ -20,7 +20,7 @@ export default function XMLDialog(props) {
     setFont(data);
   };
   const handleSubmitForm = (data, label) => {
-    const SubmitData = { ...data, xml: xmlData[0] };
+    const SubmitData = { ...data, xml: xmlData };
     props.UpdateSegment(SubmitData, label);
   };
   const handleSubmitFormXMl = data => {

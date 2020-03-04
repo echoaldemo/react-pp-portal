@@ -59,7 +59,7 @@ class EditCompaniesComponent extends Component<IProps, IState> {
             <p>{"Loading..."}</p>
           )}
         </div>
-        <Paper square={true} style={{ paddingTop: 15 }}>
+        <Paper square={true}>
           {this.state.company.uuid !== undefined ? (
             <TabComponent
               companyData={this.state.company}

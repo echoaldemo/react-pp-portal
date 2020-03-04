@@ -1,7 +1,5 @@
 /* eslint-disable */
 import React, { Component } from "react";
-import SwapIcon from "@material-ui/icons/SwapHoriz";
-import DeleteIcon from "@material-ui/icons/Delete";
 // import NewSegment from "./components/NewSegment";
 import {
   Paper,
@@ -9,8 +7,7 @@ import {
   Snackbar,
   IconButton,
   Typography,
-  Dialog,
-  MenuItem
+  Dialog
 } from "@material-ui/core";
 
 //Header
@@ -23,19 +20,17 @@ import {
   LoadingModal,
   SuccessModal
 } from "common-components";
-
 import SegmentTable from "./components/SegmentTable";
-import { get, patch, cancel } from "utils/api"; // eslint-disable-line
+import { get, patch, post, remove, cancel } from "utils/api"; // eslint-disable-line
+import SEO from "utils/seo";
 import { Clear } from "@material-ui/icons";
-import VariableModal from "./components/VariableModal";
 import BackIcon from "@material-ui/icons/ChevronLeft";
+import VariableModal from "./components/VariableModal";
 import { Link } from "react-router-dom";
-
-interface IProps {
+interface Props {
   match: any;
 }
-
-interface IState {
+interface State {
   innerLoading: boolean;
   loading: boolean;
   paginateList: any;
@@ -44,7 +39,7 @@ interface IState {
   open: boolean;
   dataXML: string;
   error: any;
-  openSnackBar: any;
+  openSnackBar: boolean | string;
   openDelete: boolean;
   openLoading: boolean;
   openSuccess: boolean;
@@ -52,11 +47,10 @@ interface IState {
   searchData: any;
   segmentData: any;
   openLoading1: boolean;
-  openSuccess1: boolean;
+  label: String;
 }
-
-export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export default class RRSegments extends Component<Props, State> {
+  constructor(props: any) {
     super(props);
     this.state = {
       innerLoading: false,
@@ -75,26 +69,22 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
       searchData: [],
       segmentData: [],
       openLoading1: false,
-      openSuccess1: false
+      label: ""
     };
   }
 
   componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData = () => {
     this.setState({
       loading: true
     });
-    var arrVar: any = [];
+    var arrVar: any[] = [];
     get(
-      `/pitch/global/rapid-response/segments/${this.props.match.params.uuid}`
+      `/pitch/company/${this.props.match.params.slug}/rapid-response/segments/${this.props.match.params.uuid}/`
     ).then((res: any) => {
       for (let [key, value] of Object.entries(res.data.variables)) {
         arrVar.push({ name: key, key: `{{global.${key}}}`, values: value });
       }
-      this.setState({
+      return this.setState({
         segmentVariables: arrVar,
         innerLoading: false,
         loading: false,
@@ -104,9 +94,9 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
         segmentData: res.data
       });
     });
-  };
+  }
 
-  paginate = (from: number, to: number) => {
+  paginate = (from: any, to: any) => {
     this.setState({
       segmentVariables: this.state.paginateList.slice(from, to)
     });
@@ -144,13 +134,14 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
     });
   };
 
-  UpdateSegment = (data: any, label: string) => {
+  UpdateSegment = (data: any, label: any) => {
     this.setState({
       data,
-      openLoading1: true
+      openLoading1: true,
+      label
     });
-    var newVar: any = new Object(this.state.segmentData.variables);
-    newVar[data.name] = data.values;
+    var newVar = new Object(this.state.segmentData.variables);
+    (newVar as any)[data.name] = data.values;
     var submitdata = {
       name: this.state.segmentData.name,
       active: this.state.segmentData.active,
@@ -160,7 +151,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
     };
     if (label === "edit") {
       patch(
-        `/pitch/global/rapid-response/segments/${this.state.segmentData.uuid}/`,
+        `/pitch/company/${this.props.match.params.slug}/rapid-response/segments/${this.props.match.params.uuid}/`,
         submitdata
       )
         .then((res: any) => {
@@ -171,7 +162,6 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
               open: false,
               openLoading1: false
             });
-            this.fetchData();
           }
         })
         .catch((err: any) => {
@@ -180,7 +170,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
         });
     } else if (label === "create") {
       patch(
-        `/pitch/global/rapid-response/segments/${this.state.segmentData.uuid}/`,
+        `/pitch/company/${this.props.match.params.slug}/rapid-response/segments/${this.props.match.params.uuid}/`,
         submitdata
       )
         .then((res: any) => {
@@ -191,7 +181,6 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
               open: false,
               openLoading1: false
             });
-            this.fetchData();
           }
         })
         .catch((err: any) => {
@@ -246,11 +235,6 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
     });
     this.componentDidMount();
   };
-  handleCloseSucess1 = () => {
-    this.setState({
-      openSuccess1: false
-    });
-  };
 
   handleDelete = () => {
     //code here
@@ -258,8 +242,8 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
       openDelete: false,
       openLoading: true
     });
-    var newVar: any = new Object(this.state.segmentData.variables);
-    delete newVar[this.state.data.name];
+    var newVar = new Object(this.state.segmentData.variables);
+    delete (newVar as any)[this.state.data.name];
     var submitdata = {
       name: this.state.segmentData.name,
       active: this.state.segmentData.active,
@@ -267,10 +251,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
       xml: this.state.segmentData.xml,
       variables: newVar
     };
-    patch(
-      `/pitch/global/rapid-response/segments/${this.state.segmentData.uuid}/`,
-      submitdata
-    )
+    patch(`/pitch/global/segments/${this.state.segmentData.uuid}/`, submitdata)
       .then((res: any) => {
         if (res.status !== 400) {
           this.setState({
@@ -292,9 +273,12 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
           margin: "0 auto"
         }}
       >
+        <SEO title="Edit Segement Variables" />
         <>
           <Link
-            to={"/manage/global-rapid-response/segments"}
+            to={`/manage/companies/edit/${
+              this.props.match.params.slug
+            }/${localStorage.getItem("companyuuid")}/`}
             style={{
               display: "flex",
               alignItems: "center",
@@ -305,9 +289,15 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
               marginBottom: 20
             }}
           >
-            <BackIcon /> Back to Rapid Response Segments
+            <BackIcon /> Back to Edit Company
           </Link>
-          <div className="header-container" style={{ paddingBottom: 30 }}>
+          <div
+            style={{
+              paddingBottom: 30,
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
             <Typography variant="h5">Segment Variables</Typography>
             <HeaderButton
               openFunction={
@@ -332,44 +322,8 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                     userData={this.state.searchData}
                     headers={["key", "values", "name"]}
                     loading={this.state.loading}
-                    setActiveDataMethod={this.setActiveDataMethod}
-                    settings={
-                      <>
-                        <MenuItem
-                          onClick={() => this.setState({ open: true })}
-                          style={{
-                            color: "#777777",
-                            width: 250,
-                            paddingTop: 0,
-                            paddingBottom: 0
-                          }}
-                        >
-                          <SwapIcon />
-                          <Typography style={{ marginLeft: 40 }}>
-                            Change Values
-                          </Typography>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => this.setState({ openDelete: true })}
-                          style={{
-                            color: "#777777",
-                            width: 250,
-                            paddingTop: 0,
-                            paddingBottom: 0
-                          }}
-                        >
-                          <DeleteIcon />
-                          <Typography style={{ marginLeft: 40 }}>
-                            Delete
-                          </Typography>
-                        </MenuItem>
-                      </>
-                    }
                   />
                 </div>
-
-                <Divider />
-
                 <Dialog
                   fullWidth={true}
                   maxWidth="md"
@@ -384,16 +338,14 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                 </Dialog>
                 <LoadingModal
                   open={this.state.openLoading1}
-                  text={`${this.state.data.name}`}
+                  text={`One moment. We're ${
+                    this.state.label === "create"
+                      ? "creating the new variable..."
+                      : "updating the variable..."
+                  } `}
                   cancelFn={this.handleCancel}
                 />
-
-                {/* <Dialog open={this.state.openSuccess1}>
-                  <SuccessModal
-                    text={`You have added new varaible “${this.state.data.name}”`}
-                    closeFn={this.handleCloseSucess1}
-                  />
-                </Dialog> */}
+                <Divider />
                 {this.state.loading ? (
                   <div style={{ height: 600, overflow: "hidden" }}>
                     <TableLoader />
@@ -403,6 +355,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                     {this.state.segmentVariables.length !== 0 ? (
                       <>
                         <SegmentTable
+                          closeF={() => null}
                           openDelete={this.openDelete}
                           handleClickOpen={this.handleClickOpen}
                           userData={this.state.segmentVariables}
@@ -452,7 +405,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                         </div>
                       </>
                     ) : (
-                      <div style={{ width: "100%", height: 600 }}>
+                      <div style={{ width: "100%", height: "100%" }}>
                         <div style={{ height: 70 }}></div>
                         <Divider />
                         <div

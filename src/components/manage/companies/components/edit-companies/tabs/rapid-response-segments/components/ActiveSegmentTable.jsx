@@ -19,7 +19,7 @@ import {
   ListItemIcon,
   ListItemText
 } from "@material-ui/core";
-// import { get } from "../../../../../utils/api";
+import { get } from "utils/api";
 class ActiveSegmentTable extends PureComponent {
   constructor(props) {
     super(props);
@@ -31,9 +31,6 @@ class ActiveSegmentTable extends PureComponent {
 
   getFirst = n => {
     var x = n.firstChild;
-    // while (x.nodeType != 1) {
-    //   x = x.nextSibling;
-    // }
     return x.parentNode.nodeName;
   };
 
@@ -53,7 +50,7 @@ class ActiveSegmentTable extends PureComponent {
     return result;
   };
 
-  onDragEnd = result => {
+  onDragEnd = (result, reorder, move) => {
     const { source, destination } = result;
 
     // dropped outside the list
@@ -87,7 +84,6 @@ class ActiveSegmentTable extends PureComponent {
         selected: result.droppable2
       });
     }
-
     // const column = this.state.
   };
 
@@ -97,49 +93,6 @@ class ActiveSegmentTable extends PureComponent {
         <CardHeader title="Active segments" />
         <CardBody>
           {this.state.globalSegments.length !== 0 ? (
-            // <AsyncTable
-            //   tableData={this.props.globalSegments}
-            //   render={(list, { row, cell }) => {
-            //     return list.map(item => (
-            //       <>
-            //         {item.active ? (
-            //           <TableRow className={row} key={item.id}>
-            //             <TableCell className={cell}>
-            //               <Grid container spacing={3}>
-            //                 <Grid item>
-            //                   <Grid container>
-            //                     <Grid item xs={12}>
-            //                       <Typography>{item.name}</Typography>
-            //                     </Grid>
-            //                     <Grid item xs={12}>
-            //                       <Typography
-            //                         variant="caption"
-            //                         style={{
-            //                           color: "#a3a3a3",
-            //                           textTransform: "capitalize"
-            //                         }}
-            //                       >
-            //                         {this.getRootNode(item.xml)}
-            //                       </Typography>
-            //                     </Grid>
-            //                   </Grid>
-            //                 </Grid>
-            //               </Grid>
-            //             </TableCell>
-            //             <TableCell
-            //               className={cell}
-            //               style={{ textAlign: "right" }}
-            //             >
-            //               <IconButton style={{ padding: 0 }}>
-            //                 <SettingsIcon style={{ fontSize: 19 }} />
-            //               </IconButton>
-            //             </TableCell>
-            //           </TableRow>
-            //         ) : null}
-            //       </>
-            //     ));
-            //   }}
-            // />
             <DragDropContext onDragEnd={this.onDragEnd}>
               <Droppable droppableId="droppable">
                 {provided => (

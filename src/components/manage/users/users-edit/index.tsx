@@ -283,6 +283,8 @@ function Edit({ open, setOpen, data, update }: EditProps) {
             return setErrorMessage(err.response.data.groups[0]);
           } else if (err.response.data.company) {
             return setErrorMessage(err.response.data.company[0]);
+          } else if (err.response.data.username) {
+            return setErrorMessage(err.response.data.username[0]);
           }
         });
     }
