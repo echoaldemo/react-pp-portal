@@ -273,6 +273,7 @@ function Edit({ open, setOpen, data, update }: EditProps) {
       put(`/identity/user/manage/${user.uuid}/`, data)
         .then((res: any) => {
           setMessage(`You have updated user ${user.username}`);
+          localStorage.setItem("user", res.data.first_name);
           setLoading(false);
           setSuccess(true);
         })
