@@ -59,7 +59,7 @@ const Realms: React.FC<RealmProps> = ({ history }) => {
     setLoading(true);
     var parameter = {
       ...(params.sortby !== " " && { order_by: params.sortby }),
-      ...(params.active !== " " && { is_active: params.active }),
+      ...(params.active !== " " && { active: params.active }),
       ...(params.company !== " " && { company: params.company }),
       ...(params.campaign !== " " && { campaigns: params.campaign }),
       ...(params.roles !== " " && { groups: params.roles }),

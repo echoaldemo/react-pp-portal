@@ -8,6 +8,7 @@ import {
   createMuiTheme,
   withStyles
 } from "@material-ui/core/styles";
+import styled from "styled-components";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
@@ -15,7 +16,7 @@ import Search from "../common-components/Search";
 import { Grid, Button } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   dialogTitle: {
     backgroundColor: "#5f7d98",
     color: "#ffff"
@@ -66,9 +67,9 @@ const useStyles = makeStyles({
     fontSize: 30
   },
   dialogRoot: {
-    zIndex: 0
+    zIndex: "0 !important"
   }
-});
+}));
 
 const CssTextField = withStyles({
   root: {
@@ -131,12 +132,12 @@ const theme = createMuiTheme({
   }
 });
 
-export default function AddNewTeam(props: any) {
+export default function AddNewTeam(props) {
   const classes = useStyles();
   const [teamName, setTeamName] = useState("");
   const [leader, setLeader] = useState("");
 
-  function selectedVoice(val: any) {
+  function selectedVoice(val) {
     setLeader(val.uuid);
   }
   return (
