@@ -34,6 +34,7 @@ import TeamSettings from "components/manage/manage-locations/teams/settings/Team
 import GlobalSegments from "components/manage/global/global-segments/GlobalSegments";
 import GlobalRapidResponse from "components/manage/global/global-rapid-response";
 import RRSegments from "components/manage/global/global-segments/rr-segment-variable";
+import RRCompanySegments from "components/manage/companies/components/edit-companies/tabs/rapid-response-segments/variables/index.tsx";
 import GlobalRRSettingsDashboard from "components/manage/global/global-rapid-response/edit-tests";
 import GlobalRRSegments from "components/manage/global/global-rapid-response-segments";
 import GlobalRRSegmentsVarialble from "components/manage/global/global-rapid-response-segments/rr-segment-variable";
@@ -129,6 +130,11 @@ export default function Routes() {
             path={`/manage/edit/router/:campaign_uuid/:router_uuid`}
             component={RouterSettings}
           />
+          <PrivateRoute
+            path={`/manage/companies/edit/new/:uuid`}
+            component={RouterSettings}
+          />
+
           {/* end of manage/campaign routes */}
           {/* manage/companies */}
           <PrivateRoute exact path="/manage/companies" component={Companies} />
@@ -136,6 +142,11 @@ export default function Routes() {
             exact
             path="/manage/companies/edit/:slug/:uuid"
             component={EditCompanies}
+          />
+          <PrivateRoute
+            exact
+            path="/manage/companies/edit/:slug/:uuid/segments"
+            component={RRCompanySegments}
           />
           {/* end manage/companies */}
           <PrivateRoute exact path="/manage/did-pool" component={DidPool} />

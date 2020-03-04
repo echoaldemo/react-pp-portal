@@ -430,7 +430,7 @@ export default class GRapidRSegmentsVariable extends Component<IProps, IState> {
                             />
                             <LoadingModal
                               open={this.state.openLoading}
-                              text={`${this.state.data.name}`}
+                              text={`One moment. We're removing the “${this.state.data.name}” variable...`}
                               cancelFn={this.handleCancel}
                             />
 

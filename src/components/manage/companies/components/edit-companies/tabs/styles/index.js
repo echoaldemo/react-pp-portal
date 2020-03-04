@@ -25,7 +25,8 @@ export const tabs = makeStyles(() => ({
   tabsContainer: {
     borderBottom: "solid 2px #F1F1F1",
     width: "95%",
-    margin: "0 auto"
+    margin: "0 auto",
+    paddingTop: "15px"
   },
   panelContainer: {
     minHeight: 600

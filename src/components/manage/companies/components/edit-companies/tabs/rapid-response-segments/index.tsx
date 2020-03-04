@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { get, patch, remove, post } from "../../../../utils/api";
+import { get, patch, post, remove } from "utils/api";
 import {
   Paper,
   Divider,
@@ -44,7 +44,7 @@ interface IState {
   data: Array<Object> | string;
   dataXML: any;
   error: boolean | null;
-  openSnackBar: boolean;
+  openSnackBar: any;
   segmentData: Array<Object>;
   globalSegments: Array<Object>;
   activeData: any;
@@ -67,7 +67,7 @@ export default class RRSegments extends Component<IProps, IState> {
       data: [],
       dataXML: "",
       error: null,
-      openSnackBar: false,
+      openSnackBar: "",
       segmentData: [],
       globalSegments: [],
       activeData: [],
@@ -140,51 +140,50 @@ export default class RRSegments extends Component<IProps, IState> {
         this.setState({
           error: null
         });
-        // var submitdata = {
-        //   name: data.name,
-        //   active: data.active,
-        //   type: data.type,
-        //   xml: data.xml,
-        //   variables: data.variables
-        // };
+        var submitdata = {
+          name: data.name,
+          active: data.active,
+          type: data.type,
+          xml: data.xml,
+          variables: data.variables
+        };
         if (label === "edit") {
-          // patch(
-          //   `/pitch/company/${this.props.company.slug}/rapid-response/segments/${data.uuid}/`,
-          //   submitdata
-          // )
-          //   .then(res => {
-          //     if (res.status !== 400) {
-          //       this.setState({
-          //         openSnackBar: "Segment Updated!",
-          //         loading: true,
-          //         open: false
-          //       });
-          //       this.fetchData();
-          //     }
-          //   })
-          //   .catch(err => {
-          //     if (err) console.log(err);
-          //     return this.showErrorMessage("Error Updating! Please Try Again");
-          //   });
+          patch(
+            `/pitch/company/${this.props.company.slug}/rapid-response/segments/${data.uuid}/`,
+            submitdata
+          )
+            .then((res: any) => {
+              if (res.status !== 400) {
+                this.setState({
+                  openSnackBar: "Segment Updated!",
+                  loading: true,
+                  open: false
+                });
+              }
+            })
+            .catch((err: any) => {
+              if (err) console.log(err);
+              return this.showErrorMessage("Error Updating! Please Try Again");
+            });
         } else if (label === "create") {
-          // post(
-          //   `/pitch/company/${this.props.company.slug}/rapid-response/segments/`,
-          //   submitdata
-          // )
-          //   .then(res => {
-          //     if (res.status !== 400) {
-          //       this.setState({
-          //         openSnackBar: "Segment Created!",
-          //         loading: true,
-          //         open: false
-          //       });
-          //       this.fetchData();
-          //     }
-          //   })
-          //   .catch(err => {
-          //     if (err) console.log(err);
-          //     return this.showErrorMessage("Error Creating! Please Try Again");
-          //   });
+          post(
+            `/pitch/company/${this.props.company.slug}/rapid-response/segments/`,
+            submitdata
+          )
+            .then((res: any) => {
+              if (res.status !== 400) {
+                this.setState({
+                  openSnackBar: "Segment Created!",
+                  loading: true,
+                  open: false
+                });
+                this.componentDidMount();
+              }
+            })
+            .catch((err: any) => {
+              if (err) console.log(err);
+              return this.showErrorMessage("Error Creating! Please Try Again");
+            });
         }
       }
     } else {
@@ -199,93 +198,27 @@ export default class RRSegments extends Component<IProps, IState> {
   };
 
   componentDidMount() {
-    // this.setState({});
     if (!this.state.company) {
-      // get(`/identity/company/${this.props.company.uuid}/`).then(res => {
-      //   this.setState({
-      //     company: res.data
-      //   });
-      // });
+      get(`/identity/company/${this.props.company.uuid}/`).then((res: any) => {
+        this.setState({
+          company: res.data
+        });
+      });
     }
 
     Promise.all([
-      // get(`/pitch/company/${this.props.company.slug}/rapid-response/segments/`),
-      // get(`/pitch/global/rapid-response/segments/`)
+      get(`/pitch/company/${this.props.company.slug}/rapid-response/segments/`),
+      get(`/pitch/global/rapid-response/segments/`)
     ]).then(segments => {
       this.setState({
-        segments: [
-          {
-            active: false,
-            company: "133f0be0-f92d-11e9-bd51-0242ac110014",
-            name: "a",
-            slug: "a",
-            type: "failures",
-            uuid: "878ab358-0a73-11ea-82eb-0242ac110005",
-            variable: {},
-            xml: "<nodes/>"
-          }
-        ],
-        segmentData: [
-          {
-            active: false,
-            company: "133f0be0-f92d-11e9-bd51-0242ac110014",
-            name: "a",
-            slug: "a",
-            type: "failures",
-            uuid: "878ab358-0a73-11ea-82eb-0242ac110005",
-            variable: {},
-            xml: "<nodes/>"
-          }
-        ],
-        filterList: [
-          {
-            active: false,
-            company: "133f0be0-f92d-11e9-bd51-0242ac110014",
-            name: "a",
-            slug: "a",
-            type: "failures",
-            uuid: "878ab358-0a73-11ea-82eb-0242ac110005",
-            variable: {},
-            xml: "<nodes/>"
-          }
-        ],
-        globalSegments: [
-          {
-            active: true,
-            company: null,
-            name: "Generic Failures",
-            slug: "generic-failures",
-            type: "failures",
-            uuid: "a279ae2c-7866-11e7-83d7-02420a000608",
-            variable: {
-              3: "0",
-              fff: "asd",
-              xml:
-                '<failures>\n  <prospect-audio namespace="prospect" key="failure-1">I don\'t have time for this!</prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-2">\n        Sorry, getting on the elevator. I will call back, I promise.\n    </prospect-audio>\n  <prospect-audio namespace="prospect" key="failure-3">You guys suck, stop calling me!</prospect-audio>\n</failures>'
-            }
-          }
-        ],
+        segments: segments[0].data,
+        segmentData: segments[0].data,
+        filterList: segments[0].data,
+        globalSegments: segments[1].data,
         innerLoading: false,
         loading: false
       });
     });
-    // get(
-    //   `/pitch/company/${this.props.match.params.campaign_slug}/rapid-response/segments/`
-    // ).then(res => {
-    //   this.setState({
-    //     segments: res.data,
-    //     segmentData: res.data,
-
-    //     filterList: res.data
-    //   });
-    // });
-    // get(`/pitch/global/rapid-response/segments/`).then(res => {
-    //   this.setState({
-    // globalSegments: res.data,
-    // innerLoading: false,
-    // loading: false
-    //   });
-    // });
   }
 
   closeError = () => {
@@ -323,21 +256,20 @@ export default class RRSegments extends Component<IProps, IState> {
     this.componentDidMount();
   };
   handleDelete = () => {
-    //code here
     this.setState({
       openDelete: false,
       openLoading: true
     });
-    // remove(
-    //   `/pitch/company/${this.props.company.slug}/rapid-response/segments/${this.state.activeData.uuid}`
-    // )
-    //   .then(() => {
-    //     this.setState({
-    //       openSuccess: true,
-    //       openLoading: false
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
+    remove(
+      `/pitch/company/${this.props.company.slug}/rapid-response/segments/${this.state.activeData.uuid}`
+    )
+      .then(() => {
+        this.setState({
+          openSuccess: true,
+          openLoading: false
+        });
+      })
+      .catch((err: any) => console.log(err));
   };
 
   saveActiveSegment = (data: any) => {
@@ -414,7 +346,9 @@ export default class RRSegments extends Component<IProps, IState> {
                                     </Typography>
                                   </MenuItem>
                                   <MenuItem
-                                    // onClick={handleClose}
+                                    onClick={() => {
+                                      window.location.href = `/manage/companies/edit/${this.props.company.slug}/${this.state.activeData.uuid}/segments`;
+                                    }}
                                     style={{
                                       color: "#777777",
                                       width: 250,
@@ -459,8 +393,8 @@ export default class RRSegments extends Component<IProps, IState> {
                           </Dialog>
                           <Dialog open={this.state.openLoading}>
                             <LoadingModal
-                              open={this.state.loading}
-                              text={`${this.state.activeData.name}`}
+                              open={this.state.openLoading}
+                              text={`One moment. We're removing segment ${this.state.activeData.name}`}
                               cancelFn={this.handleCancel}
                             />
                           </Dialog>
@@ -468,7 +402,7 @@ export default class RRSegments extends Component<IProps, IState> {
                           <Dialog open={this.state.openSuccess}>
                             <SuccessModal
                               open={this.state.openSuccess}
-                              text={`You have removed “${this.state.activeData.name}” from Company Segments`}
+                              text={`You have removed "${this.state.activeData.name}" from Company Segments`}
                               closeFn={this.handleCloseSucess}
                             />
                           </Dialog>
