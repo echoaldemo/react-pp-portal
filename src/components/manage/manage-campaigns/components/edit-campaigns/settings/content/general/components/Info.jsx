@@ -24,7 +24,7 @@ export default function Info() {
           open: true,
           severity: "success",
           message: "Campaign was deleted!",
-          onClick: () => history.push("/manage/campaigns")
+          handlerClickBtn: () => history.push("/manage/campaigns")
         })
       )
       .catch(() => {
@@ -32,7 +32,7 @@ export default function Info() {
           open: true,
           severity: "error",
           message: "Oops!, Something went wrong!",
-          onClick: () => setAlert({ ...alert, open: false })
+          handlerClickBtn: () => setAlert({ ...alert, open: false })
         })
       })
   }
@@ -53,16 +53,3 @@ export default function Info() {
     </React.Fragment>
   )
 }
-
-// {
-//   /* <DeleteModal
-// 				open={openDeleteModal}
-// 				header="Delete Campaign"
-// 				name={campaignDetails.name}
-// 				msg="campaign"
-// 				closeFn={handleCloseDeleteModal}
-// 				delFn={() => {
-// 					deleteCompany();
-// 				}}
-// 			/> */
-// }

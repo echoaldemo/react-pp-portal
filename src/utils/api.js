@@ -47,13 +47,11 @@ const get = (endpoint, query) => {
 
 //post method
 const post = (endpoint, data) =>
-  axios
-    .post(`${baseUrl}${endpoint}`, data, {
-      cancelToken: new CancelToken(function executor(c) {
-        cancel = c
-      })
+  axios.post(`${baseUrl}${endpoint}`, data, {
+    cancelToken: new CancelToken(function executor(c) {
+      cancel = c
     })
-    .catch(res => res)
+  })
 
 //patch method
 const patch = (endpoint, data) =>

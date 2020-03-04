@@ -34,28 +34,14 @@ const DropdownIcon = () => {
 }
 
 const EditForm = () => {
-  const {
-    state,
-    handleSaveCampaignDetails,
-    setOpenModal,
-    getCampaign
-  } = useContext(IdentityContext)
+  const { state, handleSaveCampaignDetails, setOpenModal } = useContext(
+    IdentityContext
+  )
   const { campaignRealms, campaignDetails, realms, companies } = state
 
   const [formState, setFormState] = useState(campaignDetails)
   const [errMsg, setErrMsg] = useState({})
   const [addRealms, setAddRealms] = useState(campaignRealms)
-
-  useEffect(() => {
-    let path = window.location.pathname
-    let splitedPath = path.split("/")
-    let uuid = splitedPath[5]
-
-    if (realms.length > 0) {
-      //let campaign = JSON.parse(localStorage.getItem("campaignData"))
-      getCampaign(uuid)
-    }
-  }, [realms])
 
   useEffect(() => {
     if ("uuid" in campaignDetails) setFormState(campaignDetails)

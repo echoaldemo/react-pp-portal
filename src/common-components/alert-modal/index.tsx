@@ -16,13 +16,13 @@ import {
 interface Props {
   open: boolean
   severity: string
-  showBtn: boolean
-  textBtn: string
+  showBtn?: boolean
+  textBtn?: string
   message: string
-  handlerClickBtn: (e: React.SyntheticEvent<HTMLButtonElement>) => void
+  handlerClickBtn?: (e: React.SyntheticEvent<HTMLButtonElement>) => void
 }
 
-const AlertModal: React.FC<Props> = ({ open, severity, message, showBtn, textBtn, handlerClickBtn }) => {
+const AlertModal: React.FC<Props> = ({ open, severity, message, showBtn, textBtn, handlerClickBtn}) => {
 
   interface Icons {
     [loading:string]: React.ReactNode,
