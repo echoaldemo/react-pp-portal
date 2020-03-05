@@ -39,18 +39,14 @@ const ModalDetails: React.FC <Props> = ({ data, onClose}) => {
                     baseField[element][Object.keys(baseField[element])[0]]
                   ) ? (
                     <>
-                      {baseField[element][
-                        Object.keys(baseField[element])[0]
-                      ].map( (e: any) => (
+                      { baseField[element][ Object.keys(baseField[element])[0] ].map( (e: any) => (
                         <Grid
                           container
-                          style={{
-                            paddingBottom: 10
-                          }}
-                        >
-                          {JSON.parse(JSON.stringify(e[Object.keys(e)[0]]))}
+                          style={{ paddingBottom: 10 }} >
+                            {JSON.parse(JSON.stringify(e[Object.keys(e)[0]]))}
                         </Grid>
-                      ))}
+                        ))
+                      }
                     </>
                   ) : (
                     <>
@@ -71,7 +67,7 @@ const ModalDetails: React.FC <Props> = ({ data, onClose}) => {
               </Grid>
             )}
 
-            {Object.keys(originalBaseField).length > 0 ? (
+            {Object.keys(originalBaseField).length > 0 && (
               <>
                 <Grid item xs={4} lg={4} md={4}>
                   <b>Old {element}:</b>
@@ -86,11 +82,7 @@ const ModalDetails: React.FC <Props> = ({ data, onClose}) => {
                       {originalBaseField[element][
                         Object.keys(originalBaseField[element])[0]
                       ].map((e: any) => (
-                        <Grid
-                          container
-                          style={{
-                            paddingBottom: 10
-                          }}>
+                        <Grid style={{ paddingBottom: 10 }} container>
                           {JSON.parse(JSON.stringify(e[Object.keys(e)[0]]))}
                         </Grid>
                       ))}
@@ -106,7 +98,7 @@ const ModalDetails: React.FC <Props> = ({ data, onClose}) => {
                   )}
                 </Grid>
               </>
-            ) : null}
+            )}
           </Grid>
         ))}
       </React.Fragment>

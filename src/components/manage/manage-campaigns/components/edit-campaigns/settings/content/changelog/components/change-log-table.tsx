@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {AsyncTable} from 'common-components'
+import {AsyncTable, TableNoResult} from 'common-components'
 import {TableRow, TableCell} from '@material-ui/core'
 
 const classes = {
@@ -19,18 +19,12 @@ interface Props {
 const ChangeLogTable : React.FC < Props > = ({tableData, setActiveData}) => {
     const NoResult = () => {
         return (
-            <div
-                style={{
-                borderTop: 'solid 1px #eee',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: 500
-            }}>
-                <div>
-                    <h3 style={{ color: '#777' }}>No change log is created yet</h3>
-                </div>
-            </div>
+          <TableNoResult
+									headerText="Change log"
+									mainMessage="No change log is created yet"
+									subMessage=""
+									renderButton={ <></>}
+								/>
         )
     }
 

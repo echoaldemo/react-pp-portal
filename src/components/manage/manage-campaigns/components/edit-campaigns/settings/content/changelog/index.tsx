@@ -3,7 +3,7 @@ import {IdentityContext} from "contexts/IdentityProvider"
 import {post} from "utils/api"
 
 import LogsFilter from './logs-filter';
-import { Modal } from 'common-components';
+import { Modal, TableLoader } from 'common-components';
 import ChangeLogTable from './components/change-log-table'
 import ModalDetails from './components/modal-details';
 
@@ -14,6 +14,8 @@ const ChangeLog = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const { state } = useContext(IdentityContext);
 	const {campaignDetails } = state
+
+	console.log(state)
 
 	const handleFilterUpdate = (data: any) => {
 		setData(data);
@@ -48,18 +50,27 @@ const ChangeLog = () => {
 
 	return (
 		<div>
-			<LogsFilter
-				data={data}
-				originalData={origData}
-				handleFilterUpdate={handleFilterUpdate}
-				modalFunc={handleActiveData}
-			/>
-			<ChangeLogTable tableData={data} setActiveData={handleActiveData} />
-			{activeData ? (
-				<Modal open={openModal} title="Change Details" onClose={handleCloseModal} width={651}>
-					<ModalDetails data={activeData} onClose={handleCloseModal} />
-				</Modal>
-			) : null}
+			{state.loading ? 
+				<TableLoader /> :
+				<React.Fragment> 
+					{ data.length > 0 && 
+						<LogsFilter
+						data={data}
+						originalData={origData}
+						handleFilterUpdate={handleFilterUpdate}
+						modalFunc={handleActiveData} /> 
+					}
+
+					<ChangeLogTable tableData={data} setActiveData={handleActiveData} />
+
+				{ activeData && (
+					<Modal open={openModal} title="Change Details" onClose={handleCloseModal} width={651}>
+						<ModalDetails data={activeData} onClose={handleCloseModal} />
+					</Modal>) 
+				}
+				</React.Fragment>
+		}
+			
 		</div>
 	);
 };
