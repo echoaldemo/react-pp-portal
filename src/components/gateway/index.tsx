@@ -29,7 +29,6 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
   const [search, setSearch] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [hide, setHide] = useState(false);
-  const [campaigns, setCampaigns] = useState<Array<Campaign>>([]);
 
   useEffect(() => {
     if (!loginChecker()) {
@@ -54,7 +53,7 @@ const Gateway: React.FC<{ history: any }> = ({ history }) => {
       <SEO title="Gateway" />
       <span>
         <Tooltip title="Manage Settings" placement="right">
-          <IconButton onClick={() => (window.location.href = "/manage/users")}>
+          <IconButton onClick={() => history.push("/manage/users")}>
             <Settings />
           </IconButton>
         </Tooltip>
