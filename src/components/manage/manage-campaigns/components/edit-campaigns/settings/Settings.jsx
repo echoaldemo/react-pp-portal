@@ -64,7 +64,6 @@ const SettingsContent = () => {
 
 const SettingsSection = ({ match, history }) => {
   const { state, dispatch } = useContext(IdentityContext);
-  console.log("state in settings ==> ", state);
   return (
     <div>
       <EditHeader

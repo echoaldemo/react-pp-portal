@@ -30,7 +30,6 @@ const tabnames = [
 
 export default function PitchSection({ history, match }) {
   const { state } = useContext(IdentityContext);
-  console.log("state in pitch ==> ", state);
   const [tabValue, setValue] = useState(0);
 
   function handleChange(event, newValue) {
