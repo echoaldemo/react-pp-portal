@@ -1,17 +1,19 @@
-import React, { useState, } from 'react';
+import React, {useContext, useState, useEffect} from 'react';
+import {IdentityContext} from "contexts/IdentityProvider"
+import {post} from "utils/api"
 
 import LogsFilter from './logs-filter';
 import { Modal } from 'common-components';
-
-import ChangeLogTable from './components/change-log-table';
+import ChangeLogTable from './components/change-log-table'
 import ModalDetails from './components/modal-details';
-import mock_data from './mock_data.json';
 
 const ChangeLog = () => {
-	const [data, setData] = useState(mock_data.data);
-	const [origData, setOrigData] = useState(mock_data.data); // eslint-disable-line
+	const [data, setData] = useState([]);
+	const [origData, setOrigData] = useState([]); // eslint-disable-line
 	const [activeData, setActiveData] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
+	const { state } = useContext(IdentityContext);
+	const {campaignDetails } = state
 
 	const handleFilterUpdate = (data: any) => {
 		setData(data);
@@ -26,9 +28,27 @@ const ChangeLog = () => {
 		setOpenModal(false);
 	};
 
+	const getData = () => {
+		post(`/identity/changelog/filter/`, {
+			campaign: campaignDetails.slug,
+		  } )
+		.then((res:any) => {
+			setData(res.data.data)
+			setOrigData(res.data.data)
+		}).catch((err:any) => {
+			console.error(err); 
+		  })
+	}
+
+	useEffect(() => {
+		if("uuid" in campaignDetails){ 
+			getData()
+		}
+	}, [campaignDetails])
+
+
 	return (
 		<div>
-			{console.log(mock_data, 'MD')}
 			<LogsFilter
 				data={data}
 				originalData={origData}
