@@ -9,8 +9,8 @@ import ModalDetails from './components/modal-details';
 
 const ChangeLog = () => {
 	const [data, setData] = useState([]);
-	const [origData, setOrigData] = useState([]); // eslint-disable-line
-	const [activeData, setActiveData] = useState([]);
+	const [origData, setOrigData] = useState([]);
+	const [activeData, setActiveData] = useState({});
 	const [openModal, setOpenModal] = useState(false);
 	const { state } = useContext(IdentityContext);
 	const {campaignDetails } = state
@@ -20,10 +20,10 @@ const ChangeLog = () => {
 	};
 
 	const handleActiveData = (data: any) => {
-		console.log(data, 'xxxxx');
 		setActiveData(data);
 		setOpenModal(true);
 	};
+
 	const handleCloseModal = () => {
 		setOpenModal(false);
 	};
@@ -45,7 +45,6 @@ const ChangeLog = () => {
 			getData()
 		}
 	}, [campaignDetails])
-
 
 	return (
 		<div>
