@@ -30,7 +30,8 @@ export default function Details() {
 interface IFormState {
 	name: string,
 	panel: string,
-	active_version: any
+	active_version: any,
+	versions: any
 }
 
 interface IAlert {
@@ -48,13 +49,15 @@ const DetailsForm: React.FC = () => {
 	const [formState, setFormState] = useState<IFormState>({
 		name: '',
 		panel:'',
-		active_version: null
+		active_version: '',
+		versions:[]
 	});
 
 	const [data, setData] = useState<IFormState>({
 		name: '',
 		panel:'',
-		active_version: null
+		active_version: '',
+		versions:[]
 	});
 
 	const [alert, setAlert] = useState<IAlert>({
@@ -116,6 +119,7 @@ const DetailsForm: React.FC = () => {
 			}
 		).then((res:any) => {
 			setFormState(res.data)
+			setData(res.data)
 			setIsNew(false)
 			getAlert(true, 'success', 'Commit Successfully!')
 		})
@@ -160,7 +164,7 @@ const DetailsForm: React.FC = () => {
 						))}
 					</InputField>
 				}
-				{!isNew && 
+				{!isNew &&
 					<InputField
 					label="Active version"
 					fullWidth
@@ -174,9 +178,9 @@ const DetailsForm: React.FC = () => {
 						setFormState({ ...formState, active_version: e.target.value });
 					}}
 					>
-						{[1, 2, 3].map((item) => (
-							<MenuItem key={item} value={item}>
-								{item}
+						{formState.versions.map((item:any) => (
+							<MenuItem key={item.uuid} value={item.uuid}>
+								{item.version}
 							</MenuItem>
 						))}
 					</InputField>
