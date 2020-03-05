@@ -23,6 +23,7 @@ import EditDidPool from "components/manage/manage-did-pool/components/settings/D
 import Signin from "auth/component";
 import ManageDIDs from "components/manage/did/did-landing";
 import ManageLocation from "components/manage/manage-locations/ManageLocation";
+import ManageDNC from "components/manage/dnc";
 import LocationSettings from "components/manage/manage-locations/settings/LocationSettings";
 import GlobalPhraseBooks from "../components/manage/global/global-phrase-books/GlobalPhraseBooks";
 import EditGlobalPhraseBook from "components/manage/global/global-phrase-books/EditPhraseBook/EditPhraseBook";
@@ -164,6 +165,8 @@ export default function Routes() {
             path="/manage/locations/edit/:uuid/"
             component={LocationSettings}
           />
+          <PrivateRoute path="/manage/dnc" component={ManageDNC} />
+
           {/* Global Pitch routes */}
           <PrivateRoute
             path="/manage/global-pitch-phrasebooks"
