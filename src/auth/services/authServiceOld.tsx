@@ -56,7 +56,7 @@ import {
     }
   });
   const useStyles = makeStyles(theme => ({
-    appBarSpacer: theme.mixins.toolbar,
+    //appBarSpacer: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
       height: "auto",
@@ -88,7 +88,7 @@ import {
               <div>
                 <HeadMenu {...props} />
                 <main className={classes.content}>
-                  <div className={classes.appBarSpacer} />
+                  <div  />
                   <div className={classes.container}>
                     <Component {...componentProps} />
                   </div>

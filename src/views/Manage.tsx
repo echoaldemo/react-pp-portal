@@ -6,7 +6,7 @@ import {
 import { HeadMenu } from "common-components";
 
 const useStyles = makeStyles(theme => ({
-	appBarSpacer: theme.mixins.toolbar,
+	//appBarSpacer: theme.mixins.toolbar,
 	content: {
 		flexGrow: 1,
 		height: "auto",
@@ -32,8 +32,8 @@ export default function Manage(props: any) {
 		<React.Fragment>
 			<HeadMenu {...props} />
 			<main className={classes.content}>
-				<div className={classes.appBarSpacer} />
-				<div className={classes.container}>{props.children}</div>
+				<div style={{marginTop: 80}} />
+				<div style={{marginBottom: 40}} className={classes.container}>{props.children}</div>
 			</main>
 		</React.Fragment>
 	);
