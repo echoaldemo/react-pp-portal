@@ -86,7 +86,7 @@ const DNCTable: React.FC<DNCTableProps> = ({ state }) => {
           //   openModal();
           // }}
         >
-          Modify
+          Edit
         </MenuItem>
         <MenuItem
           id="delete-menu"
@@ -96,7 +96,7 @@ const DNCTable: React.FC<DNCTableProps> = ({ state }) => {
           //   deleteConfirmation();
           // }}
         >
-          Delete
+          Upload
         </MenuItem>
       </Menu>
     </React.Fragment>

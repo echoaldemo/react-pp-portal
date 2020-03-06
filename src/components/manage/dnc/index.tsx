@@ -1,7 +1,6 @@
 /*eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Paper, Divider } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Paper, Divider, Menu, MenuItem, Typography } from "@material-ui/core";
 import SEO from "utils/seo";
 import {
   HeaderLink,
@@ -34,7 +33,7 @@ const DNC: React.FC<IProps> = ({}) => {
 
   return (
     <div>
-      <SEO title="Manage Companies" />
+      <SEO title="Manage DNC Lists" />
       <div
         style={{
           display: "flex",
@@ -79,19 +78,24 @@ const DNC: React.FC<IProps> = ({}) => {
         />
         <HeaderButton openFunction={() => {}} buttonText="DNC List" />
       </div>
-      <SearchBar
-        title="Company"
-        userData={tableData}
-        headers={["name"]}
-        link={true}
-        pathnameData={{
-          firstLink: `/manage/companies/edit/`,
-          fetchData: ["slug", "uuid"],
-          lastLink: ``
-        }}
-      />
-      <Divider />
       <Paper style={{ height: "auto" }}>
+        <SearchBar
+          title="DNC lists"
+          userData={tableData}
+          headers={["name"]}
+          setActiveDataMethod={() => {}}
+          settings={
+            <>
+              <MenuItem onClick={() => {}}>
+                <Typography>Edit</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => {}}>
+                <Typography>Upload</Typography>
+              </MenuItem>
+            </>
+          }
+        />
+        <Divider />
         <DNCTable state={tableData} />
         <Divider />
         {Boolean(paginateList.length) && (

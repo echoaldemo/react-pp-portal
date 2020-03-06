@@ -28,8 +28,6 @@ import styled from "styled-components";
 import Create from "./Create";
 import Upload from "./upload";
 import { get, post, remove, patch } from "utils/api";
-
-import { mock } from "./mock"; // eslint-disable-line
 type AudioType = {
   company: any;
   params: any;
@@ -133,6 +131,8 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company, params }) => {
     post(`/pitch/company/${params.slug}/audio/resources/`, {
       name: audioText
     }).then((res: any) => {
+      console.log(res.data);
+      setAudioItem(res.data);
       setOpenLoading(false);
       setNotification(`You have created ${audioText} audio resource.`);
       setOpenSuccess(true);
@@ -149,6 +149,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company, params }) => {
   };
 
   const handleUploadFile: Function = () => {
+    setOpenSuccess(false);
     setOpenUpload(true);
   };
 
@@ -400,6 +401,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company, params }) => {
       cancelUpload={() => handleCancel()}
       onClose={() => {
         setOpenUpload(false);
+        setOpenNew(false);
       }}
     />
   );

@@ -103,11 +103,7 @@ const Upload = ({
         file
       ).then(res => {
         setLoadingState(false);
-        setMessage(["success", "Audio have been uploaded."]);
-        // setMessage(["error", "Failed uploading audio."]);
-        setNotify(true);
-        getAudioResources();
-        console.log(res);
+        setSuccessState(true);
       });
     }
   };
@@ -217,8 +213,8 @@ const Upload = ({
   };
 
   function closeUpload() {
-    resetValues();
     onClose();
+    getAudioResources();
   }
 
   function cancel() {
