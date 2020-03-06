@@ -1,42 +1,42 @@
 import React, { useState, useEffect, useContext } from "react";
 import DNDCards from "../cards/DNDCards";
 import { TableLoader } from "common-components";
-import { get } from 'utils/api'
-import { IdentityContext } from 'contexts/IdentityProvider'
+import { get } from "utils/api";
+import { IdentityContext } from "contexts/IdentityProvider";
 import { styles } from "./styles";
 
 //MOCK DATA
 import { global, company } from "./Mock";
 
 interface ICompany {
-  uuid: string,
-  slug: string,
-  name: string,
-  active: boolean,
-  company: any,
-  live: boolean,
-  test_type: number,
-  final_disposition_regex: string,
-  final_revenue: number,
-  segments: string[],
-  variables: any,
-  voices: string[],
-  tts_voice: any
+  uuid: string;
+  slug: string;
+  name: string;
+  active: boolean;
+  company: any;
+  live: boolean;
+  test_type: number;
+  final_disposition_regex: string;
+  final_revenue: number;
+  segments: string[];
+  variables: any;
+  voices: string[];
+  tts_voice: any;
 }
 
 interface IState {
-  loadingState: boolean,
-  activeTestData:any,
-  globalTestData: any,
-  companyTestData: any,
-  activeData: any
-};
+  loadingState: boolean;
+  activeTestData: any;
+  globalTestData: any;
+  companyTestData: any;
+  activeData: any;
+}
 
 const RapidResponseTests: React.FC = () => {
   //const [info, setInfo] = useState<IState>(defaultState);
 
   const [info, setInfo] = useState({
-    loadingState: false,
+    loadingState: true,
     activeTestData: [
       { uuid: 1, name: "Programs" },
       { uuid: 2, name: "Portal" },
@@ -47,57 +47,69 @@ const RapidResponseTests: React.FC = () => {
     companyTestData: company,
     activeData: []
   });
-  const [companyTestData, setCompanyTestData] = useState<any>([])
-  const [activeTestData, setActiveTestData] = useState<any>([])
-  const [globalTestData, setGlobalTestData] = useState<any>([])
+  const [companyTestData, setCompanyTestData] = useState<any>([]);
+  const [activeTestData, setActiveTestData] = useState<any>([]);
+  const [globalTestData, setGlobalTestData] = useState<any>([]);
 
   const { state } = useContext(IdentityContext);
-  const {campaignCompany, campaignDetails } = state
+  const { campaignCompany, campaignDetails } = state;
+  const localstore: any = localStorage.getItem("campaignData");
+  const localData = JSON.parse(localstore);
 
   const classes = styles();
 
   useEffect(() => {
-    console.log('================= info ===================');
-    console.log(info);
-  }, [])
+    Promise.all([getGlobalTest(), getCompanyTest(), getActiveTest()]).then(
+      (res: any) => {
+        setInfo({ ...info, loadingState: false });
+      }
+    );
+  }, []);
+
+  const getCompanySlug = () => {
+    return get(`/identity/company/${localData.company}/`).then(
+      (res: any) => res
+    );
+  };
 
   function getGlobalTest() {
-    get(`/pitch/global/rapid-response/tests/`)
-      .then((res:any) => {
-        setGlobalTestData(res.data)
-        getCompanyTest()
-      }).catch((err:any) => {
-        console.error(err); 
+    return get(`/pitch/global/rapid-response/tests/`)
+      .then((res: any) => {
+        setGlobalTestData(res.data);
+        return res;
       })
+      .catch((err: any) => {
+        console.error(err);
+      });
   }
 
-  function getCompanyTest() {
-    get(`/pitch/company/${campaignCompany.slug}/rapid-response/tests/`)
-      .then((res:any) => {
-        setCompanyTestData(res.data) 
-        getActiveTest()
-      }).catch((err:any) => {
-        console.error(err); 
+  const getCompanyTest = async () => {
+    const companyData = await getCompanySlug();
+    return get(`/pitch/company/${companyData.data.slug}/rapid-response/tests/`)
+      .then((res: any) => {
+        setCompanyTestData(res.data);
+        return res;
       })
-  }
+      .catch((err: any) => {
+        console.error(err);
+      });
+  };
 
-
-  function getActiveTest() {
-    get(`/pitch/company/${campaignCompany.slug}/campaign/${campaignDetails.slug}/`)
-      .then((res:any) => {
-        let temp = []
-        temp.push(res.data)
-         setActiveTestData(temp)
-      }).catch((err:any) => {
-        console.error(err); 
+  const getActiveTest = async () => {
+    const companyData = await getCompanySlug();
+    return get(
+      `/pitch/company/${companyData.data.slug}/campaign/${localData.slug}/`
+    )
+      .then((res: any) => {
+        let temp = [];
+        temp.push(res.data);
+        setActiveTestData(temp);
+        return res;
       })
-  }
-
-  useEffect(() => {
-    if('uuid' in campaignCompany){
-      getGlobalTest()
-    }
-    }, [campaignCompany])
+      .catch((err: any) => {
+        console.error(err);
+      });
+  };
 
   const setActiveData = (data: any) => {
     setInfo({ ...info, activeData: data });
@@ -118,22 +130,22 @@ const RapidResponseTests: React.FC = () => {
             </div>
           </>
         ) : (
-            <div className={classes.container}>
-              <DNDCards
-                card1Title="Active segments"
-                card2Title="Global segments"
-                card3Title="Company segments"
-                card1Data={activeTestData}
-                card2Data={globalTestData}
-                card3Data={companyTestData}
-                saveActiveSegment={saveActiveSegment}
-                setActiveData={setActiveData}
-              />
-            </div>
-          )}
+          <div className={classes.container}>
+            <DNDCards
+              card1Title="Active segments"
+              card2Title="Global segments"
+              card3Title="Company segments"
+              card1Data={activeTestData}
+              card2Data={globalTestData}
+              card3Data={companyTestData}
+              saveActiveSegment={saveActiveSegment}
+              setActiveData={setActiveData}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default RapidResponseTests
+export default RapidResponseTests;
