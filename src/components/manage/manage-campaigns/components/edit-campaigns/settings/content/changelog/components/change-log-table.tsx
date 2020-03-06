@@ -20,11 +20,11 @@ const ChangeLogTable : React.FC < Props > = ({tableData, setActiveData}) => {
     const NoResult = () => {
         return (
           <TableNoResult
-									headerText="Change log"
-									mainMessage="No change log is created yet"
-									subMessage=""
-									renderButton={ <></>}
-								/>
+            headerText="Change log"
+            mainMessage="No change log is created yet"
+            subMessage=""
+            renderButton={ <></>}
+          />
         )
     }
 

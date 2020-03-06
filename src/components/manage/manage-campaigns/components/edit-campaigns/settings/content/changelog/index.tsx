@@ -7,15 +7,13 @@ import { Modal, TableLoader } from 'common-components';
 import ChangeLogTable from './components/change-log-table'
 import ModalDetails from './components/modal-details';
 
-const ChangeLog = () => {
+const ChangeLog: React.FC= () => {
 	const [data, setData] = useState([]);
 	const [origData, setOrigData] = useState([]);
 	const [activeData, setActiveData] = useState({});
 	const [openModal, setOpenModal] = useState(false);
 	const { state } = useContext(IdentityContext);
 	const {campaignDetails } = state
-
-	console.log(state)
 
 	const handleFilterUpdate = (data: any) => {
 		setData(data);
@@ -44,7 +42,7 @@ const ChangeLog = () => {
 
 	useEffect(() => {
 		if("uuid" in campaignDetails){ 
-			getData()
+			getData();
 		}
 	}, [campaignDetails])
 
