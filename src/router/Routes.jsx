@@ -54,6 +54,7 @@ import ChangePassword from "auth/change-password/ChangePassword";
 
 //API UTIL
 import { get } from "utils/api";
+import Stations from "components/stations/Stations";
 
 export default function Routes() {
   const [person, setPerson] = useState([]);
@@ -164,6 +165,7 @@ export default function Routes() {
             path="/manage/locations/edit/:uuid/"
             component={LocationSettings}
           />
+          <PrivateRoute path="/manage/stations" component={Stations} />
           {/* Global Pitch routes */}
           <PrivateRoute
             path="/manage/global-pitch-phrasebooks"
