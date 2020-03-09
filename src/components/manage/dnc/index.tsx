@@ -9,7 +9,7 @@ import {
   SearchBar
 } from "common-components";
 import DNCTable from "./components/DNCTable";
-// import NewDidPool from "./components/NewDidPool";
+import NewDncList from "./components/NewDncList";
 import { get } from "utils/api";
 
 interface IProps {}
@@ -18,6 +18,7 @@ const DNC: React.FC<IProps> = ({}) => {
   const [dnc, setDnc] = useState<any>([]);
   const [paginateList, setPaginateList] = useState<any>([]);
   const [tableData, setTableData] = useState<any>([]);
+  const [openNewDncList, setOpenNewDncList] = useState<any>(false);
 
   useEffect(() => {
     get("/dnc/list/").then((res: any) => {
@@ -76,7 +77,10 @@ const DNC: React.FC<IProps> = ({}) => {
           ]}
           title="DNC"
         />
-        <HeaderButton openFunction={() => {}} buttonText="DNC List" />
+        <HeaderButton
+          openFunction={() => setOpenNewDncList(true)}
+          buttonText="DNC List"
+        />
       </div>
       <Paper style={{ height: "auto" }}>
         <SearchBar
@@ -106,6 +110,10 @@ const DNC: React.FC<IProps> = ({}) => {
           />
         )}
       </Paper>
+      <NewDncList
+        open={openNewDncList}
+        handleClose={() => setOpenNewDncList(false)}
+      />
     </div>
   );
 };
