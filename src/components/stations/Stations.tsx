@@ -12,12 +12,13 @@ import { Paper, Divider } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 import SearchBar from "components/manage/manage-campaigns/components/edit-campaigns/settings/content/changelog/logs-filter/components/SearchBar";
 import StationsTable from "./StationsTable";
+import { store } from "contexts/ManageComponent";
 
 function Stations(props: any) {
+  const { state } = useContext(store);
   const [states, setState] = useState({
     loading: false,
-    open: false,
-    stations: []
+    open: false
   });
   return (
     <div>
@@ -37,20 +38,20 @@ function Stations(props: any) {
           <div style={{ width: "100%" }}>
             <SearchBar
               title="Station"
-              userData={states.stations}
-              headers={["name", "uuid"]}
+              userData={state.stations.length === 0 ? [] : state.stations}
+              headers={["slug", "uuid"]}
               active={true}
               link={true}
-              loading={states.loading}
+              loading={state.stations.length === 0 ? true : false}
             />
             <Divider />
-            {states.loading ? (
+            {state.stations.length === 0 ? (
               <TableLoader />
             ) : (
               <StationsTable
                 headers={["UUID", "SLUG", "STATUS", ""]}
                 history={props.history}
-                state={states}
+                state={state}
               />
             )}
           </div>

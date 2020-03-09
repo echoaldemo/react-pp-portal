@@ -29,12 +29,6 @@ const StationsTable = ({ state, history, headers }: any) => {
       render={(pools: any, { row, cell, uuid, icon }: any) =>
         pools.map((pool: any) => (
           <TableRow className={row} key={pool.uuid}>
-            <UnderlineCell
-              className={cell}
-              onClick={() => history.push(`/manage/did-pool/edit/${pool.uuid}`)}
-            >
-              {pool.name}
-            </UnderlineCell>
             <TableCell className={uuid}>
               <p>{pool.uuid}</p>
               <CopyToClipboard
@@ -53,13 +47,13 @@ const StationsTable = ({ state, history, headers }: any) => {
                 )}
               </CopyToClipboard>
             </TableCell>
+            <UnderlineCell
+              className={cell}
+              onClick={() => history.push(`/manage/did-pool/edit/${pool.uuid}`)}
+            >
+              {pool.slug}
+            </UnderlineCell>
             <ActiveCell className={cell}>{pool.active}</ActiveCell>
-            <ActiveCell className={cell}>
-              {pool.allow_inbound ? "yes" : "no"}
-            </ActiveCell>
-            <TableCell className={cell} style={{ textDecoration: "underline" }}>
-              {pool.did_count}
-            </TableCell>
             <TableCell className={cell} align="right">
               <EditButton
                 text="Edit"
