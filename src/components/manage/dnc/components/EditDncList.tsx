@@ -78,7 +78,7 @@ interface NewDidProps {
   handleClose: () => void;
 }
 
-const NewDncList: React.FC<NewDidProps> = ({ open, handleClose }) => {
+const EditDncList: React.FC<NewDidProps> = ({ open, handleClose }) => {
   const classes = useStyles();
   const [getUpdated, setGetUpdate] = useState<any>(false);
   const [delayedProcess, setDelayedProcess] = useState<any>(false);
@@ -101,7 +101,7 @@ const NewDncList: React.FC<NewDidProps> = ({ open, handleClose }) => {
           setState({ ...state, open: true, done: false });
         }}
       /> */}
-      <Modal open={open} title="Add DNC List" onClose={handleClose}>
+      <Modal open={open} title="Edit DNC List" onClose={handleClose}>
         <form className={classes.formWrapper}>
           <div style={{ paddingBottom: "15px" }}>
             <InputField
@@ -194,4 +194,4 @@ function useInputForm(initialValue: any) {
   };
 }
 
-export default NewDncList;
+export default EditDncList;

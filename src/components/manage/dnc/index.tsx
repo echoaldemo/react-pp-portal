@@ -10,6 +10,7 @@ import {
 } from "common-components";
 import DNCTable from "./components/DNCTable";
 import NewDncList from "./components/NewDncList";
+import EditDncList from "./components/EditDncList";
 import { get } from "utils/api";
 
 interface IProps {}
@@ -19,6 +20,7 @@ const DNC: React.FC<IProps> = ({}) => {
   const [paginateList, setPaginateList] = useState<any>([]);
   const [tableData, setTableData] = useState<any>([]);
   const [openNewDncList, setOpenNewDncList] = useState<any>(false);
+  const [openEditDncList, setOpenEditDncList] = useState<any>(false);
 
   useEffect(() => {
     get("/dnc/list/").then((res: any) => {
@@ -100,7 +102,10 @@ const DNC: React.FC<IProps> = ({}) => {
           }
         />
         <Divider />
-        <DNCTable state={tableData} />
+        <DNCTable
+          state={tableData}
+          openModalEditDncList={() => setOpenEditDncList(true)}
+        />
         <Divider />
         {Boolean(paginateList.length) && (
           <Pagination
@@ -113,6 +118,10 @@ const DNC: React.FC<IProps> = ({}) => {
       <NewDncList
         open={openNewDncList}
         handleClose={() => setOpenNewDncList(false)}
+      />
+      <EditDncList
+        open={openEditDncList}
+        handleClose={() => setOpenEditDncList(false)}
       />
     </div>
   );

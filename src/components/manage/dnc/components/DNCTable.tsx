@@ -28,9 +28,10 @@ const LightTooltip = withStyles(theme => ({
 
 interface DNCTableProps {
   state: any;
+  openModalEditDncList: Function;
 }
 
-const DNCTable: React.FC<DNCTableProps> = ({ state }) => {
+const DNCTable: React.FC<DNCTableProps> = ({ state, openModalEditDncList }) => {
   const [popper, setPopper] = useState<any>(null);
 
   return (
@@ -81,10 +82,9 @@ const DNCTable: React.FC<DNCTableProps> = ({ state }) => {
       >
         <MenuItem
           id="modify-menu"
-          // onClick={() => {
-          //   setPopper(null);
-          //   openModal();
-          // }}
+          onClick={() => {
+            openModalEditDncList();
+          }}
         >
           Edit
         </MenuItem>
