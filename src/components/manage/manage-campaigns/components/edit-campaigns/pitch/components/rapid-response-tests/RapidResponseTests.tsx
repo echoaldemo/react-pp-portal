@@ -1,28 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import DNDCards from "../cards/DNDCards";
 import { TableLoader } from "common-components";
-import { get } from "utils/api";
-import { IdentityContext } from "contexts/IdentityProvider";
+import { get, patch } from "utils/api";
 import { styles } from "./styles";
-
-//MOCK DATA
-import { global, company } from "./Mock";
-
-interface ICompany {
-  uuid: string;
-  slug: string;
-  name: string;
-  active: boolean;
-  company: any;
-  live: boolean;
-  test_type: number;
-  final_disposition_regex: string;
-  final_revenue: number;
-  segments: string[];
-  variables: any;
-  voices: string[];
-  tts_voice: any;
-}
 
 interface IState {
   loadingState: boolean;
@@ -33,29 +13,21 @@ interface IState {
 }
 
 const RapidResponseTests: React.FC = () => {
-  //const [info, setInfo] = useState<IState>(defaultState);
-
-  const [info, setInfo] = useState({
+  const [info, setInfo] = useState<IState>(
+    {
     loadingState: true,
-    activeTestData: [
-      { uuid: 1, name: "Programs" },
-      { uuid: 2, name: "Portal" },
-      { uuid: 3, name: "First-names-sentence" },
-      { uuid: 4, name: "First-names-questions" }
-    ],
-    globalTestData: global,
-    companyTestData: company,
+    activeTestData: [],
+    globalTestData: [],
+    companyTestData: [],
     activeData: []
-  });
+  }
+  );
   const [companyTestData, setCompanyTestData] = useState<any>([]);
   const [activeTestData, setActiveTestData] = useState<any>([]);
   const [globalTestData, setGlobalTestData] = useState<any>([]);
 
-  const { state } = useContext(IdentityContext);
-  const { campaignCompany, campaignDetails } = state;
   const localstore: any = localStorage.getItem("campaignData");
   const localData = JSON.parse(localstore);
-
   const classes = styles();
 
   useEffect(() => {
@@ -100,10 +72,9 @@ const RapidResponseTests: React.FC = () => {
     return get(
       `/pitch/company/${companyData.data.slug}/campaign/${localData.slug}/`
     )
-      .then((res: any) => {
-        let temp = [];
-        temp.push(res.data);
-        setActiveTestData(temp);
+      .then(async (res: any) => {
+        const data = await activeData(res.data.rapid_response_tests)
+        setActiveTestData(data);
         return res;
       })
       .catch((err: any) => {
@@ -111,12 +82,42 @@ const RapidResponseTests: React.FC = () => {
       });
   };
 
+  const activeData = (data:any) => {
+    let segments:any[] = []; 
+    data.forEach((item:any, index:number) => {
+      segments.push({uuid: item, name: `Test ${index}`})
+    });
+    return segments
+  }
+
   const setActiveData = (data: any) => {
     setInfo({ ...info, activeData: data });
   };
 
-  const saveActiveSegment = (data: any) => {
+  const saveActiveSegment = async (data: any) => {
     //API request here for updating activeSegments
+    const companyData = await getCompanySlug();
+
+    let segments:string[] = [];
+
+    data.forEach((item:any) => {
+      segments.push(item.uuid)
+    });
+
+    patch(
+      `/pitch/company/${companyData.data.slug}/campaign/${localData.slug}/`,
+      {
+        rapid_response_tests: segments
+      }
+    )
+      .then((res: any) => {
+        console.log('saved: ', res);
+        
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
+
     setInfo({ ...info, activeTestData: data });
   };
 
