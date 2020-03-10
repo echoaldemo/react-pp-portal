@@ -8,13 +8,13 @@ export default function General(props: any) {
 
 	return (
 		<div className="p-24 c-default">
-			<PanelTabs labels={[ 'INFO', 'DIALER PARAMETERS' ]} tab={tab} setTab={setTab} />
-			<Panel value={tab} index={0}>
-				<Info {...props} />
-			</Panel>
-			<Panel value={tab} index={1}>
-				<DialerParameters />
-			</Panel>
+				<PanelTabs labels={[ 'INFO', 'DIALER PARAMETERS' ]} tab={tab} setTab={setTab} />
+				<Panel value={tab} index={0}>
+					<Info {...props} />
+				</Panel>
+				<Panel value={tab} index={1}>
+					<DialerParameters />
+				</Panel>
 		</div>
 	);
 }

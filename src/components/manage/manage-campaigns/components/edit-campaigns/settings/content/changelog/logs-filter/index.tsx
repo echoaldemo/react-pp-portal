@@ -1,9 +1,8 @@
+import { KeyboardArrowDown } from '@material-ui/icons';
+import React, { useState } from 'react';
 import { FormControl, Grid, InputLabel, MenuItem, Select, withStyles } from '@material-ui/core';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { KeyboardArrowDown } from '@material-ui/icons';
-import React, { Component } from 'react';
-import { SaveButton } from 'common-components';
-import SearchBar from './components/SearchBar';
+import { SaveButton, SearchBar } from 'common-components';
 import Styles from './indexStyle';
 
 const theme = createMuiTheme({
@@ -52,18 +51,26 @@ const theme = createMuiTheme({
 	}
 });
 
-class LogsFilter extends Component {
-	constructor(props) {
-		super(props);
+interface Props {
+	data: Array<Object>,
+	originalData: Array<Object>,
+	handleFilterUpdate: (data: any) => void;
+	modalFunc: any;
+	classes: any;
+  }
 
-		this.state = {
-			userValue: 0,
-			createValue: 0
-		};
-	}
-	removeDuplicates = (originalArray, prop) => {
+
+const LogsFilter: React.FC<Props> = ({data, originalData, handleFilterUpdate, modalFunc, classes }) => {
+	const [userValue, setUserValue] = useState(0)
+	const [createValue, setCreateValue] = useState(0)
+
+	const selectProps = {
+		selectprops: { IconComponent: () => <KeyboardArrowDown /> }
+	  };
+
+	const removeDuplicates = (originalArray: any, prop:any) => {
 		var newArray = [];
-		var lookupObject = {};
+		var lookupObject = [];
 
 		for (var i in originalArray) {
 			lookupObject[originalArray[i][prop]] = originalArray[i];
@@ -76,36 +83,34 @@ class LogsFilter extends Component {
 		return newArray;
 	};
 
-	filterData = () => {
-		let { userValue, createValue } = this.state;
-		var newArray = this.props.originalData.filter((el) => {
-			return createValue === 0 && userValue !== 0
-				? el.username === userValue
-				: createValue !== 0 && userValue === 0
-					? el.created === createValue
-					: el.username === userValue && el.created === createValue;
+	const filterData = () => {
+		let userVal = userValue
+		let createVal = createValue
+
+		var newArray = originalData.filter((el:any) => {
+			return createVal === 0 && userVal !== 0
+				? el.username === userVal
+				: createVal !== 0 && userVal === 0
+					? el.created === createVal
+					: el.username === userVal && el.created === createVal;
 		});
 
-		if (userValue === 0 && createValue === 0) {
-			this.props.handleFilterUpdate(this.props.originalData);
+		if (userVal === 0 && createVal === 0) {
+			handleFilterUpdate(originalData);
 		}
 		else {
-			this.props.handleFilterUpdate(newArray);
+			handleFilterUpdate(newArray);
 		}
 	};
-
-	render() {
-		const { classes } = this.props;
 
 		return (
 			<MuiThemeProvider theme={theme}>
 				<div className={classes.itemContainer}>
 					<SearchBar
 						title="Changes"
-						userData={this.props.originalData}
+						userData={originalData}
 						headers={[ 'original_fields', 'changed_fields' ]}
-						// loading={this.state.loading}
-						modalFunc={this.props.modalFunc}
+						modalFunc={modalFunc}
 					/>
 
 					<Grid container className={classes.gridContainer}>
@@ -117,16 +122,12 @@ class LogsFilter extends Component {
 								<Select
 									className={classes.root}
 									id="demo-simple-select"
-									value={this.state.userValue}
-									onChange={(e) => {
-										this.setState({ userValue: e.target.value });
-									}}
-									selectprops={{
-										IconComponent: () => <KeyboardArrowDown />
-									}}
-								>
+									value={userValue}
+									onChange={(e:any) => setUserValue(e.target.value) }
+									{...selectProps} >
+										
 									<MenuItem value={0}>All</MenuItem>
-									{this.removeDuplicates(this.props.originalData, 'username').map((item, i) => (
+									{removeDuplicates(originalData, 'username').map((item:any, i: number) => (
 										<MenuItem value={item.username} key={i}>
 											{item.user}
 										</MenuItem>
@@ -141,16 +142,12 @@ class LogsFilter extends Component {
 								</InputLabel>
 								<Select
 									id="demo-simple-select"
-									value={this.state.createValue}
-									onChange={(e) => {
-										this.setState({ createValue: e.target.value });
-									}}
-									selectprops={{
-										IconComponent: () => <KeyboardArrowDown />
-									}}
+									value={createValue}
+									onChange={(e:any) => setCreateValue(e.target.value )}
+									{...selectProps}
 								>
 									<MenuItem value={0}>All</MenuItem>
-									{this.removeDuplicates(this.props.originalData, 'created').map((item, i) => (
+									{ removeDuplicates(originalData, 'created').map((item:any, i:number) => (
 										<MenuItem value={item.created} key={i}>
 											{item.created}
 										</MenuItem>
@@ -158,12 +155,7 @@ class LogsFilter extends Component {
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid
-							item
-							xs={6}
-							md={6}
-							lg={6}
-							className={classes.gridItem}
+						<Grid item xs={6} md={6} lg={6} className={classes.gridItem}
 							style={{
 								display: 'flex',
 								justifyContent: 'flex-end',
@@ -172,9 +164,7 @@ class LogsFilter extends Component {
 						>
 							<SaveButton
 								style={{ backgroundColor: '#7C8A97', color: '#eeeeee' }}
-								onClick={() => {
-									this.filterData();
-								}}
+								onClick={() => { filterData() }}
 							>
 								Apply
 							</SaveButton>
@@ -183,6 +173,6 @@ class LogsFilter extends Component {
 				</div>
 			</MuiThemeProvider>
 		);
-	}
 }
+
 export default withStyles(Styles)(LogsFilter);
