@@ -19,7 +19,7 @@ const LightTooltip = withStyles(theme => ({
   }
 }))(Tooltip);
 
-const StationsTable = ({ state, history, headers }: any) => {
+const StationsTable = ({ state, history, headers, openEdit }: any) => {
   const [copy, setCopy] = useState(false);
 
   return (
@@ -47,20 +47,12 @@ const StationsTable = ({ state, history, headers }: any) => {
                 )}
               </CopyToClipboard>
             </TableCell>
-            <UnderlineCell
-              className={cell}
-              onClick={() => history.push(`/manage/did-pool/edit/${pool.uuid}`)}
-            >
+            <UnderlineCell className={cell} onClick={() => openEdit(pool.uuid)}>
               {pool.username}
             </UnderlineCell>
             <ActiveCell className={cell}>{pool.active}</ActiveCell>
             <TableCell className={cell} align="right">
-              <EditButton
-                text="Edit"
-                onClickFunc={() =>
-                  history.push(`/manage/did-pool/edit/${pool.uuid}`)
-                }
-              />
+              <EditButton text="Edit" onClickFunc={() => openEdit(pool.uuid)} />
             </TableCell>
           </TableRow>
         ))

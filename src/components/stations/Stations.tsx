@@ -14,9 +14,10 @@ import { Paper, Divider } from "@material-ui/core";
 import StationsTable from "./StationsTable";
 import { store } from "contexts/ManageComponent";
 import NewStation from "./components/NewStation";
-import { post } from "utils/api";
+import { post, get, patch } from "utils/api";
 import slugify from "slugify";
 import SnackNotif from "auth/component/snackbar/snackbar";
+import EditStation from "./components/EditStation";
 
 function Stations(props: any) {
   const { state } = useContext(store);
@@ -28,7 +29,10 @@ function Stations(props: any) {
     successModal: false,
     addNewModal: false,
     username: "",
-    errorMessage: ""
+    errorMessage: "",
+    editModal: false,
+    activeData: {},
+    label: ""
   });
   const handleSubmit = (usr: any, pass: any, active: any) => {
     setState({ ...states, loadingModal: true, addNewModal: false });
@@ -44,10 +48,10 @@ function Stations(props: any) {
           loadingModal: false,
           successModal: true,
           username: usr,
-          addNewModal: false
+          addNewModal: false,
+          label: "added"
         });
       } else {
-        console.log(res);
         setState({
           ...states,
           loadingModal: false,
@@ -57,9 +61,48 @@ function Stations(props: any) {
       }
     });
   };
+
+  const handleSubmitEdit = (usr: any, pass: any, active: any, uuid: any) => {
+    setState({ ...states, loadingModal: true, editModal: false });
+    patch(`/identity/station/${uuid}/`, {
+      slug: slugify(usr),
+      active: active,
+      username: usr,
+      password: pass
+    })
+      .then((res: any) => {
+        if (res.status === 200) {
+          setState({
+            ...states,
+            loadingModal: false,
+            successModal: true,
+            username: usr,
+            editModal: false,
+            label: "editted"
+          });
+        } else {
+          setState({
+            ...states,
+            loadingModal: false,
+            editModal: true,
+            errorMessage: "Username Already Exists"
+          });
+        }
+      })
+      .catch(() => {
+        setState({
+          ...states,
+          loadingModal: false,
+          editModal: true,
+          errorMessage: "Username Already Exists"
+        });
+      });
+  };
+
   const handleSelect = (type: any) => ({ target: { value } }: any) => {
     setState({ ...states, selectedRealms: value });
   };
+
   const paginate = (from: any, to: any) => {
     setState({
       ...states,
@@ -68,6 +111,16 @@ function Stations(props: any) {
   };
   const handleCloseSucess = () => {
     setState({ ...states, successModal: false });
+  };
+  const openModalEdit = (uuid: any) => {
+    get(`/identity/station/${uuid}/`).then((res: any) => {
+      setState({
+        ...states,
+        editModal: true,
+        activeData: res.data,
+        selectedRealms: res.realm !== undefined ? res.realm : []
+      });
+    });
   };
   return (
     <div>
@@ -99,6 +152,7 @@ function Stations(props: any) {
                   headers={["UUID", "USERNAME", "STATUS", ""]}
                   history={props.history}
                   state={states}
+                  openEdit={openModalEdit}
                 />
               </div>
             )}
@@ -122,14 +176,27 @@ function Stations(props: any) {
         selectFn={handleSelect}
         selected={states.selectedRealms}
       />
+      {states.editModal ? (
+        <EditStation
+          openEdit={states.editModal}
+          closeEdit={() => setState({ ...states, editModal: false })}
+          createFnEdit={handleSubmitEdit}
+          selectFnEdit={handleSelect}
+          selectedEdit={states.selectedRealms}
+          data={states.activeData}
+        />
+      ) : null}
+
       <LoadingModal
         open={states.loadingModal}
-        text={`One moment. Adding Station`}
+        text={`One moment. ${
+          states.label === "added" ? "Adding" : "Updating"
+        } Station`}
         cancelFn={() => null}
       />
       <SuccessModal
         open={states.successModal}
-        text={`Successfully added “${states.username}”`}
+        text={`Successfully ${states.label} “${states.username}”`}
         closeFn={handleCloseSucess}
       />
       <SnackNotif
