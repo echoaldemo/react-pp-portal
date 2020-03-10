@@ -7,6 +7,7 @@ import Icon from "@mdi/react";
 import { mdiUpload } from "@mdi/js";
 import { Alert } from "common-components";
 import { uploadStyles as useStyles, uploadTheme as theme } from "../styles";
+import { post } from "utils/api";
 
 import {
   LoadingModal as Loading,
@@ -14,26 +15,20 @@ import {
   Modal
 } from "common-components";
 
-type UploadType = {
-  title: any;
-  open: any;
-  onClose: any;
-  cancelUpload: any;
-  payload?: any;
-};
-
-const Upload: React.FC<UploadType> = ({
+const Upload = ({
+  company,
+  audioItem,
+  getAudioResources,
   title,
   onClose,
   cancelUpload,
-  open,
-  payload
+  open
 }) => {
   const [mod, setMod] = useState(false);
   const [convert, setConvert] = useState(true);
   const [fadeIn, setFadeIn] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
-  const [audio, setAudio] = useState(null);
+  const [file, setFile] = useState(null);
   const [filename, setFilename] = useState("Not file chosen");
   const [loading_state, setLoadingState] = useState(false);
   const [error, setError] = useState(null);
@@ -41,7 +36,7 @@ const Upload: React.FC<UploadType> = ({
   const [notify, setNotify] = useState(false);
   const [message, setMessage] = useState(["", ""]);
 
-  function NoteAlert(props: any) {
+  function NoteAlert(props) {
     return <Alert elevation={6} variant="filled" {...props} />;
   }
 
@@ -50,7 +45,7 @@ const Upload: React.FC<UploadType> = ({
     setConvert(true);
     setFadeIn(true);
     setFadeOut(false);
-    setAudio(null);
+    setFile(null);
     setFilename("No file chosen");
     setLoadingState(false);
     setError(null);
@@ -86,14 +81,13 @@ const Upload: React.FC<UploadType> = ({
 
   const classes = useStyles();
 
-  function upload(e: any) {
-    try {
-      let file_name = e.target.files[0].name.substring(0, 25) + "...";
-      setFilename(file_name);
-      setAudio(e.target.files[0]);
-    } catch (e) {
-      console.log(e);
-    }
+  function upload(e) {
+    let file_name = e.target.files[0].name.substring(0, 25) + "...";
+    let files = e.target.files[0];
+    var uploadFile = new FormData();
+    uploadFile.append("file", files);
+    setFilename(file_name);
+    setFile(uploadFile);
   }
 
   // mock func api
@@ -101,40 +95,16 @@ const Upload: React.FC<UploadType> = ({
     return true;
   };
 
-  const upload_to_server: Function = () => {
-    if (audio) {
+  const upload_to_server = () => {
+    if (file) {
       setLoadingState(true);
-      // let { slug, uuid } = payload;
-
-      // let queryObject = Object.create({
-      //   slug,
-      //   uuid,
-      //   no_modifications: mod,
-      //   convert,
-      //   fade_in: fadeIn,
-      //   fade_out: fadeOut,
-      //   file_ext: filename.split(".")[filename.split(".").length - 1],
-      //   file: audio
-      // });
-
-      setTimeout(() => {
+      post(
+        `/pitch/company/${company.slug}/audio/resources/${audioItem.uuid}/upload/?no_modifications=${mod}&convert=${convert}&fade_in=${fadeIn}&fade_out=${fadeOut}`,
+        file
+      ).then(res => {
         setLoadingState(false);
-        setMessage(["error", "Failed uploading audio."]);
-        setNotify(true);
-        setTimeout(() => {
-          setMessage(["success", "Audio have been uploaded."]);
-        }, 1400);
-      }, 1200);
-
-      /*
-      let response = await uploadAudioFile(queryObject);
-      setLoadingState(false);
-      if (response.status < 300) {
-        setError(null);
         setSuccessState(true);
-      } else {
-        setError("Cannot upload file too big!");
-      }*/
+      });
     }
   };
 
@@ -150,7 +120,7 @@ const Upload: React.FC<UploadType> = ({
           justifyContent: "space-between"
         }}
       >
-        {modifications.map((mods: any, i: number) => {
+        {modifications.map((mods, i) => {
           let dynamicClass = classes.uploadTag;
           if (i % 2 !== 0) {
             dynamicClass = dynamicClass + classes.textDarken;
@@ -203,16 +173,16 @@ const Upload: React.FC<UploadType> = ({
     );
   }
 
-  const renderUploadComponent: Function = () => {
+  const renderUploadComponent = () => {
     return (
       <div>
-        <Input
+        <input
+          accept="audio/*"
+          style={{ display: "none", padding: "30px 0" }}
           id="files"
-          inputProps={{
-            accept: "audio/*"
-          }}
-          onChange={upload}
           type="file"
+          name="file"
+          onChange={e => upload(e)}
           className={classes.hidden}
         />
         <label className={classes.labelStyle} {...{ for: "files" }}>
@@ -243,8 +213,8 @@ const Upload: React.FC<UploadType> = ({
   };
 
   function closeUpload() {
-    resetValues();
     onClose();
+    getAudioResources();
   }
 
   function cancel() {
@@ -276,7 +246,7 @@ const Upload: React.FC<UploadType> = ({
     );
   }
 
-  const renderNotification: Function = () => {
+  const renderNotification = () => {
     return (
       <Alert
         open={notify}
@@ -291,7 +261,7 @@ const Upload: React.FC<UploadType> = ({
     direction: "column",
     alignItems: "center",
     justify: "start"
-  } as any;
+  };
 
   return (
     <MuiThemeProvider theme={theme}>

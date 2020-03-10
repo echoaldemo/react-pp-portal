@@ -27,9 +27,10 @@ import AudioPlayer from "./player";
 import styled from "styled-components";
 import Create from "./Create";
 import Upload from "./upload";
-import { mock } from "./mock"; // eslint-disable-line
+import { get, post, remove, patch } from "utils/api";
 type AudioType = {
   company: any;
+  params: any;
 };
 
 const Header = styled(Typography)`
@@ -38,7 +39,7 @@ const Header = styled(Typography)`
   color: #444851 !important;
 `;
 
-const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
+const AudioResourceComponent: React.FC<AudioType> = ({ company, params }) => {
   const classes = useStyles();
   const [copy, setCopy] = useState(false);
   const [audio_resources, setAudioResources] = useState([]);
@@ -47,7 +48,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModify, setOpenModify] = useState(false);
-  const [audioItem, setAudioItem] = useState(" "); // eslint-disable-line
+  const [audioItem, setAudioItem] = useState<any>({});
   const [audioText, setAudioText] = useState("");
   const [notification, setNotification] = useState("");
   const [openLoading, setOpenLoading] = useState(false);
@@ -58,7 +59,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
 
   useEffect(() => {
     getAudioResources();
-  }, []);
+  }, []); // eslint-disable-line
 
   useEffect(() => {
     setAudioText("");
@@ -66,16 +67,11 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
 
   const getAudioResources = () => {
     setTableLoading(true);
-
-    setTimeout(() => {
-      fetch("http://5e12b0ef6e229f0014678caa.mockapi.io/audio")
-        .then(media => media.json())
-        .then((media: any) => {
-          setAudioResources(media);
-          setPaginateList(media);
-          setTableLoading(false);
-        });
-    }, 2000);
+    get(`/pitch/company/${params.slug}/audio/resources/`).then((res: any) => {
+      setAudioResources(res.data);
+      setPaginateList(res.data);
+      setTableLoading(false);
+    });
   };
 
   const getClassName: Function = (i: number, { uuid, userCell }: any) => {
@@ -98,39 +94,49 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
     setOpenEdit(false);
     setOpenSuccess(false);
     setOpenNew(false);
+    getAudioResources();
   };
 
   const onDelete: Function = () => {
     setOpenDelete(false);
     setNotification("One moment. We’re removing the audio resource...");
     setOpenLoading(true);
-    setTimeout(() => {
+    remove(
+      `/pitch/company/${params.slug}/audio/resources/${audioItem.uuid}/`
+    ).then((res: any) => {
       setOpenLoading(false);
       setNotification(`You have removed ${audioText} audio resource.`);
       setOpenSuccess(true);
-    }, 1200);
+    });
   };
 
   const onEdit: Function = () => {
     setNotification("One moment. We’re updating the audio resource...");
     setOpenLoading(true);
-    setTimeout(() => {
+    patch(`/pitch/company/${params.slug}/audio/resources/${audioItem.uuid}/`, {
+      name: audioText,
+      company: params.uuid
+    }).then((res: any) => {
       setOpenLoading(false);
       setNotification(`You have updated ${audioText} audio resource.`);
       setOpenModify(false);
       setOpenEdit(false);
       setOpenSuccess(true);
-    }, 1200);
+    });
   };
 
   const onCreate: Function = () => {
     setNotification("One moment. We’re creating the audio resource...");
     setOpenLoading(true);
-    setTimeout(() => {
+    post(`/pitch/company/${params.slug}/audio/resources/`, {
+      name: audioText
+    }).then((res: any) => {
+      console.log(res.data);
+      setAudioItem(res.data);
       setOpenLoading(false);
       setNotification(`You have created ${audioText} audio resource.`);
       setOpenSuccess(true);
-    }, 1200);
+    });
   };
 
   const handleTextChange = ({ target: { value } }: any) => {
@@ -143,6 +149,7 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
   };
 
   const handleUploadFile: Function = () => {
+    setOpenSuccess(false);
     setOpenUpload(true);
   };
 
@@ -386,11 +393,15 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
 
   const renderUpload: Function = () => (
     <Upload
+      company={params}
+      audioItem={audioItem}
+      getAudioResources={getAudioResources}
       open={openUpload}
       title={audioText}
       cancelUpload={() => handleCancel()}
       onClose={() => {
         setOpenUpload(false);
+        setOpenNew(false);
       }}
     />
   );
@@ -419,6 +430,8 @@ const AudioResourceComponent: React.FC<AudioType> = ({ company }) => {
             </SaveButton>
           }
         />
+        {renderSuccess()}
+        {renderLoading()}
       </>
     );
   else

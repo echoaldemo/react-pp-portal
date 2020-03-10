@@ -113,7 +113,7 @@ const TabComponent: React.FC<Props> = ({
         <RapidResponseSegments company={companyData} />
       </TabPanel>
       <TabPanel value={value} index={4} className={classes.panelContainer}>
-        <AudioResources company={companyData} />
+        <AudioResources company={companyData} params={params} />
       </TabPanel>
     </div>
   );
