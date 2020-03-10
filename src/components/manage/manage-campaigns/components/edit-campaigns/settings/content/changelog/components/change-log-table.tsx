@@ -14,13 +14,11 @@ const classes = {
         cursor: 'pointer'
     }
 }
-
 const Span = styled.span`
   display: flex;
   align-items: center;
   cursor: pointer;
 `
-
 interface Props {
     tableData : Array<Object>,
     setActiveData: (change: any) => void
@@ -41,7 +39,6 @@ const ChangeLogTable : React.FC < Props > = ({tableData, setActiveData, onSortDa
         onSortData(!sortedCreated, type)
       }
     }
-
     const NoResult = () => {
         return (
           <TableNoResult
@@ -52,7 +49,6 @@ const ChangeLogTable : React.FC < Props > = ({tableData, setActiveData, onSortDa
           />
         )
     }
-
     return (
         <React.Fragment>
             {tableData.length > 0
@@ -94,5 +90,4 @@ const ChangeLogTable : React.FC < Props > = ({tableData, setActiveData, onSortDa
         </React.Fragment>
     )
 }
-
 export default ChangeLogTable

@@ -18,7 +18,6 @@ const initialState = {
 };
 
 const IdentityContext = React.createContext<any>(initialState);
-
 const IdentityProvider = ({ children }: any) => {
 	const [tab, setTab] = useState(0);
 	const [openModal, setOpenModal] = useState(false);
@@ -126,5 +125,4 @@ const IdentityProvider = ({ children }: any) => {
 		</IdentityContext.Provider>
 	);
 };
-
 export { IdentityProvider, IdentityContext };
