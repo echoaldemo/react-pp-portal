@@ -51,7 +51,7 @@ const StationsTable = ({ state, history, headers }: any) => {
               className={cell}
               onClick={() => history.push(`/manage/did-pool/edit/${pool.uuid}`)}
             >
-              {pool.slug}
+              {pool.username}
             </UnderlineCell>
             <ActiveCell className={cell}>{pool.active}</ActiveCell>
             <TableCell className={cell} align="right">
