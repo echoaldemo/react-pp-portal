@@ -12,11 +12,9 @@ export default function Variables() {
 
   // const handleDisplayModal = () => setOpen(!open);
 
-  const renderAddVarModal = () => {
-    return <>
-      <AlertModal open={openAddVarModal} severity={'info'} message={'Informative text for example…'} handlerClickBtn={() => setOpenAddVarModal(!openAddVarModal)} />
-    </>;
-  }
+  const renderAddVarModal = () => (
+    <AlertModal open={openAddVarModal} severity={'info'} message={'Informative text for example…'} handlerClickBtn={() => setOpenAddVarModal(!openAddVarModal)} />
+  )
 
   const renderTableNoResult = () => (
     <TableNoResult
@@ -52,30 +50,34 @@ export default function Variables() {
   ];
 
   const renderVariablesList = () => (
-    <AsyncTable headers={["Name", "Slug", "UUID"]} tableData={sampleData} render={(samples: any[], {
+    <AsyncTable headers={["Name", "Slug", "UUID"]} tableData={sampleData} render={(samples: any, {
       row,
       cell,
       uuid,
       icon
-    }) => samples.map(sample => <TableRow className={row} key={sample.uuid}>
-      <TableCell className={cell}>{sample.name}</TableCell>
-      <TableCell className={cell}>{sample.slug}</TableCell>
-      <TableCell className={uuid}>
-        <p>{sample.uuid}</p>
-        {/* <CopyToClipboard text={sample.uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
+    }: any) => samples.map((sample: {
+      uuid: string,
+      name: string,
+      slug: string,
+    }) => <TableRow className={row} key={sample.uuid}>
+        <TableCell className={cell}>{sample.name}</TableCell>
+        <TableCell className={cell}>{sample.slug}</TableCell>
+        <TableCell className={uuid}>
+          <p>{sample.uuid}</p>
+          {/* <CopyToClipboard text={sample.uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
           {copy ? <LightTooltip title="UUID Copied!" placement="top">
             <Icon className={icon} path={mdiContentCopy} size={1} rotate={360} />
           </LightTooltip> : <LightTooltip title="Copy UUID" placement="top">
               <Icon className={icon} path={mdiContentCopy} size={1} rotate={360} />
             </LightTooltip>}
         </CopyToClipboard> */}
-      </TableCell>
-    </TableRow>)} />
+        </TableCell>
+      </TableRow>)} />
   );
 
   return (
     <div className="c-default">
-      {renderTableNoResult()}
+      {true ? renderVariablesList() : renderTableNoResult()}
 
     </div>
   );
