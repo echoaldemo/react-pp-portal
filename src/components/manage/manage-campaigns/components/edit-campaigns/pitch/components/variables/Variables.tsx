@@ -1,7 +1,21 @@
 import React from "react";
-import { TableNoResult, SaveButton } from "common-components";
+import { TableNoResult, SaveButton, AlertModal } from "common-components";
 import { Add } from "@material-ui/icons";
+import {
+  Button
+} from "@material-ui/core/";
+
 export default function Variables() {
+  const [open, setOpen] = React.useState(false);
+
+  // const handleDisplayModal = () => setOpen(!open);
+
+  const addVarModal = () => {
+    return <>
+      <AlertModal open={open} severity={'info'} message={'Informative text for example…'} handlerClickBtn={() => setOpen(!open)} />
+    </>;
+  }
+
   return (
     <div className="c-default">
       <TableNoResult
@@ -22,3 +36,5 @@ export default function Variables() {
     </div>
   );
 }
+
+// export default variables;

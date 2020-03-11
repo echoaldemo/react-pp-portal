@@ -17,8 +17,6 @@ import {
   KeyboardArrowDown
 } from "@material-ui/icons/"
 import { IdentityContext } from "contexts/IdentityProvider"
-// import { AppContext } from "contexts/CampaignContext"
-// import { get } from "utils/api"
 
 const MenuProps = {
   PaperProps: {

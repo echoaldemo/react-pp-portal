@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { TableLoader, DeleteModal, AlertModal } from "common-components"
-import { IdentityContext } from "contexts/IdentityProvider"
+import { {IdentityContext} } from "contexts/IdentityProvider"
 import { remove } from "utils/api"
 import EditForm from "./EditForm"
 
 export default function Info() {
   const history = useHistory()
-  const { state, openModal, setOpenModal } = useContext(IdentityContext)
+  const { state, openModal, setOpenModal } = useContext({IdentityContext})
   const [alert, setAlert] = useState({
     open: false,
     severity: "loading",
