@@ -6,32 +6,20 @@ import {
   EditButton
 } from "common-components";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  TableCell,
-  TableRow,
-  Tooltip,
-  Menu,
-  MenuItem
-} from "@material-ui/core";
+import { TableCell, TableRow, Menu, MenuItem } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
-import { FileCopyOutlined as Icon } from "@material-ui/icons";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-
-const LightTooltip = withStyles(theme => ({
-  tooltip: {
-    backgroundColor: theme.palette.common.white,
-    color: "rgba(0, 0, 0, 0.87)",
-    boxShadow: theme.shadows[1],
-    fontSize: 11
-  }
-}))(Tooltip);
 
 interface DNCTableProps {
   state: any;
   openModalEditDncList: Function;
+  openModalUpload: Function;
 }
 
-const DNCTable: React.FC<DNCTableProps> = ({ state, openModalEditDncList }) => {
+const DNCTable: React.FC<DNCTableProps> = ({
+  state,
+  openModalEditDncList,
+  openModalUpload
+}) => {
   const [popper, setPopper] = useState<any>(null);
 
   return (
@@ -81,7 +69,7 @@ const DNCTable: React.FC<DNCTableProps> = ({ state, openModalEditDncList }) => {
         style={{ marginTop: 40 }}
       >
         <MenuItem
-          id="modify-menu"
+          id="edit"
           onClick={() => {
             openModalEditDncList();
           }}
@@ -89,12 +77,10 @@ const DNCTable: React.FC<DNCTableProps> = ({ state, openModalEditDncList }) => {
           Edit
         </MenuItem>
         <MenuItem
-          id="delete-menu"
-          // onClick={() => {
-          //   handleClose();
-          //   setPopper(null);
-          //   deleteConfirmation();
-          // }}
+          id="upload"
+          onClick={() => {
+            openModalUpload();
+          }}
         >
           Upload
         </MenuItem>
