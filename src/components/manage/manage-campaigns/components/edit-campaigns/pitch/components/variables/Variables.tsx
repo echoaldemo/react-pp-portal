@@ -51,7 +51,11 @@ export default function Variables() {
 
   const renderVariablesList = () => (
     <React.Fragment>
-      <SearchBar />
+      <SearchBar
+        userData={sampleData}
+        headers={['name']}
+        title={'Search For A Variable'}
+      />
       <AsyncTable headers={["Name", "Slug", "UUID"]} tableData={sampleData} render={(samples: any, {
         row,
         cell,
