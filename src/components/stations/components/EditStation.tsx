@@ -1,12 +1,23 @@
 import React, { useContext, useState } from "react";
 import { Modal, SaveButton } from "common-components";
 import styled from "styled-components";
-import { TextField, MenuItem } from "@material-ui/core";
+import {
+  TextField,
+  MenuItem,
+  FormControl,
+  InputAdornment,
+  InputBase,
+  Button,
+  InputLabel,
+  Divider
+} from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import { InputField as SelectField } from "common-components";
 import { KeyboardArrowDown } from "@material-ui/icons";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { CustomText } from "./style";
 import { store } from "contexts/ManageComponent";
+import { makeStyles } from "@material-ui/styles";
 
 const InputField = styled(TextField)`
   .MuiInputLabel-shrink {
@@ -57,7 +68,31 @@ const MenuProps = {
     }
   }
 };
-
+const useStyles = makeStyles({
+  removeLeader: {
+    color: "#bbbbbb",
+    fontSize: 16,
+    fontWeight: 600,
+    marginTop: 15
+  },
+  shrink: {
+    transform: "translate(0,1.5px) scale(1)"
+  },
+  focused: {
+    color: "#1194f6 !important"
+  },
+  delBtn: {
+    fontSize: 16,
+    fontWeight: 600,
+    width: 130,
+    height: 40,
+    backgroundColor: "#ff504d",
+    color: "rgba(255,255,255,0.87)",
+    "&:hover": {
+      backgroundColor: "rgb(255,55,51)"
+    }
+  }
+});
 const selectStyle = { margin: "14px 0 26px 0", width: "360px" };
 
 interface Props {
@@ -67,6 +102,7 @@ interface Props {
   selectedEdit: any;
   openEdit: any;
   data: any;
+  openDelete: any;
 }
 
 const EditStation: React.FC<Props> = ({
@@ -75,7 +111,8 @@ const EditStation: React.FC<Props> = ({
   createFnEdit,
   selectFnEdit,
   selectedEdit,
-  data
+  data,
+  openDelete
 }) => {
   const [active, setActive] = useState<any>(data.active);
   const [username, setUsername] = useState<any>(data.username);
@@ -98,6 +135,7 @@ const EditStation: React.FC<Props> = ({
           .join(", ")
     }
   };
+  const classes = useStyles();
   return (
     <Modal open={openEdit} title="Edit Station" onClose={closeEdit}>
       <InputField
@@ -167,6 +205,42 @@ const EditStation: React.FC<Props> = ({
       >
         Active
       </span>
+      <Divider />
+      <FormControl
+        fullWidth
+        disabled
+        style={{ marginTop: 20, marginBottom: 20 }}
+      >
+        <InputLabel
+          classes={{
+            root: classes.removeLeader,
+            shrink: classes.shrink,
+            focused: classes.focused
+          }}
+          htmlFor="delete"
+        >
+          Delete Station
+        </InputLabel>
+        <InputBase
+          style={{
+            margin: 8
+          }}
+          value={" "}
+          id="delete"
+          endAdornment={
+            <InputAdornment position="end">
+              <Button
+                onClick={openDelete}
+                variant="contained"
+                classes={{ root: classes.delBtn }}
+              >
+                <DeleteIcon /> Delete
+              </Button>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+      <Divider />
       <div className="option-btn-cont">
         <Btn onClick={closeEdit} type="button" style={{ marginRight: 10 }}>
           <Cancel>Cancel</Cancel>

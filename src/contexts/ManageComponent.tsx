@@ -8,7 +8,8 @@ const initialState = {
   teams: [],
   realms: [],
   location: [],
-  stations: []
+  stations: [],
+  stationListDetails: []
 };
 
 const store = createContext<any>(initialState);
@@ -27,7 +28,8 @@ const StateProvider = ({ children }: any) => {
           teams: action.payload.teamList,
           realms: action.payload.realmList,
           location: action.payload.locationList,
-          stations: action.payload.stationList
+          stations: action.payload.stationList,
+          stationListDetails: action.payload.stationListDetails
         };
       case "manage-users":
         return {
@@ -58,6 +60,12 @@ const StateProvider = ({ children }: any) => {
         return {
           ...state,
           realms: action.payload.realmList
+        };
+      case "manage-stations":
+        return {
+          ...state,
+          stations: action.payload.stationList,
+          stationListDetails: action.payload.stationListDetails
         };
       default:
         return null;
