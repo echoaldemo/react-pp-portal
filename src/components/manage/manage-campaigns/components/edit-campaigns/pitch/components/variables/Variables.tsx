@@ -1,5 +1,5 @@
 import React from "react";
-import { TableNoResult, SaveButton, AlertModal, AsyncTable } from "common-components";
+import { TableNoResult, SaveButton, AlertModal, AsyncTable, SearchBar } from "common-components";
 import { Add } from "@material-ui/icons";
 import {
   Button,
@@ -50,29 +50,32 @@ export default function Variables() {
   ];
 
   const renderVariablesList = () => (
-    <AsyncTable headers={["Name", "Slug", "UUID"]} tableData={sampleData} render={(samples: any, {
-      row,
-      cell,
-      uuid,
-      icon
-    }: any) => samples.map((sample: {
-      uuid: string,
-      name: string,
-      slug: string,
-    }) => <TableRow className={row} key={sample.uuid}>
-        <TableCell className={cell}>{sample.name}</TableCell>
-        <TableCell className={cell}>{sample.slug}</TableCell>
-        <TableCell className={uuid}>
-          <p>{sample.uuid}</p>
-          {/* <CopyToClipboard text={sample.uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
+    <React.Fragment>
+      <SearchBar />
+      <AsyncTable headers={["Name", "Slug", "UUID"]} tableData={sampleData} render={(samples: any, {
+        row,
+        cell,
+        uuid,
+        icon
+      }: any) => samples.map((sample: {
+        uuid: string,
+        name: string,
+        slug: string,
+      }) => <TableRow className={row} key={sample.uuid}>
+          <TableCell className={cell}>{sample.name}</TableCell>
+          <TableCell className={cell}>{sample.slug}</TableCell>
+          <TableCell className={uuid}>
+            <p>{sample.uuid}</p>
+            {/* <CopyToClipboard text={sample.uuid} onCopy={() => setCopy(true)} onPointerLeave={() => setCopy(false)}>
           {copy ? <LightTooltip title="UUID Copied!" placement="top">
             <Icon className={icon} path={mdiContentCopy} size={1} rotate={360} />
           </LightTooltip> : <LightTooltip title="Copy UUID" placement="top">
               <Icon className={icon} path={mdiContentCopy} size={1} rotate={360} />
             </LightTooltip>}
         </CopyToClipboard> */}
-        </TableCell>
-      </TableRow>)} />
+          </TableCell>
+        </TableRow>)} />
+    </React.Fragment>
   );
 
   return (
