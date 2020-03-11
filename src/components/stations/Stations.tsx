@@ -8,13 +8,14 @@ import {
   SearchBar,
   Pagination,
   LoadingModal,
-  SuccessModal
+  SuccessModal,
+  DeleteModal
 } from "common-components";
 import { Paper, Divider } from "@material-ui/core";
 import StationsTable from "./StationsTable";
 import { store } from "contexts/ManageComponent";
 import NewStation from "./components/NewStation";
-import { post, get, patch } from "utils/api";
+import { post, get, patch, remove } from "utils/api";
 import slugify from "slugify";
 import SnackNotif from "auth/component/snackbar/snackbar";
 import EditStation from "./components/EditStation";
@@ -32,7 +33,8 @@ function Stations(props: any) {
     errorMessage: "",
     editModal: false,
     activeData: {},
-    label: ""
+    label: "",
+    openDelete: false
   });
   const handleSubmit = (usr: any, pass: any, active: any) => {
     setState({ ...states, loadingModal: true, addNewModal: false });
@@ -122,9 +124,41 @@ function Stations(props: any) {
       });
     });
   };
+
+  const deleteStation = () => {
+    setState({ ...states, loadingModal: true, openDelete: false });
+    remove(`/identity/station/${states.activeData.uuid}/`)
+      .then((res: any) => {
+        if (res.status === 204) {
+          setState({
+            ...states,
+            loadingModal: false,
+            successModal: true,
+            username: states.activeData.uuid,
+            editModal: false,
+            label: "Deleted"
+          });
+        } else {
+          setState({
+            ...states,
+            loadingModal: false,
+            openDelete: true,
+            errorMessage: "Error encountered while deleting. Please try again"
+          });
+        }
+      })
+      .catch(() => {
+        setState({
+          ...states,
+          loadingModal: false,
+          openDelete: true,
+          errorMessage: "Error encountered while deleting. Please try again"
+        });
+      });
+  };
   return (
     <div>
-      <SEO title="Stations" />
+      <SEO title="Manage Stations" />
       <div className="header-container">
         <HeaderLink menu={[]} title="Stations" />
         <div style={{ display: "flex" }}>
@@ -147,7 +181,7 @@ function Stations(props: any) {
             {state.stations.length === 0 ? (
               <TableLoader />
             ) : (
-              <div style={{ height: 600 }}>
+              <div style={{ height: 700 }}>
                 <StationsTable
                   headers={["UUID", "USERNAME", "STATUS", ""]}
                   history={props.history}
@@ -162,7 +196,7 @@ function Stations(props: any) {
                 <Pagination
                   paginateFn={paginate}
                   totalItems={states.paginateList.length}
-                  itemsPerPage={6}
+                  itemsPerPage={10}
                 />
               )}
             </div>
@@ -184,6 +218,9 @@ function Stations(props: any) {
           selectFnEdit={handleSelect}
           selectedEdit={states.selectedRealms}
           data={states.activeData}
+          openDelete={() => {
+            setState({ ...states, openDelete: true });
+          }}
         />
       ) : null}
 
@@ -198,6 +235,16 @@ function Stations(props: any) {
         open={states.successModal}
         text={`Successfully ${states.label} “${states.username}”`}
         closeFn={handleCloseSucess}
+      />
+      <DeleteModal
+        open={states.openDelete}
+        header="Delete Station"
+        msg="Station"
+        name={states.activeData.username}
+        closeFn={() => {
+          setState({ ...states, openDelete: false });
+        }}
+        delFn={deleteStation}
       />
       <SnackNotif
         snackbar={states.errorMessage.length === 0 ? false : true}

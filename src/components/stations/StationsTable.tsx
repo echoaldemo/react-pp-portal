@@ -30,7 +30,7 @@ const StationsTable = ({ state, history, headers, openEdit }: any) => {
         pools.map((pool: any) => (
           <TableRow className={row} key={pool.uuid}>
             <TableCell className={uuid}>
-              <p>{pool.uuid}</p>
+              {pool.uuid}
               <CopyToClipboard
                 text={pool.uuid}
                 onCopy={() => setCopy(true)}
