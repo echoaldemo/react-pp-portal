@@ -22,6 +22,7 @@ const getAllList = dispatch => {
     const realmList = values[5].data;
     const locationList = values[6].data;
     const stationList = values[7].data.results;
+    const stationListDetails = values[7].data;
 
     dispatch({
       type: "manage-list",
@@ -33,7 +34,8 @@ const getAllList = dispatch => {
         teamList,
         realmList,
         locationList,
-        stationList
+        stationList,
+        stationListDetails
       }
     });
     return values;

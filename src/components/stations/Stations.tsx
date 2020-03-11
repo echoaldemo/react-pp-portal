@@ -21,7 +21,7 @@ import SnackNotif from "auth/component/snackbar/snackbar";
 import EditStation from "./components/EditStation";
 
 function Stations(props: any) {
-  const { state } = useContext(store);
+  const { state, dispatch } = useContext(store);
   const [states, setState] = useState<any>({
     stations: state.stations,
     paginateList: state.stations,
@@ -44,7 +44,7 @@ function Stations(props: any) {
       username: usr,
       password: pass
     }).then((res: any) => {
-      if (res.status === 200) {
+      if (res.status === 201) {
         setState({
           ...states,
           loadingModal: false,
@@ -61,6 +61,18 @@ function Stations(props: any) {
           errorMessage: "Username Already Exists"
         });
       }
+    });
+  };
+  const fetchData = () => {
+    get(`/identity/station/list/`).then((res: any) => {
+      setState({ ...states });
+      dispatch({
+        type: "manage-stations",
+        payload: {
+          stationList: res.data.results,
+          stationListDetails: res.data
+        }
+      });
     });
   };
 
@@ -106,6 +118,9 @@ function Stations(props: any) {
   };
 
   const paginate = (from: any, to: any) => {
+    get(`/identity/station/list/?page=${to / 10}`).then((res: any) => {
+      setState({ ...states, stations: res.data.results });
+    });
     setState({
       ...states,
       stations: states.paginateList.slice(from, to)
@@ -113,6 +128,7 @@ function Stations(props: any) {
   };
   const handleCloseSucess = () => {
     setState({ ...states, successModal: false });
+    fetchData();
   };
   const openModalEdit = (uuid: any) => {
     get(`/identity/station/${uuid}/`).then((res: any) => {
@@ -135,6 +151,7 @@ function Stations(props: any) {
             loadingModal: false,
             successModal: true,
             username: states.activeData.uuid,
+            openDelete: false,
             editModal: false,
             label: "Deleted"
           });
@@ -195,7 +212,7 @@ function Stations(props: any) {
               {Boolean(states.paginateList.length) && (
                 <Pagination
                   paginateFn={paginate}
-                  totalItems={states.paginateList.length}
+                  totalItems={state.stationListDetails.count}
                   itemsPerPage={10}
                 />
               )}
