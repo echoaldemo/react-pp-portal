@@ -37,47 +37,47 @@ const IdentityProvider = ({ children }: any) => {
 			if (campaign[key] === null) campaign[key] = {}
 		})
 		patch(`/identity/campaign/${campaign.uuid}/`, campaign)
-		.then((res:any) => {
-			setCampaignRealms(res.data)
-			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
-			setLoading(false)
+			.then((res: any) => {
+				setCampaignRealms(res.data)
+				dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
+				setLoading(false)
 			})
-		};
+	};
 
 	const setCampaignRealms = (campaign: any) => {
-		let campaignRealms:any = []
-			state.realms.forEach((realm:any) => {
-				if (campaign.realms.indexOf(realm.uuid) > -1 ) campaignRealms.push(realm)
-			})
-			dispatch({ type: 'SAVE_CAMPAIGN_REALMS', payload: { campaignRealms: campaignRealms } })
-	};
-
-	const getCampaign = (uuid: string):any => {
-		get(`/identity/campaign/${uuid}`)
-		.then((res:any) => {
-			console.log('campaign: ', res.data);
-			setCampaignRealms(res.data)
-			getCampaignCompany(res.data.company)
-			dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
-			setLoading(false);
+		let campaignRealms: any = []
+		state.realms.forEach((realm: any) => {
+			if (campaign.realms.indexOf(realm.uuid) > -1) campaignRealms.push(realm)
 		})
+		dispatch({ type: 'SAVE_CAMPAIGN_REALMS', payload: { campaignRealms: campaignRealms } })
 	};
 
-	const getCampaignCompany = (uuid: string):any => {
-		let company = state.companies.filter((company:any) => company.uuid === uuid)
+	const getCampaign = (uuid: string): any => {
+		get(`/identity/campaign/${uuid}`)
+			.then((res: any) => {
+				console.log('campaign: ', res.data);
+				setCampaignRealms(res.data)
+				getCampaignCompany(res.data.company)
+				dispatch({ type: 'SAVE_INFO', payload: { campaign_details: res.data } })
+				setLoading(false);
+			})
+	};
+
+	const getCampaignCompany = (uuid: string): any => {
+		let company = state.companies.filter((company: any) => company.uuid === uuid)
 		dispatch({ type: 'SAVE_CAMPAIGN_COMPANY', payload: { campaignCompany: company[0] } });
 	};
 
 	const getCompanies = () => {
 		get("/identity/company/list/", {
 			editable: false
-		}).then((res:any ) => dispatch({ type: 'SAVE_COMPANIES', payload: { companies: res.data } }))
+		}).then((res: any) => dispatch({ type: 'SAVE_COMPANIES', payload: { companies: res.data } }))
 	};
 
 	const getRealms = () => {
 		get("/identity/realm/list/", {
-		editable: false
-		}).then((res:any) => dispatch({ type: 'SAVE_REALMS', payload: { realms: res.data } }))
+			editable: false
+		}).then((res: any) => dispatch({ type: 'SAVE_REALMS', payload: { realms: res.data } }))
 	};
 
 	useEffect(() => {
@@ -87,17 +87,16 @@ const IdentityProvider = ({ children }: any) => {
 	}, []);
 
 	useEffect(() => {
-		if(state.realms.length > 0){
+		if (state.realms.length > 0) {
 			let path = window.location.pathname
 			let splitedPath = path.split("/")
-			if(splitedPath.length >=5) {
-				let uuid = splitedPath[5]	
+			if (splitedPath.length >= 5) {
+				let uuid = splitedPath[5]
 				setTimeout(() => getCampaign(uuid), 2000);
 			}
 		}
 	}, [state.realms])
 
-	
 	return (
 		<IdentityContext.Provider
 			value={{
