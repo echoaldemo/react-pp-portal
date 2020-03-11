@@ -11,7 +11,8 @@ const getAllList = dispatch => {
     get("/identity/group/list/"),
     get("/identity/team/list/"),
     get("/identity/realm/list/"),
-    get("/identity/location/list/")
+    get("/identity/location/list/"),
+    get("/identity/station/list/")
   ]).then(function(values) {
     const userList = values[0].data.results;
     const companyList = values[1].data;
@@ -20,6 +21,8 @@ const getAllList = dispatch => {
     const teamList = values[4].data;
     const realmList = values[5].data;
     const locationList = values[6].data;
+    const stationList = values[7].data.results;
+    const stationListDetails = values[7].data;
 
     dispatch({
       type: "manage-list",
@@ -30,7 +33,9 @@ const getAllList = dispatch => {
         roleList,
         teamList,
         realmList,
-        locationList
+        locationList,
+        stationList,
+        stationListDetails
       }
     });
     return values;

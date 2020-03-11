@@ -25,6 +25,7 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import SmsIcon from "@material-ui/icons/SmsOutlined";
 
 import { useStyles } from "./styles";
+import { RecordVoiceOver } from "@material-ui/icons";
 
 interface Props extends RouteComponentProps<any> {
   location: any;
@@ -165,6 +166,19 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
             >
               <LibraryMusicOutlinedIcon />
             </div>
+          </Tooltip>
+          <Tooltip title="Stations" placement="right">
+            <Link to="/manage/stations">
+              <div
+                className={
+                  pathname.includes("/manage/stations")
+                    ? classes.active
+                    : classes.navButton
+                }
+              >
+                <RecordVoiceOver />
+              </div>
+            </Link>
           </Tooltip>
 
           {type === "1" ? (
@@ -863,6 +877,28 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
                 </Link>
               </List>
             </Collapse>
+            <Link to="/manage/stations" className={classes.customLink}>
+              <ListItem
+                button
+                className={
+                  pathname.includes("/manage/stations")
+                    ? classes.activeListItem
+                    : null
+                }
+              >
+                <ListItemIcon>
+                  <RecordVoiceOver
+                    className={
+                      pathname.includes("/manage/stations")
+                        ? classes.activeListIcon
+                        : null
+                    }
+                  />
+                </ListItemIcon>
+                <ListItemText primary="Stations" />
+              </ListItem>
+            </Link>
+            <Divider />
             {/* audio side nav end */}
             <Divider />
             {type === "1" ? (
@@ -894,7 +930,7 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
                     <ListItemText primary="Sms" />
                   </ListItem>
                 </Link>
-                <Divider />{" "}
+                <Divider />
               </>
             ) : null}
           </List>
