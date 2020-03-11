@@ -193,6 +193,7 @@ function Stations(props: any) {
               userData={state.stations.length === 0 ? [] : state.stations}
               headers={["username", "uuid"]}
               loading={state.stations.length === 0 ? true : false}
+              modalFunc={openModalEdit}
             />
             <Divider />
             {state.stations.length === 0 ? (
