@@ -5,7 +5,6 @@ import {
   HeaderLink,
   HeaderButton,
   TableLoader,
-  SearchBar,
   Pagination,
   LoadingModal,
   SuccessModal,
@@ -19,6 +18,7 @@ import { post, get, patch, remove } from "utils/api";
 import slugify from "slugify";
 import SnackNotif from "auth/component/snackbar/snackbar";
 import EditStation from "./components/EditStation";
+import { SearchBar } from "./components/search-bar";
 
 function Stations(props: any) {
   const { state, dispatch } = useContext(store);
