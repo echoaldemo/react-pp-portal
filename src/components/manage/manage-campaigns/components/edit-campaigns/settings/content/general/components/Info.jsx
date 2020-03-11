@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { TableLoader, DeleteModal, AlertModal } from "common-components"
-import { {IdentityContext} } from "contexts/IdentityProvider"
+import { IdentityContext } from "contexts/IdentityProvider"
 import { remove } from "utils/api"
 import EditForm from "./EditForm"
 
