@@ -57,13 +57,6 @@ const SigninComponent: React.FC<{ history: any }> = ({ history }) => {
         handleSnackbar(true, "Incorrect Login Credentials");
       }
     });
-
-    // if (login(data.username, data.password)) {
-    //   setState({ ...state, loggedIn: true });
-    //   history.push("/gateway");
-    // } else {
-    //   setState({ ...state, loggedIn: false });
-    // }
   };
 
   return (
