@@ -7,7 +7,7 @@ import EditForm from "./EditForm"
 
 export default function Info() {
   const history = useHistory()
-  const { state, openModal, setOpenModal } = useContext({IdentityContext})
+  const { state, openModal, setOpenModal } = useContext(IdentityContext)
   const [alert, setAlert] = useState({
     open: false,
     severity: "loading",

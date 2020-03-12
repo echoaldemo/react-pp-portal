@@ -20,6 +20,7 @@ import Close from "@material-ui/icons/Close";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import { LoadingModal, SuccessModal, DeleteModal } from "common-components";
 import { useStyles, materialTheme } from "../../styles/EditDIDModal.style";
+import {get} from 'utils/api'
 
 interface Props {
   open: boolean;
@@ -57,11 +58,9 @@ const EditDIDModal = ({ open, closeFn, editData, fetchDIDs }: Props) => {
   }, [editData]);
 
   const fetchDIDPools = () => {
-    fetch(`http://5e00169a1fb99500141403ae.mockapi.io/api/v1/pools`)
-      .then((response: any) => response.json())
+    get(`/did/company/all/campaign/all/pool/`)
       .then((response: any) => {
-        console.log("pools", response);
-        setPools(response);
+        setPools(response.data);
         setPoolsLoading(false);
       });
   };
@@ -89,26 +88,15 @@ const EditDIDModal = ({ open, closeFn, editData, fetchDIDs }: Props) => {
           didPools.find((pool: Obj) => pool.uuid === selectedDIDPools) ||
           did.pool
       };
-      fetch(
-        `http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids/${did.uuid}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          console.log("Success:", data);
+      get(`/did/company/{company_slug}/campaign/{campaign_slug}/pool/${selectedDIDPools}/did/${did.uuid}/`)
+        .then((res:any) => {
           setUpdate({
             ...update,
             updating: false,
             updated: true
           });
         })
-        .catch(error => {
+        .catch((error:any) => {
           console.error("Error:", error);
         });
     }

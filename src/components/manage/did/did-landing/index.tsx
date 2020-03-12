@@ -9,6 +9,7 @@ import {
   Pagination
 } from "common-components";
 import DIDTable from "../components/DIDTable/DIDTable";
+import {get} from 'utils/api'
 
 const ManageDID = ({ history }: any) => {
   const [loading, setLoading] = useState(true);
@@ -21,14 +22,13 @@ const ManageDID = ({ history }: any) => {
   }, []);
 
   const fetchDIDs = () => {
-    fetch(`http://5e0015181fb99500141403a4.mockapi.io/mock/v1/dids`)
-      .then((response: any) => response.json())
+    get(`/did/company/all/campaign/all/did/`)
       .then((response: any) => {
-        let newResponse = response.map((did: any) => {
+        let newResponse = response.data.map((did: any) => {
           let uuid = did.uuid;
           delete did.uuid;
           did.uuid = uuid;
-          did.number = `+${did.number.toString()}`;
+          did.number = `${did.number.toString()}`;
           return did;
         });
         setDidData(newResponse);
