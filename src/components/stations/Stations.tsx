@@ -177,7 +177,7 @@ function Stations(props: any) {
     <div>
       <SEO title="Manage Stations" />
       <div className="header-container">
-        <HeaderLink menu={[]} title="Stations" />
+        <span style={{ fontSize: "24px", color: "#444851" }}>Stations</span>
         <div style={{ display: "flex" }}>
           <HeaderButton
             openFunction={() => setState({ ...states, addNewModal: true })}
