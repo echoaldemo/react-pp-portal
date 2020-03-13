@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import SEO from "utils/seo";
 import "./style/style.css";
 import {
-  HeaderLink,
   HeaderButton,
   TableLoader,
   Pagination,

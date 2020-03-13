@@ -8,7 +8,6 @@ import {
   createMuiTheme,
   withStyles
 } from "@material-ui/core/styles";
-import styled from "styled-components";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
