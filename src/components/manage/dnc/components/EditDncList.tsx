@@ -163,8 +163,8 @@ const EditDncList: React.FC<NewDidProps> = ({ open, handleClose }) => {
             label="Delayed process"
           />
           <div className={classes.buttonContainer}>
-            <Btn type="button">
-              <Cancel onClick={handleClose}>Cancel</Cancel>
+            <Btn type="button" onClick={handleClose}>
+              <Cancel>Cancel</Cancel>
             </Btn>
             <CreateBtn data-cy="create-button" type="submit">
               <CreateText>Save</CreateText>

@@ -11,6 +11,7 @@ import {
 import DNCTable from "./components/DNCTable";
 import NewDncList from "./components/NewDncList";
 import EditDncList from "./components/EditDncList";
+import Upload from "./components/Upload";
 import { get } from "utils/api";
 
 interface IProps {}
@@ -21,6 +22,7 @@ const DNC: React.FC<IProps> = ({}) => {
   const [tableData, setTableData] = useState<any>([]);
   const [openNewDncList, setOpenNewDncList] = useState<any>(false);
   const [openEditDncList, setOpenEditDncList] = useState<any>(false);
+  const [openUpload, setOpenUpload] = useState<any>(false);
 
   useEffect(() => {
     get("/dnc/list/").then((res: any) => {
@@ -92,10 +94,10 @@ const DNC: React.FC<IProps> = ({}) => {
           setActiveDataMethod={() => {}}
           settings={
             <>
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={() => setOpenEditDncList(true)}>
                 <Typography>Edit</Typography>
               </MenuItem>
-              <MenuItem onClick={() => {}}>
+              <MenuItem onClick={() => setOpenUpload(true)}>
                 <Typography>Upload</Typography>
               </MenuItem>
             </>
@@ -105,6 +107,7 @@ const DNC: React.FC<IProps> = ({}) => {
         <DNCTable
           state={tableData}
           openModalEditDncList={() => setOpenEditDncList(true)}
+          openModalUpload={() => setOpenUpload(true)}
         />
         <Divider />
         {Boolean(paginateList.length) && (
@@ -123,6 +126,15 @@ const DNC: React.FC<IProps> = ({}) => {
         open={openEditDncList}
         handleClose={() => setOpenEditDncList(false)}
       />
+      {dnc.length !== 0 ? (
+        <Upload
+          open={openUpload}
+          handleClose={() => setOpenUpload(false)}
+          state={dnc}
+          openModalEditDncList={() => setOpenEditDncList(true)}
+          openModalUpload={() => setOpenUpload(true)}
+        />
+      ) : null}
     </div>
   );
 };
