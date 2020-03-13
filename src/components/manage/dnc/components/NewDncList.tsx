@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import {
   Modal,
-  SaveButton,
-  LoadingModal,
-  SuccessModal
+  SaveButton, //eslint-disable-line
+  LoadingModal, //eslint-disable-line
+  SuccessModal //eslint-disable-line
 } from "common-components";
 import styled from "styled-components";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { MenuItem, CircularProgress, TextField } from "@material-ui/core";
+import { MenuItem, TextField } from "@material-ui/core";
 import { useStyles } from "../styles";
 
+//eslint-disable-next-line
 const Loading = styled.div`
   height: 50px;
   display: flex;

@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  AsyncTable,
-  ActiveCell,
-  UnderlineCell,
-  EditButton
-} from "common-components";
-import { withStyles } from "@material-ui/core/styles";
+import { AsyncTable, ActiveCell, UnderlineCell } from "common-components";
 import { TableCell, TableRow, Menu, MenuItem } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 

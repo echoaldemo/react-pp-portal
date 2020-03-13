@@ -1,25 +1,19 @@
 import React, { useState, useEffect } from "react";
 import {
   Modal,
-  SaveButton,
-  LoadingModal,
-  SuccessModal,
+  SaveButton, //eslint-disable-line
+  LoadingModal, //eslint-disable-line
+  SuccessModal, //eslint-disable-line
   Pagination,
   SearchBar
 } from "common-components";
 import styled from "styled-components";
-import {
-  FormControlLabel,
-  Button,
-  CircularProgress,
-  Tabs,
-  Tab,
-  Divider
-} from "@material-ui/core";
+import { Button, Tabs, Tab, Divider } from "@material-ui/core";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { useStyles } from "../styles";
 import HistoryTable from "./HistoryTable";
 
+//eslint-disable-next-line
 const Loading = styled.div`
   height: 50px;
   display: flex;
@@ -84,7 +78,7 @@ const Upload: React.FC<UploadProps> = ({
   const [file, handleFile] = useState<any>(null);
   const [tabValue, setTabValue] = useState<any>(0);
   const [tableData, setTableData] = useState<any>(state);
-  const [paginateList, setPaginateList] = useState<any>(state);
+  const [paginateList, setPaginateList] = useState<any>(state); //eslint-disable-line
 
   useEffect(() => {
     setTabValue(0);

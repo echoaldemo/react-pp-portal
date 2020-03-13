@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { AsyncTable, UnderlineCell } from "common-components";
-import { TableCell, TableRow, Menu, MenuItem } from "@material-ui/core";
+import { TableRow, Menu, MenuItem } from "@material-ui/core";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import { makeStyles } from "@material-ui/core/styles";
 
