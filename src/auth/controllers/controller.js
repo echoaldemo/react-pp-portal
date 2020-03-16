@@ -31,4 +31,4 @@ function typeChecker() {
   }
 }
 
-export { login, logout };
+export { login, logout, typeChecker };
