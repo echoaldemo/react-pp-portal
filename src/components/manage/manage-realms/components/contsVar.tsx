@@ -46,10 +46,13 @@ const menus: any = [
     title: "Did Pools",
     path: "/manage/did-pool"
   },
-
   {
     title: "Dids",
     path: "/manage/dids"
+  },
+  {
+    title: "DNC List",
+    path: "/manage/dnc"
   }
 ];
 const headers: Array<string> = ["Name", "UUID", "Status", ""];

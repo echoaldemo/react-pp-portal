@@ -77,6 +77,10 @@ const DNC: React.FC<IProps> = ({}) => {
             {
               title: "Dids",
               path: "/manage/dids"
+            },
+            {
+              title: "DNC List",
+              path: "/manage/dnc"
             }
           ]}
           title="DNC"

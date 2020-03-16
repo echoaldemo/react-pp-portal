@@ -26,6 +26,10 @@ const menus = [
   {
     title: "Dids",
     path: "/manage/dids"
+  },
+  {
+    title: "DNC List",
+    path: "/manage/dnc"
   }
 ];
 const headers = ["Name", "UUID", "Status", "Inbound", "DID Count", ""];

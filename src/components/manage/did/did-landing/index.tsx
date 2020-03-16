@@ -87,6 +87,10 @@ const ManageDID = ({ history }: any) => {
             {
               title: "DID Pools",
               path: "/manage/did-pool"
+            },
+            {
+              title: "DNC List",
+              path: "/manage/dnc"
             }
           ]}
           title="Dids"

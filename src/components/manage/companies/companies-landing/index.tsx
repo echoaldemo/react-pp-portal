@@ -128,6 +128,10 @@ class Companies extends Component<IProps, IState> {
               {
                 title: "Dids",
                 path: "/manage/dids"
+              },
+              {
+                title: "DNC List",
+                path: "/manage/dnc"
               }
             ]}
             title="Companies"

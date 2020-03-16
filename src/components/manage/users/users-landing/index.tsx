@@ -124,6 +124,10 @@ const UserLanding = () => {
             {
               title: "Dids",
               path: "/manage/dids"
+            },
+            {
+              title: "DNC List",
+              path: "/manage/dnc"
             }
           ]}
           title="Users"

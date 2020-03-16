@@ -516,6 +516,32 @@ const Component: React.FC<Props> = ({ location, handleDrawerClose, open }) => {
                         <ListItemText primary="Dids" />
                       </ListItem>
                     </Link>
+                    <Link to="/manage/dnc" className={classes.customLink}>
+                      <ListItem
+                        selected={pathname.includes("/manage/dnc") && true}
+                        onClick={handleDrawerClose}
+                        button
+                        className={classes.nested}
+                      >
+                        <ListItemIcon>
+                          <>
+                            <span
+                              style={{
+                                height: "12px",
+                                borderRight: "1px solid #BBBBBB",
+                                marginTop: "-13px",
+                                marginLeft: "6px",
+                                position: "absolute"
+                              }}
+                            ></span>
+                            <RadioButtonUncheckedIcon
+                              style={{ fontSize: 13 }}
+                            />
+                          </>
+                        </ListItemIcon>
+                        <ListItemText primary="DNC List" />
+                      </ListItem>
+                    </Link>
                   </List>
                 </Collapse>
                 <Divider />

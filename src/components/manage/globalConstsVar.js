@@ -25,17 +25,20 @@ const menus = [
     path: "/manage/locations"
   },
   {
+    title: "Realms",
+    path: "/manage/realms"
+  },
+  {
     title: "Did Pools",
     path: "/manage/did-pool"
   },
-
   {
     title: "Dids",
     path: "/manage/dids"
   },
   {
-    title: "Realms",
-    path: "/manage/realms"
+    title: "DNC List",
+    path: "/manage/dnc"
   }
 ];
 

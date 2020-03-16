@@ -135,6 +135,10 @@ function ManageLocation(props: any) {
             {
               title: "Dids",
               path: "/manage/dids"
+            },
+            {
+              title: "DNC List",
+              path: "/manage/dnc"
             }
           ]}
           title="Locations"
