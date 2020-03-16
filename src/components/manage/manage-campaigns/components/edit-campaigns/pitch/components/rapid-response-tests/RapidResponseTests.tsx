@@ -13,15 +13,13 @@ interface IState {
 }
 
 const RapidResponseTests: React.FC = () => {
-  const [info, setInfo] = useState<IState>(
-    {
+  const [info, setInfo] = useState<IState>({
     loadingState: true,
     activeTestData: [],
     globalTestData: [],
     companyTestData: [],
     activeData: []
-  }
-  );
+  });
   const [companyTestData, setCompanyTestData] = useState<any>([]);
   const [activeTestData, setActiveTestData] = useState<any>([]);
   const [globalTestData, setGlobalTestData] = useState<any>([]);
@@ -73,7 +71,7 @@ const RapidResponseTests: React.FC = () => {
       `/pitch/company/${companyData.data.slug}/campaign/${localData.slug}/`
     )
       .then(async (res: any) => {
-        const data = await activeData(res.data.rapid_response_tests)
+        const data = await activeData(res.data.rapid_response_tests);
         setActiveTestData(data);
         return res;
       })
@@ -82,13 +80,13 @@ const RapidResponseTests: React.FC = () => {
       });
   };
 
-  const activeData = (data:any) => {
-    let segments:any[] = []; 
-    data.forEach((item:any, index:number) => {
-      segments.push({uuid: item, name: `Test ${index}`})
+  const activeData = (data: any) => {
+    let segments: any[] = [];
+    data.forEach((item: any, index: number) => {
+      segments.push({ uuid: item, name: `Test ${index}` });
     });
-    return segments
-  }
+    return segments;
+  };
 
   const setActiveData = (data: any) => {
     setInfo({ ...info, activeData: data });
@@ -98,10 +96,10 @@ const RapidResponseTests: React.FC = () => {
     //API request here for updating activeSegments
     const companyData = await getCompanySlug();
 
-    let segments:string[] = [];
+    let segments: string[] = [];
 
-    data.forEach((item:any) => {
-      segments.push(item.uuid)
+    data.forEach((item: any) => {
+      segments.push(item.uuid);
     });
 
     patch(
@@ -111,8 +109,7 @@ const RapidResponseTests: React.FC = () => {
       }
     )
       .then((res: any) => {
-        console.log('saved: ', res);
-        
+        console.log("saved: ", res);
       })
       .catch((err: any) => {
         console.error(err);
@@ -136,15 +133,9 @@ const RapidResponseTests: React.FC = () => {
               card1Title="Active segments"
               card2Title="Global segments"
               card3Title="Company segments"
-<<<<<<< HEAD
-              card1Data={state.activeTestData}
-              card2Data={state.globalTestData}
-              card3Data={state.companyTestData}
-=======
               card1Data={activeTestData}
               card2Data={globalTestData}
               card3Data={companyTestData}
->>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
               saveActiveSegment={saveActiveSegment}
               setActiveData={setActiveData}
             />

@@ -1,22 +1,17 @@
-import axios from "axios"
+import axios from "axios";
 //sam token
-const token = localStorage.getItem("ngStorage-ppToken")
-axios.defaults.headers.common.Accept = "application/json"
-axios.defaults.headers.post["Content-Type"] = "application/json" //CONTENT TYPE
+const token = localStorage.getItem("ngStorage-ppToken");
+axios.defaults.headers.common.Accept = "application/json";
+axios.defaults.headers.post["Content-Type"] = "application/json"; //CONTENT TYPE
 if (token != null) {
-  axios.defaults.headers.common["Authorization"] = `token ${token}` // AUTHORIZATION
+  axios.defaults.headers.common["Authorization"] = `token ${token}`; // AUTHORIZATION
 }
 
-<<<<<<< HEAD
-const baseUrl = "http://devswarm.perfectpitchtech.com"; // BASE URL OF THE API SERVER
+const baseUrl = "https://dev-api.perfectpitchtech.com"; // BASE URL OF THE API SERVER
 const CancelToken = axios.CancelToken;
-=======
-const baseUrl = "https://dev-api.perfectpitchtech.com" // BASE URL OF THE API SERVER
-const CancelToken = axios.CancelToken
->>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
 let cancel = () => {
-  axios.cancelAll()
-}
+  axios.cancelAll();
+};
 
 // EXPORTED TOOLS
 
@@ -35,57 +30,57 @@ let cancel = () => {
 
 //get method
 const get = (endpoint, query) => {
-  let test = ""
-  let count = 0
+  let test = "";
+  let count = 0;
   if (query) {
     for (const key of Object.keys(query)) {
       if (count === 0) {
-        test += `?${key}=${query[key]}`
+        test += `?${key}=${query[key]}`;
       } else {
-        test += `&${key}=${query[key]}`
+        test += `&${key}=${query[key]}`;
       }
-      count++
+      count++;
     }
   }
-  return axios.get(`${baseUrl}${endpoint}${test}`)
-}
+  return axios.get(`${baseUrl}${endpoint}${test}`);
+};
 
 //post method
 const post = (endpoint, data) =>
   axios.post(`${baseUrl}${endpoint}`, data, {
     cancelToken: new CancelToken(function executor(c) {
-      cancel = c
+      cancel = c;
     })
-  })
+  });
 
 //patch method
 const patch = (endpoint, data) =>
   axios.patch(`${baseUrl}${endpoint}`, data, {
     cancelToken: new CancelToken(function executor(c) {
-      cancel = c
+      cancel = c;
     })
-  })
+  });
 
 //put method
 const put = (endpoint, data) =>
   axios.put(`${baseUrl}${endpoint}`, data, {
     cancelToken: new CancelToken(function executor(c) {
-      cancel = c
+      cancel = c;
     })
-  })
+  });
 
 //remove method
 const remove = endpoint =>
   axios.delete(`${baseUrl}${endpoint}`, {
     cancelToken: new CancelToken(function executor(c) {
-      cancel = c
+      cancel = c;
     })
-  })
+  });
 const withToken = (endpoint, token) => {
   return axios.get(`${baseUrl}${endpoint}`, {
     headers: { Authorization: `Token ${token}` }
-  })
-}
+  });
+};
 
 // list of exported tools
-export { get, post, patch, put, remove, cancel, withToken }
+export { get, post, patch, put, remove, cancel, withToken };

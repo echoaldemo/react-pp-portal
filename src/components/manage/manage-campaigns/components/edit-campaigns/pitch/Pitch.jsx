@@ -28,11 +28,7 @@ const tabnames = [
   "RAPID RESPONSE TESTS"
 ];
 
-<<<<<<< HEAD
-export default function PitchSection({ history }) {
-=======
 export default function PitchSection({ history, match }) {
->>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
   const { state } = useContext(IdentityContext);
   const [tabValue, setValue] = useState(0);
 
@@ -101,15 +97,11 @@ export default function PitchSection({ history, match }) {
 
   return (
     <div>
-<<<<<<< HEAD
-      <EditHeader campaignDetails={state.campaignDetails} history={history} />
-=======
       <EditHeader
         campaignDetails={state.campaignDetails}
         match={match}
         history={history}
       />
->>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
       <Paper square={true} className="mh-normal">
         {state.pitch ? (
           <React.Fragment>

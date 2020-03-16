@@ -5,8 +5,7 @@ import BackIcon from "@material-ui/icons/ChevronLeft";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-<<<<<<< HEAD
-  appBarSpacer: theme.mixins.toolbar,
+  //appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: "100vh",
@@ -73,75 +72,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 22,
     maxWidth: "20%"
   }
-=======
-	//appBarSpacer: theme.mixins.toolbar,
-	content: {
-		flexGrow: 1,
-		height: "100vh",
-		overflow: "auto",
-		background: "white",
-		color: "#444851"
-	},
-	container: {
-		paddingTop: theme.spacing(4),
-		paddingBottom: theme.spacing(4),
-		color: "#444851"
-	},
-	active: {
-		width: "60px",
-		background: "#6698c7",
-		height: "20px",
-		borderRadius: "3px",
-		color: "white",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		fontSize: "12px"
-	},
-	inactive: {
-		width: "60px",
-		background: "#ff504d",
-		height: "20px",
-		borderRadius: "3px",
-		color: "white",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		fontSize: "12px"
-	},
-	activeMenu: {
-		padding: "0 30px",
-		height: "40px",
-		background: "#f89523",
-		borderRadius: "3px 3px 3px 3px",
-		color: "white",
-		textAlign: "center",
-		fontSize: "16px",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		cursor: "pointer"
-	},
-	inactiveMenu: {
-		borderRadius: "3px 3px 3px 3px",
-		padding: "0 30px",
-		height: "40px",
-		background: "#EEEEEE",
-		color: "#7C8A97",
-		textAlign: "center",
-		fontSize: "16px",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		cursor: "pointer",
-		margin: "0 0.5px"
-	},
-	goBack: {
-		fontSize: 16,
-		marginBottom: 22,
-		maxWidth: "20%"
-	}
->>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
 }));
 
 interface Props {
