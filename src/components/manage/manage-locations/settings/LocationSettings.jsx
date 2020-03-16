@@ -11,8 +11,7 @@ import {
   InputAdornment,
   InputBase,
   Collapse,
-  Switch,
-  Dialog
+  Switch
 } from "@material-ui/core";
 /*COMPONENTS*/
 import {
@@ -191,6 +190,7 @@ class LocationSettings extends Component {
       name: name
     }).then(res => {
       this.setState({ load: false, nameMsg: name, success: true });
+      this.hancleCloseNewTeam();
       this.fetchLocationsTeams();
     });
   };
@@ -529,20 +529,18 @@ class LocationSettings extends Component {
             // selectedVoice={this.selectedVoice}
             // voices={this.state.voices}
           />
-          <Dialog open={this.state.load}>
-            <LoadingModal
-              text={"One moment. We’re adding the campaign…"}
-              cancelFn={this.handleCancel}
-            />
-          </Dialog>
-          <Dialog open={this.state.success}>
-            <SuccessModal
-              text={`You have created the “${this.state.nameMsg}” team `}
-              btnText={"ADD CAMPAIGN"}
-              closeFn={this.handleCloseSuccess}
-              btnFn={this.handleOpenNewTeam}
-            />
-          </Dialog>
+          <LoadingModal
+            open={this.state.load}
+            text={"One moment. We’re adding the campaign…"}
+            cancelFn={this.handleCancel}
+          />
+          <SuccessModal
+            open={this.state.success}
+            text={`You have created the “${this.state.nameMsg}” team `}
+            btnText={"ADD CAMPAIGN"}
+            closeFn={this.handleCloseSuccess}
+            btnFn={this.handleOpenNewTeam}
+          />
           <Toast
             toastType={"check"}
             open={this.state.openToast}
