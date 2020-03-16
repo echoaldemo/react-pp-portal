@@ -58,6 +58,10 @@ const SearchBar: React.FC<Props> = ({
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [textSearch, setTextSearch] = useState<string>("");
 
+  const isObject = (val: any) => {
+    return typeof val === 'object'
+  }
+
   const handleClick = (event: any, data: any) => {
     setAnchorEl(event.currentTarget);
     setActiveDataMethod(data);
@@ -80,23 +84,48 @@ const SearchBar: React.FC<Props> = ({
   const handleSearch = (e: any) => {
     setTextSearch(e.target.value);
     const regex = /[*()?+[\\]/gi;
+
     if (typed) {
       typed(e.target.value);
     }
+
     let event = e.target.value.replace(regex, "");
+
     if (event.length !== 0) {
       const arr = JSON.stringify(userData, function(key, value) {
         return value || false;
       });
+
       const campaigns = JSON.parse(arr);
       let filteredData: any[] = [];
 
-      campaigns.forEach((data: any) => {
-        headers.forEach(head => {
-          if (typeof data[head] !== "boolean") {
-            if (data[head].toLowerCase().includes(event.toLowerCase())) {
-              filteredData.push(data);
+      campaigns.forEach((campaign: any) => {
+        headers.forEach((header: any) => {
+          if (typeof campaign[header] !== "boolean") {
+
+            if (isObject(campaign[header])) {
+
+              let baseKey = campaign[header][Object.keys(campaign[header]) as any]
+  
+              try {
+                if (
+                  baseKey[Object.keys(baseKey)[0]]
+                    .toLowerCase()
+                    .includes(event.toLowerCase())
+                ) {
+                  filteredData.push({
+                    name: baseKey[Object.keys(baseKey)[0]],
+                    ...campaign
+                  })
+                }
+              } catch {}
+            } else {
+              if (campaign[header].toLowerCase().includes(event.toLowerCase())) {
+                filteredData.push(campaign);
+              }
             }
+
+            
           }
         });
       });
@@ -382,7 +411,10 @@ const SearchBar: React.FC<Props> = ({
                                   ? () => {
                                       setTextSearch("");
                                       setResults(null);
-                                      modalFunc(result.uuid);
+                                      if(result.uuid)
+                                        modalFunc(result.uuid);
+                                      else 
+                                      modalFunc(result);
                                     }
                                   : () => null
                               }

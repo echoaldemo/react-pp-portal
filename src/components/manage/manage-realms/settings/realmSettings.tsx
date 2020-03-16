@@ -21,7 +21,7 @@ import styled from "styled-components";
 import Campaigns from "./campaigns";
 
 const useStyles: any = makeStyles(theme => ({
-  appBarSpacer: theme.mixins.toolbar,
+  //appBarSpacer: theme.mixins.toolbar,
   MuiSwitch: {
     MuiSwitchTrack: {
       backgroundColor: "transparent"

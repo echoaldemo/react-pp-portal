@@ -39,6 +39,7 @@ const CampaignTable: React.FC<Props> = ({
     }, 1000);
   }, []);
 
+<<<<<<< HEAD
   return (
     <div>
       {loading ? (
@@ -113,6 +114,78 @@ const CampaignTable: React.FC<Props> = ({
       )}
     </div>
   );
+=======
+	return (
+		<div>
+			{loading ? (
+				<TableLoader />
+			) : data.length !== 0 ? (
+				<AsyncTable
+					headers={['Name', 'Slug', 'UUID', 'Status', '']}
+					tableData={data}
+					render={(campaigns: any, { row, cell, uuid, icon }: any) => {
+						return campaigns.map((campaign: any, i: number) => (
+							<TableRow className={row} key={i} id="demo-body">
+								<UnderlineCell
+									className={cell}
+									onClick={() =>
+										history.history.push(
+											`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
+										)}
+								>
+									{campaign.name}
+								</UnderlineCell>
+								<TableCell className={cell}>{campaign.slug}</TableCell>
+
+								<TableCell className={uuid}>
+									<p>{campaign.uuid}</p>
+									<CopyToClipboard
+										text={campaign.uuid}
+										onCopy={() => setCopy(true)}
+										onPointerLeave={() => setCopy(false)}
+									>
+										{copy ? (
+											<LightTooltip title="UUID Copied!" placement="top">
+												<Icon
+													// path={mdiContentCopy}
+													className={icon}
+													rotate={360}
+												/>
+											</LightTooltip>
+										) : (
+												<LightTooltip title="Copy UUID" placement="top">
+													<Icon className={icon} rotate={360} />
+												</LightTooltip>
+											)}
+									</CopyToClipboard>
+								</TableCell>
+								<ActiveCell className={cell} style={{ color: '#777777' }}>
+									{campaign.active}
+								</ActiveCell>
+								<TableCell className={cell} align="right">
+									<EditButton
+										text="Edit"
+										onClickFunc={() => {
+											history.history.push(
+												`/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
+											);
+											localStorage.setItem(`campaignData`, JSON.stringify(campaign));
+										}}
+										style={{
+											color: '#444851'
+										}}
+									/>
+								</TableCell>
+							</TableRow>
+						));
+					}}
+				/>
+			) : (
+						renderNoData(setOpenCreateModal)
+					)}
+		</div>
+	);
+>>>>>>> 527b4f5ab2862cf524ec21341c6f6cf5a1359a38
 };
 
 function renderNoData(setOpenCreateModal: any) {
