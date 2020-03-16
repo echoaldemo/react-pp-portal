@@ -105,7 +105,7 @@ const IdentityProvider = ({ children }: any) => {
         setTimeout(() => getCampaign(uuid), 2000);
       }
     }
-  }, [state.realms]);
+  }, [state.realms]); // eslint-disable-line
 
   return (
     <IdentityContext.Provider

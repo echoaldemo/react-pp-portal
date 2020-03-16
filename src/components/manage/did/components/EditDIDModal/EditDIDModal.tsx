@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import {
   Dialog,
@@ -20,7 +21,7 @@ import Close from "@material-ui/icons/Close";
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown";
 import { LoadingModal, SuccessModal, DeleteModal } from "common-components";
 import { useStyles, materialTheme } from "../../styles/EditDIDModal.style";
-import {get} from 'utils/api'
+import { get } from "utils/api";
 
 interface Props {
   open: boolean;
@@ -58,11 +59,10 @@ const EditDIDModal = ({ open, closeFn, editData, fetchDIDs }: Props) => {
   }, [editData]);
 
   const fetchDIDPools = () => {
-    get(`/did/company/all/campaign/all/pool/`)
-      .then((response: any) => {
-        setPools(response.data);
-        setPoolsLoading(false);
-      });
+    get(`/did/company/all/campaign/all/pool/`).then((response: any) => {
+      setPools(response.data);
+      setPoolsLoading(false);
+    });
   };
 
   const handleChange = (val: any, label: string) => {
@@ -88,15 +88,17 @@ const EditDIDModal = ({ open, closeFn, editData, fetchDIDs }: Props) => {
           didPools.find((pool: Obj) => pool.uuid === selectedDIDPools) ||
           did.pool
       };
-      get(`/did/company/{company_slug}/campaign/{campaign_slug}/pool/${selectedDIDPools}/did/${did.uuid}/`)
-        .then((res:any) => {
+      get(
+        `/did/company/{company_slug}/campaign/{campaign_slug}/pool/${selectedDIDPools}/did/${did.uuid}/`
+      )
+        .then((res: any) => {
           setUpdate({
             ...update,
             updating: false,
             updated: true
           });
         })
-        .catch((error:any) => {
+        .catch((error: any) => {
           console.error("Error:", error);
         });
     }

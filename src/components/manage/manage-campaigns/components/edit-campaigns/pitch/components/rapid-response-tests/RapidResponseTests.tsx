@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect, useContext } from "react";
 import DNDCards from "../cards/DNDCards";
 import { TableLoader } from "common-components";

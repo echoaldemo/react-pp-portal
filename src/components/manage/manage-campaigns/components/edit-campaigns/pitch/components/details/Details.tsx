@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useState, useEffect } from "react";
 import "./Details.css";
 import { InputField, SaveButton, AlertModal } from "common-components";
