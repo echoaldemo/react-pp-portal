@@ -53,7 +53,7 @@ const CampaignTable: React.FC<Props> = ({
                 <UnderlineCell
                   className={cell}
                   onClick={() =>
-                    history.push(
+                    history.history.push(
                       `/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
                     )
                   }
@@ -91,7 +91,7 @@ const CampaignTable: React.FC<Props> = ({
                   <EditButton
                     text="Edit"
                     onClickFunc={() => {
-                      history.push(
+                      history.history.push(
                         `/manage/campaign/edit/${campaign.slug}/${campaign.uuid}/settings`
                       );
                       localStorage.setItem(

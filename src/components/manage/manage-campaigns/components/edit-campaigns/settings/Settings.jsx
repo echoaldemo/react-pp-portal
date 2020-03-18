@@ -66,7 +66,11 @@ const SettingsSection = ({ match, history }) => {
   const { state, dispatch } = useContext(IdentityContext);
   return (
     <div>
-      <EditHeader campaignDetails={state.campaignDetails} history={history} />
+      <EditHeader
+        campaignDetails={state.campaignDetails}
+        match={match}
+        history={history}
+      />
       <Paper square={true} className="mh-normal">
         <SettingsContent state={state} dispatch={dispatch} />
       </Paper>

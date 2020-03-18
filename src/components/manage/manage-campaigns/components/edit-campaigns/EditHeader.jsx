@@ -8,7 +8,7 @@ import {
 import { Typography } from "@material-ui/core";
 import SEO from "utils/seo";
 
-export default function EditHeader({ campaignDetails, history }) {
+export default function EditHeader({ campaignDetails, match, history }) {
   const localData = JSON.parse(localStorage.getItem("campaignData"));
   const [selected, setSelected] = useState("1");
   const options = [
@@ -21,9 +21,7 @@ export default function EditHeader({ campaignDetails, history }) {
       uuid: "2"
     }
   ];
-  const { name, active, uuid, slug } = campaignDetails
-    ? campaignDetails
-    : localData;
+  const { name, active } = campaignDetails ? campaignDetails : localData;
   return (
     <div>
       <SEO title={name ? `Edit Campaign: ${name}` : "Portal"} />
@@ -51,20 +49,24 @@ export default function EditHeader({ campaignDetails, history }) {
               name: <b>DASHBOARD</b>,
               active: checkUrl("home"),
               onClickFn: () =>
-                history.push(`/manage/campaign/edit/${slug}/${uuid}/home`)
+                history.push(
+                  `/manage/campaign/edit/${match.params.slug}/${match.params.uuid}/home`
+                )
             },
             {
               name: <b>SETTINGS</b>,
               active: checkUrl("settings"),
               onClickFn: () =>
-                history.push(`/manage/campaign/edit/${slug}/${uuid}/settings`)
+                history.push(
+                  `/manage/campaign/edit/${match.params.slug}/${match.params.uuid}/settings`
+                )
             },
             {
               name: <b>PITCH</b>,
               active: checkUrl("details"),
               onClickFn: () =>
                 history.push(
-                  `/manage/campaign/edit/${slug}/${uuid}/pitch/details`
+                  `/manage/campaign/edit/${match.params.slug}/${match.params.uuid}/pitch/details`
                 )
             },
             {
@@ -72,7 +74,7 @@ export default function EditHeader({ campaignDetails, history }) {
               active: checkUrl("dataposting"),
               onClickFn: () =>
                 history.push(
-                  `/manage/campaign/edit/${slug}/${uuid}/dataposting`
+                  `/manage/campaign/edit/${match.params.slug}/${match.params.uuid}/dataposting`
                 )
             }
           ]}

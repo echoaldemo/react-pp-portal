@@ -28,7 +28,7 @@ const DataPosting = ({ history, match }: any) => {
 
   return (
     <div>
-      <EditHeader campaignDetails={null} history={history} />
+      <EditHeader match={match} campaignDetails={null} history={history} />
       {loading ? (
         <TableLoader />
       ) : (

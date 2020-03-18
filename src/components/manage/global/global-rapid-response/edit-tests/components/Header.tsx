@@ -5,7 +5,7 @@ import BackIcon from "@material-ui/icons/ChevronLeft";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
-  appBarSpacer: theme.mixins.toolbar,
+  //appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     height: "100vh",

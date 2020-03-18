@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import { CustomButton } from "common-components";
+
 const classes = {
   gridWrapper: {},
   container: { fontSize: 16, paddingTop: 15 },
@@ -9,15 +10,19 @@ const classes = {
   descriptionContainer: { color: "#777777", paddingBottom: 15 }
 };
 
-export default class ModalDetails extends Component {
-  displayChanges = () => {
-    let baseField = this.props.data.changed_fields;
-    let originalBaseField = this.props.data.original_fields;
-    // let fields = baseField[element][Object.keys(baseField[element])[0]];
+interface Props {
+  data: any;
+  onClose: () => void;
+}
+
+const ModalDetails: React.FC<Props> = ({ data, onClose }) => {
+  const displayChanges = () => {
+    let baseField = data.changed_fields;
+    let originalBaseField = data.original_fields;
 
     return (
-      <>
-        {Object.keys(baseField).map((element, i) => (
+      <React.Fragment>
+        {Object.keys(baseField).map((element: any, i: number) => (
           <Grid
             container
             key={i}
@@ -35,13 +40,8 @@ export default class ModalDetails extends Component {
                     <>
                       {baseField[element][
                         Object.keys(baseField[element])[0]
-                      ].map(e => (
-                        <Grid
-                          container
-                          style={{
-                            paddingBottom: 10
-                          }}
-                        >
+                      ].map((e: any) => (
+                        <Grid container style={{ paddingBottom: 10 }}>
                           {JSON.parse(JSON.stringify(e[Object.keys(e)[0]]))}
                         </Grid>
                       ))}
@@ -61,10 +61,7 @@ export default class ModalDetails extends Component {
                 xs={12}
                 lg={12}
                 md={12}
-                style={{
-                  paddingBottom: 15,
-                  marginTop: -15
-                }}
+                style={{ paddingBottom: 15, marginTop: -15 }}
               >
                 {JSON.parse(
                   JSON.stringify(
@@ -74,7 +71,7 @@ export default class ModalDetails extends Component {
               </Grid>
             )}
 
-            {Object.keys(originalBaseField).length > 0 ? (
+            {Object.keys(originalBaseField).length > 0 && (
               <>
                 <Grid item xs={4} lg={4} md={4}>
                   <b>Old {element}:</b>
@@ -88,13 +85,8 @@ export default class ModalDetails extends Component {
                     <>
                       {originalBaseField[element][
                         Object.keys(originalBaseField[element])[0]
-                      ].map(e => (
-                        <Grid
-                          container
-                          style={{
-                            paddingBottom: 10
-                          }}
-                        >
+                      ].map((e: any) => (
+                        <Grid style={{ paddingBottom: 10 }} container>
                           {JSON.parse(JSON.stringify(e[Object.keys(e)[0]]))}
                         </Grid>
                       ))}
@@ -110,67 +102,66 @@ export default class ModalDetails extends Component {
                   )}
                 </Grid>
               </>
-            ) : null}
+            )}
           </Grid>
         ))}
-      </>
+      </React.Fragment>
     );
   };
-  render() {
-    return (
-      <div style={classes.gridWrapper}>
-        <Grid container style={classes.container}>
-          <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
-            User:
-          </Grid>
-          <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
-            {this.props.data.user}
-          </Grid>
 
-          <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
-            Create:
-          </Grid>
-          <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
-            {this.props.data.created}
-          </Grid>
-
-          <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
-            Time:
-          </Grid>
-          <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
-            {this.props.data.time}
-          </Grid>
-          <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
-            Changes:
-          </Grid>
-
-          {/* n */}
-          <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
-            {this.displayChanges()}
-          </Grid>
+  return (
+    <div style={classes.gridWrapper}>
+      <Grid container style={classes.container}>
+        <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
+          User:
         </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={12}
-          md={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: 45
-          }}
+        <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
+          {data.user}
+        </Grid>
+
+        <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
+          Create:
+        </Grid>
+        <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
+          {data.created}
+        </Grid>
+
+        <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
+          Time:
+        </Grid>
+        <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
+          {data.time}
+        </Grid>
+
+        <Grid item xs={4} lg={4} md={4} style={classes.labelContainer}>
+          Changes:
+        </Grid>
+        <Grid item xs={8} lg={8} md={8} style={classes.descriptionContainer}>
+          {displayChanges()}
+        </Grid>
+      </Grid>
+
+      <Grid
+        item
+        xs={12}
+        lg={12}
+        md={12}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingTop: 45
+        }}
+      >
+        <CustomButton
+          style={{ backgroundColor: "#7C8A97", color: "#eeeeee" }}
+          handleClick={onClose}
         >
-          <CustomButton
-            style={{ backgroundColor: "#7C8A97", color: "#eeeeee" }}
-            onClick={() => {
-              this.props.onClose();
-            }}
-          >
-            Close
-          </CustomButton>
-        </Grid>
-      </div>
-    );
-  }
-}
+          Close
+        </CustomButton>
+      </Grid>
+    </div>
+  );
+};
+
+export default ModalDetails;

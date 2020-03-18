@@ -10,11 +10,7 @@ import { getVoices, updateVoices, getRRTest } from "../utils/ProspectVoices";
 
 import { cancel } from "utils/api";
 
-// mock data
-
 let availableData: any = [];
-
-// end mock data
 
 const ProspectVoices = (props: any) => {
   const [open, setOpen] = useState(false);
@@ -59,17 +55,6 @@ const ProspectVoices = (props: any) => {
   async function fetchVoices(voices_data = [], active_voices = []) {
     setLoading(true);
     let pvl_data = voices_data;
-    // let prospect_voices = await getProspectVoices();
-    // let pvl = prospect_voices.data || [];
-
-    // console.log("Fetch Voices: ", prospect_voices);
-
-    // let pvl_data = pvl.map(key => {
-    //   return {
-    //     ...key,
-    //     ...voices_data.filter(voice => voice.uuid === key.user)[0]
-    //   };
-    // });
 
     let filtered = pvl_data.filter(
       (key: any) => active_voices.filter(id => key.uuid === id).length <= 0

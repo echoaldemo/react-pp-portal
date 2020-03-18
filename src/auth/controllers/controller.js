@@ -1,4 +1,5 @@
 import { post, withToken } from "../../utils/api";
+
 function login(username, password) {
   return post("/identity/user/login/", {
     username,
@@ -16,15 +17,8 @@ function login(username, password) {
         .catch(err => console.log(err));
     })
     .catch(() => false);
-  // const response2 = await withToken(
-  //   `/identity/user/profile/`,
-  //   response.data.auth_token
-  // );
-
-  // localStorage.setItem("ngStorage-ppToken", response.data.auth_token);
-
-  // return true;
 }
+
 function logout() {
   localStorage.clear();
   window.location.href = "/";
